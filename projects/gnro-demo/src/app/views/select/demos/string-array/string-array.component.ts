@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { IccSelectFieldConfig, IccSelectFieldComponent, defaultSelectFieldConfig } from '@icc/ui/fields';
+import { GnroSelectFieldConfig, GnroSelectFieldComponent, defaultSelectFieldConfig } from '@gnro/ui/fields';
 import { State, STATES } from '../../../../data/states';
 
 @Component({
@@ -8,20 +8,20 @@ import { State, STATES } from '../../../../data/states';
   templateUrl: './string-array.component.html',
   styleUrls: ['./string-array.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IccSelectFieldComponent],
+  imports: [CommonModule, GnroSelectFieldComponent],
 })
 export class AppStringArrayComponent {
   listStates = [...STATES].map((state) => state.state);
 
   singleListState = 'Louisiana';
 
-  singleSelectionList: IccSelectFieldConfig = {
+  singleSelectionList: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
     fieldLabel: 'Single Selection (list)',
     placeholder: 'Select One...',
   };
 
-  multiSelectionList: IccSelectFieldConfig = {
+  multiSelectionList: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
     multiSelection: true,
     fieldLabel: 'Multi Selection (list)',
@@ -36,7 +36,7 @@ export class AppStringArrayComponent {
     return 'Test Display Fn';
   }
 
-  multiSelectionDisplay: IccSelectFieldConfig = {
+  multiSelectionDisplay: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
     multiSelection: true,
     displayWith: this.displayFn.bind(this),

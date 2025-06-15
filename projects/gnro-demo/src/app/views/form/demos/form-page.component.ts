@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { IccObjectType } from '@icc/ui/core';
-import { IccFormField } from '@icc/ui/fields';
-import { IccFormComponent } from '@icc/ui/form';
+import { GnroObjectType } from '@gnro/ui/core';
+import { GnroFormField } from '@gnro/ui/fields';
+import { GnroFormComponent } from '@gnro/ui/form';
 import { STATES } from '../../../data/states';
 
 @Component({
@@ -10,7 +10,7 @@ import { STATES } from '../../../data/states';
   templateUrl: './form-page.component.html',
   styleUrls: ['./form-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IccFormComponent],
+  imports: [CommonModule, GnroFormComponent],
 })
 export class AppFromPageDemoComponent {
   formConfig = {
@@ -18,7 +18,7 @@ export class AppFromPageDemoComponent {
     labelWidth: 100,
   };
 
-  formFields2: IccFormField[] = [
+  formFields2: GnroFormField[] = [
     {
       fieldType: 'text',
       fieldName: 'userName2',
@@ -56,7 +56,7 @@ export class AppFromPageDemoComponent {
     },
   ];
 
-  fieldSet: IccFormField[] = [
+  fieldSet: GnroFormField[] = [
     {
       fieldType: 'fieldset',
       fieldName: 'test',
@@ -121,7 +121,7 @@ export class AppFromPageDemoComponent {
       placeholder: 'Select One or More...',
     },
     {
-      fieldType: IccObjectType.RadioGroup,
+      fieldType: GnroObjectType.RadioGroup,
       fieldName: 'group1',
       fieldLabel: 'Radio Group',
       required: true,
@@ -141,7 +141,7 @@ export class AppFromPageDemoComponent {
       ],
     },
     {
-      fieldType: IccObjectType.UploadFile,
+      fieldType: GnroObjectType.UploadFile,
       fieldName: 'uploadfile',
       fieldLabel: 'Upload File',
       required: true,
@@ -178,7 +178,7 @@ export class AppFromPageDemoComponent {
     labelWidth: 100,
   };
 
-  formFields3: IccFormField[] = [
+  formFields3: GnroFormField[] = [
     {
       fieldType: 'checkbox',
       fieldName: 'enabled',
@@ -261,13 +261,13 @@ export class AppFromPageDemoComponent {
       //required: true,
     },
     {
-      fieldType: IccObjectType.UploadFile,
+      fieldType: GnroObjectType.UploadFile,
       fieldName: 'uploadfile',
       fieldLabel: 'Upload File',
       //required: true,
     },
     {
-      fieldType: IccObjectType.RadioGroup,
+      fieldType: GnroObjectType.RadioGroup,
       fieldName: 'group88',
       fieldLabel: 'Radio Group',
       //required: true,
@@ -288,7 +288,7 @@ export class AppFromPageDemoComponent {
     },
   ];
 
-  fieldSet3: IccFormField[] = [
+  fieldSet3: GnroFormField[] = [
     {
       fieldType: 'fieldset',
       fieldName: 'fieldSet',

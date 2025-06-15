@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { IccColumnConfig } from '@icc/ui/grid';
-import { IccTreeComponent, IccTreeNode } from '@icc/ui/tree';
+import { GnroColumnConfig } from '@gnro/ui/grid';
+import { GnroTreeComponent, GnroTreeNode } from '@gnro/ui/tree';
 
-interface NestedFoodNode extends IccTreeNode<NestedFoodNode> {
+interface NestedFoodNode extends GnroTreeNode<NestedFoodNode> {
   name: string;
   vin?: string;
   year?: string;
@@ -41,13 +41,13 @@ const NESTED_DATA: NestedFoodNode[] = [
 
 @Component({
   selector: 'app-default-tree-grid',
-  template: `<icc-tree [columnsConfig]="columnsConfig" [treeData]="treeData"></icc-tree>`,
+  template: `<gnro-tree [columnsConfig]="columnsConfig" [treeData]="treeData"></gnro-tree>`,
   styles: [':host {  display: flex; width: 100%; }'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IccTreeComponent],
+  imports: [CommonModule, GnroTreeComponent],
 })
 export class AppDefaultTreeGridComponent {
-  columnsConfig: IccColumnConfig[] = [
+  columnsConfig: GnroColumnConfig[] = [
     {
       name: 'name',
       width: 50,
@@ -71,5 +71,5 @@ export class AppDefaultTreeGridComponent {
       align: 'center',
     },
   ];
-  treeData: IccTreeNode<NestedFoodNode>[] = NESTED_DATA;
+  treeData: GnroTreeNode<NestedFoodNode>[] = NESTED_DATA;
 }

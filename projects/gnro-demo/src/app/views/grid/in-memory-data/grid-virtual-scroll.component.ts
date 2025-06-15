@@ -1,17 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { IccGridConfig, IccGridComponent, IccColumnConfig, defaultGridConfig, IccGridData } from '@icc/ui/grid';
+import { GnroGridConfig, GnroGridComponent, GnroColumnConfig, defaultGridConfig, GnroGridData } from '@gnro/ui/grid';
 import { CARSDATA3 } from '../../../data/cars-large';
 
 @Component({
   selector: 'app-grid-virtual-scroll',
-  template: `<icc-grid [gridConfig]="gridConfig" [columnsConfig]="columnsConfig" [gridData]="gridData"></icc-grid>`,
+  template: `<gnro-grid [gridConfig]="gridConfig" [columnsConfig]="columnsConfig" [gridData]="gridData"></gnro-grid>`,
   styles: [':host {  display: flex; width: 100%; }'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IccGridComponent],
+  imports: [CommonModule, GnroGridComponent],
 })
 export class AppGridVirtualScrollComponent {
-  gridConfig: IccGridConfig = {
+  gridConfig: GnroGridConfig = {
     ...defaultGridConfig,
     columnSort: true,
     columnFilter: true,
@@ -26,7 +26,7 @@ export class AppGridVirtualScrollComponent {
     remoteGridData: false,
   };
 
-  columnsConfig: IccColumnConfig[] = [
+  columnsConfig: GnroColumnConfig[] = [
     {
       name: 'ID',
       width: 50,
@@ -49,5 +49,5 @@ export class AppGridVirtualScrollComponent {
       align: 'center',
     },
   ];
-  gridData: IccGridData<any> = CARSDATA3;
+  gridData: GnroGridData<any> = CARSDATA3;
 }

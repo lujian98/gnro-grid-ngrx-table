@@ -1,11 +1,11 @@
-import { IccHorizontalBarChart, IccScale, IccScaleLinear } from '@icc/ui/d3';
+import { GnroHorizontalBarChart, GnroScale, GnroScaleLinear } from '@gnro/ui/d3';
 import * as d3Transition from 'd3-transition';
 import * as d3Interpolate from 'd3-interpolate';
 import * as d3Format from 'd3-format';
 import * as d3Ease from 'd3-ease';
 
-export class AppHorizontalBarChart<T> extends IccHorizontalBarChart<T> {
-  override redrawContent(drawName: string, scaleX: IccScaleLinear, scaleY: IccScale): void {
+export class AppHorizontalBarChart<T> extends GnroHorizontalBarChart<T> {
+  override redrawContent(drawName: string, scaleX: GnroScaleLinear, scaleY: GnroScale): void {
     const height = this.scale.getYBarHeight(scaleY, this.scaleY, this.chart, this.data);
     const drawContents = this.drawPanel
       .select(drawName)

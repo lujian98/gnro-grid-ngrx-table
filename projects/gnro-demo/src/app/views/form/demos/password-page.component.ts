@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { confirmationValidator, IccObjectType } from '@icc/ui/core';
-import { IccFormField } from '@icc/ui/fields';
-import { IccFormComponent } from '@icc/ui/form';
+import { confirmationValidator, GnroObjectType } from '@gnro/ui/core';
+import { GnroFormField } from '@gnro/ui/fields';
+import { GnroFormComponent } from '@gnro/ui/form';
 import { STATES } from '../../../data/states';
 
 @Component({
@@ -10,7 +10,7 @@ import { STATES } from '../../../data/states';
   templateUrl: './password-page.component.html',
   styleUrls: ['./password-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IccFormComponent],
+  imports: [CommonModule, GnroFormComponent],
 })
 export class AppPasswordPageDemoComponent {
   formConfig = {
@@ -40,7 +40,7 @@ export class AppPasswordPageDemoComponent {
     },
   ];
 
-  fieldSet: IccFormField[] = [
+  fieldSet: GnroFormField[] = [
     {
       fieldType: 'fieldset',
       fieldName: 'fieldset',
@@ -63,7 +63,7 @@ export class AppPasswordPageDemoComponent {
     labelWidth: 100,
   };
 
-  formFields3: IccFormField[] = [
+  formFields3: GnroFormField[] = [
     {
       fieldType: 'checkbox',
       fieldName: 'enabled',
@@ -137,13 +137,13 @@ export class AppPasswordPageDemoComponent {
       readonly: true,
     },
     {
-      fieldType: IccObjectType.UploadFile,
+      fieldType: GnroObjectType.UploadFile,
       fieldName: 'uploadfile',
       fieldLabel: 'Upload File',
       readonly: true,
     },
     {
-      fieldType: IccObjectType.RadioGroup,
+      fieldType: GnroObjectType.RadioGroup,
       fieldName: 'group83',
       fieldLabel: 'Radio Group',
       //readonly: true,
@@ -164,7 +164,7 @@ export class AppPasswordPageDemoComponent {
     },
   ];
 
-  fieldSet3: IccFormField[] = [
+  fieldSet3: GnroFormField[] = [
     {
       fieldType: 'fieldset',
       fieldName: 'fieldset',
@@ -187,7 +187,7 @@ export class AppPasswordPageDemoComponent {
     uploadfile: '',
   };
 
-  formFields4: IccFormField[] = [
+  formFields4: GnroFormField[] = [
     {
       fieldType: 'checkbox',
       fieldName: 'enabled',
@@ -270,13 +270,13 @@ export class AppPasswordPageDemoComponent {
       //required: true,
     },
     {
-      fieldType: IccObjectType.UploadFile,
+      fieldType: GnroObjectType.UploadFile,
       fieldName: 'uploadfile',
       fieldLabel: 'Upload File',
       //required: true,
     },
     {
-      fieldType: IccObjectType.RadioGroup,
+      fieldType: GnroObjectType.RadioGroup,
       fieldName: 'group82',
       fieldLabel: 'Radio Group',
       //required: true,
@@ -297,7 +297,7 @@ export class AppPasswordPageDemoComponent {
     },
   ];
 
-  fieldSet4: IccFormField[] = [
+  fieldSet4: GnroFormField[] = [
     {
       fieldType: 'fieldset',
       fieldName: 'fieldset',
@@ -320,7 +320,7 @@ export class AppPasswordPageDemoComponent {
     uploadfile: '',
   };
 
-  formFields5: IccFormField[] = [
+  formFields5: GnroFormField[] = [
     {
       fieldType: 'checkbox',
       fieldName: 'enabled',
@@ -398,7 +398,7 @@ export class AppPasswordPageDemoComponent {
       //required: true,
     },
     {
-      fieldType: IccObjectType.UploadFile,
+      fieldType: GnroObjectType.UploadFile,
       hidden: true,
       fieldName: 'uploadfile',
       fieldLabel: 'Upload File',
@@ -411,7 +411,7 @@ export class AppPasswordPageDemoComponent {
       hidden: true,
     },
     {
-      fieldType: IccObjectType.RadioGroup,
+      fieldType: GnroObjectType.RadioGroup,
       hidden: true,
       fieldName: 'group81',
       fieldLabel: 'Radio Group',
@@ -433,7 +433,7 @@ export class AppPasswordPageDemoComponent {
     },
   ];
 
-  fieldSet5: IccFormField[] = [
+  fieldSet5: GnroFormField[] = [
     {
       fieldType: 'fieldset',
       fieldName: 'fieldset',
@@ -457,7 +457,7 @@ export class AppPasswordPageDemoComponent {
     uploadfile: '',
   };
 
-  formFields6: IccFormField[] = [
+  formFields6: GnroFormField[] = [
     {
       fieldType: 'checkbox',
       fieldName: 'enabled',
@@ -554,7 +554,7 @@ export class AppPasswordPageDemoComponent {
       //required: true,
     },
     {
-      fieldType: IccObjectType.UploadFile,
+      fieldType: GnroObjectType.UploadFile,
       fieldName: 'uploadfile',
       fieldLabel: 'Upload File',
       readonlyHidden: true,
@@ -567,7 +567,7 @@ export class AppPasswordPageDemoComponent {
       readonlyHidden: true,
     },
     {
-      fieldType: IccObjectType.RadioGroup,
+      fieldType: GnroObjectType.RadioGroup,
       fieldName: 'group86',
       fieldLabel: 'Radio Group',
       readonlyHidden: true,
@@ -589,7 +589,7 @@ export class AppPasswordPageDemoComponent {
     },
   ];
 
-  fieldSet6: IccFormField[] = [
+  fieldSet6: GnroFormField[] = [
     {
       fieldType: 'fieldset',
       fieldName: 'fieldset',

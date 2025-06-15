@@ -1,13 +1,13 @@
-import { IccD3ChartConfig, IccD3Options, IccD3Component, defaultD3Config } from '@icc/ui/d3';
+import { GnroD3ChartConfig, GnroD3Options, GnroD3Component, defaultD3Config } from '@gnro/ui/d3';
 
-const options1: IccD3Options = {
+const options1: GnroD3Options = {
   margin: { top: 50, right: 80, bottom: 10, left: 10 },
 };
 export const RemoteD3ConfigP1 = {
   options: options1,
 };
 
-const options2: IccD3Options = {
+const options2: GnroD3Options = {
   margin: { left: 80 },
 };
 export const RemoteD3ConfigP2 = {
@@ -22,7 +22,7 @@ export const RemoteD3ConfigP4 = {
   options: undefined,
 };
 
-export const RemoteChartConfigsP1: IccD3ChartConfig[] = [
+export const RemoteChartConfigsP1: GnroD3ChartConfig[] = [
   {
     chartType: 'lineChart',
     xScaleType: 'linear',
@@ -55,7 +55,7 @@ export const RemoteChartConfigsP1: IccD3ChartConfig[] = [
   },
 ];
 
-export const RemoteChartConfigsP2: IccD3ChartConfig[] = [
+export const RemoteChartConfigsP2: GnroD3ChartConfig[] = [
   {
     chartType: 'lineChart',
     xScaleType: 'linear',
@@ -84,7 +84,7 @@ export const RemoteChartConfigsP2: IccD3ChartConfig[] = [
   },
 ];
 
-export const RemoteChartConfigsP3: IccD3ChartConfig[] = [
+export const RemoteChartConfigsP3: GnroD3ChartConfig[] = [
   {
     chartType: 'lineChart',
     xScaleType: 'linear',
@@ -115,7 +115,7 @@ export const RemoteChartConfigsP3: IccD3ChartConfig[] = [
   },
 ];
 
-export const RemoteChartConfigsP4: IccD3ChartConfig[] = [
+export const RemoteChartConfigsP4: GnroD3ChartConfig[] = [
   {
     chartType: 'lineChart',
     xScaleType: 'linear',

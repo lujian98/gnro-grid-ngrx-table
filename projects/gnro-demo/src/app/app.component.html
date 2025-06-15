@@ -1,7 +1,7 @@
-<icc-layout layout="viewport">
-  <icc-layout-header [title]="title" [buttons]="buttons">
-    <icc-layout-header-end>
-      <button icc-button (click)="toggleTheme()">Toggle Theme</button>
+<gnro-layout layout="viewport">
+  <gnro-layout-header [title]="title" [buttons]="buttons">
+    <gnro-layout-header-end>
+      <button gnro-button (click)="toggleTheme()">Toggle Theme</button>
       <div class="theme">
         <input
           type="range"
@@ -13,17 +13,17 @@
         />
       </div>
 
-      <icc-select-field
+      <gnro-select-field
         [fieldConfig]="langSelectionConfig"
         [value]="i18nService.currentLang"
         [options]="i18nService.languages"
         [showFieldEditIndicator]="false"
         (valueChange)="setLang($event)"
-      ></icc-select-field>
-    </icc-layout-header-end>
-  </icc-layout-header>
+      ></gnro-select-field>
+    </gnro-layout-header-end>
+  </gnro-layout-header>
 
   <router-outlet></router-outlet>
 
-  <icc-layout-footer> Footer </icc-layout-footer>
-</icc-layout>
+  <gnro-layout-footer> Footer </gnro-layout-footer>
+</gnro-layout>

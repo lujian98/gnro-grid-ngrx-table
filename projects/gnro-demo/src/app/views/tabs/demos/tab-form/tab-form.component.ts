@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IccButtonComponent } from '@icc/ui/button';
-import { IccLayoutComponent, IccLayoutHeaderComponent } from '@icc/ui/layout';
-import { IccTabsComponent, IccTabsConfig, IccTabConfig } from '@icc/ui/tabs';
+import { GnroButtonComponent } from '@gnro/ui/button';
+import { GnroLayoutComponent, GnroLayoutHeaderComponent } from '@gnro/ui/layout';
+import { GnroTabsComponent, GnroTabsConfig, GnroTabConfig } from '@gnro/ui/tabs';
 import { take } from 'rxjs';
 import { AppForm1Component } from './form1.component';
 import { AppForm2Component } from './form2.component';
@@ -13,24 +13,24 @@ import { TabsMockService } from './tabs-mock.service';
 @Component({
   selector: 'app-tab-form',
   template: `
-    <icc-layout>
-      <icc-layout-header>
-        <button icc-button (click)="loadValues()">Load Values</button>
-        <button icc-button (click)="checkForm()">Check Form</button>
-      </icc-layout-header>
-      <icc-tabs [tabsConfig]="tabsConfig" [tabs]="tabs"> </icc-tabs>
-    </icc-layout>
+    <gnro-layout>
+      <gnro-layout-header>
+        <button gnro-button (click)="loadValues()">Load Values</button>
+        <button gnro-button (click)="checkForm()">Check Form</button>
+      </gnro-layout-header>
+      <gnro-tabs [tabsConfig]="tabsConfig" [tabs]="tabs"> </gnro-tabs>
+    </gnro-layout>
   `,
   styles: [':host {  display: flex; flex-direction: column; width: 475px; }'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    IccButtonComponent,
-    IccLayoutComponent,
-    IccLayoutHeaderComponent,
+    GnroButtonComponent,
+    GnroLayoutComponent,
+    GnroLayoutHeaderComponent,
     FormsModule,
-    IccTabsComponent,
+    GnroTabsComponent,
   ],
 })
 export class AppTabFormComponent {
@@ -41,12 +41,12 @@ export class AppTabFormComponent {
     fieldTest3: new FormControl('Form Panel 3'),
   });
 
-  tabsConfig: Partial<IccTabsConfig> = {
+  tabsConfig: Partial<GnroTabsConfig> = {
     enableContextMenu: true,
   };
 
   options = [];
-  tabs: IccTabConfig[] = [
+  tabs: GnroTabConfig[] = [
     {
       name: 'tab1',
       title: 'Form Panel 1',

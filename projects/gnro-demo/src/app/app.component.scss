@@ -1,10 +1,10 @@
 :host {
   display: flex;
 
-  icc-select-field {
+  gnro-select-field {
     width: 150px;
 
-    ::ng-deep .icc-form-field-container {
+    ::ng-deep .gnro-form-field-container {
       background-color: unset;
     }
   }

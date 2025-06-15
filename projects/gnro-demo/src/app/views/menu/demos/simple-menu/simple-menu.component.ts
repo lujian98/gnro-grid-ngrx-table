@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { IccMenuConfig, CdkMenusComponent } from '@icc/ui/menu';
-import { IccTrigger } from '@icc/ui/overlay';
+import { GnroMenuConfig, CdkMenusComponent } from '@gnro/ui/menu';
+import { GnroTrigger } from '@gnro/ui/overlay';
 import { MockMenuItems } from '../mock-menu';
 
 @Component({
@@ -12,7 +12,7 @@ import { MockMenuItems } from '../mock-menu';
   imports: [CommonModule, CdkMenusComponent],
 })
 export class AppSimpleMenuComponent implements OnInit {
-  contextmenu: IccTrigger = IccTrigger.CONTEXTMENU;
+  contextmenu: GnroTrigger = GnroTrigger.CONTEXTMENU;
 
   menuItems: any;
   testMenuItems = MockMenuItems;
@@ -21,7 +21,7 @@ export class AppSimpleMenuComponent implements OnInit {
     this.menuItems = [this.testMenuItems];
   }
 
-  menuItemClick(item: IccMenuConfig): void {
-    console.log('iccMenuItemClick=', item);
+  menuItemClick(item: GnroMenuConfig): void {
+    console.log('gnroMenuItemClick=', item);
   }
 }

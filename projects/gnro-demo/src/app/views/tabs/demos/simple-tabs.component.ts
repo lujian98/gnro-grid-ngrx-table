@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { IccTabsComponent, IccTabsConfig, IccTabConfig } from '@icc/ui/tabs';
+import { GnroTabsComponent, GnroTabsConfig, GnroTabConfig } from '@gnro/ui/tabs';
 import { AppStockChartComponent } from '../../d3/demos/stock-charts/stock-chart.component';
 import { AppGridRemoteVirtualScrollComponent } from '../../grid/remote-data/grid-virtual-scroll.component';
 import { AppGridMultiRowSelectionComponent } from '../../grid/remote-data/grid-multi-row-selection.component';
@@ -9,13 +9,13 @@ import { PortalDemo2Component } from '../../dashboard/demos/portal-demo2/portal-
 
 @Component({
   selector: 'app-simple-tabs',
-  template: `<icc-tabs [tabsConfig]="tabsConfig" [tabs]="tabs"> </icc-tabs>`,
+  template: `<gnro-tabs [tabsConfig]="tabsConfig" [tabs]="tabs"> </gnro-tabs>`,
   styles: [':host {  display: flex; flex-direction: column; width: 100%; }'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IccTabsComponent],
+  imports: [CommonModule, GnroTabsComponent],
 })
 export class AppSimpleTabsComponent {
-  tabsConfig: Partial<IccTabsConfig> = {
+  tabsConfig: Partial<GnroTabsConfig> = {
     enableContextMenu: true,
   };
 
@@ -27,7 +27,7 @@ export class AppSimpleTabsComponent {
     skills: [12, 13, 14, 15, 16],
   };
 
-  tabs: IccTabConfig[] = [
+  tabs: GnroTabConfig[] = [
     {
       name: 'one',
       content: AppGridMultiRowSelectionComponent,

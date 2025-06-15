@@ -1,18 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { IccD3ChartConfig, IccD3Options, IccD3Component, defaultD3Config } from '@icc/ui/d3';
+import { GnroD3ChartConfig, GnroD3Options, GnroD3Component, defaultD3Config } from '@gnro/ui/d3';
 import * as d3Format from 'd3-format';
 import { POPULATION } from '../../data/population2';
 
 @Component({
   selector: 'app-stacked-horizontal-bar-chart-demo',
   styles: [':host {width: 100%; height: 100%; display: flex;}'],
-  template: ` <icc-d3 [chartConfigs]="chartConfigs" [data]="data"></icc-d3> `,
+  template: ` <gnro-d3 [chartConfigs]="chartConfigs" [data]="data"></gnro-d3> `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IccD3Component],
+  imports: [CommonModule, GnroD3Component],
 })
 export class AppStackedNormalizedHorizontalBarDemoComponent implements OnInit {
-  chartConfigs: IccD3ChartConfig[] = [
+  chartConfigs: GnroD3ChartConfig[] = [
     {
       chartType: 'stackedNormalizedHorizontalBarChart',
       xScaleType: 'linear',

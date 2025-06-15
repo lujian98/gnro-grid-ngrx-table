@@ -1,17 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { IccLayoutHorizontalComponent, IccLayoutLeftComponent, IccLayoutRightComponent } from '@icc/ui/layout';
+import { GnroLayoutHorizontalComponent, GnroLayoutLeftComponent, GnroLayoutRightComponent } from '@gnro/ui/layout';
 
 @Component({
   selector: 'app-horizontal-left-right',
   template: `
-    <icc-layout-horizontal [resizeable]="true">
-      <icc-layout-left> Horizontal Layout Left and Right </icc-layout-left>
-      <icc-layout-right> </icc-layout-right>
-    </icc-layout-horizontal>
+    <gnro-layout-horizontal [resizeable]="true">
+      <gnro-layout-left> Horizontal Layout Left and Right </gnro-layout-left>
+      <gnro-layout-right> </gnro-layout-right>
+    </gnro-layout-horizontal>
   `,
   styles: [':host { display: flex; width: 100%; flex-direction: column;}'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IccLayoutRightComponent, IccLayoutHorizontalComponent, IccLayoutLeftComponent],
+  imports: [CommonModule, GnroLayoutRightComponent, GnroLayoutHorizontalComponent, GnroLayoutLeftComponent],
 })
 export class AppHorizontalLeftRightComponent {}

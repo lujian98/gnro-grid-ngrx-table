@@ -7,10 +7,10 @@
 }
 
 :host ::ng-deep {
-  icc-file-drop {
-    div.icc-file-drop__content,
-    div.icc-file-drop__drop-zone--enabled,
-    div.icc-file-drop__drop-zone--disabled {
+  gnro-file-drop {
+    div.gnro-file-drop__content,
+    div.gnro-file-drop__drop-zone--enabled,
+    div.gnro-file-drop__drop-zone--disabled {
       height: 200px;
       border-radius: 30px;
       color: #001428; // $colors-text-primary;
@@ -25,16 +25,16 @@
       }
     }
 
-    div.icc-file-drop__drop-zone--enabled,
-    div.icc-file-drop__drop-zone--disabled {
+    div.gnro-file-drop__drop-zone--enabled,
+    div.gnro-file-drop__drop-zone--disabled {
       border: 3px dashed #dfe2e5; // $colors-border
     }
 
-    div.icc-file-drop__drop-zone--enabled:hover {
+    div.gnro-file-drop__drop-zone--enabled:hover {
       border-color: #001428; //$colors-text-primary;
     }
 
-    div.icc-file-drop__drop-zone--disabled:hover {
+    div.gnro-file-drop__drop-zone--disabled:hover {
       border: 3px dashed #dfe2e5; //$colors-border;
     }
   }

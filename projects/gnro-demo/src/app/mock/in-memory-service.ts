@@ -1,8 +1,8 @@
 import { getStatusText, InMemoryDbService, RequestInfo, ResponseOptions, STATUS } from 'angular-in-memory-web-api';
 import { Observable } from 'rxjs';
-import { IccGridConfig, IccColumnConfig } from '@icc/ui/grid';
+import { GnroGridConfig, GnroColumnConfig } from '@gnro/ui/grid';
 import { CARSDATA, DCRBrands, DCRColors, DCRColumnConfig, DCRGridConfig } from '../data/cars-large';
-import { IccTreeConfig } from '@icc/ui/tree';
+import { GnroTreeConfig } from '@gnro/ui/tree';
 import {
   TREE_NESTED_DATA,
   NestedFoodNode,
@@ -50,17 +50,17 @@ export class InMemoryService extends InMemoryDbService {
     DCR: any;
     DCR_brand: any[];
     DCR_color: any[];
-    DCR_columnConfig: IccColumnConfig[];
-    DCR_gridConfig: Partial<IccGridConfig>;
+    DCR_columnConfig: GnroColumnConfig[];
+    DCR_gridConfig: Partial<GnroGridConfig>;
     ECR_tree: NestedFoodNode[];
-    ECR_columnConfig: IccColumnConfig[];
-    ECR_gridConfig: Partial<IccTreeConfig>;
-    NPR_gridConfig: Partial<IccTreeConfig>;
+    ECR_columnConfig: GnroColumnConfig[];
+    ECR_gridConfig: Partial<GnroTreeConfig>;
+    NPR_gridConfig: Partial<GnroTreeConfig>;
     NPR_tree: NestedFoodNode[];
-    MET_gridConfig: Partial<IccTreeConfig>;
-    MET_columnConfig: IccColumnConfig[];
-    RND_gridConfig: Partial<IccTreeConfig>;
-    TST_columnConfig: IccColumnConfig[];
+    MET_gridConfig: Partial<GnroTreeConfig>;
+    MET_columnConfig: GnroColumnConfig[];
+    RND_gridConfig: Partial<GnroTreeConfig>;
+    TST_columnConfig: GnroColumnConfig[];
 
     usa_state: State[];
     usa_statelist: string[];

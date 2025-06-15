@@ -1,17 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { IccColumnConfig, IccGridComponent, IccGridData } from '@icc/ui/grid';
+import { GnroColumnConfig, GnroGridComponent, GnroGridData } from '@gnro/ui/grid';
 import { CARSDATA3 } from '../../../data/cars-large';
 
 @Component({
   selector: 'app-default-grid',
-  template: `<icc-grid [columnsConfig]="columnsConfig" [gridData]="gridData"></icc-grid>`,
+  template: `<gnro-grid [columnsConfig]="columnsConfig" [gridData]="gridData"></gnro-grid>`,
   styles: [':host {  display: flex; width: 100%; }'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IccGridComponent],
+  imports: [CommonModule, GnroGridComponent],
 })
 export class AppDefaultGridComponent {
-  columnsConfig: IccColumnConfig[] = [
+  columnsConfig: GnroColumnConfig[] = [
     {
       name: 'ID',
       width: 50,
@@ -35,5 +35,5 @@ export class AppDefaultGridComponent {
       align: 'center',
     },
   ];
-  gridData: IccGridData<any> = CARSDATA3;
+  gridData: GnroGridData<any> = CARSDATA3;
 }

@@ -1,17 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { IccDateFieldComponent, IccDateRangeFieldComponent, IccDateRange } from '@icc/ui/fields';
+import { GnroDateFieldComponent, GnroDateRangeFieldComponent, GnroDateRange } from '@gnro/ui/fields';
 
 @Component({
   selector: 'app-simple-date',
   templateUrl: './simple-date.component.html',
   styleUrls: ['./simple-date.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IccDateFieldComponent, IccDateRangeFieldComponent],
+  imports: [CommonModule, GnroDateFieldComponent, GnroDateRangeFieldComponent],
 })
 export class AppSimpleDateComponent implements OnInit {
   today = new Date();
-  range: IccDateRange = {
+  range: GnroDateRange = {
     fromDate: new Date(),
     toDate: new Date(this.today.getFullYear(), this.today.getMonth() + 2, 0),
   };
@@ -40,7 +40,7 @@ export class AppSimpleDateComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  updateRange(range: IccDateRange | null) {
+  updateRange(range: GnroDateRange | null) {
     console.log(' range =', range);
   }
 

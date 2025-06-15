@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { IccD3ChartConfig, IccD3Options, IccD3Component, defaultD3Config } from '@icc/ui/d3';
+import { GnroD3ChartConfig, GnroD3Options, GnroD3Component, defaultD3Config } from '@gnro/ui/d3';
 import * as d3Array from 'd3-array';
 import * as d3Format from 'd3-format';
 import * as d3TimeFormat from 'd3-time-format';
@@ -9,21 +9,21 @@ import * as d3TimeFormat from 'd3-time-format';
   selector: 'app-historical-bar-chart',
   styles: [':host {width: 100%; height: 100%; display: flex; flex-direction: column;}'],
   template: `
-    <icc-d3 [d3Config]="d3Config" [chartConfigs]="chartConfigs" [data]="data"></icc-d3>
-    <icc-d3 [chartConfigs]="chartConfigs2" [data]="data2"></icc-d3>
+    <gnro-d3 [d3Config]="d3Config" [chartConfigs]="chartConfigs" [data]="data"></gnro-d3>
+    <gnro-d3 [chartConfigs]="chartConfigs2" [data]="data2"></gnro-d3>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IccD3Component],
+  imports: [CommonModule, GnroD3Component],
 })
 export class AppHistoricalBarChartComponent implements OnInit {
-  options: IccD3Options = {
+  options: GnroD3Options = {
     margin: { right: 50 },
   };
   d3Config = {
     ...defaultD3Config,
     options: { ...this.options },
   };
-  chartConfigs: IccD3ChartConfig[] = [
+  chartConfigs: GnroD3ChartConfig[] = [
     {
       // chartType: 'lineChart',
       chartType: 'barChart',
@@ -41,7 +41,7 @@ export class AppHistoricalBarChartComponent implements OnInit {
     },
   ];
 
-  chartConfigs2: IccD3ChartConfig[] = [
+  chartConfigs2: GnroD3ChartConfig[] = [
     {
       chartType: 'barChart',
       xScaleType: 'linear',

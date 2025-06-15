@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { IccDialogService } from '@icc/ui/overlay';
+import { GnroDialogService } from '@gnro/ui/overlay';
 import { AppDialogTestDemoComponent } from './dialog-test.component';
 
 @Component({
@@ -11,7 +11,7 @@ import { AppDialogTestDemoComponent } from './dialog-test.component';
   imports: [CommonModule],
 })
 export class AppSimpleWindowComponent {
-  private dialogService = inject(IccDialogService);
+  private dialogService = inject(GnroDialogService);
 
   openDialog(event: MouseEvent): void {
     let dialogRef = this.dialogService

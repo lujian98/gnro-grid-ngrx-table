@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { IccAccordion, IccAccordionComponent } from '@icc/ui/accordion';
-import { IccLayoutHorizontalComponent, IccLayoutLeftComponent, IccLayoutCenterComponent } from '@icc/ui/layout';
-import { IccMenuConfig } from '@icc/ui/menu';
+import { GnroAccordion, GnroAccordionComponent } from '@gnro/ui/accordion';
+import { GnroLayoutHorizontalComponent, GnroLayoutLeftComponent, GnroLayoutCenterComponent } from '@gnro/ui/layout';
+import { GnroMenuConfig } from '@gnro/ui/menu';
 
 @Component({
   selector: 'app-d3',
@@ -13,15 +13,15 @@ import { IccMenuConfig } from '@icc/ui/menu';
   imports: [
     CommonModule,
     RouterModule,
-    IccLayoutHorizontalComponent,
-    IccLayoutLeftComponent,
-    IccLayoutCenterComponent,
-    IccAccordionComponent,
+    GnroLayoutHorizontalComponent,
+    GnroLayoutLeftComponent,
+    GnroLayoutCenterComponent,
+    GnroAccordionComponent,
   ],
 })
 export class AppD3Component {
   expendIndex = 0;
-  items: IccAccordion[] = [
+  items: GnroAccordion[] = [
     {
       name: 'D3 Demo',
       items: [
@@ -113,7 +113,7 @@ export class AppD3Component {
     },
   ];
 
-  menuItemClick(item: IccMenuConfig): void {
+  menuItemClick(item: GnroMenuConfig): void {
     console.log(' d3 menu item clicked=', item);
   }
 }

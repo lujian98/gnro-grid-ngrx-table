@@ -1,19 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { IccD3ChartConfig, IccD3Options, IccD3Component, defaultD3Config } from '@icc/ui/d3';
+import { GnroD3ChartConfig, GnroD3Options, GnroD3Component, defaultD3Config } from '@gnro/ui/d3';
 
 @Component({
   selector: 'app-grouped-bar-chart-demo',
   styles: [':host {width: 100%; height: 100%; display: flex; flex-direction: column;}'],
   template: `
-    <icc-d3 [d3Config]="d3Config" [chartConfigs]="chartConfigs" [data]="data"></icc-d3>
-    <icc-d3 [chartConfigs]="chartConfigs2" [data]="data2"></icc-d3>
+    <gnro-d3 [d3Config]="d3Config" [chartConfigs]="chartConfigs" [data]="data"></gnro-d3>
+    <gnro-d3 [chartConfigs]="chartConfigs2" [data]="data2"></gnro-d3>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IccD3Component],
+  imports: [CommonModule, GnroD3Component],
 })
 export class AppGroupedBarChartDemoComponent implements OnInit {
-  options: IccD3Options = {
+  options: GnroD3Options = {
     margin: { right: 50, left: 60 },
   };
 
@@ -85,7 +85,7 @@ export class AppGroupedBarChartDemoComponent implements OnInit {
     },
   ];
 
-  chartConfigs: IccD3ChartConfig[] = [
+  chartConfigs: GnroD3ChartConfig[] = [
     {
       chartType: 'groupedBarChart',
       xScaleType: 'band',
@@ -99,7 +99,7 @@ export class AppGroupedBarChartDemoComponent implements OnInit {
     },
   ];
 
-  chartConfigs2: IccD3ChartConfig[] = [
+  chartConfigs2: GnroD3ChartConfig[] = [
     {
       chartType: 'groupedBarChart',
       xScaleType: 'band',

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { IccD3ChartConfig, IccD3Component } from '@icc/ui/d3';
+import { GnroD3ChartConfig, GnroD3Component } from '@gnro/ui/d3';
 import * as d3Format from 'd3-format';
 import { STATISTICS } from '../../data';
 
@@ -8,15 +8,15 @@ import { STATISTICS } from '../../data';
   selector: 'app-bar-chart-demo',
   styles: [':host {width: 100%; height: 100%; display: flex;}'],
   template: `
-    <icc-d3 [chartConfigs]="chartConfigs" [data]="data"></icc-d3>
-    <icc-d3 [chartConfigs]="chartConfigs2" [data]="data3"></icc-d3>
+    <gnro-d3 [chartConfigs]="chartConfigs" [data]="data"></gnro-d3>
+    <gnro-d3 [chartConfigs]="chartConfigs2" [data]="data3"></gnro-d3>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IccD3Component],
+  imports: [CommonModule, GnroD3Component],
 })
 export class AppBarChartDemoComponent implements OnInit {
   data: any;
-  chartConfigs: IccD3ChartConfig[] = [
+  chartConfigs: GnroD3ChartConfig[] = [
     {
       chartType: 'barChart',
       xScaleType: 'band',
@@ -32,7 +32,7 @@ export class AppBarChartDemoComponent implements OnInit {
     },
   ];
 
-  chartConfigs2: IccD3ChartConfig[] = [
+  chartConfigs2: GnroD3ChartConfig[] = [
     {
       chartType: 'barChart',
       xScaleType: 'band',

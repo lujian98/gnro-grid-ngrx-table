@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { IccAccordion, IccAccordionComponent } from '@icc/ui/accordion';
-import { IccLayoutHorizontalComponent, IccLayoutLeftComponent, IccLayoutCenterComponent } from '@icc/ui/layout';
+import { GnroAccordion, GnroAccordionComponent } from '@gnro/ui/accordion';
+import { GnroLayoutHorizontalComponent, GnroLayoutLeftComponent, GnroLayoutCenterComponent } from '@gnro/ui/layout';
 
 @Component({
   selector: 'app-grid',
@@ -12,14 +12,14 @@ import { IccLayoutHorizontalComponent, IccLayoutLeftComponent, IccLayoutCenterCo
   imports: [
     CommonModule,
     RouterModule,
-    IccLayoutHorizontalComponent,
-    IccLayoutLeftComponent,
-    IccLayoutCenterComponent,
-    IccAccordionComponent,
+    GnroLayoutHorizontalComponent,
+    GnroLayoutLeftComponent,
+    GnroLayoutCenterComponent,
+    GnroAccordionComponent,
   ],
 })
 export class AppGridComponent {
-  items: IccAccordion[] = [
+  items: GnroAccordion[] = [
     {
       name: 'Grid Demo',
       items: [

@@ -1,16 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { IccColumnConfig, IccGridConfig, IccGridComponent, defaultGridConfig } from '@icc/ui/grid';
+import { GnroColumnConfig, GnroGridConfig, GnroGridComponent, defaultGridConfig } from '@gnro/ui/grid';
 
 @Component({
   selector: 'app-grid-page',
-  template: `<icc-grid [gridConfig]="gridConfig" [columnsConfig]="columnsConfig"></icc-grid>`,
+  template: `<gnro-grid [gridConfig]="gridConfig" [columnsConfig]="columnsConfig"></gnro-grid>`,
   styles: [':host {  display: flex; width: 100%; }'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IccGridComponent],
+  imports: [CommonModule, GnroGridComponent],
 })
 export class AppGridPageComponent {
-  gridConfig: IccGridConfig = {
+  gridConfig: GnroGridConfig = {
     ...defaultGridConfig,
     urlKey: 'DCR',
     page: 5,
@@ -20,7 +20,7 @@ export class AppGridPageComponent {
     remoteGridData: true,
   };
 
-  columnsConfig: IccColumnConfig[] = [
+  columnsConfig: GnroColumnConfig[] = [
     {
       name: 'ID',
       width: 50,

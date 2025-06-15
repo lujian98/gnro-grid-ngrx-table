@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { IccObjectType } from '@icc/ui/core';
+import { GnroObjectType } from '@gnro/ui/core';
 import {
-  IccColumnConfig,
-  IccGridConfig,
-  IccGridComponent,
+  GnroColumnConfig,
+  GnroGridConfig,
+  GnroGridComponent,
   defaultGridConfig,
-  IccGridData,
-  IccGridCellRendererComponent,
-} from '@icc/ui/grid';
+  GnroGridData,
+  GnroGridCellRendererComponent,
+} from '@gnro/ui/grid';
 import { CARSDATA3 } from '../../../data/cars-large';
 
 @Component({
@@ -21,7 +21,7 @@ import { CARSDATA3 } from '../../../data/cars-large';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
 })
-export class AppGridCellTextComponent extends IccGridCellRendererComponent<string> {
+export class AppGridCellTextComponent extends GnroGridCellRendererComponent<string> {
   get cellValue(): string {
     const brand = (this.record as any)['brand'];
     const year = (this.record as any)['year'];
@@ -31,13 +31,13 @@ export class AppGridCellTextComponent extends IccGridCellRendererComponent<strin
 
 @Component({
   selector: 'app-grid-renderer-component',
-  template: `<icc-grid [gridConfig]="gridConfig" [columnsConfig]="columnsConfig" [gridData]="gridData"></icc-grid>`,
+  template: `<gnro-grid [gridConfig]="gridConfig" [columnsConfig]="columnsConfig" [gridData]="gridData"></gnro-grid>`,
   styles: [':host {  display: flex; width: 100%; }'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IccGridComponent],
+  imports: [CommonModule, GnroGridComponent],
 })
 export class AppGridRendererComponent {
-  gridConfig: Partial<IccGridConfig> = {
+  gridConfig: Partial<GnroGridConfig> = {
     ...defaultGridConfig,
     urlKey: 'DCR',
     rowHeight: 60,
@@ -48,7 +48,7 @@ export class AppGridRendererComponent {
     columnMenu: true,
     columnHidden: true,
   };
-  columnsConfig: IccColumnConfig[] = [
+  columnsConfig: GnroColumnConfig[] = [
     {
       name: 'ID',
       width: 50,
@@ -64,7 +64,7 @@ export class AppGridRendererComponent {
       name: 'year',
       title: 'Make and Year',
       filterField: false,
-      rendererType: IccObjectType.Component,
+      rendererType: GnroObjectType.Component,
       component: AppGridCellTextComponent,
     },
     {
@@ -76,8 +76,8 @@ export class AppGridRendererComponent {
       name: 'image',
       width: 80,
       align: 'center',
-      rendererType: IccObjectType.Image,
+      rendererType: GnroObjectType.Image,
     },
   ];
-  gridData: IccGridData<any> = CARSDATA3;
+  gridData: GnroGridData<any> = CARSDATA3;
 }

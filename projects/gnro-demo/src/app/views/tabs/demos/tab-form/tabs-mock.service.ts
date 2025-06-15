@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { uniqueId } from '@icc/ui/core';
+import { uniqueId } from '@gnro/ui/core';
 
 @Injectable({
   providedIn: 'root',

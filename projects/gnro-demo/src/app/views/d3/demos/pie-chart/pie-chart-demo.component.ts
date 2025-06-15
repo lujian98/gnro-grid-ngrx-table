@@ -1,21 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { IccD3ChartConfig, IccD3Component } from '@icc/ui/d3';
+import { GnroD3ChartConfig, GnroD3Component } from '@gnro/ui/d3';
 
 @Component({
   selector: 'app-pie-chart-demo',
   styles: [':host { width: 100%; height: 100%; display: flex; flex-direction: column;}'],
   template: `
     <div style="height: 100%; display: flex;">
-      <icc-d3 [chartConfigs]="chartConfigs" [data]="data"></icc-d3>
-      <icc-d3 [chartConfigs]="chartConfigs2" [data]="data2"></icc-d3>
+      <gnro-d3 [chartConfigs]="chartConfigs" [data]="data"></gnro-d3>
+      <gnro-d3 [chartConfigs]="chartConfigs2" [data]="data2"></gnro-d3>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IccD3Component],
+  imports: [CommonModule, GnroD3Component],
 })
 export class AppPieChartDemoComponent implements OnInit {
-  chartConfigs: IccD3ChartConfig[] = [
+  chartConfigs: GnroD3ChartConfig[] = [
     {
       chartType: 'pieChart',
       xScaleType: 'band',
@@ -29,7 +29,7 @@ export class AppPieChartDemoComponent implements OnInit {
     },
   ];
 
-  chartConfigs2: IccD3ChartConfig[] = [
+  chartConfigs2: GnroD3ChartConfig[] = [
     {
       chartType: 'pieChart',
       xScaleType: 'band',

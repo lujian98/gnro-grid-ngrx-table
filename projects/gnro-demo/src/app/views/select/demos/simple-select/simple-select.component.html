@@ -3,50 +3,58 @@
 
   <div>
     use default field config with Local field config and local object options
-    <icc-select-field
+    <gnro-select-field
       [fieldConfig]="defaultSelection"
       [options]="listDefaultStates"
       [value]="defaultStateValue"
-    ></icc-select-field>
-    <icc-select-field
+    ></gnro-select-field>
+    <gnro-select-field
       [fieldConfig]="defaultSelection"
       [options]="listStates"
       [value]="singleListState2"
-    ></icc-select-field>
+    ></gnro-select-field>
   </div>
   <div><br /></div>
   <div>
     Local field config and local object options
-    <icc-select-field [fieldConfig]="singleSelection" [value]="singleObjectState" [options]="states"></icc-select-field>
-    <icc-select-field [fieldConfig]="multiSelection" [value]="multiObjectStates" [options]="states"></icc-select-field>
-    <icc-select-field
+    <gnro-select-field
+      [fieldConfig]="singleSelection"
+      [value]="singleObjectState"
+      [options]="states"
+    ></gnro-select-field>
+    <gnro-select-field
+      [fieldConfig]="multiSelection"
+      [value]="multiObjectStates"
+      [options]="states"
+    ></gnro-select-field>
+    <gnro-select-field
       [fieldConfig]="singleAutocomplete"
       [value]="singleObjectState"
       [options]="states"
-    ></icc-select-field>
-    <icc-select-field
+    ></gnro-select-field>
+    <gnro-select-field
       [fieldConfig]="multiAutocomplete"
       [value]="multiObjectStates"
       [options]="states"
-    ></icc-select-field>
+    ></gnro-select-field>
   </div>
 
   <div><br /></div>
 
   <div>
     Local field config and remote object options
-    <icc-select-field [fieldConfig]="singleSelectionRemote" [value]="singleObjectState"></icc-select-field>
-    <icc-select-field [fieldConfig]="multiSelectionRemote" [value]="multiObjectStates"></icc-select-field>
-    <icc-select-field [fieldConfig]="singleAutocompleteRemote" [value]="singleObjectState"></icc-select-field>
-    <icc-select-field [fieldConfig]="multiAutocompleteRemote" [value]="multiObjectStates"></icc-select-field>
+    <gnro-select-field [fieldConfig]="singleSelectionRemote" [value]="singleObjectState"></gnro-select-field>
+    <gnro-select-field [fieldConfig]="multiSelectionRemote" [value]="multiObjectStates"></gnro-select-field>
+    <gnro-select-field [fieldConfig]="singleAutocompleteRemote" [value]="singleObjectState"></gnro-select-field>
+    <gnro-select-field [fieldConfig]="multiAutocompleteRemote" [value]="multiObjectStates"></gnro-select-field>
   </div>
   <div><br /></div>
   <div>
     Remote field config and remote object options
-    <icc-select-field [fieldConfig]="singleRemote" [value]="singleObjectState"></icc-select-field>
-    <icc-select-field [fieldConfig]="multiRemote" [value]="multiObjectStates"></icc-select-field>
-    <icc-select-field [fieldConfig]="singleAutocompleteRemotes" [value]="singleObjectState"></icc-select-field>
-    <icc-select-field [fieldConfig]="multiAutocompleteRemotes" [value]="multiObjectStates"></icc-select-field>
+    <gnro-select-field [fieldConfig]="singleRemote" [value]="singleObjectState"></gnro-select-field>
+    <gnro-select-field [fieldConfig]="multiRemote" [value]="multiObjectStates"></gnro-select-field>
+    <gnro-select-field [fieldConfig]="singleAutocompleteRemotes" [value]="singleObjectState"></gnro-select-field>
+    <gnro-select-field [fieldConfig]="multiAutocompleteRemotes" [value]="multiObjectStates"></gnro-select-field>
   </div>
 </div>
 
@@ -54,44 +62,44 @@
   <div><br /></div>
   <div>
     Local field config and local list options (non-object)
-    <icc-select-field
+    <gnro-select-field
       [fieldConfig]="singleSelectionList"
       [value]="singleListState"
       [options]="listStates"
-    ></icc-select-field>
-    <icc-select-field
+    ></gnro-select-field>
+    <gnro-select-field
       [fieldConfig]="multiSelectionList"
       [value]="multiListStates"
       [options]="listStates"
-    ></icc-select-field>
-    <icc-select-field
+    ></gnro-select-field>
+    <gnro-select-field
       [fieldConfig]="singleAutocompleteList"
       [value]="singleListState"
       [options]="listStates"
-    ></icc-select-field>
-    <icc-select-field
+    ></gnro-select-field>
+    <gnro-select-field
       [fieldConfig]="multiAutocompleteList"
       [value]="multiListStates"
       [options]="listStates"
-    ></icc-select-field>
+    ></gnro-select-field>
   </div>
 
   <div><br /></div>
 
   <div>
     Local field config and remote object list options (non-object)
-    <icc-select-field [fieldConfig]="singleRemoteList" [value]="singleListState"></icc-select-field>
-    <icc-select-field [fieldConfig]="multiRemoteList" [value]="multiListStates"></icc-select-field>
-    <icc-select-field [fieldConfig]="singleAutocompleteRemoteList" [value]="singleListState"></icc-select-field>
-    <icc-select-field [fieldConfig]="multiAutocompleteRemoteList" [value]="multiListStates"></icc-select-field>
+    <gnro-select-field [fieldConfig]="singleRemoteList" [value]="singleListState"></gnro-select-field>
+    <gnro-select-field [fieldConfig]="multiRemoteList" [value]="multiListStates"></gnro-select-field>
+    <gnro-select-field [fieldConfig]="singleAutocompleteRemoteList" [value]="singleListState"></gnro-select-field>
+    <gnro-select-field [fieldConfig]="multiAutocompleteRemoteList" [value]="multiListStates"></gnro-select-field>
   </div>
 
   <div><br /></div>
   <div>
     Remote field config and remote list options
-    <icc-select-field [fieldConfig]="singleAllRemoteList" [value]="singleListState"></icc-select-field>
-    <icc-select-field [fieldConfig]="multiAllRemoteList" [value]="multiListStates"></icc-select-field>
-    <icc-select-field [fieldConfig]="singleAllAutocompleteRemoteList" [value]="singleListState"></icc-select-field>
-    <icc-select-field [fieldConfig]="multiAllAutocompleteRemotes" [value]="multiListStates"></icc-select-field>
+    <gnro-select-field [fieldConfig]="singleAllRemoteList" [value]="singleListState"></gnro-select-field>
+    <gnro-select-field [fieldConfig]="multiAllRemoteList" [value]="multiListStates"></gnro-select-field>
+    <gnro-select-field [fieldConfig]="singleAllAutocompleteRemoteList" [value]="singleListState"></gnro-select-field>
+    <gnro-select-field [fieldConfig]="multiAllAutocompleteRemotes" [value]="multiListStates"></gnro-select-field>
   </div>
 </div>

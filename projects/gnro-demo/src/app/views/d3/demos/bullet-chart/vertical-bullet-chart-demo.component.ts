@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { IccD3ChartConfig, IccD3Options, IccD3BulletChartData, IccD3Component, defaultD3Config } from '@icc/ui/d3';
+import { GnroD3ChartConfig, GnroD3Options, GnroD3BulletChartData, GnroD3Component, defaultD3Config } from '@gnro/ui/d3';
 import * as d3TimeFormat from 'd3-time-format';
 
 @Component({
@@ -8,20 +8,20 @@ import * as d3TimeFormat from 'd3-time-format';
   styles: [':host {width: 100%; height: 100%; display: flex; flex-direction: row;}'],
   template: `
     <div style="height: 100%; display: flex; flex-direction: column;">
-      <icc-d3 [d3Config]="d3Config" [chartConfigs]="chartConfigs" [data]="data" style="width: 90px"></icc-d3>
+      <gnro-d3 [d3Config]="d3Config" [chartConfigs]="chartConfigs" [data]="data" style="width: 90px"></gnro-d3>
     </div>
     <div style="height: 100%; display: flex; flex-direction: column;">
-      <icc-d3 [d3Config]="d3Config2" [chartConfigs]="chartConfigs2" [data]="data2" style="width: 140px"></icc-d3>
+      <gnro-d3 [d3Config]="d3Config2" [chartConfigs]="chartConfigs2" [data]="data2" style="width: 140px"></gnro-d3>
     </div>
     <div style="height: 100%; display: flex; flex-direction: column;">
-      <icc-d3 [d3Config]="d3Config3" [chartConfigs]="chartConfigs3" [data]="data3" style="width: 140px"></icc-d3>
+      <gnro-d3 [d3Config]="d3Config3" [chartConfigs]="chartConfigs3" [data]="data3" style="width: 140px"></gnro-d3>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IccD3Component],
+  imports: [CommonModule, GnroD3Component],
 })
 export class AppVerticalBulletChartDemoComponent implements OnInit {
-  options: IccD3Options = {
+  options: GnroD3Options = {
     // margin: { left: 60 },
   };
   d3Config = {
@@ -29,7 +29,7 @@ export class AppVerticalBulletChartDemoComponent implements OnInit {
     //options: { ...this.options },
   };
 
-  chartConfigs: IccD3ChartConfig[] = [
+  chartConfigs: GnroD3ChartConfig[] = [
     {
       chartType: 'bulletChart',
       bullet: {
@@ -44,7 +44,7 @@ export class AppVerticalBulletChartDemoComponent implements OnInit {
     },
   ];
 
-  options2: IccD3Options = {
+  options2: GnroD3Options = {
     margin: { left: 90 },
   };
   d3Config2 = {
@@ -52,7 +52,7 @@ export class AppVerticalBulletChartDemoComponent implements OnInit {
     options: { ...this.options2 },
   };
 
-  chartConfigs2: IccD3ChartConfig[] = [
+  chartConfigs2: GnroD3ChartConfig[] = [
     {
       chartType: 'bulletChart',
       bullet: {
@@ -72,7 +72,7 @@ export class AppVerticalBulletChartDemoComponent implements OnInit {
     },
   ];
 
-  options3: IccD3Options = {
+  options3: GnroD3Options = {
     margin: { left: 90 },
   };
   d3Config3 = {
@@ -80,7 +80,7 @@ export class AppVerticalBulletChartDemoComponent implements OnInit {
     options: { ...this.options3 },
   };
 
-  chartConfigs3: IccD3ChartConfig[] = [
+  chartConfigs3: GnroD3ChartConfig[] = [
     {
       chartType: 'bulletChart',
       // x: (d: any) => d.value,
@@ -97,7 +97,7 @@ export class AppVerticalBulletChartDemoComponent implements OnInit {
     },
   ];
 
-  data: IccD3BulletChartData[] = [
+  data: GnroD3BulletChartData[] = [
     {
       range: [
         {
@@ -156,7 +156,7 @@ export class AppVerticalBulletChartDemoComponent implements OnInit {
     },
   ];
 
-  data2: IccD3BulletChartData[] = [
+  data2: GnroD3BulletChartData[] = [
     {
       range: [
         {
@@ -215,7 +215,7 @@ export class AppVerticalBulletChartDemoComponent implements OnInit {
     },
   ];
 
-  data3: IccD3BulletChartData[] = [
+  data3: GnroD3BulletChartData[] = [
     {
       range: [
         {

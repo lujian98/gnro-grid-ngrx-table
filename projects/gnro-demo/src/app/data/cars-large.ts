@@ -1,5 +1,5 @@
-import { sortByField, IccObjectType } from '@icc/ui/core';
-import { IccColumnConfig, IccGridConfig } from '@icc/ui/grid';
+import { sortByField, GnroObjectType } from '@gnro/ui/core';
+import { GnroColumnConfig, GnroGridConfig } from '@gnro/ui/grid';
 
 export const DCRBrands = [
   { title: 'Audi', name: 'Audi' },
@@ -35,7 +35,7 @@ export const DCRColorsList = [...DCRColors].map((item) => item.name);
 
 console.log(' DCRColorsList=', DCRColorsList);
 
-export const DCRGridConfig: Partial<IccGridConfig> = {
+export const DCRGridConfig: Partial<GnroGridConfig> = {
   columnSort: true,
   columnFilter: true,
   columnResize: true,
@@ -1325,13 +1325,13 @@ export const MakerColorList = sortByField(getUniqueObjects(items, 'name'), 'name
 //console.log(' MakerColorList=', MakerColorList);
 //console.log(' CARSDATA3=', CARSDATA3);
 
-export const DCRColumnConfig: IccColumnConfig[] = [
+export const DCRColumnConfig: GnroColumnConfig[] = [
   {
     name: 'ID',
     width: 50,
     align: 'center',
     groupField: false,
-    filterField: IccObjectType.Number,
+    filterField: GnroObjectType.Number,
     draggable: false,
   },
   {
@@ -1346,7 +1346,7 @@ export const DCRColumnConfig: IccColumnConfig[] = [
     name: 'brand',
     title: 'this s s     sssssssssssssssssss sssssssssssssss',
     //cellEditable: true,
-    rendererType: IccObjectType.Select,
+    rendererType: GnroObjectType.Select,
     filterFieldConfig: {
       fieldType: 'select',
       multiSelection: true,
@@ -1358,28 +1358,28 @@ export const DCRColumnConfig: IccColumnConfig[] = [
     title: 'Manufacture Date',
     width: 100,
     cellEditable: true,
-    rendererType: IccObjectType.Date,
+    rendererType: GnroObjectType.Date,
     rendererFieldConfig: {
       dateFormat: 'longDate',
     },
-    filterField: IccObjectType.DateRange,
+    filterField: GnroObjectType.DateRange,
     align: 'center',
   },
   {
     name: 'Price',
     width: 70,
     cellEditable: true,
-    rendererType: IccObjectType.Number,
+    rendererType: GnroObjectType.Number,
     rendererFieldConfig: {
       decimals: 2,
     },
-    filterField: IccObjectType.Number,
+    filterField: GnroObjectType.Number,
     align: 'right',
   },
   {
     name: 'MakerColor',
     cellEditable: true,
-    rendererType: IccObjectType.Select,
+    rendererType: GnroObjectType.Select,
     rendererFieldConfig: {
       optionKey: 'name',
       optionLabel: 'title',
@@ -1403,7 +1403,7 @@ export const DCRColumnConfig: IccColumnConfig[] = [
     name: 'color',
     width: 80,
     //cellEditable: true,
-    //rendererType: IccObjectType.Select,
+    //rendererType: GnroObjectType.Select,
     /*
     rendererFieldConfig: {
       //optionKey: 'name',

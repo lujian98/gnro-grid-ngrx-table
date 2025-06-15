@@ -1,19 +1,19 @@
-<button icc-button [cdkMenuTriggerFor]="menu1">Open Menu Panel</button>
+<button gnro-button [cdkMenuTriggerFor]="menu1">Open Menu Panel</button>
 
 <ng-template #menu1>
-  <cdk-menus [items]="defaultContextMenu" (iccMenuItemClick)="onMenuItemClick($event)"> </cdk-menus>
+  <cdk-menus [items]="defaultContextMenu" (gnroMenuItemClick)="onMenuItemClick($event)"> </cdk-menus>
 </ng-template>
 
-<button icc-button [cdkContextMenuTriggerFor]="menu1">Context Menu</button>
+<button gnro-button [cdkContextMenuTriggerFor]="menu1">Context Menu</button>
 <ng-template #menu1>
-  <cdk-menus [items]="defaultContextMenu" (iccMenuItemClick)="onMenuItemClick($event)"> </cdk-menus>
+  <cdk-menus [items]="defaultContextMenu" (gnroMenuItemClick)="onMenuItemClick($event)"> </cdk-menus>
 </ng-template>
 
 <div cdkMenuBar>
-  <button class="example-menu-bar-item" iccMenuItem [cdkMenuTriggerFor]="file">File</button>
-  <button class="example-menu-bar-item" iccMenuItem [cdkMenuTriggerFor]="edit">Edit</button>
-  <button class="example-menu-bar-item" iccMenuItem [cdkMenuTriggerFor]="format">Format</button>
-  <button class="example-menu-bar-item" iccMenuItem [cdkMenuTriggerFor]="menustest">Menus Test</button>
+  <button class="example-menu-bar-item" gnroMenuItem [cdkMenuTriggerFor]="file">File</button>
+  <button class="example-menu-bar-item" gnroMenuItem [cdkMenuTriggerFor]="edit">Edit</button>
+  <button class="example-menu-bar-item" gnroMenuItem [cdkMenuTriggerFor]="format">Format</button>
+  <button class="example-menu-bar-item" gnroMenuItem [cdkMenuTriggerFor]="menustest">Menus Test</button>
 </div>
 
 <ng-template #menustest>
@@ -22,60 +22,60 @@
 
 <ng-template #file>
   <div class="example-menu" cdkMenu>
-    <div #ref class="example-menu-item" iccMenuItem>Share</div>
+    <div #ref class="example-menu-item" gnroMenuItem>Share</div>
     <hr />
-    <div class="example-menu-item" iccMenuItem [cdkMenuTriggerFor]="new_doc">New <span>&#10148;</span></div>
-    <div class="example-menu-item" iccMenuItem>Open</div>
-    <div class="example-menu-item" iccMenuItem>Make a Copy</div>
+    <div class="example-menu-item" gnroMenuItem [cdkMenuTriggerFor]="new_doc">New <span>&#10148;</span></div>
+    <div class="example-menu-item" gnroMenuItem>Open</div>
+    <div class="example-menu-item" gnroMenuItem>Make a Copy</div>
     <hr />
-    <div class="example-menu-item" iccMenuItem [cdkMenuTriggerFor]="download">Download <span>&#10148;</span></div>
+    <div class="example-menu-item" gnroMenuItem [cdkMenuTriggerFor]="download">Download <span>&#10148;</span></div>
   </div>
 </ng-template>
 
 <ng-template #edit>
   <div class="example-menu" cdkMenu>
-    <div class="example-menu-item" iccMenuItem>Undo</div>
-    <div class="example-menu-item" iccMenuItem>Redo</div>
+    <div class="example-menu-item" gnroMenuItem>Undo</div>
+    <div class="example-menu-item" gnroMenuItem>Redo</div>
     <hr />
-    <div class="example-menu-item" iccMenuItem>Cut</div>
-    <div class="example-menu-item" iccMenuItem>Copy</div>
-    <div class="example-menu-item" iccMenuItem>Paste</div>
+    <div class="example-menu-item" gnroMenuItem>Cut</div>
+    <div class="example-menu-item" gnroMenuItem>Copy</div>
+    <div class="example-menu-item" gnroMenuItem>Paste</div>
   </div>
 </ng-template>
 
 <ng-template #format>
   <div class="example-menu" cdkMenu>
     <div class="example-menu-group" cdkMenuGroup>
-      <div iccMenuItem [keepOpen]="true" class="example-menu-item" cdkMenuItemChecked>Bold</div>
-      <div iccMenuItem [keepOpen]="true" class="example-menu-item">Italic</div>
+      <div gnroMenuItem [keepOpen]="true" class="example-menu-item" cdkMenuItemChecked>Bold</div>
+      <div gnroMenuItem [keepOpen]="true" class="example-menu-item">Italic</div>
     </div>
     <hr />
     <div class="example-menu-group" cdkMenuGroup>
-      <div iccMenuItem class="example-menu-item">Small</div>
-      <div iccMenuItem class="example-menu-item" cdkMenuItemChecked>Normal</div>
-      <div iccMenuItem class="example-menu-item">Big</div>
+      <div gnroMenuItem class="example-menu-item">Small</div>
+      <div gnroMenuItem class="example-menu-item" cdkMenuItemChecked>Normal</div>
+      <div gnroMenuItem class="example-menu-item">Big</div>
     </div>
   </div>
 </ng-template>
 
 <ng-template #new_doc>
   <div class="example-menu" cdkMenu>
-    <div class="example-menu-item" iccMenuItem [keepOpen]="true">
-      <icc-checkbox>Document</icc-checkbox>
+    <div class="example-menu-item" gnroMenuItem [keepOpen]="true">
+      <gnro-checkbox>Document</gnro-checkbox>
     </div>
-    <div class="example-menu-item" iccMenuItem>From template</div>
+    <div class="example-menu-item" gnroMenuItem>From template</div>
     <hr />
-    <div class="example-menu-item" iccMenuItem>Spreadsheet</div>
-    <div class="example-menu-item" iccMenuItem>Presentation</div>
-    <div class="example-menu-item" iccMenuItem>Form</div>
+    <div class="example-menu-item" gnroMenuItem>Spreadsheet</div>
+    <div class="example-menu-item" gnroMenuItem>Presentation</div>
+    <div class="example-menu-item" gnroMenuItem>Form</div>
   </div>
 </ng-template>
 
 <ng-template #download>
   <div class="example-menu" cdkMenu>
-    <div class="example-menu-item" iccMenuItem>Microsoft Word</div>
-    <div class="example-menu-item" iccMenuItem>PDF</div>
-    <div class="example-menu-item" iccMenuItem>Plain text</div>
-    <div class="example-menu-item" iccMenuItem [cdkMenuTriggerFor]="new_doc">New <span>&#10148;</span></div>
+    <div class="example-menu-item" gnroMenuItem>Microsoft Word</div>
+    <div class="example-menu-item" gnroMenuItem>PDF</div>
+    <div class="example-menu-item" gnroMenuItem>Plain text</div>
+    <div class="example-menu-item" gnroMenuItem [cdkMenuTriggerFor]="new_doc">New <span>&#10148;</span></div>
   </div>
 </ng-template>

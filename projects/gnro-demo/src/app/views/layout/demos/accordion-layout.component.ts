@@ -1,21 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, ElementRef, inject, HostListener } from '@angular/core';
 import {
-  IccLayoutComponent,
-  IccLayoutHeaderComponent,
-  IccLayoutFooterComponent,
-  IccLayoutCenterComponent,
-  IccLayoutHorizontalComponent,
-  IccLayoutLeftComponent,
-  IccLayoutRightComponent,
-} from '@icc/ui/layout';
+  GnroLayoutComponent,
+  GnroLayoutHeaderComponent,
+  GnroLayoutFooterComponent,
+  GnroLayoutCenterComponent,
+  GnroLayoutHorizontalComponent,
+  GnroLayoutLeftComponent,
+  GnroLayoutRightComponent,
+} from '@gnro/ui/layout';
 
 @Component({
   selector: 'app-accordion-layout',
   templateUrl: './accordion-layout.component.html',
   styleUrls: ['./accordion-layout.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IccLayoutComponent, IccLayoutHeaderComponent, IccLayoutHorizontalComponent],
+  imports: [CommonModule, GnroLayoutComponent, GnroLayoutHeaderComponent, GnroLayoutHorizontalComponent],
 })
 export class AppAccordionLayoutComponent {
   private elementRef = inject(ElementRef);

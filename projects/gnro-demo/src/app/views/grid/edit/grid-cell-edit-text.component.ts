@@ -1,34 +1,34 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { IccBUTTONS, IccButtonConfg, IccObjectType } from '@icc/ui/core';
+import { GnroBUTTONS, GnroButtonConfg, GnroObjectType } from '@gnro/ui/core';
 import {
-  IccColumnConfig,
-  IccGridComponent,
-  IccGridConfig,
-  IccGridData,
+  GnroColumnConfig,
+  GnroGridComponent,
+  GnroGridConfig,
+  GnroGridData,
   defaultGridConfig,
-  IccGridFacade,
-  IccButtonClick,
-} from '@icc/ui/grid';
+  GnroGridFacade,
+  GnroButtonClick,
+} from '@gnro/ui/grid';
 import { CARSDATA3, DCRBrands, DCRBrandsList, DCRColorsList, MakerColorList } from '../../../data/cars-large';
 
 @Component({
   selector: 'app-grid-cell-edit-text',
-  template: `<icc-grid
+  template: `<gnro-grid
     [gridConfig]="gridConfig"
     [columnsConfig]="columnsConfig"
     [buttons]="buttons"
     [gridData]="gridData"
-    (iccButtonClick)="buttonClick($event)"
-  ></icc-grid>`,
+    (gnroButtonClick)="buttonClick($event)"
+  ></gnro-grid>`,
   styles: [':host {  display: flex; width: 100%; }'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IccGridComponent],
+  imports: [CommonModule, GnroGridComponent],
 })
 export class AppGridCellEditTextComponent {
-  private gridFacade = inject(IccGridFacade);
+  private gridFacade = inject(GnroGridFacade);
 
-  gridConfig: IccGridConfig = {
+  gridConfig: GnroGridConfig = {
     ...defaultGridConfig,
     columnSort: true,
     columnFilter: true,
@@ -49,18 +49,18 @@ export class AppGridCellEditTextComponent {
     hasDetailView: true,
   };
 
-  buttons: IccButtonConfg[] = [
+  buttons: GnroButtonConfg[] = [
     { title: 'Reload', name: 'Reload' },
-    IccBUTTONS.Open,
-    IccBUTTONS.Edit,
-    IccBUTTONS.Save,
-    IccBUTTONS.Reset,
-    IccBUTTONS.View,
-    IccBUTTONS.Refresh,
-    IccBUTTONS.ClearAllFilters,
+    GnroBUTTONS.Open,
+    GnroBUTTONS.Edit,
+    GnroBUTTONS.Save,
+    GnroBUTTONS.Reset,
+    GnroBUTTONS.View,
+    GnroBUTTONS.Refresh,
+    GnroBUTTONS.ClearAllFilters,
   ];
 
-  columnsConfig: IccColumnConfig[] = [
+  columnsConfig: GnroColumnConfig[] = [
     {
       name: 'ID',
       width: 50,
@@ -75,13 +75,13 @@ export class AppGridCellEditTextComponent {
       name: 'brand',
       width: 100,
       cellEditable: true,
-      rendererType: IccObjectType.Select,
+      rendererType: GnroObjectType.Select,
       rendererFieldConfig: {
         options: DCRBrandsList,
         remoteOptions: false,
       },
       filterFieldConfig: {
-        fieldType: IccObjectType.Select,
+        fieldType: GnroObjectType.Select,
         multiSelection: true,
         remoteOptions: false,
         options: DCRBrands,
@@ -92,28 +92,28 @@ export class AppGridCellEditTextComponent {
       title: 'Manufacture Date',
       width: 100,
       cellEditable: true,
-      rendererType: IccObjectType.Date,
+      rendererType: GnroObjectType.Date,
       rendererFieldConfig: {
         dateFormat: 'longDate',
       },
-      filterField: IccObjectType.DateRange,
+      filterField: GnroObjectType.DateRange,
       align: 'center',
     },
     {
       name: 'Price',
       width: 70,
       cellEditable: true,
-      rendererType: IccObjectType.Number,
+      rendererType: GnroObjectType.Number,
       rendererFieldConfig: {
         decimals: 2,
       },
-      filterField: IccObjectType.Number,
+      filterField: GnroObjectType.Number,
       align: 'right',
     },
     {
       name: 'MakerColor',
       cellEditable: true,
-      rendererType: IccObjectType.Select,
+      rendererType: GnroObjectType.Select,
       rendererFieldConfig: {
         optionKey: 'name',
         optionLabel: 'title',
@@ -132,7 +132,7 @@ export class AppGridCellEditTextComponent {
     },
     {
       name: 'year',
-      rendererType: IccObjectType.Number,
+      rendererType: GnroObjectType.Number,
       cellEditable: true,
       width: 50,
       align: 'right',
@@ -140,24 +140,24 @@ export class AppGridCellEditTextComponent {
     {
       name: 'color',
       width: 80,
-      rendererType: IccObjectType.Select,
+      rendererType: GnroObjectType.Select,
       cellEditable: true,
       rendererFieldConfig: {
-        fieldType: IccObjectType.Select,
+        fieldType: GnroObjectType.Select,
         options: DCRColorsList,
         remoteOptions: false,
       },
       filterFieldConfig: {
-        fieldType: IccObjectType.Select,
+        fieldType: GnroObjectType.Select,
         options: DCRColorsList,
         remoteOptions: false,
       },
       align: 'center',
     },
   ];
-  gridData: IccGridData<any> = CARSDATA3;
+  gridData: GnroGridData<any> = CARSDATA3;
 
-  buttonClick(buttonClick: IccButtonClick): void {
+  buttonClick(buttonClick: GnroButtonClick): void {
     if (buttonClick.button.name === 'Reload') {
       const gridSetting = buttonClick.gridSetting;
       this.gridFacade.getGridData(gridSetting.gridId, gridSetting);

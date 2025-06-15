@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { IccTabsComponent, IccTabsConfig } from '@icc/ui/tabs';
+import { GnroTabsComponent, GnroTabsConfig } from '@gnro/ui/tabs';
 import { AppStockChartComponent } from '../../d3/demos/stock-charts/stock-chart.component';
 import { AppGridRemoteVirtualScrollComponent } from '../../grid/remote-data/grid-virtual-scroll.component';
 import { AppGridMultiRowSelectionComponent } from '../../grid/remote-data/grid-multi-row-selection.component';
@@ -11,21 +11,21 @@ import { AppGridGroupHeaderComponent } from '../../grid/remote-data/grid-group-h
 @Component({
   selector: 'app-double-tabs',
   template: `
-    <icc-tabs [tabsConfig]="tabsConfig1" [tabs]="tabs"></icc-tabs>
-    <icc-tabs [tabsConfig]="tabsConfig2" [tabs]="tabs2"> </icc-tabs>
+    <gnro-tabs [tabsConfig]="tabsConfig1" [tabs]="tabs"></gnro-tabs>
+    <gnro-tabs [tabsConfig]="tabsConfig2" [tabs]="tabs2"> </gnro-tabs>
   `,
   styles: [':host {  display: flex; flex-direction: column; width: 100%; }'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IccTabsComponent],
+  imports: [CommonModule, GnroTabsComponent],
 })
 export class AppDoubleTabsComponent {
-  tabsConfig1: Partial<IccTabsConfig> = {
+  tabsConfig1: Partial<GnroTabsConfig> = {
     enableContextMenu: true,
     selectedTabIndex: 2,
     alignTabs: 'end',
   };
 
-  tabsConfig2: Partial<IccTabsConfig> = {
+  tabsConfig2: Partial<GnroTabsConfig> = {
     enableContextMenu: true,
     alignTabs: 'center',
   };

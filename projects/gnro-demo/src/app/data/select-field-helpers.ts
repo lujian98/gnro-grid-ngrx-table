@@ -1,13 +1,13 @@
-import { IccSelectFieldConfig } from '@icc/ui/fields';
+import { GnroSelectFieldConfig } from '@gnro/ui/fields';
 
-export const SingleSelectConfig: Partial<IccSelectFieldConfig> = {
+export const SingleSelectConfig: Partial<GnroSelectFieldConfig> = {
   fieldLabel: 'Single Selection (Object)',
   optionLabel: 'state',
   optionKey: 'abbr',
   placeholder: 'Select One...',
 };
 
-export const MultiSelectConfig: Partial<IccSelectFieldConfig> = {
+export const MultiSelectConfig: Partial<GnroSelectFieldConfig> = {
   multiSelection: true,
   fieldLabel: 'Multi Selection (Object)',
   optionLabel: 'state',
@@ -15,7 +15,7 @@ export const MultiSelectConfig: Partial<IccSelectFieldConfig> = {
   placeholder: 'Select One or More...',
 };
 
-export const SingleAutocompleteConfig: Partial<IccSelectFieldConfig> = {
+export const SingleAutocompleteConfig: Partial<GnroSelectFieldConfig> = {
   selectOnly: false,
   fieldLabel: 'Single Autocomplete (Object)',
   optionLabel: 'state',
@@ -23,7 +23,7 @@ export const SingleAutocompleteConfig: Partial<IccSelectFieldConfig> = {
   placeholder: 'Select One...',
 };
 
-export const MultiAutocompleteConfig: Partial<IccSelectFieldConfig> = {
+export const MultiAutocompleteConfig: Partial<GnroSelectFieldConfig> = {
   multiSelection: true,
   selectOnly: false,
   fieldLabel: 'Multi Autocomplete (Object)',
@@ -32,24 +32,24 @@ export const MultiAutocompleteConfig: Partial<IccSelectFieldConfig> = {
   placeholder: 'Select One or More...',
 };
 
-export const SingleListConfig: Partial<IccSelectFieldConfig> = {
+export const SingleListConfig: Partial<GnroSelectFieldConfig> = {
   fieldLabel: 'Single Selection (List)',
   placeholder: 'Select One...',
 };
 
-export const MultiListConfig: Partial<IccSelectFieldConfig> = {
+export const MultiListConfig: Partial<GnroSelectFieldConfig> = {
   multiSelection: true,
   fieldLabel: 'Multi Selection (List)',
   placeholder: 'Select One or More...',
 };
 
-export const SingleAutocompleteLisConfig: Partial<IccSelectFieldConfig> = {
+export const SingleAutocompleteLisConfig: Partial<GnroSelectFieldConfig> = {
   selectOnly: false,
   fieldLabel: 'Single Autocomplete (List)',
   placeholder: 'Select One...',
 };
 
-export const MultiAutocompleteListConfig: Partial<IccSelectFieldConfig> = {
+export const MultiAutocompleteListConfig: Partial<GnroSelectFieldConfig> = {
   multiSelection: true,
   selectOnly: false,
   fieldLabel: 'Multi Autocomplete (List)',

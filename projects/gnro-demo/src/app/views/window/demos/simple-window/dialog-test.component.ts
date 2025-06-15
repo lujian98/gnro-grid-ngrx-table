@@ -1,17 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
-  IccLayoutCenterComponent,
-  IccLayoutComponent,
-  IccLayoutFooterComponent,
-  IccLayoutHeaderComponent,
-  IccLayoutHorizontalComponent,
-  IccLayoutLeftComponent,
-  IccLayoutRightComponent,
-} from '@icc/ui/layout';
-import { IccButtonComponent } from '@icc/ui/button';
-import { IccDialogRef } from '@icc/ui/overlay';
-import { IccWindowComponent, IccWindowConfig, defaultWindowConfig } from '@icc/ui/window';
+  GnroLayoutCenterComponent,
+  GnroLayoutComponent,
+  GnroLayoutFooterComponent,
+  GnroLayoutHeaderComponent,
+  GnroLayoutHorizontalComponent,
+  GnroLayoutLeftComponent,
+  GnroLayoutRightComponent,
+} from '@gnro/ui/layout';
+import { GnroButtonComponent } from '@gnro/ui/button';
+import { GnroDialogRef } from '@gnro/ui/overlay';
+import { GnroWindowComponent, GnroWindowConfig, defaultWindowConfig } from '@gnro/ui/window';
 
 @Component({
   selector: 'app-dialog-test',
@@ -20,21 +20,21 @@ import { IccWindowComponent, IccWindowConfig, defaultWindowConfig } from '@icc/u
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
-    IccLayoutComponent,
-    IccLayoutHeaderComponent,
-    IccLayoutFooterComponent,
-    IccLayoutCenterComponent,
-    IccLayoutHorizontalComponent,
-    IccLayoutLeftComponent,
-    IccLayoutRightComponent,
-    IccButtonComponent,
-    IccWindowComponent,
+    GnroLayoutComponent,
+    GnroLayoutHeaderComponent,
+    GnroLayoutFooterComponent,
+    GnroLayoutCenterComponent,
+    GnroLayoutHorizontalComponent,
+    GnroLayoutLeftComponent,
+    GnroLayoutRightComponent,
+    GnroButtonComponent,
+    GnroWindowComponent,
   ],
 })
 export class AppDialogTestDemoComponent {
-  private dialogRef = inject(IccDialogRef<AppDialogTestDemoComponent>);
+  private dialogRef = inject(GnroDialogRef<AppDialogTestDemoComponent>);
 
-  windowConfig: IccWindowConfig = {
+  windowConfig: GnroWindowConfig = {
     ...defaultWindowConfig,
     title: 'Window',
     height: '600px',

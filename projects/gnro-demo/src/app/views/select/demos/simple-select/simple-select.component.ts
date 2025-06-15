@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { IccSelectFieldConfig, IccSelectFieldComponent, defaultSelectFieldConfig } from '@icc/ui/fields';
+import { GnroSelectFieldConfig, GnroSelectFieldComponent, defaultSelectFieldConfig } from '@gnro/ui/fields';
 import { State, STATES } from '../../../../data/states';
 
 @Component({
@@ -8,13 +8,13 @@ import { State, STATES } from '../../../../data/states';
   templateUrl: './simple-select.component.html',
   styleUrls: ['./simple-select.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IccSelectFieldComponent],
+  imports: [CommonModule, GnroSelectFieldComponent],
 })
 export class AppSimpleSelectComponent {
   states = STATES;
   listStates = [...STATES].map((state) => state.state);
 
-  defaultSelection: Partial<IccSelectFieldConfig> = {
+  defaultSelection: Partial<GnroSelectFieldConfig> = {
     ...defaultSelectFieldConfig,
   };
 
@@ -32,14 +32,14 @@ export class AppSimpleSelectComponent {
   singleListState = 'Louisiana';
   multiListStates = ['Louisiana', 'Nevada'];
 
-  singleSelection: Partial<IccSelectFieldConfig> = {
+  singleSelection: Partial<GnroSelectFieldConfig> = {
     fieldLabel: 'Single Selection (Object)',
     optionLabel: 'state',
     optionKey: 'abbr',
     placeholder: 'Select One...',
   };
 
-  multiSelection: IccSelectFieldConfig = {
+  multiSelection: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
     multiSelection: true,
     fieldLabel: 'Multi Selection (Object)',
@@ -48,7 +48,7 @@ export class AppSimpleSelectComponent {
     placeholder: 'Select One or More...',
   };
 
-  singleAutocomplete: IccSelectFieldConfig = {
+  singleAutocomplete: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
     selectOnly: false,
     fieldLabel: 'Single Autocomplete (Object)',
@@ -57,7 +57,7 @@ export class AppSimpleSelectComponent {
     placeholder: 'Select One...',
   };
 
-  multiAutocomplete: IccSelectFieldConfig = {
+  multiAutocomplete: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
     multiSelection: true,
     selectOnly: false,
@@ -67,27 +67,27 @@ export class AppSimpleSelectComponent {
     placeholder: 'Select One or More...',
   };
 
-  singleSelectionList: IccSelectFieldConfig = {
+  singleSelectionList: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
     fieldLabel: 'Single Selection (list)',
     placeholder: 'Select One...',
   };
 
-  multiSelectionList: IccSelectFieldConfig = {
+  multiSelectionList: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
     multiSelection: true,
     fieldLabel: 'Multi Selection (list)',
     placeholder: 'Select One or More...',
   };
 
-  singleAutocompleteList: IccSelectFieldConfig = {
+  singleAutocompleteList: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
     selectOnly: false,
     fieldLabel: 'Single Autocomplete (list)',
     placeholder: 'Select One...',
   };
 
-  multiAutocompleteList: IccSelectFieldConfig = {
+  multiAutocompleteList: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
     multiSelection: true,
     selectOnly: false,
@@ -95,7 +95,7 @@ export class AppSimpleSelectComponent {
     placeholder: 'Select One or More...',
   };
 
-  singleSelectionRemote: IccSelectFieldConfig = {
+  singleSelectionRemote: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
     remoteOptions: true,
     urlKey: 'usa',
@@ -106,7 +106,7 @@ export class AppSimpleSelectComponent {
     placeholder: 'Select One...',
   };
 
-  multiSelectionRemote: IccSelectFieldConfig = {
+  multiSelectionRemote: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
     remoteOptions: true,
     urlKey: 'usa',
@@ -118,7 +118,7 @@ export class AppSimpleSelectComponent {
     placeholder: 'Select One or More...',
   };
 
-  singleAutocompleteRemote: IccSelectFieldConfig = {
+  singleAutocompleteRemote: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
     remoteOptions: true,
     urlKey: 'usa',
@@ -130,7 +130,7 @@ export class AppSimpleSelectComponent {
     placeholder: 'Select One...',
   };
 
-  multiAutocompleteRemote: IccSelectFieldConfig = {
+  multiAutocompleteRemote: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
     remoteOptions: true,
     urlKey: 'usa',
@@ -144,7 +144,7 @@ export class AppSimpleSelectComponent {
   };
 
   // ******************
-  singleRemoteList: IccSelectFieldConfig = {
+  singleRemoteList: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
     remoteOptions: true,
     urlKey: 'usa',
@@ -153,7 +153,7 @@ export class AppSimpleSelectComponent {
     placeholder: 'Select One...',
   };
 
-  multiRemoteList: IccSelectFieldConfig = {
+  multiRemoteList: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
     remoteOptions: true,
     urlKey: 'usa',
@@ -163,7 +163,7 @@ export class AppSimpleSelectComponent {
     placeholder: 'Select One or More...',
   };
 
-  singleAutocompleteRemoteList: IccSelectFieldConfig = {
+  singleAutocompleteRemoteList: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
     remoteOptions: true,
     urlKey: 'usa',
@@ -173,7 +173,7 @@ export class AppSimpleSelectComponent {
     placeholder: 'Select One...',
   };
 
-  multiAutocompleteRemoteList: IccSelectFieldConfig = {
+  multiAutocompleteRemoteList: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
     remoteOptions: true,
     urlKey: 'usa',
@@ -185,28 +185,28 @@ export class AppSimpleSelectComponent {
   };
 
   // all remotes
-  singleRemote: IccSelectFieldConfig = {
+  singleRemote: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
     remoteConfig: true,
     urlKey: 'usa',
     fieldName: 'SingleRemote',
   };
 
-  multiRemote: IccSelectFieldConfig = {
+  multiRemote: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
     remoteConfig: true,
     urlKey: 'usa',
     fieldName: 'MultiRemote',
   };
 
-  singleAutocompleteRemotes: IccSelectFieldConfig = {
+  singleAutocompleteRemotes: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
     remoteConfig: true,
     urlKey: 'usa',
     fieldName: 'SingleAutocompleteRemotes',
   };
 
-  multiAutocompleteRemotes: IccSelectFieldConfig = {
+  multiAutocompleteRemotes: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
     remoteConfig: true,
     urlKey: 'usa',
@@ -214,28 +214,28 @@ export class AppSimpleSelectComponent {
   };
 
   // all remotes
-  singleAllRemoteList: IccSelectFieldConfig = {
+  singleAllRemoteList: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
     remoteConfig: true,
     urlKey: 'usa',
     fieldName: 'SingleAllRemoteList',
   };
 
-  multiAllRemoteList: IccSelectFieldConfig = {
+  multiAllRemoteList: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
     remoteConfig: true,
     urlKey: 'usa',
     fieldName: 'MultiAllRemoteList',
   };
 
-  singleAllAutocompleteRemoteList: IccSelectFieldConfig = {
+  singleAllAutocompleteRemoteList: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
     remoteConfig: true,
     urlKey: 'usa',
     fieldName: 'SingleAllAutocompleteRemoteList',
   };
 
-  multiAllAutocompleteRemotes: IccSelectFieldConfig = {
+  multiAllAutocompleteRemotes: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
     remoteConfig: true,
     urlKey: 'usa',

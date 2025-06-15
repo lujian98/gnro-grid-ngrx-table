@@ -1,26 +1,26 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IccD3ChartConfig, IccD3Options, IccD3Component, defaultD3Config } from '@icc/ui/d3';
+import { GnroD3ChartConfig, GnroD3Options, GnroD3Component, defaultD3Config } from '@gnro/ui/d3';
 
 @Component({
   selector: 'app-line-chart-demo',
   styles: [':host {width: 100%; height: 100%; display: flex; flex-direction: column;}'],
   template: `
     <div style="height: 100%; display: flex;">
-      <icc-d3 [d3Config]="d3Config1" [chartConfigs]="chartConfigs1" [data]="data"></icc-d3>
-      <icc-d3 [d3Config]="d3Config2" [chartConfigs]="chartConfigs2" [data]="data"></icc-d3>
+      <gnro-d3 [d3Config]="d3Config1" [chartConfigs]="chartConfigs1" [data]="data"></gnro-d3>
+      <gnro-d3 [d3Config]="d3Config2" [chartConfigs]="chartConfigs2" [data]="data"></gnro-d3>
     </div>
     <div style="height: 100%; display: flex; margin-top: 20px;">
-      <icc-d3 [chartConfigs]="chartConfigs3" [data]="data"></icc-d3>
-      <icc-d3 [chartConfigs]="chartConfigs4" [data]="data"></icc-d3>
+      <gnro-d3 [chartConfigs]="chartConfigs3" [data]="data"></gnro-d3>
+      <gnro-d3 [chartConfigs]="chartConfigs4" [data]="data"></gnro-d3>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IccD3Component],
+  imports: [CommonModule, GnroD3Component],
 })
 export class AppLineChartDemoComponent implements OnInit {
   data: any;
-  options: IccD3Options = {
+  options: GnroD3Options = {
     margin: { top: 50, right: 80, bottom: 10, left: 10 },
   };
 
@@ -29,7 +29,7 @@ export class AppLineChartDemoComponent implements OnInit {
     options: this.options,
   };
 
-  options2: IccD3Options = {
+  options2: GnroD3Options = {
     margin: { left: 80 },
   };
 
@@ -38,7 +38,7 @@ export class AppLineChartDemoComponent implements OnInit {
     options: this.options2,
   };
 
-  chartConfigs1: IccD3ChartConfig[] = [
+  chartConfigs1: GnroD3ChartConfig[] = [
     {
       chartType: 'lineChart',
       xScaleType: 'linear',
@@ -71,7 +71,7 @@ export class AppLineChartDemoComponent implements OnInit {
     },
   ];
 
-  chartConfigs2: IccD3ChartConfig[] = [
+  chartConfigs2: GnroD3ChartConfig[] = [
     {
       chartType: 'lineChart',
       xScaleType: 'linear',
@@ -100,7 +100,7 @@ export class AppLineChartDemoComponent implements OnInit {
     },
   ];
 
-  chartConfigs3: IccD3ChartConfig[] = [
+  chartConfigs3: GnroD3ChartConfig[] = [
     {
       chartType: 'lineChart',
       xScaleType: 'linear',
@@ -131,7 +131,7 @@ export class AppLineChartDemoComponent implements OnInit {
     },
   ];
 
-  chartConfigs4: IccD3ChartConfig[] = [
+  chartConfigs4: GnroD3ChartConfig[] = [
     {
       chartType: 'lineChart',
       xScaleType: 'linear',

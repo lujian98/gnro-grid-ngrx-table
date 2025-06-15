@@ -1,16 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { IccColumnConfig, IccGridConfig, IccGridComponent, defaultGridConfig } from '@icc/ui/grid';
+import { GnroColumnConfig, GnroGridConfig, GnroGridComponent, defaultGridConfig } from '@gnro/ui/grid';
 
 @Component({
   selector: 'app-grid-multi-row-selection',
-  template: `<icc-grid [gridConfig]="gridConfig"></icc-grid>`,
+  template: `<gnro-grid [gridConfig]="gridConfig"></gnro-grid>`,
   styles: [':host {  display: flex; width: 100%; padding: 0 0px }'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IccGridComponent],
+  imports: [CommonModule, GnroGridComponent],
 })
 export class AppGridMultiRowSelectionComponent {
-  gridConfig: IccGridConfig = {
+  gridConfig: GnroGridConfig = {
     ...defaultGridConfig,
     urlKey: 'DCR',
     rowSelection: true,
@@ -26,7 +26,7 @@ export class AppGridMultiRowSelectionComponent {
     remoteGridData: true,
   };
 
-  columnsConfig: IccColumnConfig[] = [
+  columnsConfig: GnroColumnConfig[] = [
     {
       name: 'ID',
       width: 50,

@@ -1,17 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { IccLayoutTopComponent, IccLayoutVerticalComponent, IccLayoutBottomComponent } from '@icc/ui/layout';
+import { GnroLayoutTopComponent, GnroLayoutVerticalComponent, GnroLayoutBottomComponent } from '@gnro/ui/layout';
 
 @Component({
   selector: 'app-vertical-top-bottom',
   template: `
-    <icc-layout-vertical [resizeable]="true">
-      <icc-layout-top> Vertical Layout (Top, Bottom) </icc-layout-top>
-      <icc-layout-bottom> </icc-layout-bottom>
-    </icc-layout-vertical>
+    <gnro-layout-vertical [resizeable]="true">
+      <gnro-layout-top> Vertical Layout (Top, Bottom) </gnro-layout-top>
+      <gnro-layout-bottom> </gnro-layout-bottom>
+    </gnro-layout-vertical>
   `,
   styles: [':host { display: flex; width: 100%; }'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IccLayoutTopComponent, IccLayoutVerticalComponent, IccLayoutBottomComponent],
+  imports: [CommonModule, GnroLayoutTopComponent, GnroLayoutVerticalComponent, GnroLayoutBottomComponent],
 })
 export class AppVerticalTopBottomComponent {}

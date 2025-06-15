@@ -1,18 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { IccObjectType } from '@icc/ui/core';
-import { IccColumnConfig, IccGridConfig, IccGridComponent, defaultGridConfig, IccGridData } from '@icc/ui/grid';
+import { GnroObjectType } from '@gnro/ui/core';
+import { GnroColumnConfig, GnroGridConfig, GnroGridComponent, defaultGridConfig, GnroGridData } from '@gnro/ui/grid';
 import { CARSDATA3 } from '../../../data/cars-large';
 
 @Component({
   selector: 'app-grid-renderer-function',
-  template: `<icc-grid [gridConfig]="gridConfig" [columnsConfig]="columnsConfig" [gridData]="gridData"></icc-grid>`,
+  template: `<gnro-grid [gridConfig]="gridConfig" [columnsConfig]="columnsConfig" [gridData]="gridData"></gnro-grid>`,
   styles: [':host {  display: flex; width: 100%; }'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IccGridComponent],
+  imports: [CommonModule, GnroGridComponent],
 })
 export class AppGridRendererFunctionComponent {
-  gridConfig: Partial<IccGridConfig> = {
+  gridConfig: Partial<GnroGridConfig> = {
     ...defaultGridConfig,
     urlKey: 'DCR',
     rowHeight: 60,
@@ -23,7 +23,7 @@ export class AppGridRendererFunctionComponent {
     columnMenu: true,
     columnHidden: true,
   };
-  columnsConfig: IccColumnConfig[] = [
+  columnsConfig: GnroColumnConfig[] = [
     {
       name: 'ID',
       width: 50,
@@ -39,7 +39,7 @@ export class AppGridRendererFunctionComponent {
       name: 'year',
       title: 'Make and Year',
       filterField: false,
-      rendererType: IccObjectType.Function,
+      rendererType: GnroObjectType.Function,
       renderer: this.rendererDisplay.bind(this),
     },
     {
@@ -51,15 +51,15 @@ export class AppGridRendererFunctionComponent {
       name: 'image',
       width: 80,
       align: 'center',
-      rendererType: IccObjectType.Image,
+      rendererType: GnroObjectType.Image,
     },
   ];
-  gridData: IccGridData<any> = CARSDATA3;
+  gridData: GnroGridData<any> = CARSDATA3;
 
   private rendererDisplay(
     value: string,
     field: string,
-    column: IccColumnConfig,
+    column: GnroColumnConfig,
     record: any,
     rowIndex: number,
   ): string {

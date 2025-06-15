@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { IccDialogService } from '@icc/ui/overlay';
-import { IccConfirmationComponent, defaultConfirmationConfig } from '@icc/ui/window';
+import { GnroDialogService } from '@gnro/ui/overlay';
+import { GnroConfirmationComponent, defaultConfirmationConfig } from '@gnro/ui/window';
 
 @Component({
   selector: 'app-confirmation',
@@ -16,11 +16,11 @@ import { IccConfirmationComponent, defaultConfirmationConfig } from '@icc/ui/win
   imports: [CommonModule],
 })
 export class AppConfirmationComponent {
-  private dialogService = inject(IccDialogService);
+  private dialogService = inject(GnroDialogService);
 
   openConfirmationWindow(event: MouseEvent): void {
     let dialogRef = this.dialogService
-      .open(IccConfirmationComponent, {
+      .open(GnroConfirmationComponent, {
         context: {
           confirmationConfig: {
             ...defaultConfirmationConfig,
@@ -39,7 +39,7 @@ export class AppConfirmationComponent {
 
   openYesNoConfirmationWindow(event: MouseEvent): void {
     this.dialogService
-      .open(IccConfirmationComponent, {
+      .open(GnroConfirmationComponent, {
         context: {
           confirmationConfig: {
             ...defaultConfirmationConfig,
@@ -60,7 +60,7 @@ export class AppConfirmationComponent {
 
   openMessageWindow(event: MouseEvent): void {
     this.dialogService
-      .open(IccConfirmationComponent, {
+      .open(GnroConfirmationComponent, {
         context: {
           confirmationConfig: {
             ...defaultConfirmationConfig,
@@ -78,7 +78,7 @@ export class AppConfirmationComponent {
 
   openSimpleWindow(event: MouseEvent): void {
     this.dialogService
-      .open(IccConfirmationComponent, {
+      .open(GnroConfirmationComponent, {
         context: {
           confirmationConfig: {
             ...defaultConfirmationConfig,
@@ -95,7 +95,7 @@ export class AppConfirmationComponent {
 
   openWindowOnly(event: MouseEvent): void {
     this.dialogService
-      .open(IccConfirmationComponent, {
+      .open(GnroConfirmationComponent, {
         context: {
           confirmationConfig: {
             ...defaultConfirmationConfig,

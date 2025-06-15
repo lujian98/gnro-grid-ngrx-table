@@ -1,25 +1,25 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IccFileDropEntry, IccFileDropComponent } from '@icc/ui/file-upload';
+import { GnroFileDropEntry, GnroFileDropComponent } from '@gnro/ui/file-upload';
 
 @Component({
   selector: 'app-file-drop',
   templateUrl: './file-drop.component.html',
   styleUrls: ['./file-drop.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IccFileDropComponent],
+  imports: [CommonModule, GnroFileDropComponent],
 })
 export class AppFileDropDemoComponent {
-  title = 'icc-file-drop-example';
+  title = 'gnro-file-drop-example';
 
   checked = true;
   entries: string[] = [];
 
   get className(): string {
-    return !this.checked ? 'icc-file-drop__drop-zone--disabled' : 'icc-file-drop__drop-zone--enabled';
+    return !this.checked ? 'gnro-file-drop__drop-zone--disabled' : 'gnro-file-drop__drop-zone--enabled';
   }
 
-  dropped(files: IccFileDropEntry[]): void {
+  dropped(files: GnroFileDropEntry[]): void {
     this.entries = files.map((file) => file.relativePath);
     console.log(' this.entries=', this.entries);
   }

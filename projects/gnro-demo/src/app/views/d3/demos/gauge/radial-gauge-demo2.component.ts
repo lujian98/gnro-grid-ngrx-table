@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { IccD3ChartConfig, IccD3Options, IccD3Component } from '@icc/ui/d3';
+import { GnroD3ChartConfig, GnroD3Options, GnroD3Component } from '@gnro/ui/d3';
 import * as d3Scale from 'd3-scale';
 import * as d3Interpolate from 'd3-interpolate';
 
@@ -9,21 +9,21 @@ import * as d3Interpolate from 'd3-interpolate';
   styles: [':host { width: 100%; height: 100%; display: flex; flex-direction: column;}'],
   template: `
     <div style="height: 100%; display: flex;">
-      <icc-d3 [chartConfigs]="chartConfigs" [data]="data"></icc-d3>
-      <icc-d3 [chartConfigs]="chartConfigs2" [data]="data2"></icc-d3>
+      <gnro-d3 [chartConfigs]="chartConfigs" [data]="data"></gnro-d3>
+      <gnro-d3 [chartConfigs]="chartConfigs2" [data]="data2"></gnro-d3>
     </div>
     <div style="height: 100%; display: flex; margin-top: 20px;">
-      <icc-d3 [chartConfigs]="chartConfigs4" [data]="data4"></icc-d3>
-      <icc-d3 [chartConfigs]="chartConfigs3" [data]="data3"></icc-d3>
+      <gnro-d3 [chartConfigs]="chartConfigs4" [data]="data4"></gnro-d3>
+      <gnro-d3 [chartConfigs]="chartConfigs3" [data]="data3"></gnro-d3>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IccD3Component],
+  imports: [CommonModule, GnroD3Component],
 })
 export class AppRadialGaugeDemo2Component implements OnInit {
   colorRange: any = ['green', 'orange'];
   interpolate: any = d3Interpolate.interpolateRgb;
-  chartConfigs: IccD3ChartConfig[] = [
+  chartConfigs: GnroD3ChartConfig[] = [
     {
       chartType: 'radialGauge',
       // y0: (d: any) => d.values,
@@ -50,7 +50,7 @@ export class AppRadialGaugeDemo2Component implements OnInit {
     },
   ];
 
-  chartConfigs2: IccD3ChartConfig[] = [
+  chartConfigs2: GnroD3ChartConfig[] = [
     {
       chartType: 'radialGauge',
       // y0: (d: any) => d.value2,
@@ -96,7 +96,7 @@ export class AppRadialGaugeDemo2Component implements OnInit {
     },
   ];
 
-  chartConfigs3: IccD3ChartConfig[] = [
+  chartConfigs3: GnroD3ChartConfig[] = [
     {
       chartType: 'radialGauge',
       // y0: (d: any) => d.value2,
@@ -141,7 +141,7 @@ export class AppRadialGaugeDemo2Component implements OnInit {
     },
   ];
 
-  chartConfigs4: IccD3ChartConfig[] = [
+  chartConfigs4: GnroD3ChartConfig[] = [
     {
       chartType: 'radialGauge',
       // y0: (d: any) => d.value2,

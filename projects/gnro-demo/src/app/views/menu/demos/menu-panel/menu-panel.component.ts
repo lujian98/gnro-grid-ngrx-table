@@ -1,11 +1,11 @@
 import { CdkMenu, CdkMenuBar, CdkMenuGroup, CdkMenuTrigger, CdkContextMenuTrigger } from '@angular/cdk/menu';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { IccButtonComponent } from '@icc/ui/button';
-import { IccCheckboxComponent } from '@icc/ui/checkbox';
-import { IccIconModule } from '@icc/ui/icon';
-import { CdkMenusComponent, IccMenuItem, IccMenuConfig } from '@icc/ui/menu';
-import { defaultContextMenu } from '@icc/ui/tabs';
+import { GnroButtonComponent } from '@gnro/ui/button';
+import { GnroCheckboxComponent } from '@gnro/ui/checkbox';
+import { GnroIconModule } from '@gnro/ui/icon';
+import { CdkMenusComponent, GnroMenuItem, GnroMenuConfig } from '@gnro/ui/menu';
+import { defaultContextMenu } from '@gnro/ui/tabs';
 import { MockMenuItems } from '../mock-menu';
 
 @Component({
@@ -15,10 +15,10 @@ import { MockMenuItems } from '../mock-menu';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
-    IccButtonComponent,
-    IccIconModule,
-    IccCheckboxComponent,
-    IccMenuItem,
+    GnroButtonComponent,
+    GnroIconModule,
+    GnroCheckboxComponent,
+    GnroMenuItem,
     CdkMenuGroup,
     CdkMenu,
     CdkContextMenuTrigger,
@@ -31,7 +31,7 @@ export class AppMenuPanelComponent {
   defaultContextMenu = defaultContextMenu;
   menuItems = MockMenuItems.children!;
 
-  onMenuItemClick(item: IccMenuConfig): void {
+  onMenuItemClick(item: GnroMenuConfig): void {
     console.log(' menu item click=', item);
   }
 }

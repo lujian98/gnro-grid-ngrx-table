@@ -1,5 +1,5 @@
 // use local src theming sass when dev
-@use "../../icc/theme/src/theming" as icc;
+@use "../../gnro/theme/src/theming" as gnro;
 
 /*
 // TODO remove material css
@@ -27,6 +27,6 @@ $theme: mat.m2-define-light-theme(
 @include mat.all-component-themes($theme);
 */
 
-@include icc.icc-install() {
-  @include icc.icc-theme-components();
+@include gnro.gnro-install() {
+  @include gnro.gnro-theme-components();
 }

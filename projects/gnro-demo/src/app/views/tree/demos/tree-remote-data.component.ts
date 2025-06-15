@@ -1,17 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { IccColumnConfig } from '@icc/ui/grid';
-import { IccTreeComponent, defaultTreeConfig, IccTreeConfig } from '@icc/ui/tree';
+import { GnroColumnConfig } from '@gnro/ui/grid';
+import { GnroTreeComponent, defaultTreeConfig, GnroTreeConfig } from '@gnro/ui/tree';
 
 @Component({
   selector: 'app-tree-remote-data',
-  template: `<icc-tree [treeConfig]="treeConfig" [columnsConfig]="columnsConfig"></icc-tree>`,
+  template: `<gnro-tree [treeConfig]="treeConfig" [columnsConfig]="columnsConfig"></gnro-tree>`,
   styles: [':host {  display: flex; width: 100%; }'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IccTreeComponent],
+  imports: [CommonModule, GnroTreeComponent],
 })
 export class AppTreeRemoteDataComponent {
-  treeConfig: IccTreeConfig = {
+  treeConfig: GnroTreeConfig = {
     ...defaultTreeConfig,
     urlKey: 'ECR',
     remoteGridData: true,
@@ -22,7 +22,7 @@ export class AppTreeRemoteDataComponent {
     columnResize: true,
   };
 
-  columnsConfig: IccColumnConfig[] = [
+  columnsConfig: GnroColumnConfig[] = [
     {
       name: 'name',
       width: 50,

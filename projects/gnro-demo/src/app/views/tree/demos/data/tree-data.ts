@@ -1,7 +1,7 @@
-import { IccTreeNode, IccTreeConfig } from '@icc/ui/tree';
-import { IccColumnConfig } from '@icc/ui/grid';
+import { GnroTreeNode, GnroTreeConfig } from '@gnro/ui/tree';
+import { GnroColumnConfig } from '@gnro/ui/grid';
 
-export interface NestedFoodNode extends IccTreeNode<NestedFoodNode> {
+export interface NestedFoodNode extends GnroTreeNode<NestedFoodNode> {
   name: string;
   vin?: string;
   year?: string;
@@ -34,7 +34,7 @@ export const TREE_NESTED_DATA: NestedFoodNode[] = [
   },
 ];
 
-export const ECRTreeGridConfig: Partial<IccTreeConfig> = {
+export const ECRTreeGridConfig: Partial<GnroTreeConfig> = {
   remoteGridData: true,
   remoteColumnsConfig: true,
   remoteLoadAll: true,
@@ -46,7 +46,7 @@ export const ECRTreeGridConfig: Partial<IccTreeConfig> = {
   columnHidden: true,
 };
 
-export const ECRColumnConfig: IccColumnConfig[] = [
+export const ECRColumnConfig: GnroColumnConfig[] = [
   {
     name: 'name',
     width: 50,
@@ -70,7 +70,7 @@ export const ECRColumnConfig: IccColumnConfig[] = [
   },
 ];
 
-export const NPRTreeGridConfig: Partial<IccTreeConfig> = {
+export const NPRTreeGridConfig: Partial<GnroTreeConfig> = {
   remoteGridData: true,
   //remoteColumnsConfig: true,
   remoteLoadAll: true,
@@ -82,12 +82,12 @@ export const NPRTreeGridConfig: Partial<IccTreeConfig> = {
   columnHidden: true,
 };
 
-export const METTreeGridConfig: Partial<IccTreeConfig> = {
+export const METTreeGridConfig: Partial<GnroTreeConfig> = {
   remoteGridData: false,
   remoteColumnsConfig: true,
 };
 
-export const RNDTreeGridConfig: Partial<IccTreeConfig> = {
+export const RNDTreeGridConfig: Partial<GnroTreeConfig> = {
   remoteGridData: false,
   remoteColumnsConfig: false,
   columnSort: true,

@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { IccAccordion, IccAccordionComponent } from '@icc/ui/accordion';
+import { GnroAccordion, GnroAccordionComponent } from '@gnro/ui/accordion';
 import {
-  IccLayoutRightComponent,
-  IccLayoutHorizontalComponent,
-  IccLayoutLeftComponent,
-  IccLayoutCenterComponent,
-} from '@icc/ui/layout';
+  GnroLayoutRightComponent,
+  GnroLayoutHorizontalComponent,
+  GnroLayoutLeftComponent,
+  GnroLayoutCenterComponent,
+} from '@gnro/ui/layout';
 
 @Component({
   selector: 'app-date',
@@ -17,15 +17,15 @@ import {
   imports: [
     CommonModule,
     RouterModule,
-    IccLayoutHorizontalComponent,
-    IccLayoutLeftComponent,
-    IccLayoutCenterComponent,
-    IccLayoutRightComponent,
-    IccAccordionComponent,
+    GnroLayoutHorizontalComponent,
+    GnroLayoutLeftComponent,
+    GnroLayoutCenterComponent,
+    GnroLayoutRightComponent,
+    GnroAccordionComponent,
   ],
 })
 export class AppDateComponent {
-  items: IccAccordion[] = [
+  items: GnroAccordion[] = [
     {
       name: 'Date Demos',
       items: [{ name: 'Simple Date', link: 'simple-date' }],

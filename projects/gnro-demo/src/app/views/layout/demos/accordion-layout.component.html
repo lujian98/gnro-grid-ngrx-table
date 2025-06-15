@@ -1,11 +1,11 @@
 @for (item of items; track $index; let index = $index) {
-  <icc-layout [ngStyle]="{ flex: getLayoutFlex(item) }">
-    <icc-layout-header>{{ item.title }}</icc-layout-header>
+  <gnro-layout [ngStyle]="{ flex: getLayoutFlex(item) }">
+    <gnro-layout-header>{{ item.title }}</gnro-layout-header>
 
-    <icc-layout-horizontal *ngIf="item?.expanded">
+    <gnro-layout-horizontal *ngIf="item?.expanded">
       @for (item of items; track item; let index = $index) {
         <div>{{ item.content }}</div>
       }
-    </icc-layout-horizontal>
-  </icc-layout>
+    </gnro-layout-horizontal>
+  </gnro-layout>
 }

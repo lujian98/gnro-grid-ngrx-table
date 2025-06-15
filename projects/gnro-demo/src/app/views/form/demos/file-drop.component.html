@@ -1,14 +1,14 @@
-<h2>icc-file-drop-example</h2>
+<h2>gnro-file-drop-example</h2>
 <div class="w-50">
   <div class="pb-2"><input type="checkbox" [checked]="checked" (change)="onChange($event)" /> Enabled?</div>
   <div class="pb-2">
-    <icc-file-drop
+    <gnro-file-drop
       [accept]="'*'"
       [dropZoneClassName]="className"
       [disabled]="!checked"
       [multiple]="true"
       (onFileDrop)="dropped($event)"
-      >Test</icc-file-drop
+      >Test</gnro-file-drop
     >
   </div>
   <div class="pb-2">

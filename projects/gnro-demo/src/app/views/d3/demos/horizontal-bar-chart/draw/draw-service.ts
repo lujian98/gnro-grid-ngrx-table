@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { IccDrawServie } from '@icc/ui/d3';
+import { GnroDrawServie } from '@gnro/ui/d3';
 import { AppHorizontalBarChart } from './horizontal-bar-chart';
 
 @Injectable()
-export class AppDrawServie<T> extends IccDrawServie<T> {
+export class AppDrawServie<T> extends GnroDrawServie<T> {
   constructor() {
     super();
     Object.assign(this.componentMapper, {

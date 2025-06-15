@@ -1,6 +1,6 @@
-import { IccMenuConfig } from '@icc/ui/menu';
+import { GnroMenuConfig } from '@gnro/ui/menu';
 
-export const MockMenuItems: IccMenuConfig = {
+export const MockMenuItems: GnroMenuConfig = {
   icon: 'ellipsis-v',
   name: 'group0',
   children: [

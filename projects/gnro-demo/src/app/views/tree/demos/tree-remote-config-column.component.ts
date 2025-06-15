@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { IccTreeComponent, IccTreeNode, defaultTreeConfig, IccTreeConfig } from '@icc/ui/tree';
+import { GnroTreeComponent, GnroTreeNode, defaultTreeConfig, GnroTreeConfig } from '@gnro/ui/tree';
 
-interface NestedFoodNode extends IccTreeNode<NestedFoodNode> {
+interface NestedFoodNode extends GnroTreeNode<NestedFoodNode> {
   name: string;
   vin?: string;
   year?: string;
@@ -36,17 +36,17 @@ const NESTED_DATA: NestedFoodNode[] = [
 
 @Component({
   selector: 'app-tree-remote-config-column',
-  template: `<icc-tree [treeConfig]="treeConfig" [treeData]="treeData"></icc-tree>`,
+  template: `<gnro-tree [treeConfig]="treeConfig" [treeData]="treeData"></gnro-tree>`,
   styles: [':host {  display: flex; width: 100%; }'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IccTreeComponent],
+  imports: [CommonModule, GnroTreeComponent],
 })
 export class AppTreeRemoteConfigColumnComponent {
-  treeConfig: IccTreeConfig = {
+  treeConfig: GnroTreeConfig = {
     ...defaultTreeConfig,
     urlKey: 'MET',
     remoteGridConfig: true,
   };
 
-  treeData: IccTreeNode<NestedFoodNode>[] = NESTED_DATA;
+  treeData: GnroTreeNode<NestedFoodNode>[] = NESTED_DATA;
 }

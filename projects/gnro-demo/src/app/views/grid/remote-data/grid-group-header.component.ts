@@ -1,16 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { IccColumnConfig, IccGridConfig, IccGridComponent, defaultGridConfig, IccGroupHeader } from '@icc/ui/grid';
+import { GnroColumnConfig, GnroGridConfig, GnroGridComponent, defaultGridConfig, GnroGroupHeader } from '@gnro/ui/grid';
 
 @Component({
   selector: 'app-grid-group-header',
-  template: `<icc-grid [gridConfig]="gridConfig" [columnsConfig]="columnsConfig"></icc-grid>`,
+  template: `<gnro-grid [gridConfig]="gridConfig" [columnsConfig]="columnsConfig"></gnro-grid>`,
   styles: [':host {  display: flex; width: 100%; }'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IccGridComponent],
+  imports: [CommonModule, GnroGridComponent],
 })
 export class AppGridGroupHeaderComponent {
-  gridConfig: IccGridConfig = {
+  gridConfig: GnroGridConfig = {
     ...defaultGridConfig,
     urlKey: 'DCR',
     rowSelection: true,
@@ -25,16 +25,16 @@ export class AppGridGroupHeaderComponent {
     remoteGridData: true,
   };
 
-  private vehicleGroupHeader: IccGroupHeader = {
+  private vehicleGroupHeader: GnroGroupHeader = {
     name: 'vehiclegroup',
     title: 'Vehicle Information',
   };
-  private valueGroupHeader: IccGroupHeader = {
+  private valueGroupHeader: GnroGroupHeader = {
     name: 'valuegroup',
     title: 'Value Information',
   };
 
-  columnsConfig: IccColumnConfig[] = [
+  columnsConfig: GnroColumnConfig[] = [
     {
       name: 'ID',
       width: 50,

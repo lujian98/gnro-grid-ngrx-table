@@ -1,18 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { IccI18nService, IccLanguage, IccButtonConfg, IccTasksService } from '@icc/ui/core';
-import { IccSelectFieldComponent } from '@icc/ui/fields';
-import { IccButtonComponent } from '@icc/ui/button';
+import { GnroI18nService, GnroLanguage, GnroButtonConfg, GnroTasksService } from '@gnro/ui/core';
+import { GnroSelectFieldComponent } from '@gnro/ui/fields';
+import { GnroButtonComponent } from '@gnro/ui/button';
 
 import {
-  IccLayoutComponent,
-  IccLayoutHeaderComponent,
-  IccLayoutHeaderEndComponent,
-  IccLayoutFooterComponent,
-} from '@icc/ui/layout';
+  GnroLayoutComponent,
+  GnroLayoutHeaderComponent,
+  GnroLayoutHeaderEndComponent,
+  GnroLayoutFooterComponent,
+} from '@gnro/ui/layout';
 
-import { IccThemeService } from '@icc/ui/theme';
+import { GnroThemeService } from '@gnro/ui/theme';
 
 @Component({
   selector: 'app-root',
@@ -22,20 +22,20 @@ import { IccThemeService } from '@icc/ui/theme';
   imports: [
     CommonModule,
     RouterModule,
-    IccSelectFieldComponent,
-    IccLayoutComponent,
-    IccLayoutHeaderComponent,
-    IccLayoutHeaderEndComponent,
-    IccLayoutFooterComponent,
-    IccButtonComponent,
+    GnroSelectFieldComponent,
+    GnroLayoutComponent,
+    GnroLayoutHeaderComponent,
+    GnroLayoutHeaderEndComponent,
+    GnroLayoutFooterComponent,
+    GnroButtonComponent,
   ],
 })
 export class AppComponent implements OnInit {
-  themeService = inject(IccThemeService);
-  private tasksService = inject(IccTasksService);
-  title = 'ICC Demo';
+  themeService = inject(GnroThemeService);
+  private tasksService = inject(GnroTasksService);
+  title = 'GNRO Demo';
 
-  buttons: IccButtonConfg[] = [
+  buttons: GnroButtonConfg[] = [
     { name: 'Dashboard', link: 'dashboard' },
     { name: 'Grid', link: 'grid' },
     { name: 'Tree', link: 'tree' },
@@ -51,7 +51,7 @@ export class AppComponent implements OnInit {
 
   rangeValue = this.themeService.rangeMax;
 
-  i18nService = inject(IccI18nService);
+  i18nService = inject(GnroI18nService);
   langSelectionConfig = {
     fieldName: 'language',
     optionLabel: 'name',
@@ -73,7 +73,7 @@ export class AppComponent implements OnInit {
     this.themeService.setBackgroundColor(value);
   }
 
-  setLang(selected: IccLanguage): void {
+  setLang(selected: GnroLanguage): void {
     this.i18nService.setLang(selected);
   }
 }

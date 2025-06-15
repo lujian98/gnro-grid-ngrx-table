@@ -1,13 +1,13 @@
-<icc-layout-horizontal [resizeable]="true">
-  <icc-layout-left>
-    <icc-accordion [items]="items" (iccMenuItemClick)="onMenuItemClick($event)"></icc-accordion>
-  </icc-layout-left>
+<gnro-layout-horizontal [resizeable]="true">
+  <gnro-layout-left>
+    <gnro-accordion [items]="items" (gnroMenuItemClick)="onMenuItemClick($event)"></gnro-accordion>
+  </gnro-layout-left>
 
-  <icc-layout-center>
+  <gnro-layout-center>
     @if (useRouterLink) {
       <router-outlet></router-outlet>
     } @else {
-      <icc-tabs [tabsConfig]="tabsConfig" [tabs]="tabs" [options]="options"> </icc-tabs>
+      <gnro-tabs [tabsConfig]="tabsConfig" [tabs]="tabs" [options]="options"> </gnro-tabs>
     }
-  </icc-layout-center>
-</icc-layout-horizontal>
+  </gnro-layout-center>
+</gnro-layout-horizontal>

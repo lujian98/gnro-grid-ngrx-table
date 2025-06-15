@@ -1,19 +1,19 @@
-<icc-window [windowConfig]="windowConfig">
-  <icc-layout [resizeable]="false" style="padding: 1px">
-    <icc-layout-header
+<gnro-window [windowConfig]="windowConfig">
+  <gnro-layout [resizeable]="false" style="padding: 1px">
+    <gnro-layout-header
       >Header
 
-      <button icc-button (click)="close()">Close</button>
-    </icc-layout-header>
+      <button gnro-button (click)="close()">Close</button>
+    </gnro-layout-header>
 
-    <icc-layout-horizontal [resizeable]="false">
-      <icc-layout-left> </icc-layout-left>
+    <gnro-layout-horizontal [resizeable]="false">
+      <gnro-layout-left> </gnro-layout-left>
 
-      <icc-layout-center> Horizontal Layout With header and footer panels </icc-layout-center>
+      <gnro-layout-center> Horizontal Layout With header and footer panels </gnro-layout-center>
 
-      <icc-layout-right> </icc-layout-right>
-    </icc-layout-horizontal>
+      <gnro-layout-right> </gnro-layout-right>
+    </gnro-layout-horizontal>
 
-    <icc-layout-footer> Footer </icc-layout-footer>
-  </icc-layout>
-</icc-window>
+    <gnro-layout-footer> Footer </gnro-layout-footer>
+  </gnro-layout>
+</gnro-window>

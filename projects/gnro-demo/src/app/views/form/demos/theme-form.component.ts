@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { IccFormField } from '@icc/ui/fields';
-import { IccFormComponent } from '@icc/ui/form';
+import { GnroFormField } from '@gnro/ui/fields';
+import { GnroFormComponent } from '@gnro/ui/form';
 import { STATES } from '../../../data/states';
 
 @Component({
@@ -10,14 +10,14 @@ import { STATES } from '../../../data/states';
   templateUrl: './theme-form.component.html',
   styleUrls: ['./theme-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IccFormComponent, ReactiveFormsModule],
+  imports: [CommonModule, GnroFormComponent, ReactiveFormsModule],
 })
 export class AppThemeFormDemoComponent {
   formConfig = {
     labelWidth: 100,
   };
 
-  fieldSet: IccFormField[] = [
+  fieldSet: GnroFormField[] = [
     {
       fieldType: 'text',
       fieldName: 'userName',
@@ -55,7 +55,7 @@ export class AppThemeFormDemoComponent {
       placeholder: 'Select One or More...',
     },
     {
-      fieldType: IccObjectType.RadioGroup,
+      fieldType: GnroObjectType.RadioGroup,
       fieldName: 'group1',
       fieldLabel: 'Radio Group',
       required: true,
@@ -75,7 +75,7 @@ export class AppThemeFormDemoComponent {
       ],
     },
     {
-      fieldType: IccObjectType.UploadFile,
+      fieldType: GnroObjectType.UploadFile,
       fieldName: 'uploadfile',
       fieldLabel: 'Upload File',
       required: true,

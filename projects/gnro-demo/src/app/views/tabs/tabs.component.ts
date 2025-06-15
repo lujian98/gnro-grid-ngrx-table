@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { IccAccordion, IccAccordionComponent } from '@icc/ui/accordion';
-import { IccLayoutCenterComponent, IccLayoutHorizontalComponent, IccLayoutLeftComponent } from '@icc/ui/layout';
+import { GnroAccordion, GnroAccordionComponent } from '@gnro/ui/accordion';
+import { GnroLayoutCenterComponent, GnroLayoutHorizontalComponent, GnroLayoutLeftComponent } from '@gnro/ui/layout';
 import { take, timer } from 'rxjs';
-import { IccMenuConfig } from '@icc/ui/menu';
-import { IccTabConfig, IccTabsComponent, IccTabsConfig, IccTabOption } from '@icc/ui/tabs';
+import { GnroMenuConfig } from '@gnro/ui/menu';
+import { GnroTabConfig, GnroTabsComponent, GnroTabsConfig, GnroTabOption } from '@gnro/ui/tabs';
 import { AppStockChartComponent } from '../d3/demos/stock-charts/stock-chart.component';
 import { PortalDemoComponent } from '../dashboard/demos/portal-demo/portal-demo.component';
 import { PortalDemo2Component } from '../dashboard/demos/portal-demo2/portal-demo2.component';
@@ -20,11 +20,11 @@ import { AppGridRemoteVirtualScrollComponent } from '../grid/remote-data/grid-vi
   imports: [
     CommonModule,
     RouterModule,
-    IccLayoutHorizontalComponent,
-    IccLayoutLeftComponent,
-    IccLayoutCenterComponent,
-    IccAccordionComponent,
-    IccTabsComponent,
+    GnroLayoutHorizontalComponent,
+    GnroLayoutLeftComponent,
+    GnroLayoutCenterComponent,
+    GnroAccordionComponent,
+    GnroTabsComponent,
   ],
 })
 export class AppTabsComponent {
@@ -38,7 +38,7 @@ export class AppTabsComponent {
     skills: [12, 13, 14, 15, 16],
   };
 
-  tabMenus: IccTabConfig[] = [
+  tabMenus: GnroTabConfig[] = [
     {
       name: 'grid-selection1',
       portalName: 'grid-multi-row-selection',
@@ -61,7 +61,7 @@ export class AppTabsComponent {
     { name: 'seven' },
   ];
 
-  items: IccAccordion[] = [
+  items: GnroAccordion[] = [
     {
       name: 'Tabs Panel Demo',
       items: this.tabMenus,
@@ -77,12 +77,12 @@ export class AppTabsComponent {
     },
   ];
 
-  tabsConfig: Partial<IccTabsConfig> = {
+  tabsConfig: Partial<GnroTabsConfig> = {
     enableContextMenu: true,
     selectedTabIndex: 1,
   };
 
-  options: IccTabOption<unknown>[] = [
+  options: GnroTabOption<unknown>[] = [
     {
       name: 'grid-multi-row-selection',
       content: AppGridMultiRowSelectionComponent,
@@ -114,15 +114,15 @@ export class AppTabsComponent {
     },
   ];
 
-  tabs: IccTabConfig[] = this.options.map((option) => {
+  tabs: GnroTabConfig[] = this.options.map((option) => {
     const find = this.tabMenus.find((item) => item.portalName === option.name);
     return { ...option, ...find };
   });
 
-  @ViewChild(IccTabsComponent, { static: false }) tabsPanel!: IccTabsComponent;
+  @ViewChild(GnroTabsComponent, { static: false }) tabsPanel!: GnroTabsComponent;
 
-  onMenuItemClick(item: IccTabConfig | IccMenuConfig): void {
-    if ((item as IccMenuConfig).link) {
+  onMenuItemClick(item: GnroTabConfig | GnroMenuConfig): void {
+    if ((item as GnroMenuConfig).link) {
       this.useRouterLink = true;
     } else {
       this.useRouterLink = false;

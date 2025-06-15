@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IccFormComponent, defaultFormConfig } from '@icc/ui/form';
-import { IccFormField, IccFieldsetConfig } from '@icc/ui/fields';
+import { GnroFormComponent, defaultFormConfig } from '@gnro/ui/form';
+import { GnroFormField, GnroFieldsetConfig } from '@gnro/ui/fields';
 
 @Component({
   selector: 'app-simple-form',
   templateUrl: './simple-form.component.html',
   styleUrls: ['./simple-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IccFormComponent],
+  imports: [CommonModule, GnroFormComponent],
 })
 export class AppSimpleFromDemoComponent {
   formConfig = {
@@ -35,7 +35,7 @@ export class AppSimpleFromDemoComponent {
     remoteFormConfig: true,
   };
 
-  formFields: IccFormField[] = [
+  formFields: GnroFormField[] = [
     {
       fieldType: 'text',
       fieldName: 'userName',
@@ -48,7 +48,7 @@ export class AppSimpleFromDemoComponent {
     },
   ];
 
-  fieldSet1: IccFormField[] = [
+  fieldSet1: GnroFormField[] = [
     {
       fieldType: 'fieldset',
       fieldName: 'test',
@@ -70,7 +70,7 @@ export class AppSimpleFromDemoComponent {
     email: 'test@email.com',
   };
 
-  fieldSet2: IccFormField[] = [
+  fieldSet2: GnroFormField[] = [
     {
       fieldType: 'fieldset',
       fieldName: 'test',

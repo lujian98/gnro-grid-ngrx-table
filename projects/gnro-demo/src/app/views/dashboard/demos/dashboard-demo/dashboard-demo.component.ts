@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { IccDashboardComponent, IccTile, IccTileOption, defaultDashboardConfig } from '@icc/ui/dashboard';
+import { GnroDashboardComponent, GnroTile, GnroTileOption, defaultDashboardConfig } from '@gnro/ui/dashboard';
 import { AppStockChartComponent } from '../../../d3/demos/stock-charts/stock-chart.component';
 import { AppGridMultiRowSelectionComponent } from '../../../grid/remote-data/grid-multi-row-selection.component';
 import { AppGridRemoteVirtualScrollComponent } from '../../../grid/remote-data/grid-virtual-scroll.component';
@@ -12,12 +12,12 @@ import { PortalDemo2Component } from '../portal-demo2/portal-demo2.component';
   templateUrl: './dashboard-demo.component.html',
   styleUrls: ['./dashboard-demo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IccDashboardComponent],
+  imports: [CommonModule, GnroDashboardComponent],
 })
 export class AppDashboardDemoComponent implements OnInit {
   config = defaultDashboardConfig;
-  tiles: IccTile<any>[] = [];
-  tileOptions: IccTileOption<unknown>[] = [
+  tiles: GnroTile<any>[] = [];
+  tileOptions: GnroTileOption<unknown>[] = [
     {
       name: 'stock-chart',
       content: AppStockChartComponent,
