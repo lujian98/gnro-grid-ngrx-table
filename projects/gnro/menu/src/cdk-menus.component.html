@@ -1,0 +1,48 @@
+<!-- Use form due to the use checkbox in the menu item -->
+<form cdkMenu [formGroup]="form()">
+  @for (item of items$(); track $index; let index = $index) {
+    <div class="gnro-menu-row">
+      @if (isLeafMenu(item)) {
+        <gnro-menu-item
+          gnroMenuItem
+          [keepOpen]="!!item.keepOpen"
+          [disabled]="getDisabled(item)"
+          [form]="form()"
+          [menuItem]="item"
+          (gnroMenuItemClick)="menuItemClick($event)"
+        >
+        </gnro-menu-item>
+      } @else if (hasChildItem(item) && level() === 0) {
+        <span gnroMenuItem [cdkMenuTriggerFor]="menu">
+          @if (item.icon) {
+            <gnro-icon [config]="item.icon"></gnro-icon>
+          }
+          <span class="gnro-menu-item-title"> {{ item.title }}</span>
+        </span>
+      } @else if (hasChildItem(item) && level() > 0) {
+        <gnro-menu-item
+          gnroMenuItem
+          [keepOpen]="!!item.keepOpen"
+          [cdkMenuTriggerFor]="menu"
+          [disabled]="getDisabled(item)"
+          [form]="form()"
+          [menuItem]="item"
+          (gnroMenuItemClick)="menuItemClick($event)"
+        >
+        </gnro-menu-item>
+      }
+      <ng-template #menu>
+        <cdk-menus
+          [form]="form()"
+          class="gnro-menus-sub-level"
+          [items]="item.children!"
+          [values]="values$()"
+          [disabled]="disabled()"
+          [level]="level() + 1"
+          (gnroMenuItemClick)="menuItemClick($event)"
+        >
+        </cdk-menus>
+      </ng-template>
+    </div>
+  }
+</form>

@@ -1,0 +1,66 @@
+:host {
+  display: flex;
+  height: 28px;
+  width: 100%;
+  align-items: center;
+
+  .gnro-menu-item {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 5px;
+
+    .gnro-menu-title {
+      margin-right: auto;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  gnro-checkbox {
+    width: 100%;
+  }
+  ::ng-deep {
+    .gnro-form-field .gnro-form-field-flex {
+      padding-left: 0px;
+    }
+
+    .gnro-form-field-wrapper .gnro-form-field-container {
+      background-color: unset;
+    }
+  }
+
+  .gnro-menu-title,
+  a {
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+    white-space: nowrap;
+  }
+
+  &.disabled {
+    .gnro-menu-title,
+    .gnro-menu-icon {
+      opacity: 0.5;
+    }
+
+    .gnro-menu-item {
+      &:hover {
+        cursor: default;
+      }
+    }
+  }
+
+  a {
+    width: 100%;
+    border: none;
+  }
+}
+
+:-webkit-any-link {
+  color: inherit;
+  text-decoration: none;
+}

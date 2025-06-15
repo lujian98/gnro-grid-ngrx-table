@@ -1,0 +1,33 @@
+@use "../../theme/src/gnro";
+
+@mixin gnro-menu-theme() {
+  gnro-menus,
+  cdk-menus {
+    .gnro-menu-row:nth-child(odd) {
+      background-color: gnro.gnro-theme(gnro-grid-row-odd-background-color);
+    }
+
+    .gnro-menu-row:nth-child(even) {
+      background-color: gnro.gnro-theme(gnro-grid-row-even-background-color);
+    }
+  }
+
+  gnro-menu-item {
+    align-items: center;
+    color: gnro.gnro-theme(app-text-basic-color);
+
+    &:focus,
+    &:hover {
+      background-color: gnro.gnro-theme(gnro-menu-item-hover-background-color);
+    }
+
+    &.selected {
+      background-color: gnro.gnro-theme(gnro-menu-item-selected-background-color);
+      font-weight: bold;
+    }
+
+    &:last-child {
+      border-bottom: solid 1px gnro.gnro-theme(app-border-basic-color);
+    }
+  }
+}

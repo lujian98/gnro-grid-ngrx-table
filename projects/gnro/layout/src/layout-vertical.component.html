@@ -1,0 +1,34 @@
+<ng-content select="gnro-layout-top"></ng-content>
+<ng-content></ng-content>
+@if (resizeable()) {
+  <ng-container #contentResizeTopBottom></ng-container>
+}
+<ng-content select="gnro-layout-middle"></ng-content>
+@if (resizeable()) {
+  <ng-container #contentResizeBottomTop></ng-container>
+}
+<ng-content select="gnro-layout-bottom"></ng-content>
+
+<ng-template #tplResizeTopBottom>
+  <div
+    class="gnro-vertical-resize-top"
+    GnroResizeTopBottom
+    gnroResize
+    [direction]="resizeType.TOP_BOTTOM"
+    [elementKey]="elementKey"
+    (gnroResizeEvent)="onResizePanel($event)"
+    (dblclick)="togglePanel('top')"
+  ></div>
+</ng-template>
+
+<ng-template #tplResizeBottomTop>
+  <div
+    class="gnro-vertical-resize-bottom"
+    GnroResizeBottomTop
+    gnroResize
+    [direction]="resizeType.BOTTOM_TOP"
+    [elementKey]="elementKey"
+    (gnroResizeEvent)="onResizePanel($event)"
+    (dblclick)="togglePanel('bottom')"
+  ></div>
+</ng-template>

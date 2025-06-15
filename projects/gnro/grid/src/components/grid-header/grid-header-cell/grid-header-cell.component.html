@@ -1,0 +1,18 @@
+<div class="grid-header-cell" (click)="headCellClick($event)">
+  <div class="grid-header-cell-title">{{ title | translate }}</div>
+
+  @if (gridConfig().columnSort && isSortField) {
+    @if (sortDir === "asc") {
+      <div class="grid-header-cell-sort"><gnro-icon config="caret-up"></gnro-icon></div>
+    }
+    @if (sortDir === "desc") {
+      <div class="grid-header-cell-sort"><gnro-icon config="caret-down"></gnro-icon></div>
+    }
+  }
+
+  @if (gridConfig().columnMenu) {
+    <div class="grid-header-cell-menu" (click)="onClickColumnMenu($event)">
+      <gnro-icon config="ellipsis-v"></gnro-icon>
+    </div>
+  }
+</div>

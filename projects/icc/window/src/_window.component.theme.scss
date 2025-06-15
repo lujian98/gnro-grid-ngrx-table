@@ -1,9 +1,0 @@
-@use "../../theme/src/icc";
-
-@mixin icc-window-theme() {
-  icc-window {
-    .icc-dragable-window {
-      border: solid 1px icc.icc-theme(app-border-basic-color);
-    }
-  }
-}

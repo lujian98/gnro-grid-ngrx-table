@@ -1,0 +1,35 @@
+@if (form()) {
+  <gnro-form-field
+    [formGroup]="form()"
+    [style.display]="hidden ? 'none' : 'inherit'"
+    [gnroLabelWidth]="fieldConfig().labelWidth"
+    [gnroFieldWidth]="fieldConfig().fieldWidth"
+    [gnroFormFieldControl]="field"
+    [showFieldEditIndicator]="showFieldEditIndicator()"
+  >
+    @if (fieldConfig().fieldLabel !== undefined) {
+      <gnro-label>{{ fieldConfig().fieldLabel! | translate }}</gnro-label>
+    }
+    <input
+      #calendarInput
+      class="gnro-date-field-input"
+      type="text"
+      gnroInput
+      [value]="display"
+      (click)="openCalendar()"
+      [placeholder]="fieldConfig().placeholder! | translate"
+      [disabled]="field.disabled"
+      [required]="required"
+      readonly
+    />
+    <button gnroSuffix gnro-button [ghost]="true" [disabled]="field.disabled" (click)="openCalendar()">
+      <gnro-icon icon="calendar"></gnro-icon>
+    </button>
+    @if (fieldConfig().clearValue && hasValue) {
+      <gnro-icon icon="remove" gnroSuffix (click)="clearValue()"></gnro-icon>
+    }
+    @if (field && (field.touched || field.dirty) && field.errors) {
+      <gnro-form-field-errors><gnro-field-errors [errors]="field!.errors!"></gnro-field-errors></gnro-form-field-errors>
+    }
+  </gnro-form-field>
+}

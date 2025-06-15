@@ -1,0 +1,25 @@
+:host {
+  display: flex;
+  width: 100%;
+  align-items: center;
+
+  gnro-date-field {
+    width: 100%;
+    ::ng-deep {
+      .gnro-form-field {
+        padding: 0px;
+        line-height: 20px;
+      }
+      .gnro-form-field-suffix {
+        height: 20px;
+      }
+      .gnro-form-field-container {
+        border-bottom: none;
+        padding-right: 0px;
+      }
+      input {
+        width: 100%;
+      }
+    }
+  }
+}

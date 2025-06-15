@@ -1,0 +1,9 @@
+@use "../../theme/src/gnro";
+
+@mixin gnro-window-theme() {
+  gnro-window {
+    .gnro-dragable-window {
+      border: solid 1px gnro.gnro-theme(app-border-basic-color);
+    }
+  }
+}

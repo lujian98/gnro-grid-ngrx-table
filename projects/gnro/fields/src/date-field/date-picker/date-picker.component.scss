@@ -1,0 +1,16 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+
+  ::ng-deep gnro-calendar {
+    height: 320px;
+  }
+
+  gnro-layout-footer-start {
+    width: 180px;
+    ::ng-deep .gnro-form-field-container {
+      background-color: unset;
+    }
+  }
+}

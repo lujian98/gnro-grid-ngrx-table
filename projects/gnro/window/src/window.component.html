@@ -1,0 +1,89 @@
+<div
+  class="gnro-dragable-window"
+  cdkDragBoundary=".cdk-overlay-container"
+  cdkDrag
+  [cdkDragDisabled]="windowConfig().dragDisabled"
+  (cdkDragEnded)="dragEnded($event)"
+>
+  @if (windowConfig().showHeader) {
+    <gnro-layout-header [title]="windowConfig().title" cdkDragHandle>
+      @if (windowConfig().maximizable && isMaxWindowSize) {
+        <button gnro-button [ghost]="true" (click)="restore()">
+          <gnro-icon icon="window-restore"></gnro-icon>&nbsp;
+        </button>
+      }
+      @if (windowConfig().maximizable && !isMaxWindowSize) {
+        <button gnro-button [ghost]="true" (click)="maximize()"><gnro-icon icon="expand"></gnro-icon>&nbsp;</button>
+      }
+      @if (windowConfig().closable) {
+        <button gnro-button [ghost]="true" (click)="close()"><gnro-icon icon="close"></gnro-icon>&nbsp;</button>
+      }
+    </gnro-layout-header>
+  }
+
+  <ng-content></ng-content>
+
+  @if (windowConfig().resizeable) {
+    <div
+      GnroResizeTop
+      gnroResize
+      [direction]="resizeType.TOP"
+      [elementKey]="elementKey"
+      (gnroResizeEvent)="onResizePanel($event)"
+    ></div>
+
+    <div
+      GnroResizeRight
+      gnroResize
+      [direction]="resizeType.RIGHT"
+      [elementKey]="elementKey"
+      (gnroResizeEvent)="onResizePanel($event)"
+    ></div>
+    <div
+      GnroResizeBottom
+      gnroResize
+      [direction]="resizeType.BOTTOM"
+      [elementKey]="elementKey"
+      (gnroResizeEvent)="onResizePanel($event)"
+    ></div>
+
+    <div
+      GnroResizeLeft
+      gnroResize
+      [direction]="resizeType.LEFT"
+      [elementKey]="elementKey"
+      (gnroResizeEvent)="onResizePanel($event)"
+    ></div>
+    <div
+      GnroResizeTopLeft
+      gnroResize
+      [direction]="resizeType.TOP_LEFT"
+      [elementKey]="elementKey"
+      (gnroResizeEvent)="onResizePanel($event)"
+    ></div>
+
+    <div
+      GnroResizeTopRight
+      gnroResize
+      [direction]="resizeType.TOP_RIGHT"
+      [elementKey]="elementKey"
+      (gnroResizeEvent)="onResizePanel($event)"
+    ></div>
+
+    <div
+      GnroResizeBottomRight
+      gnroResize
+      [direction]="resizeType.BOTTOM_RIGHT"
+      [elementKey]="elementKey"
+      (gnroResizeEvent)="onResizePanel($event)"
+    ></div>
+
+    <div
+      GnroResizeBottomLeft
+      gnroResize
+      [direction]="resizeType.BOTTOM_LEFT"
+      [elementKey]="elementKey"
+      (gnroResizeEvent)="onResizePanel($event)"
+    ></div>
+  }
+</div>

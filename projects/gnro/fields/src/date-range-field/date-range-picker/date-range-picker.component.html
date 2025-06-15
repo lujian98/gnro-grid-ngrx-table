@@ -1,0 +1,46 @@
+<gnro-layout [@transformPickerOverlay]="shouldAnimate">
+  <div class="gnro-date-range-calendar-container">
+    @if (fromCalendarConfig) {
+      <gnro-calendar
+        [calendarConfig]="fromCalendarConfig"
+        [selectedDate]="fromDate"
+        [selectedRangeDates]="selectedRangeDates"
+        (monthViewChange)="fromMonthViewChange($event)"
+        (selectedDateChange)="updateFromDate($event)"
+      >
+      </gnro-calendar>
+    }
+
+    @if (toCalendarConfig) {
+      <gnro-calendar
+        [calendarConfig]="toCalendarConfig"
+        [selectedDate]="toDate"
+        [selectedRangeDates]="selectedRangeDates"
+        (monthViewChange)="toMonthViewChange($event)"
+        (selectedDateChange)="updateToDate($event)"
+      >
+      </gnro-calendar>
+    }
+  </div>
+
+  <gnro-layout-footer>
+    <gnro-layout-footer-start></gnro-layout-footer-start>
+    <gnro-layout-footer-center>
+      <gnro-select-field
+        [fieldConfig]="presetSelectionConfig"
+        [options]="presets"
+        [showFieldEditIndicator]="false"
+        (valueChange)="updateRangeByPreset($event)"
+      ></gnro-select-field>
+    </gnro-layout-footer-center>
+
+    <gnro-layout-footer-end>
+      <button gnro-button (click)="applyNewDates($event)">
+        <span translate>{{ "GNRO.UI.ACTIONS.APPLY" }}</span>
+      </button>
+      <button gnro-button (click)="discardNewDates($event)">
+        <span translate>{{ "GNRO.UI.ACTIONS.CANCEL" }}</span>
+      </button>
+    </gnro-layout-footer-end>
+  </gnro-layout-footer>
+</gnro-layout>

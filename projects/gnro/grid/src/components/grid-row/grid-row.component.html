@@ -1,0 +1,33 @@
+@if (gridConfig().rowSelection) {
+  <gnro-grid-cell
+    class="gnro-grid-cell-row-select"
+    [style.height]="gridConfig().rowHeight + 'px'"
+    [style.flex]="'0 0 ' + selectColumnWidth"
+  >
+    <gnro-row-select [selected]="selected()"> </gnro-row-select>
+  </gnro-grid-cell>
+}
+
+@for (column of columns(); track $index; let index = $index) {
+  @if (!column.hidden) {
+    <gnro-grid-cell
+      [style.height]="gridConfig().rowHeight + 'px'"
+      [style.flex]="'0 0 ' + getColumnWidth(column)"
+      [style.max-width]="getColumnWidth(column)"
+    >
+      @if (!isCellEditable(column)) {
+        <gnro-grid-cell-view [gridConfig]="gridConfig()" [rowIndex]="rowIndex()" [column]="column" [record]="record()">
+        </gnro-grid-cell-view>
+      } @else {
+        <gnro-grid-cell-edit
+          [gridConfig]="gridConfig()"
+          [gridSetting]="gridSetting()"
+          [rowIndex]="rowIndex()"
+          [column]="column"
+          [record]="record()"
+        >
+        </gnro-grid-cell-edit>
+      }
+    </gnro-grid-cell>
+  }
+}

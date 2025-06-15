@@ -1,0 +1,45 @@
+:host {
+  display: flex;
+  width: 100%;
+  padding-left: 10px;
+  align-items: center;
+
+  &.draggable {
+    cursor: move;
+  }
+
+  .grid-header-cell {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    align-items: center;
+
+    .grid-header-cell-title {
+      display: inline-block;
+      cursor: default;
+      font-size: 13px;
+      font-weight: 600;
+      padding-right: 6px;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .grid-header-cell-sort {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: default;
+    }
+  }
+
+  .grid-header-cell-menu {
+    margin-left: auto;
+    cursor: default;
+    gnro-icon {
+      width: 20px;
+      text-align: center;
+    }
+  }
+}

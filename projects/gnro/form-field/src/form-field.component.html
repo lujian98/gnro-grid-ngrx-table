@@ -1,0 +1,27 @@
+<div class="gnro-form-field">
+  <div class="gnro-form-field-flex">
+    <label class="gnro-form-field-label" #label>
+      @if (required) {
+        <span class="gnro-form-field-required-marker"></span>
+      }
+      <ng-content select="gnro-label"></ng-content>:
+    </label>
+    <div class="gnro-form-field-wrapper" [style.width]="fieldWidth">
+      <div class="gnro-form-field-container {{ fieldIndicator }}">
+        <div class="gnro-form-field-infix" (mouseenter)="onMouseenter()" (mouseleave)="onMouseleave()">
+          <ng-content></ng-content>
+        </div>
+        <div class="gnro-form-field-suffix" [class.gnro-form-field-suffix-focus]="focused">
+          <ng-content select="[gnroSuffix]"></ng-content>
+        </div>
+      </div>
+
+      <div class="gnro-form-field-error">
+        <ng-content select="gnro-form-field-errors"></ng-content>
+      </div>
+      <div class="gnro-form-field-hint">
+        <ng-content select="gnro-hint"></ng-content>
+      </div>
+    </div>
+  </div>
+</div>

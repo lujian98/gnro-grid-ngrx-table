@@ -1,0 +1,18 @@
+@use "../../theme/src/gnro";
+
+@mixin gnro-accordion-theme() {
+  gnro-accordion {
+    gnro-layout-header {
+      border-bottom: 1px solid gnro.gnro-theme(app-border-basic-color);
+      &:focus,
+      &:hover {
+        background-color: gnro.gnro-theme(gnro-accordion-item-hover-background-color);
+      }
+    }
+
+    .gnro-accordion-item-expanded {
+      font-weight: bold;
+      border-bottom: unset;
+    }
+  }
+}

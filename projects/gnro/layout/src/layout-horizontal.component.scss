@@ -1,0 +1,33 @@
+:host {
+  display: flex;
+  flex-direction: row;
+  flex: 1 1 auto;
+  overflow: hidden;
+
+  ::ng-deep {
+    gnro-layout-left {
+      display: flex;
+      flex: 0 0 250px;
+      position: relative;
+      z-index: 1;
+      min-width: 20px;
+      height: -webkit-fill-available;
+    }
+
+    gnro-layout-center {
+      display: flex;
+      flex: 1 1 auto;
+      min-width: 50px;
+      height: -webkit-fill-available;
+    }
+
+    gnro-layout-right {
+      display: flex;
+      flex: 0 0 250px;
+      position: relative;
+      z-index: 1;
+      min-width: 20px;
+      height: -webkit-fill-available;
+    }
+  }
+}

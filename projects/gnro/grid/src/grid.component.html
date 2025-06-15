@@ -1,0 +1,20 @@
+@if (gridConfig$()) {
+  <gnro-layout>
+    @if (!gridConfig$().hideTopbar) {
+      <gnro-layout-header [buttons]="buttons$()" (gnroButtonClick)="buttonClick($event)"> </gnro-layout-header>
+    }
+
+    <gnro-grid-view
+      [gridConfig]="gridConfig$()"
+      [gridSetting]="gridSetting$()"
+      [columns]="columnsConfig$()"
+      [gridData]="gridData$()"
+      [gnroSpinner]="gridSetting$().loading"
+    >
+    </gnro-grid-view>
+
+    @if (!gridConfig$().hideGridFooter) {
+      <gnro-grid-footer [gridSetting]="gridSetting$()" [gridConfig]="gridConfig$()"> </gnro-grid-footer>
+    }
+  </gnro-layout>
+}

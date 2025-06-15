@@ -1,5 +1,0 @@
-@use "./_theming" as icc;
-
-@include icc.icc-install() {
-  @include icc.icc-theme-components();
-}

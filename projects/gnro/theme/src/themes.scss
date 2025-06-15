@@ -1,0 +1,5 @@
+@use "./_theming" as gnro;
+
+@include gnro.gnro-install() {
+  @include gnro.gnro-theme-components();
+}

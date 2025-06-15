@@ -1,0 +1,5 @@
+@if (form()) {
+  <gnro-form-field [formGroup]="form()">
+    <input gnroInput type="hidden" [formControlName]="fieldConfig().fieldName!" />
+  </gnro-form-field>
+}

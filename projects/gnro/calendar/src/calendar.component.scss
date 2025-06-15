@@ -1,0 +1,29 @@
+:host {
+  display: flex;
+  flex-direction: column;
+
+  .gnro-calendar-selected-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 24px;
+
+    .gnro-calendar-selected-label {
+      font-weight: bold;
+    }
+
+    .gnro-calendar-selected-date {
+      padding-left: 5px;
+    }
+  }
+
+  ::ng-deep mat-calendar-header {
+    .mat-calendar-header {
+      padding: 0px 8px;
+
+      .mat-calendar-controls {
+        margin: 0px;
+      }
+    }
+  }
+}

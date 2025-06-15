@@ -1,0 +1,21 @@
+@for (item of items$(); track $index; let index = $index) {
+  <gnro-layout [style.flex]="getHeaderStyle(item)">
+    <gnro-layout-header
+      [class.gnro-accordion-item-expanded]="item.expanded"
+      [title]="getTitle(item)"
+      (click)="toggle(item, !!item.expanded)"
+    >
+      @if (item.expanded) {
+        <gnro-icon config="chevron-up"></gnro-icon>
+      } @else {
+        <gnro-icon config="chevron-down"></gnro-icon>
+      }
+    </gnro-layout-header>
+
+    @if (item?.expanded && item.items) {
+      <gnro-layout-horizontal>
+        <gnro-menus [items]="item.items" (gnroMenuItemClick)="onMenuItemClick($event)"></gnro-menus>
+      </gnro-layout-horizontal>
+    }
+  </gnro-layout>
+}

@@ -1,0 +1,88 @@
+@mixin gnro-resize-directive-theme() {
+  [GnroResizeLeft],
+  [GnroResizeRight] {
+    position: absolute;
+    cursor: col-resize;
+    top: 10px;
+    bottom: 10px;
+    width: 10px;
+    right: 0;
+  }
+
+  [GnroResizeLeft] {
+    left: 0;
+  }
+
+  [GnroResizeRight] {
+    right: 0;
+  }
+
+  [GnroResizeTop],
+  [GnroResizeBottom] {
+    position: absolute;
+    cursor: row-resize;
+    height: 10px;
+    left: 10px;
+    right: 10px;
+  }
+
+  [GnroResizeTop] {
+    top: 0;
+  }
+
+  [GnroResizeBottom] {
+    bottom: 0;
+  }
+
+  [GnroResizeTopLeft],
+  [GnroResizeBottomRight] {
+    position: absolute;
+    cursor: nwse-resize;
+    width: 10px;
+    height: 10px;
+  }
+
+  [GnroResizeTopLeft] {
+    top: 0;
+    left: 0;
+  }
+
+  [GnroResizeBottomRight] {
+    bottom: 0;
+    right: 0;
+  }
+
+  [GnroResizeTopRight],
+  [GnroResizeBottomLeft] {
+    position: absolute;
+    cursor: nesw-resize;
+    width: 10px;
+    height: 10px;
+  }
+
+  [GnroResizeTopRight] {
+    top: 0;
+    right: 0;
+  }
+
+  [GnroResizeBottomLeft] {
+    bottom: 0;
+    left: 0;
+  }
+
+  [GnroResizeLeftRight],
+  [GnroResizeRightLeft] {
+    cursor: col-resize;
+    top: 10px;
+    bottom: 10px;
+    width: 2px;
+  }
+
+  [GnroResizeTopBottom],
+  [GnroResizeBottomTop] {
+    cursor: row-resize;
+    height: 2px;
+    left: 10px;
+    right: 10px;
+  }
+}

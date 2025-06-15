@@ -1,0 +1,34 @@
+<ng-content select="gnro-layout-left"></ng-content>
+<ng-content></ng-content>
+@if (resizeable()) {
+  <ng-container #contentResizeLeftRight></ng-container>
+}
+<ng-content select="gnro-layout-center"></ng-content>
+@if (resizeable()) {
+  <ng-container #contentResizeRightLeft></ng-container>
+}
+<ng-content select="gnro-layout-right"></ng-content>
+
+<ng-template #tplResizeLeftRight>
+  <div
+    class="gnro-horizontal-resize-left"
+    GnroResizeLeftRight
+    gnroResize
+    [direction]="resizeType.LEFT_RIGHT"
+    [elementKey]="elementKey"
+    (gnroResizeEvent)="onResizePanel($event)"
+    (dblclick)="togglePanel('left')"
+  ></div>
+</ng-template>
+
+<ng-template #tplResizeRightLeft>
+  <div
+    class="gnro-horizontal-resize-right"
+    GnroResizeRightLeft
+    gnroResize
+    [direction]="resizeType.RIGHT_LEFT"
+    [elementKey]="elementKey"
+    (gnroResizeEvent)="onResizePanel($event)"
+    (dblclick)="togglePanel('right')"
+  ></div>
+</ng-template>

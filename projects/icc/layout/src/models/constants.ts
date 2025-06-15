@@ -1,1 +1,0 @@
-export const ICC_LAYOUT_HEADER_HEIGHT = 30;

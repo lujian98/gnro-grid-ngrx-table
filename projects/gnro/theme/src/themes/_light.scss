@@ -1,0 +1,74 @@
+@use "../core/functions" as gnro;
+
+$theme: (
+  --app-background-color: hsl(0, 0%, 100%),
+  app-border-basic-color: #d0c6bc,
+  app-text-basic-color: #4b4f54,
+  color-basic-default: #4b4f54,
+  color-basic-transparent-default: #f6f1ed,
+
+  //header and footer
+  gnro-header-background-color: #d2d2d2,
+
+  //grid
+  gnro-grid-header-background-color: #ededed,
+  gnro-grid-row-odd-background-color: #ffffff,
+  gnro-grid-row-even-background-color: #f4f5f5,
+  gnro-grid-row-hover-background-color: #e5e5e5,
+  gnro-grid-toolbar-background-color: #d2d2d2,
+
+  //button
+  gnro-button-default-color: #ffffff,
+
+  //menu
+  gnro-menu-item-hover-background-color: #e5e5e9,
+  gnro-menu-item-selected-background-color: #d1d1d6,
+
+  //accordion
+  gnro-accordion-item-background-color: #d2d2d2,
+  gnro-accordion-item-hover-background-color: #e5e5e9,
+
+  //option
+  gnro-option-item-background-color: #fbfbfb,
+  gnro-option-item-hover-background-color: #e5e5e5,
+  gnro-option-item-selected-background-color: #d1d1d6,
+
+  //form field
+  gnro-form-field-input-background-color: #ededed,
+  gnro-form-field-focus-background-color: #f6f1ed,
+  gnro-form-field-focus-border-color: green,
+
+  //checkbox
+  checkbox-border-color: #adadad,
+  checkbox-hover-border-color: #4b4f54,
+  checkbox-disabled-border-color: #dedede,
+  checkbox-background-color: #ffffff,
+  checkbox-disabled-background-color: #f1f1f1,
+  checkbox-checkmark-color: transparent,
+  checkbox-checked-checkmark-color: #f18a20,
+  checkbox-disabled-checkmark-color: #dedede,
+  //checkmark
+  checkmark-color: #dedede,
+  checkmark-checked-color: #f18a20,
+  checkmark-background-color: transparent,
+  checkmark-checked-background-color: transparent,
+
+  calendar-panel-background-color: #fff,
+  calendar-date-range-dates-color: #1f1f1f,
+  calendar-date-range-dates-background-color: #f6f1ed,
+  calendar-date-selected-background-color: #f8c48f,
+  calendar-today-background-color: orangered,
+  calendar-date-hover-background-color: lightgreen,
+
+  radio-background-color: #ffffff,
+  radio-border-color: #dedede,
+  radio-checked-background-color: #f6f1ed,
+  radio-checked-border-color: #d0c6bc,
+  radio-inner-circle-color: #f18a20,
+  radio-text-color: #4b4f54,
+
+  spinner-filled-color: #f18a20,
+  spinner-empty-color: transparent,
+);
+
+$gnro-themes: gnro.gnro-register-theme($theme, light);

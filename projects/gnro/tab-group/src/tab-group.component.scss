@@ -1,0 +1,50 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .gnro-mdc-tab-body-wrapper {
+    height: 100%;
+  }
+
+  .gnro-mdc-tab {
+    padding: 0 10px;
+    margin: 0 2px;
+    white-space: nowrap;
+  }
+
+  .gnro-mdc-tab-disabled {
+    opacity: 0.5;
+  }
+
+  ::ng-deep .gnro-mdc-tab-body-active {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    .gnro-mdc-tab-body-content {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  ::ng-deep .mdc-tab--active {
+    color: orange;
+    border: 1px solid green;
+  }
+
+  ::ng-deep .gnro-mdc-tab:hover {
+    color: orange;
+  }
+}
+
+::ng-deep [gnro-align-tabs="start"] > .gnro-mdc-tab-header .gnro-mdc-tab-label-container {
+  justify-content: start;
+}
+
+::ng-deep [gnro-align-tabs="center"] > .gnro-mdc-tab-header .gnro-mdc-tab-label-container {
+  justify-content: center;
+}
+
+::ng-deep [gnro-align-tabs="end"] > .gnro-mdc-tab-header .gnro-mdc-tab-label-container {
+  justify-content: end;
+}

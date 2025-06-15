@@ -1,0 +1,22 @@
+@if (uploadFiles$()) {
+  <gnro-layout>
+    <gnro-layout-header
+      title="GNRO.UI.FILE_UPLOAD.FILE_SELECT_UPLOAD"
+      [buttons]="buttons$()"
+      (gnroButtonClick)="buttonClick($event)"
+    >
+      <gnro-checkbox [checked]="enabled()" (change)="onChange($event)">
+        {{ "GNRO.UI.ACTIONS.ENABLED" | translate }}
+      </gnro-checkbox>
+    </gnro-layout-header>
+
+    <div class="gnro-file-select-files">
+      @for (fieldConfig of fieldConfigs(); track $index; let index = $index) {
+        <gnro-upload-file-field [fieldConfig]="fieldConfig" (selectUploadFile)="selectUploadFile(fieldConfig, $event)">
+        </gnro-upload-file-field>
+      }
+    </div>
+
+    <gnro-file-upload-grid> </gnro-file-upload-grid>
+  </gnro-layout>
+}

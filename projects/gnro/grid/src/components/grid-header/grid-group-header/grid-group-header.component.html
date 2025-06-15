@@ -1,0 +1,23 @@
+@if (gridConfig().rowSelection) {
+  <gnro-grid-header-item [style.flex]="'0 0 ' + rowSelectionCellWidth + 'px'"></gnro-grid-header-item>
+}
+
+@for (header of groupHeaderColumns(); track $index; let index = $index) {
+  <gnro-grid-header-item
+    [style.flex]="'0 0 ' + getHeaderWidth(header)"
+    [style.max-width]="getHeaderWidth(header)"
+    [groupHeader]="true"
+    [column]="getColumn(header)"
+    [columns]="columns()"
+    [gridConfig]="gridConfig()"
+    [gridSetting]="gridSetting()"
+    (columnResizing)="columnResizing.emit($event)"
+    (columnResized)="columnResized.emit($event)"
+    gnroColumnResize
+  >
+    {{ header.title }}
+    @if (gridConfig().columnResize) {
+      <div class="gnro-grid-column-resize-action" gnroColumnResizeTrigger></div>
+    }
+  </gnro-grid-header-item>
+}

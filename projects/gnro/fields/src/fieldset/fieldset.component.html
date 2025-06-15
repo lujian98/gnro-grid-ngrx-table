@@ -1,0 +1,17 @@
+<fieldset
+  [gnroFieldsetLabelWidth]="fieldConfig().labelWidth"
+  [gnroFieldWidth]="fieldConfig().fieldWidth"
+  [style.flex-direction]="fieldConfig().flexDirection"
+>
+  @if (fieldConfig().legend !== undefined) {
+    <legend>{{ fieldConfig().legend! | translate }}</legend>
+  }
+
+  @for (fieldConfig of formFields; track $index; let index = $index) {
+    @if (fieldConfig.fieldType === FieldType.Fieldset) {
+      <gnro-fieldset [form]="form()" [fieldConfig]="fieldConfig"> </gnro-fieldset>
+    } @else {
+      <gnro-fields [form]="form()" [fieldConfig]="fieldConfig"> </gnro-fields>
+    }
+  }
+</fieldset>

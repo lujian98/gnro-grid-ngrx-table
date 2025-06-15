@@ -1,0 +1,133 @@
+@use "sass:map";
+
+$gnro-enable-css-custom-properties: false !default;
+$gnro-themes: ();
+$gnro-processed-theme: ();
+
+@function gnro-theme($key) {
+  $value: ();
+
+  @if ($gnro-enable-css-custom-properties) {
+    $value: var(--#{$key});
+  } @else {
+    $value: map.get($gnro-processed-theme, $key);
+  }
+
+  @if ($value == null) {
+    @warn "Theme: `gnro-theme()` cannot find value for key `" + $key (+"`");
+  }
+
+  @return $value;
+}
+
+@function gnro-register-theme($theme, $name) {
+  $new: (
+    $name: $theme,
+  );
+  $gnro-themes: map.merge($gnro-themes, $new) !global;
+
+  @return $gnro-themes;
+}
+
+@function gnro-process-themes() {
+  $processed-theme: ();
+  @each $theme-name, $theme in $gnro-themes {
+    $processed-theme: gnro-process-theme($theme-name, $theme);
+  }
+  @return $processed-theme;
+}
+
+@function gnro-deep-find-value($theme, $key, $value) {
+  $parent-value: map.get($theme, $value);
+
+  @if ($parent-value != null) {
+    @return gnro-deep-find-value($theme, $value, $parent-value);
+  }
+
+  @return $value;
+}
+
+@function gnro-process-theme($theme-name, $theme) {
+  $processed-theme: ();
+  @each $key, $value in $theme {
+    $new: (
+      $key: gnro-deep-find-value($theme, $key, $value),
+    );
+    $processed-theme: map.merge($processed-theme, $new);
+  }
+  @return $processed-theme;
+}
+
+@mixin gnro-pre-process-context($theme-name, $theme) {
+  $gnro-processed-theme: gnro-process-theme($theme-name, $theme) !global;
+}
+
+@mixin gnro-install-css-properties($theme-name, $theme) {
+  .gnro-theme-#{$theme-name} {
+    @each $var, $value in $theme {
+      @if (type-of($value) == "string" and map.get($theme, $value)) {
+        --#{$var}: var(--#{$value});
+      } @else {
+        --#{$var}: #{$value};
+      }
+    }
+  }
+}
+
+@mixin gnro-install-component-with-css-props() {
+  :host {
+    @content;
+  }
+}
+
+@mixin gnro-install-component-with-scss-vars() {
+  @each $theme-name, $theme in $gnro-themes {
+    @include gnro-pre-process-context($theme-name, $theme);
+
+    .gnro-theme-#{$theme-name} :host {
+      @content;
+    }
+  }
+}
+
+@mixin gnro-install-component() {
+  @if ($gnro-enable-css-custom-properties) {
+    @include gnro-install-component-with-css-props() {
+      @content;
+    }
+  } @else {
+    @include gnro-install-component-with-scss-vars() {
+      @content;
+    }
+  }
+}
+
+@mixin gnro-install-with-css-props() {
+  @content;
+
+  @each $theme-name, $theme in $gnro-themes {
+    @include gnro-install-css-properties($theme-name, $theme);
+  }
+}
+
+@mixin gnro-install-with-scss-vars() {
+  @each $theme-name, $theme in $gnro-themes {
+    @include gnro-pre-process-context($theme-name, $theme);
+
+    .gnro-theme-#{$theme-name} {
+      @content;
+    }
+  }
+}
+
+@mixin gnro-install() {
+  @if ($gnro-enable-css-custom-properties) {
+    @include gnro-install-with-css-props() {
+      @content;
+    }
+  } @else {
+    @include gnro-install-with-scss-vars() {
+      @content;
+    }
+  }
+}

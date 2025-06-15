@@ -1,0 +1,23 @@
+<label>
+  <input
+    #inputEl
+    type="checkbox"
+    class="cdk-visually-hidden"
+    [checked]="checked$()"
+    [disabled]="disabled$()"
+    [indeterminate]="indeterminate$()"
+    (change)="updateValueAndIndeterminate($event)"
+    (click)="$event.stopPropagation()"
+  />
+  <span class="gnro-checkbox-container">
+    @if (indeterminate$()) {
+      <gnro-icon [class.indeterminate]="indeterminate$()" icon="minus"></gnro-icon>
+    }
+    @if (!indeterminate$()) {
+      <gnro-icon [class.checked]="checked$()" icon="check"></gnro-icon>
+    }
+  </span>
+  <span class="gnro-checkbox-label">
+    <ng-content></ng-content>
+  </span>
+</label>

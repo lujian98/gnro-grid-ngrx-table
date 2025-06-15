@@ -1,0 +1,25 @@
+@use "./core/common";
+@use "./core/variables";
+@use "./core/reset";
+@use "./core/typography";
+
+@use "./themes/light";
+@use "./themes/dark";
+@use "./components" as gnro;
+
+@mixin gnro-theme-components() {
+  @include gnro.gnro-layout-theme();
+  @include gnro.gnro-grid-theme();
+  @include gnro.gnro-menu-theme();
+  @include gnro.gnro-accordion-theme();
+  @include gnro.gnro-option-theme();
+  @include gnro.gnro-form-field-theme();
+  @include gnro.gnro-checkbox-theme();
+  @include gnro.gnro-radio-theme();
+  @include gnro.gnro-button-theme();
+  @include gnro.gnro-resize-directive-theme();
+  @include gnro.gnro-dashboard-theme();
+  @include gnro.gnro-calendar-theme();
+  @include gnro.gnro-window-theme();
+  @include gnro.gnro-spinner-theme();
+}

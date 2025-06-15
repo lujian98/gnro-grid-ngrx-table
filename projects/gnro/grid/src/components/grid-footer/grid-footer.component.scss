@@ -1,0 +1,35 @@
+:host {
+  align-items: center;
+  padding: 1px 10px;
+
+  button {
+    gnro-icon {
+      padding-right: 0px;
+    }
+  }
+
+  span {
+    margin: 0 5px;
+  }
+
+  gnro-number-field {
+    width: unset;
+
+    ::ng-deep {
+      .gnro-form-field-label {
+        display: flex;
+        flex-direction: row;
+        justify-content: end;
+      }
+
+      .gnro-form-field-container {
+        background-color: unset;
+        border-bottom: 0px;
+      }
+
+      input {
+        text-align: center;
+      }
+    }
+  }
+}

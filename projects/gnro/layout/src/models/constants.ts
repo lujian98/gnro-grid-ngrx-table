@@ -1,0 +1,1 @@
+export const GNRO_LAYOUT_HEADER_HEIGHT = 30;

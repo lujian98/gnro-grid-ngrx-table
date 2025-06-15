@@ -1,0 +1,17 @@
+@if (title() !== undefined) {
+  <div class="gnro-layout-header-title">{{ title()! | translate }}</div>
+}
+<ng-content></ng-content>
+
+@for (button of buttons(); track $index; let index = $index) {
+  @if (!button.hidden) {
+    <button gnro-button [disabled]="button.disabled" (click)="buttonClick(button)">
+      @if (button.icon) {
+        <gnro-icon [icon]="button.icon"></gnro-icon>
+      }
+      {{ getTitle(button) | translate }}
+    </button>
+  }
+}
+
+<ng-content select="gnro-layout-header-end"></ng-content>

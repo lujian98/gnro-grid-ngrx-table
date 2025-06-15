@@ -1,0 +1,15 @@
+<label>
+  <input
+    type="radio"
+    class="cdk-visually-hidden"
+    [name]="name()"
+    [value]="value()"
+    [checked]="checked$()"
+    [formControl]="field()"
+  />
+  <span class="gnro-radio-outer-circle"></span>
+  <span class="gnro-radio-inner-circle"></span>
+  <span class="gnro-radio-label-content">
+    <ng-content></ng-content>
+  </span>
+</label>

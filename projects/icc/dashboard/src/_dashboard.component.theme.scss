@@ -1,8 +1,0 @@
-@use "../../theme/src/icc";
-
-@mixin icc-dashboard-theme() {
-  icc-dashboard,
-  .icc-tile-item {
-    border: solid 1px icc.icc-theme(app-border-basic-color);
-  }
-}

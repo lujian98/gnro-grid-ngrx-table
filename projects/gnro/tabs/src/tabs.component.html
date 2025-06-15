@@ -1,0 +1,31 @@
+@if (tabsConfig$()) {
+  <gnro-tab-group
+    cdkDropList
+    cdkDropListOrientation="horizontal"
+    (cdkDropListDropped)="drop($event)"
+    cdkDropListElementContainer=".gnro-mdc-tab-labels"
+    class="gnro-drag-tabs"
+    [selectedIndex]="tabsConfig$().selectedTabIndex"
+    animationDuration="0"
+    (selectedIndexChange)="onSelectedIndexChange($event)"
+    [gnro-align-tabs]="tabsConfig$().alignTabs"
+  >
+    @for (tab of tabsTabs$(); track $index; let index = $index) {
+      <gnro-tab [disabled]="tab.disabled">
+        <ng-template gnro-tab-label>
+          <gnro-tabs-tab
+            [tabsConfig]="tabsConfig$()"
+            [tabsSetting]="tabsSetting$()"
+            [tabs]="tabsTabs$()"
+            [tab]="tab"
+            [index]="index"
+          >
+          </gnro-tabs-tab>
+        </ng-template>
+        @if (index === tabsConfig$().selectedTabIndex && !tab.disabled) {
+          <gnro-portal [content]="tab.content!" [context]="tab.context!"></gnro-portal>
+        }
+      </gnro-tab>
+    }
+  </gnro-tab-group>
+}

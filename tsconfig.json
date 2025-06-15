@@ -8,8 +8,8 @@
     "strict": true,
     "noImplicitOverride": true,
     "paths": {
-      "@icc/ui/*": ["projects/icc/*"],
-      "@icc/ui": ["projects/icc"]
+      "@gnro/ui/*": ["projects/gnro/*"],
+      "@gnro/ui": ["projects/gnro"]
     },
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,

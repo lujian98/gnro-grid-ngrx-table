@@ -1,0 +1,27 @@
+@if (form()) {
+  <gnro-form-field
+    [formGroup]="form()"
+    [style.display]="hidden ? 'none' : 'inherit'"
+    [gnroLabelWidth]="fieldConfig().labelWidth"
+    [gnroFieldWidth]="fieldConfig().fieldWidth"
+    [gnroFormFieldControl]="field"
+  >
+    @if (fieldConfig().fieldLabel !== undefined) {
+      <gnro-label>{{ fieldConfig().fieldLabel! | translate }}</gnro-label>
+    }
+    @for (group of groups; track $index; let index = $index) {
+      <gnro-radio
+        [value]="group.name"
+        [name]="fieldConfig().fieldName!"
+        [field]="field"
+        [fieldName]="fieldConfig().fieldName!"
+        [checked]="getChecked(group.name)"
+      >
+        {{ group.title }}
+      </gnro-radio>
+    }
+    @if (field && (field.touched || field.dirty) && field.errors) {
+      <gnro-form-field-errors><gnro-field-errors [errors]="field!.errors!"></gnro-field-errors></gnro-form-field-errors>
+    }
+  </gnro-form-field>
+}

@@ -1,0 +1,71 @@
+@use "../../theme/src/gnro";
+
+@mixin gnro-checkbox-theme() {
+  gnro-checkbox.ghost-checkbox {
+    .gnro-checkbox-container {
+      border: none;
+      background: gnro.gnro-theme(checkmark-background-color);
+
+      gnro-icon {
+        color: gnro.gnro-theme(checkmark-color);
+      }
+    }
+
+    input:checked + .gnro-checkbox-container {
+      background-color: gnro.gnro-theme(checkmark-checked-background-color);
+
+      gnro-icon {
+        color: gnro.gnro-theme(checkmark-checked-color);
+      }
+    }
+
+    input:disabled + .gnro-checkbox-container {
+      opacity: 0.5;
+    }
+  }
+
+  gnro-checkbox {
+    .gnro-checkbox-container {
+      border: 1px solid;
+      border-color: gnro.gnro-theme(checkbox-border-color);
+      border-radius: 3px;
+      min-width: 1rem;
+      width: 1rem;
+      height: 1rem;
+      background: gnro.gnro-theme(checkbox-background-color);
+      position: relative;
+
+      gnro-icon {
+        color: gnro.gnro-theme(checkbox-checkmark-color);
+      }
+    }
+
+    .gnro-checkbox-label:not(:empty) {
+      margin-left: 0.5rem;
+    }
+
+    input:checked + .gnro-checkbox-container,
+    input:indeterminate + .gnro-checkbox-container {
+      gnro-icon {
+        color: gnro.gnro-theme(checkbox-checked-checkmark-color);
+      }
+    }
+
+    input:hover + .gnro-checkbox-container,
+    input:focus + .gnro-checkbox-container {
+      border-color: gnro.gnro-theme(checkbox-hover-border-color);
+    }
+
+    input:disabled + .gnro-checkbox-container {
+      border-color: gnro.gnro-theme(checkbox-disabled-border-color);
+      background: gnro.gnro-theme(checkbox-disabled-background-color);
+      gnro-icon {
+        color: gnro.gnro-theme(checkbox-checkmark-color);
+        cursor: default;
+        &.checked {
+          color: gnro.gnro-theme(checkbox-disabled-checkmark-color);
+        }
+      }
+    }
+  }
+}

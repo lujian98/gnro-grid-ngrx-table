@@ -1,0 +1,15 @@
+:host {
+  display: flex;
+  position: relative; // for resize handle position
+  flex-direction: column;
+  width: 100%;
+  height: -webkit-fill-available;
+
+  [GnroResizeRight] {
+    top: 0px;
+  }
+
+  [GnroResizeBottom] {
+    left: 0px;
+  }
+}

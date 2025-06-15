@@ -1,12 +1,12 @@
 {
-  "name": "@icc/ui",
+  "name": "@gnro/ui",
   "version": "2.0.19",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build icc",
-    "build:lib:scss": "sass projects/icc/theme/src/themes.scss dist/icc/_theming.scss",
-    "watch": "ng build icc --watch --configuration development",
+    "build": "ng build gnro",
+    "build:lib:scss": "sass projects/gnro/theme/src/themes.scss dist/gnro/_theming.scss",
+    "watch": "ng build gnro --watch --configuration development",
     "format:check": "prettier --list-different 'projects/**/*{.ts,.js,.json,.css,.scss,.html}'",
     "test": "ng test",
     "prepare": "husky"
@@ -70,7 +70,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lujian98/icc-grid-ngrx-table.git"
+    "url": "git+https://github.com/lujian98/gnro-grid-ngrx-table.git"
   },
   "keywords": [
     "Angular",
@@ -92,7 +92,7 @@
   "author": "Jimmy Lu",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/lujian98/icc-grid-ngrx-table/issues"
+    "url": "https://github.com/lujian98/gnro-grid-ngrx-table/issues"
   },
-  "homepage": "https://github.com/lujian98/icc-grid-ngrx-table#readme"
+  "homepage": "https://github.com/lujian98/gnro-grid-ngrx-table#readme"
 }

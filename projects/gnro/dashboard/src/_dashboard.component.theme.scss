@@ -1,0 +1,8 @@
+@use "../../theme/src/gnro";
+
+@mixin gnro-dashboard-theme() {
+  gnro-dashboard,
+  .gnro-tile-item {
+    border: solid 1px gnro.gnro-theme(app-border-basic-color);
+  }
+}

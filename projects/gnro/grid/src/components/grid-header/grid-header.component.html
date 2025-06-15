@@ -1,0 +1,64 @@
+@if (gridConfig().rowSelection) {
+  <gnro-grid-header-item [style.flex]="'0 0 ' + selectColumnWidth">
+    @if (gridConfig().multiRowSelection) {
+      <gnro-row-select
+        class="gnro-header-row-select"
+        [style.height]="gridConfig().headerHeight + 'px'"
+        [selected]="rowSelections$().allSelected"
+        [indeterminate]="rowSelections$().indeterminate"
+        (click)="onToggleSelectAll(rowSelections$().allSelected)"
+      >
+      </gnro-row-select>
+    }
+    @if (!gridConfig().multiRowSelection) {
+      <div [style.height]="gridConfig().headerHeight + 'px'"></div>
+    }
+
+    @if (gridConfig().columnFilter) {
+      <div class="gnro-header-no-filter-border" [style.height]="filterRowHeight"></div>
+    }
+  </gnro-grid-header-item>
+}
+
+@for (column of columns(); track $index; let index = $index) {
+  @if (!column.hidden) {
+    <gnro-grid-header-item
+      [style.flex]="'0 0 ' + getColumnWidth(column)"
+      [style.max-width]="getColumnWidth(column)"
+      [column]="column"
+      [columns]="columns()"
+      [gridConfig]="gridConfig()"
+      [gridSetting]="gridSetting()"
+      (columnResizing)="columnResizing.emit($event)"
+      (columnResized)="columnResized.emit($event)"
+      cdkDrag
+      [cdkDragDisabled]="dragDisabled(column)"
+      gnroColumnResize
+    >
+      <gnro-grid-header-cell
+        [style.height]="gridConfig().headerHeight + 'px'"
+        [column]="column"
+        [gridSetting]="gridSetting()"
+        [gridConfig]="gridConfig()"
+        (columnMenuClick)="onColumnMenuClick($event)"
+        cdkDragHandle
+      >
+      </gnro-grid-header-cell>
+
+      @if (gridConfig().columnFilter && column.filterField !== false) {
+        <gnro-column-filter [gridSetting]="gridSetting()" [gridConfig]="gridConfig()" [column]="column">
+        </gnro-column-filter>
+      }
+
+      @if (gridConfig().columnFilter && column.filterField === false) {
+        <div class="gnro-header-no-filter-border" [style.height]="filterRowHeight"></div>
+      }
+
+      <div class="drag-placeholder" *cdkDragPlaceholder></div>
+
+      @if (gridConfig().columnResize) {
+        <div class="gnro-grid-column-resize-action" gnroColumnResizeTrigger></div>
+      }
+    </gnro-grid-header-item>
+  }
+}

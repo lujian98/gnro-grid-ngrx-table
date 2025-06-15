@@ -1,0 +1,55 @@
+<!-- Use form due to the use checkbox in the menu item -->
+<form [formGroup]="form()">
+  @for (item of items$(); track $index; let index = $index) {
+    <div class="gnro-menu-row">
+      @if (isLeafMenu(item)) {
+        <gnro-menu-item
+          [disabled]="getDisabled(item)"
+          [form]="form()"
+          [menuItem]="item"
+          (gnroMenuItemClick)="menuItemClick($event)"
+        >
+        </gnro-menu-item>
+      } @else if (hasChildItem(item) && level() === 0) {
+        <span
+          [gnroPopover]="menu"
+          [gnroPopoverTrigger]="menuTrigger()"
+          [popoverLevel]="level()"
+          [clickToClose]="clickToClose()"
+          [gnroPopoverPosition]="bottom"
+        >
+          @if (item.icon) {
+            <gnro-icon [config]="item.icon"></gnro-icon>
+          }
+          <span class="gnro-menu-item-title"> {{ item.title }}</span>
+        </span>
+      } @else if (hasChildItem(item) && level() > 0) {
+        <gnro-menu-item
+          [disabled]="getDisabled(item)"
+          [form]="form()"
+          [menuItem]="item"
+          [gnroPopover]="menu"
+          [gnroPopoverTrigger]="hoverTrigger"
+          [popoverLevel]="level()"
+          [clickToClose]="clickToClose()"
+          [gnroPopoverPosition]="rightBottom"
+          (gnroMenuItemClick)="menuItemClick($event)"
+        >
+        </gnro-menu-item>
+      }
+      <ng-template #menu>
+        <gnro-menus
+          [form]="form()"
+          class="gnro-menus-sub-level"
+          [items]="item.children!"
+          [values]="values$()"
+          [disabled]="disabled()"
+          [level]="level() + 1"
+          [clickToClose]="clickToClose()"
+          (gnroMenuItemClick)="menuItemClick($event)"
+        >
+        </gnro-menus>
+      </ng-template>
+    </div>
+  }
+</form>

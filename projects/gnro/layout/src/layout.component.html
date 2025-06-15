@@ -1,0 +1,29 @@
+<ng-content select="gnro-layout-header"></ng-content>
+<ng-content></ng-content>
+<ng-content select="gnro-layout-footer"></ng-content>
+
+@if (resizeable()) {
+  <div
+    class="gnro-layout-resize-right"
+    GnroResizeRight
+    gnroResize
+    [direction]="resizeType.RIGHT"
+    [elementKey]="elementKey"
+    (gnroResizeEvent)="onResizePanel($event)"
+  ></div>
+  <div
+    class="gnro-layout-resize-bottom"
+    GnroResizeBottom
+    gnroResize
+    [direction]="resizeType.BOTTOM"
+    [elementKey]="elementKey"
+    (gnroResizeEvent)="onResizePanel($event)"
+  ></div>
+  <div
+    GnroResizeBottomRight
+    gnroResize
+    [direction]="resizeType.BOTTOM_RIGHT"
+    [elementKey]="elementKey"
+    (gnroResizeEvent)="onResizePanel($event)"
+  ></div>
+}

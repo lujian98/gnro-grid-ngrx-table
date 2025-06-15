@@ -1,0 +1,54 @@
+@use "../../theme/src/gnro";
+
+@mixin gnro-radio-theme() {
+  gnro-radio {
+    .gnro-radio-outer-circle,
+    .gnro-radio-inner-circle {
+      height: 1rem;
+      width: 1rem;
+    }
+
+    .gnro-radio-outer-circle {
+      border: 1px solid gnro.gnro-theme(radio-border-color);
+      background-color: gnro.gnro-theme(radio-background-color);
+    }
+
+    input:checked {
+      & + .gnro-radio-outer-circle {
+        border-color: gnro.gnro-theme(radio-checked-border-color);
+        background-color: gnro.gnro-theme(radio-checked-background-color);
+      }
+
+      & ~ .gnro-radio-inner-circle {
+        background: gnro.gnro-theme(radio-inner-circle-color);
+      }
+
+      & ~ .gnro-radio-label-content {
+        font-weight: 700;
+      }
+    }
+
+    input:disabled {
+      cursor: default;
+      & + .gnro-radio-outer-circle {
+        opacity: 0.5;
+      }
+
+      ~ .gnro-radio-inner-circle {
+        opacity: 0.5;
+      }
+
+      ~ .gnro-radio-label-content {
+        opacity: 0.5;
+      }
+    }
+
+    .gnro-radio-label-content {
+      font-size: 0.6875rem;
+      font-weight: 300;
+      line-height: 1rem;
+
+      color: gnro.gnro-theme(radio-text-color);
+    }
+  }
+}

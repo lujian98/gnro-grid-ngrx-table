@@ -1,0 +1,40 @@
+@use "../../theme/src/gnro";
+
+@mixin gnro-option-theme() {
+  gnro-option {
+    background-color: gnro.gnro-theme(gnro-option-item-background-color);
+    color: gnro.gnro-theme(app-text-basic-color);
+    border-top: 1px solid gnro.gnro-theme(app-border-basic-color);
+
+    &.selected {
+      background-color: gnro.gnro-theme(gnro-option-item-selected-background-color);
+      font-weight: bold;
+      color: orangered;
+    }
+
+    &:hover {
+      cursor: pointer;
+      background-color: gnro.gnro-theme(gnro-option-item-hover-background-color);
+    }
+
+    &:last-child {
+      border-bottom: solid 1px gnro.gnro-theme(app-border-basic-color);
+    }
+  }
+
+  .gnro-select-field-option:nth-child(odd) {
+    background-color: gnro.gnro-theme(gnro-grid-row-odd-background-color);
+    &:focus,
+    &:hover {
+      background-color: gnro.gnro-theme(gnro-grid-row-hover-background-color);
+    }
+  }
+
+  .gnro-select-field-option:nth-child(even) {
+    background-color: gnro.gnro-theme(gnro-grid-row-even-background-color);
+    &:focus,
+    &:hover {
+      background-color: gnro.gnro-theme(gnro-grid-row-hover-background-color);
+    }
+  }
+}

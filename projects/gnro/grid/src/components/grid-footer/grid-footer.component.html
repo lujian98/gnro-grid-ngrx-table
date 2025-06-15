@@ -1,0 +1,45 @@
+<gnro-layout-footer>
+  @if (!gridConfig().virtualScroll) {
+    <button gnro-button (click)="getGridPageData(1)" [disabled]="page === 1">
+      <gnro-icon config="backward-step"></gnro-icon>
+    </button>
+
+    <button gnro-button (click)="getGridPageData(page - 1)" [disabled]="page === 1">
+      <gnro-icon config="caret-left"></gnro-icon>
+    </button>
+
+    @if (fieldConfig$()) {
+      <gnro-number-field
+        [fieldConfig]="fieldConfig$()!"
+        [value]="page"
+        [showFieldEditIndicator]="false"
+        (valueChange)="onValueChange($event)"
+      >
+      </gnro-number-field>
+    }
+    <span> {{ "GNRO.UI.GRID.OF" | translate }} {{ lastPage() }} </span>
+    <button gnro-button (click)="getGridPageData(page + 1)" [disabled]="page === lastPage()">
+      <gnro-icon config="caret-right"></gnro-icon>
+    </button>
+
+    <button gnro-button (click)="getGridPageData(lastPage())" [disabled]="page === lastPage()">
+      <gnro-icon config="forward-step"></gnro-icon>
+    </button>
+
+    <button gnro-button (click)="refreshData(page)">
+      <gnro-icon config="arrows-rotate"></gnro-icon>
+    </button>
+
+    <span>
+      {{ "GNRO.UI.GRID.PAGE_SIZE" | translate }}:
+      <input gnroInput type="number" min="1" max="10" [value]="gridConfig().pageSize" autocomplete="off" readonly />
+    </span>
+  }
+
+  <gnro-layout-footer-end>
+    {{ "GNRO.UI.GRID.DISPLAYING" | translate }}
+    {{ displaying }}
+    {{ "GNRO.UI.GRID.OF" | translate }}
+    {{ gridSetting().totalCounts }}
+  </gnro-layout-footer-end>
+</gnro-layout-footer>

@@ -1,0 +1,38 @@
+@use "../../theme/src/gnro";
+
+@mixin gnro-spinner-theme() {
+  .gnro-spinner-container {
+    position: relative;
+  }
+
+  .spin-circle {
+    border-top-color: gnro.gnro-theme(spinner-filled-color);
+    border-right-color: gnro.gnro-theme(spinner-empty-color);
+    border-bottom-color: gnro.gnro-theme(spinner-filled-color);
+    border-left-color: gnro.gnro-theme(spinner-filled-color);
+  }
+
+  gnro-spinner.size-small {
+    font-size: 1rem;
+  }
+
+  gnro-spinner.size-medium {
+    font-size: 1.5rem;
+  }
+
+  gnro-spinner.size-large {
+    font-size: 2rem;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    40% {
+      transform: rotate(230deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}

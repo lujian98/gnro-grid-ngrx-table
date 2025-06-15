@@ -1,0 +1,29 @@
+<gnro-layout [@transformPickerOverlay]="shouldAnimate">
+  @if (calendarConfig) {
+    <gnro-calendar
+      [calendarConfig]="calendarConfig"
+      [selectedDate]="selectedDate"
+      (selectedDateChange)="updateSelectedDate($event)"
+    >
+    </gnro-calendar>
+  }
+
+  <gnro-layout-footer>
+    <gnro-layout-footer-start>
+      <gnro-select-field
+        [fieldConfig]="presetSelectionConfig"
+        [options]="presets"
+        [showFieldEditIndicator]="false"
+        (valueChange)="updateSelectDateByPreset($event)"
+      ></gnro-select-field>
+    </gnro-layout-footer-start>
+    <gnro-layout-footer-end>
+      <button gnro-button (click)="applyNewDates($event)">
+        <span translate>{{ "GNRO.UI.ACTIONS.APPLY" }}</span>
+      </button>
+      <button gnro-button (click)="discardNewDates($event)">
+        <span translate>{{ "GNRO.UI.ACTIONS.CANCEL" }}</span>
+      </button>
+    </gnro-layout-footer-end>
+  </gnro-layout-footer>
+</gnro-layout>

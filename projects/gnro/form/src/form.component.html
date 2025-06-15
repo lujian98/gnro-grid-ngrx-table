@@ -1,0 +1,12 @@
+@if (formConfig$()) {
+  <gnro-layout>
+    <gnro-form-view
+      [formSetting]="formSetting$()"
+      [formConfig]="formConfig$()"
+      [formFields]="formFieldsConfig$()"
+      [values]="formData$()!"
+      (formButtonClick)="formButtonClick($event)"
+    >
+    </gnro-form-view>
+  </gnro-layout>
+}

@@ -1,0 +1,25 @@
+:host {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 10px;
+  z-index: 2;
+
+  ::ng-deep {
+    gnro-layout-footer-start {
+      margin-left: 0;
+      margin-right: auto;
+      padding-right: 10px;
+    }
+
+    gnro-layout-footer-center {
+      margin: auto;
+      padding-right: 10px;
+    }
+
+    gnro-layout-footer-end {
+      margin-left: auto;
+      margin-right: 0;
+    }
+  }
+}

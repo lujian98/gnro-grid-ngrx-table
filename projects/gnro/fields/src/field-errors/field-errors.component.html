@@ -1,0 +1,46 @@
+@for (error of errors(); track $index; let index = $index) {
+  @switch (error.type) {
+    @case ("required") {
+      <gnro-error>
+        <gnro-icon [config]="{ icon: 'exclamation-circle', status: 'primary' }"></gnro-icon>
+        {{ "GNRO.UI.FIELDS.ERRORS.FIELD_IS_REQUIRED" | translate }}
+      </gnro-error>
+    }
+    @case ("minlength") {
+      <gnro-error>
+        <gnro-icon [config]="{ icon: 'exclamation-circle', status: 'primary' }"></gnro-icon>
+        {{ "GNRO.UI.FIELDS.ERRORS.MIN_LENGTH" | translate: { length: error.requiredLength } }}
+      </gnro-error>
+    }
+    @case ("maxlength") {
+      <gnro-error>
+        <gnro-icon [config]="{ icon: 'exclamation-circle', status: 'primary' }"></gnro-icon>
+        {{ "GNRO.UI.FIELDS.ERRORS.MAX_LENGTH" | translate: { length: error.requiredLength } }}
+      </gnro-error>
+    }
+    @case ("min") {
+      <gnro-error>
+        <gnro-icon [config]="{ icon: 'exclamation-circle', status: 'primary' }"></gnro-icon>
+        {{ "GNRO.UI.FIELDS.ERRORS.MIN_VALUE" | translate: { value: error.min } }}
+      </gnro-error>
+    }
+    @case ("max") {
+      <gnro-error>
+        <gnro-icon [config]="{ icon: 'exclamation-circle', status: 'primary' }"></gnro-icon>
+        {{ "GNRO.UI.FIELDS.ERRORS.MAX_VALUE" | translate: { value: error.max } }}
+      </gnro-error>
+    }
+    @case ("confirmationPassword") {
+      <gnro-error>
+        <gnro-icon [config]="{ icon: 'exclamation-circle', status: 'primary' }"></gnro-icon>
+        {{ "GNRO.UI.FIELDS.ERRORS.NOT_MATCH" | translate }}
+      </gnro-error>
+    }
+    @default {
+      <gnro-error>
+        <gnro-icon [config]="{ icon: 'exclamation-circle', status: 'primary' }"></gnro-icon>
+        {{ error.message }}
+      </gnro-error>
+    }
+  }
+}

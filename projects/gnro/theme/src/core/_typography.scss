@@ -1,0 +1,58 @@
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+  border: 0;
+}
+
+body {
+  margin: 0px;
+}
+
+gnro-layout,
+.cdk-overlay-container {
+  font-family: "Roboto", "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+
+  .cdk-overlay-connected-position-bounding-box {
+    height: unset !important;
+  }
+
+  .cdk-global-overlay-wrapper {
+    display: block;
+    height: unset;
+    width: unset;
+
+    .cdk-overlay-pane {
+      display: block;
+      height: auto;
+      //min-height: 320px; // select drop down height 320px
+    }
+  }
+}
+
+.cdk-overlay-pane {
+  flex: 1;
+}
+
+.cdk-visually-hidden {
+  display: none;
+}
+
+fieldset {
+  padding: 0;
+  margin: 0;
+}
+
+legend {
+  padding: 0;
+}
+
+mark {
+  background-color: #e1e61e;
+}

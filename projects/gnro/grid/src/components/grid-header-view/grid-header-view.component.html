@@ -1,0 +1,29 @@
+<div class="grid-header-container" [style.flex]="'0 0 ' + tableWidth + 'px'">
+  @if (gridConfig().groupHeader) {
+    <gnro-grid-group-header
+      [style.left]="columnHeaderPosition() + 'px'"
+      [style.height]="gridConfig().headerHeight + 'px'"
+      [gridSetting]="gridSetting()"
+      [gridConfig]="gridConfig()"
+      [columns]="columns()"
+      [columnWidths]="columnWidths()"
+      (columnResizing)="onColumnResizing($event)"
+      (columnResized)="onColumnResized($event)"
+    >
+    </gnro-grid-group-header>
+  }
+
+  <gnro-grid-header
+    [style.left]="columnHeaderPosition() + 'px'"
+    [gridSetting]="gridSetting()"
+    [gridConfig]="gridConfig()"
+    [columns]="columns()"
+    [columnWidths]="columnWidths()"
+    (columnResizing)="onColumnResizing($event)"
+    (columnResized)="onColumnResized($event)"
+    cdkDropList
+    cdkDropListOrientation="horizontal"
+    (cdkDropListDropped)="onColumnDragDrop($event)"
+  >
+  </gnro-grid-header>
+</div>

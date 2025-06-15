@@ -1,0 +1,143 @@
+@use "../../theme/src/gnro";
+
+@mixin gnro-grid-theme() {
+  gnro-grid,
+  gnro-tree {
+    gnro-grid-header,
+    gnro-grid-header-view {
+      background-color: gnro.gnro-theme(gnro-grid-header-background-color);
+    }
+
+    gnro-grid-footer {
+      background-color: gnro.gnro-theme(gnro-grid-toolbar-background-color);
+      border-bottom: 1px solid gnro.gnro-theme(app-border-basic-color);
+    }
+
+    gnro-grid-row-group {
+      border-left: 1px solid gnro.gnro-theme(app-border-basic-color);
+      border-right: 1px solid gnro.gnro-theme(app-border-basic-color);
+      border-bottom: 1px solid gnro.gnro-theme(app-border-basic-color);
+    }
+
+    .gnro-grid-row:nth-child(odd) {
+      background-color: gnro.gnro-theme(gnro-grid-row-odd-background-color);
+      &:focus,
+      &:hover {
+        background-color: gnro.gnro-theme(gnro-grid-row-hover-background-color);
+      }
+    }
+
+    .gnro-grid-row:nth-child(even) {
+      background-color: gnro.gnro-theme(gnro-grid-row-even-background-color);
+      &:focus,
+      &:hover {
+        background-color: gnro.gnro-theme(gnro-grid-row-hover-background-color);
+      }
+    }
+
+    gnro-grid-header-item {
+      border-style: solid;
+      border-color: gnro.gnro-theme(app-border-basic-color);
+      border-width: 1px 0px 1px 1px;
+    }
+
+    gnro-grid-header-item:last-child {
+      border-right: solid 1px gnro.gnro-theme(app-border-basic-color);
+    }
+
+    .gnro-header-no-filter-border {
+      display: flex;
+      width: 100%;
+      border-top: 1px solid gnro.gnro-theme(app-border-basic-color);
+    }
+
+    gnro-text-filter,
+    gnro-number-filter,
+    gnro-select-filter,
+    gnro-date-range-filter {
+      border-top: 1px solid gnro.gnro-theme(app-border-basic-color);
+    }
+
+    gnro-grid-cell {
+      border-style: solid;
+      border-color: gnro.gnro-theme(app-border-basic-color);
+      border-width: 0px 0px 1px 1px;
+    }
+
+    gnro-grid-cell:last-child {
+      border-right: solid 1px gnro.gnro-theme(app-border-basic-color);
+    }
+
+    gnro-grid-header {
+      .drag-placeholder {
+        background-color: red;
+        border: 1.5px dashed orange;
+        z-index: 4;
+      }
+    }
+
+    input {
+      background-color: gnro.gnro-theme(gnro-grid-header-background-color);
+      color: gnro.gnro-theme(app-text-basic-color);
+    }
+
+    .grid-cell {
+      align-items: center;
+      text-overflow: ellipsis;
+      overflow-x: hidden;
+      white-space: nowrap;
+    }
+    .grid-cell-align-center {
+      justify-content: center;
+    }
+
+    .grid-cell-align-right {
+      justify-content: right;
+    }
+
+    .gnro-grid-column-resize-action {
+      width: 10px;
+      height: 60px;
+      position: absolute;
+      right: -5px;
+      z-index: 3;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+
+      &::after {
+        content: "";
+        display: block;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        top: 0;
+        height: 20px;
+        width: 1px;
+        margin: auto;
+      }
+
+      &:hover,
+      &:active {
+        cursor: ew-resize;
+      }
+    }
+  }
+
+  // preview must be outside
+  .cdk-drag {
+    &-preview {
+      background-color: orange;
+      border: 1.5px dashed cyan;
+      overflow: hidden;
+    }
+
+    &-disabled {
+      cursor: default;
+    }
+  }
+}

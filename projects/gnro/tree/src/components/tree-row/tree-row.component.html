@@ -1,0 +1,26 @@
+<!-- not support tree row selection -->
+
+@if (treeColumn && !treeColumn.hidden) {
+  <gnro-grid-cell
+    [style.height]="treeConfig().rowHeight + 'px'"
+    [style.padding-left]="nodePadding + 'px'"
+    [style.flex]="'0 0 ' + getColumnWidth(treeColumn)"
+    [style.max-width]="getColumnWidth(treeColumn)"
+  >
+    <gnro-tree-node [gridSetting]="gridSetting()" [treeConfig]="treeConfig()" [node]="record()" [column]="treeColumn">
+    </gnro-tree-node>
+  </gnro-grid-cell>
+}
+
+@for (column of columns(); track $index; let index = $index) {
+  @if (!column.hidden && column.name !== "name") {
+    <gnro-grid-cell
+      [style.height]="treeConfig().rowHeight + 'px'"
+      [style.flex]="'0 0 ' + getColumnWidth(column)"
+      [style.max-width]="getColumnWidth(column)"
+    >
+      <gnro-grid-cell-view [gridConfig]="treeConfig()" [rowIndex]="rowIndex()" [record]="record()" [column]="column">
+      </gnro-grid-cell-view>
+    </gnro-grid-cell>
+  }
+}

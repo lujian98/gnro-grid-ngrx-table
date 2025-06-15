@@ -1,0 +1,76 @@
+@use "../../theme/src/gnro";
+
+@mixin gnro-layout-theme() {
+  .gnro-main-viewport-layout {
+    gnro-layout-header {
+      height: 36px;
+      margin-bottom: 2px;
+    }
+    gnro-layout-horizontal {
+      height: calc(100vh - 62px);
+    }
+    gnro-layout-footer {
+      height: 24px;
+      border-color: gnro.gnro-theme(app-border-basic-color);
+      border-bottom-width: 1px;
+      border-style: solid;
+    }
+  }
+
+  .gnro-normal-layout {
+    gnro-layout-header {
+      height: 30px; // defined in the constant
+      margin-bottom: 2px;
+      justify-content: flex-end;
+    }
+    gnro-layout-horizontal {
+      height: unset;
+    }
+    gnro-layout-footer {
+      height: unset;
+      border-bottom-width: 0;
+    }
+  }
+
+  gnro-layout,
+  gnro-layout-horizontal,
+  gnro-layout-left,
+  gnro-layout-right {
+    background-color: var(--app-background-color);
+    color: gnro.gnro-theme(app-text-basic-color);
+  }
+
+  gnro-layout-header,
+  gnro-layout-footer {
+    background-color: gnro.gnro-theme(gnro-header-background-color);
+    color: gnro.gnro-theme(app-text-basic-color);
+  }
+
+  .gnro-layout-header-title {
+    display: flex;
+    margin-right: auto;
+    align-items: center;
+  }
+
+  .gnro-layout-resize-right,
+  .gnro-horizontal-resize-left,
+  .gnro-horizontal-resize-right {
+    height: 100%;
+    min-width: 2px;
+    &:focus,
+    &:hover {
+      border-right: 2px solid red;
+    }
+  }
+
+  .gnro-layout-resize-bottom,
+  .gnro-vertical-resize-top,
+  .gnro-vertical-resize-bottom {
+    min-height: 2px;
+    width: 100%;
+    &:focus,
+    &:hover {
+      border-bottom: 2px solid red;
+    }
+  }
+}

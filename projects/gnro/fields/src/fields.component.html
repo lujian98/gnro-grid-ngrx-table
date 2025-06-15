@@ -1,0 +1,41 @@
+@switch (fieldConfig().fieldType) {
+  @case (FieldType.Text) {
+    <gnro-text-field [form]="form()" [fieldConfig]="fieldConfig()"></gnro-text-field>
+  }
+  @case (FieldType.Number) {
+    <gnro-number-field [form]="form()" [fieldConfig]="fieldConfig()"></gnro-number-field>
+  }
+  @case (FieldType.Checkbox) {
+    <gnro-checkbox-field [form]="form()" [fieldConfig]="fieldConfig()"></gnro-checkbox-field>
+  }
+  @case (FieldType.Date) {
+    <gnro-date-field [form]="form()" [fieldConfig]="fieldConfig()"></gnro-date-field>
+  }
+  @case (FieldType.DateRange) {
+    <gnro-date-range-field [form]="form()" [fieldConfig]="fieldConfig()"></gnro-date-range-field>
+  }
+  @case (FieldType.Display) {
+    <gnro-display-field [form]="form()" [fieldConfig]="fieldConfig()"></gnro-display-field>
+  }
+  @case (FieldType.Hidden) {
+    <gnro-hidden-field [form]="form()" [fieldConfig]="fieldConfig()"></gnro-hidden-field>
+  }
+  @case (FieldType.Password) {
+    <gnro-password-field [form]="form()" [fieldConfig]="fieldConfig()"></gnro-password-field>
+  }
+  @case (FieldType.RadioGroup) {
+    <gnro-radio-group-field [form]="form()" [fieldConfig]="fieldConfig()"></gnro-radio-group-field>
+  }
+  @case (FieldType.Select) {
+    <gnro-select-field [form]="form()" [fieldConfig]="fieldConfig()"></gnro-select-field>
+  }
+  @case (FieldType.Textarea) {
+    <gnro-textarea-field [form]="form()" [fieldConfig]="fieldConfig()"></gnro-textarea-field>
+  }
+  @case (FieldType.UploadFile) {
+    <gnro-upload-file-field [form]="form()" [fieldConfig]="fieldConfig()"></gnro-upload-file-field>
+  }
+  @default {
+    <gnro-text-field [form]="form()" [fieldConfig]="fieldConfig()"></gnro-text-field>
+  }
+}

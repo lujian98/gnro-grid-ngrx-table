@@ -9,23 +9,23 @@
     "analytics": false
   },
   "projects": {
-    "icc": {
+    "gnro": {
       "projectType": "library",
-      "root": "projects/icc",
-      "sourceRoot": "projects/icc",
-      "prefix": "icc",
+      "root": "projects/gnro",
+      "sourceRoot": "projects/gnro",
+      "prefix": "gnro",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "project": "projects/icc/ng-package.json"
+            "project": "projects/gnro/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/icc/tsconfig.lib.prod.json"
+              "tsConfig": "projects/gnro/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/icc/tsconfig.lib.json"
+              "tsConfig": "projects/gnro/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -33,50 +33,50 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "tsConfig": "projects/icc/tsconfig.spec.json",
+            "tsConfig": "projects/gnro/tsconfig.spec.json",
             "polyfills": ["zone.js", "zone.js/testing"]
           }
         }
       }
     },
-    "icc-demo": {
+    "gnro-demo": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
         }
       },
-      "root": "projects/icc-demo",
-      "sourceRoot": "projects/icc-demo/src",
+      "root": "projects/gnro-demo",
+      "sourceRoot": "projects/gnro-demo/src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": {
-              "base": "dist/icc-demo"
+              "base": "dist/gnro-demo"
             },
-            "index": "projects/icc-demo/src/index.html",
+            "index": "projects/gnro-demo/src/index.html",
             "polyfills": ["zone.js"],
-            "tsConfig": "projects/icc-demo/tsconfig.app.json",
+            "tsConfig": "projects/gnro-demo/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "stylePreprocessorOptions": {
               "sass": {
                 "silenceDeprecations": ["color-functions", "global-builtin", "import", "mixed-decls"]
               }
             },            
-            "assets": ["projects/icc-demo/src/favicon.ico", "projects/icc-demo/src/assets"],
+            "assets": ["projects/gnro-demo/src/favicon.ico", "projects/gnro-demo/src/assets"],
             "styles": [
               "./node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss",
               "./node_modules/@fortawesome/fontawesome-free/scss/regular.scss",
               "./node_modules/@fortawesome/fontawesome-free/scss/solid.scss",
               "./node_modules/@fortawesome/fontawesome-free/scss/brands.scss",
-              "projects/icc-demo/src/styles.scss"
+              "projects/gnro-demo/src/styles.scss"
             ],
             "scripts": [
               "./node_modules/d3/dist/d3.js"
             ],
-            "browser": "projects/icc-demo/src/main.ts"
+            "browser": "projects/gnro-demo/src/main.ts"
           },
           "configurations": {
             "production": {
@@ -107,10 +107,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "icc-demo:build:production"
+              "buildTarget": "gnro-demo:build:production"
             },
             "development": {
-              "buildTarget": "icc-demo:build:development"
+              "buildTarget": "gnro-demo:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -118,17 +118,17 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "icc-demo:build"
+            "buildTarget": "gnro-demo:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "polyfills": ["zone.js", "zone.js/testing"],
-            "tsConfig": "projects/icc-demo/tsconfig.spec.json",
+            "tsConfig": "projects/gnro-demo/tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
-            "assets": ["projects/icc-demo/src/favicon.ico", "projects/icc-demo/src/assets"],
-            "styles": ["projects/icc-demo/src/styles.scss"],
+            "assets": ["projects/gnro-demo/src/favicon.ico", "projects/gnro-demo/src/assets"],
+            "styles": ["projects/gnro-demo/src/styles.scss"],
             "scripts": []
           }
         }

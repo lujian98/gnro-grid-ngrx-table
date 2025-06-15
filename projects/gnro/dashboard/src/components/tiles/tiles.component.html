@@ -1,0 +1,90 @@
+@for (tile of tiles(); track $index; let i = $index) {
+  <div class="gnro-tile-item" [style.grid-column]="tile.gridColumn" [style.grid-row]="tile.gridRow">
+    <cdk-drop-list class="gnro-drag-tile" [cdkDropListData]="i" (cdkDropListDropped)="onDropListDropped($event, tile)">
+      <div
+        class="gnro-drag-tile"
+        [style.backgroundColor]="tile.color"
+        cdkDrag
+        [cdkDragDisabled]="isDragDisabled(tile)"
+        [cdkDragData]="i"
+      >
+        <div
+          class="gnro-drag-handle"
+          cdkDragHandle
+          [gnroPopover]="tilemenu"
+          [gnroPopoverTrigger]="getContextMenuTrigger(tile)"
+          [clickToClose]="true"
+          [gnroPopoverPosition]="position"
+        >
+          <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"
+            ></path>
+            <path d="M0 0h24v24H0z" fill="none"></path>
+          </svg>
+          <ng-template #tilemenu>
+            <gnro-menus [items]="tileMenus" [level]="1" (gnroMenuItemClick)="onTileMenuClicked($event, tile)">
+            </gnro-menus>
+          </ng-template>
+        </div>
+        <gnro-portal [content]="getPortalContent(tile)" [context]="tile.context!"></gnro-portal>
+      </div>
+    </cdk-drop-list>
+    <div
+      GnroResizeTop
+      gnroResize
+      [direction]="resizeType.TOP"
+      [elementKey]="'tile' + i"
+      (gnroResizeEvent)="onResizeTile($event, tile)"
+    ></div>
+    <div
+      GnroResizeRight
+      gnroResize
+      [direction]="resizeType.RIGHT"
+      [elementKey]="'tile' + i"
+      (gnroResizeEvent)="onResizeTile($event, tile)"
+    ></div>
+    <div
+      GnroResizeBottom
+      gnroResize
+      [direction]="resizeType.BOTTOM"
+      [elementKey]="'tile' + i"
+      (gnroResizeEvent)="onResizeTile($event, tile)"
+    ></div>
+    <div
+      GnroResizeLeft
+      gnroResize
+      [direction]="resizeType.LEFT"
+      [elementKey]="'tile' + i"
+      (gnroResizeEvent)="onResizeTile($event, tile)"
+    ></div>
+    <div
+      GnroResizeTopLeft
+      gnroResize
+      [direction]="resizeType.TOP_LEFT"
+      [elementKey]="'tile' + i"
+      (gnroResizeEvent)="onResizeTile($event, tile)"
+    ></div>
+    <div
+      GnroResizeTopRight
+      gnroResize
+      [direction]="resizeType.TOP_RIGHT"
+      [elementKey]="'tile' + i"
+      (gnroResizeEvent)="onResizeTile($event, tile)"
+    ></div>
+    <div
+      GnroResizeBottomRight
+      gnroResize
+      [direction]="resizeType.BOTTOM_RIGHT"
+      [elementKey]="'tile' + i"
+      (gnroResizeEvent)="onResizeTile($event, tile)"
+    ></div>
+    <div
+      GnroResizeBottomLeft
+      gnroResize
+      [direction]="resizeType.BOTTOM_LEFT"
+      [elementKey]="'tile' + i"
+      (gnroResizeEvent)="onResizeTile($event, tile)"
+    ></div>
+  </div>
+}

@@ -1,0 +1,24 @@
+@if (uploadFiles$()) {
+  <gnro-layout>
+    <gnro-layout-header
+      title="GNRO.UI.FILE_UPLOAD.FILE_DROP_UPLOAD"
+      [buttons]="buttons$()"
+      (gnroButtonClick)="buttonClick($event)"
+    >
+      <gnro-checkbox [checked]="enabled()" (change)="onChange($event)">{{
+        "GNRO.UI.ACTIONS.ENABLED" | translate
+      }}</gnro-checkbox>
+    </gnro-layout-header>
+
+    <gnro-file-drop
+      [accept]="'*'"
+      [dropZoneClassName]="className"
+      [disabled]="!enabled()"
+      [multiple]="true"
+      (onFileDrop)="dropped($event)"
+    >
+    </gnro-file-drop>
+
+    <gnro-file-upload-grid> </gnro-file-upload-grid>
+  </gnro-layout>
+}

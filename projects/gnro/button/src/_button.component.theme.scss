@@ -1,0 +1,31 @@
+@use "../../theme/src/gnro";
+
+@mixin gnro-button-theme() {
+  [gnro-button] {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    line-height: 28px;
+    padding-block: 0px;
+    color: gnro.gnro-theme(app-text-basic-color);
+
+    &.status-default {
+      background-color: gnro.gnro-theme(gnro-button-default-color);
+      &[disabled]:hover {
+        background-color: gnro.gnro-theme(gnro-button-default-color);
+        border-color: transparent;
+      }
+    }
+
+    &.appearance-ghost {
+      box-shadow: none;
+      background-color: transparent;
+      padding: 0;
+
+      &:focus,
+      &:hover {
+        background-color: transparent;
+        border-color: transparent;
+      }
+    }
+  }
+}

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-src_dir=projects/icc
-dist_dir="../../dist/icc"
+src_dir=projects/gnro
+dist_dir="../../dist/gnro"
 
 cd "$src_dir"
 mkdir "$dist_dir/theme/src/core"

@@ -1,0 +1,48 @@
+<gnro-grid-header-view
+  [gridSetting]="gridSetting()"
+  [gridConfig]="gridConfig()"
+  [columnConfigs]="columns()"
+  [columnHeaderPosition]="columnHeaderPosition"
+  (gridColumnWidthsEvent)="gridColumnWidthsEvent($event)"
+>
+</gnro-grid-header-view>
+
+<cdk-virtual-scroll-viewport
+  [itemSize]="gridConfig().rowHeight"
+  [style.overflow-x]="gridConfig().horizontalScroll ? 'auto' : 'hidden'"
+  [style.overflow-y]="gridConfig().virtualScroll || gridConfig().verticalScroll ? 'auto' : 'hidden'"
+  (scrolledIndexChange)="onScrolledIndexChange($event)"
+  (scroll)="onViewportScroll($event)"
+>
+  @if (gridData()) {
+    <div class="gnro-grid-row" *cdkVirtualFor="let record of gridData(); trackBy: trackByIndex; let index = index">
+      @if (rowGroups$() && isRowGroup(index, record)) {
+        <gnro-grid-row-group
+          [gridConfig]="gridConfig()"
+          [gridSetting]="gridSetting()"
+          [rowIndex]="index"
+          [columns]="columns()"
+          [record]="record"
+          (onToggleRowGroup)="onToggleRowGroup(rowGroups$())"
+        >
+        </gnro-grid-row-group>
+      }
+
+      @if (rowSelection$() && !isRowGroup(index, record)) {
+        <gnro-grid-row
+          [style.width]="tableWidth + 'px'"
+          [gridConfig]="gridConfig()"
+          [gridSetting]="gridSetting()"
+          [rowIndex]="index"
+          [columns]="columns()"
+          [columnWidths]="columnWidths"
+          [record]="record"
+          [selected]="rowSelection$().isSelected(record)"
+          (click)="rowClick($event, index, record)"
+          (dblclick)="rowDblClick(record)"
+        >
+        </gnro-grid-row>
+      }
+    </div>
+  }
+</cdk-virtual-scroll-viewport>

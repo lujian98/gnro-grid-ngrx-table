@@ -1,0 +1,62 @@
+:host {
+  padding: 10px 0px;
+
+  div.gnro-file-drop__content,
+  div.gnro-file-drop__drop-zone--enabled,
+  div.gnro-file-drop__drop-zone--disabled {
+    height: 60px;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: 400;
+    font-family: "Inter", sans-serif;
+    flex-direction: column;
+    transition: all 0.2s ease-in-out;
+
+    a {
+      color: #007bfd;
+    }
+  }
+
+  div.gnro-file-drop__drop-zone--enabled,
+  div.gnro-file-drop__drop-zone--disabled {
+    border: 3px dashed #dfe2e5;
+  }
+
+  div.gnro-file-drop__drop-zone--enabled {
+    border-color: blue;
+  }
+
+  div.gnro-file-drop__drop-zone--enabled:hover {
+    border-color: orange;
+  }
+
+  div.gnro-file-drop__drop-zone--disabled:hover {
+    border: 3px dashed #dfe2e5;
+  }
+}
+
+.gnro-file-drop__drop-zone {
+  height: 100px;
+  margin: auto;
+  border: 2px dotted #0782d0;
+  border-radius: 30px;
+}
+
+.gnro-file-drop__drop-zone--over {
+  background-color: rgba(147, 147, 147, 0.5);
+}
+
+.gnro-file-drop__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+}
+
+.gnro-file-drop__drop-zone-label {
+  text-align: center;
+}
+
+.gnro-file-drop__file-input {
+  display: none;
+}

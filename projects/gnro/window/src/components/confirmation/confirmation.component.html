@@ -1,0 +1,19 @@
+<gnro-window [windowConfig]="confirmationConfig">
+  <gnro-layout [resizeable]="false">
+    <gnro-layout-horizontal [resizeable]="false">{{ confirmationConfig.message }}</gnro-layout-horizontal>
+
+    @if (confirmationConfig.showFooter) {
+      <gnro-layout-footer>
+        @if (confirmationConfig.showOkButton) {
+          <button gnro-button (click)="ok()">{{ confirmationConfig.ok | translate }}</button>
+        }
+        @if (confirmationConfig.showCancelButton) {
+          <button gnro-button (click)="cancel()">{{ confirmationConfig.cancel | translate }}</button>
+        }
+        @if (confirmationConfig.showCloseButton) {
+          <button gnro-button (click)="close()">{{ confirmationConfig.close | translate }}</button>
+        }
+      </gnro-layout-footer>
+    }
+  </gnro-layout>
+</gnro-window>

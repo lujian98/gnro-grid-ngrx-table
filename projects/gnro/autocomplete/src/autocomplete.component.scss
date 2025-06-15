@@ -1,0 +1,11 @@
+//must be outside of host
+.autocomplete {
+  width: 100%;
+}
+
+.gnro-option-list {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 320px;
+}

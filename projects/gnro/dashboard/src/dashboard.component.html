@@ -1,0 +1,10 @@
+@if (config$()) {
+  <gnro-layout>
+    <gnro-layout-header title="GNRO.UI.TITLE.DASHBOARD" [buttons]="buttons" (gnroButtonClick)="buttonClick($event)">
+    </gnro-layout-header>
+    <!--TODO options from ngrx state-->
+    <div cdkDropListGroup>
+      <gnro-tiles [config]="config$()" [setting]="setting$()" [tiles]="tiles$()" [options]="options()"> </gnro-tiles>
+    </div>
+  </gnro-layout>
+}

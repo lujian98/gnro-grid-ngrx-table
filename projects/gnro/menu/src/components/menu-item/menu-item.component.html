@@ -1,0 +1,30 @@
+@if (menuItem().link) {
+  <a
+    class="gnro-menu-item"
+    [routerLink]="menuItem().link"
+    [queryParams]="menuItem().queryParams"
+    [routerLinkActiveOptions]="menuItem().routerOptions || { exact: false }"
+    routerLinkActive="active"
+  >
+    @if (menuItem().icon) {
+      <gnro-icon class="gnro-menu-icon" [config]="menuItem().icon!"></gnro-icon>
+    }
+    <span class="gnro-menu-title"> {{ title | translate }} </span>
+  </a>
+} @else if (menuItem().checkbox) {
+  <gnro-checkbox-field
+    [form]="form()"
+    [fieldConfig]="fieldConfig"
+    [showFieldEditIndicator]="false"
+  ></gnro-checkbox-field>
+} @else {
+  <div class="gnro-menu-item">
+    @if (menuItem().icon) {
+      <gnro-icon class="gnro-menu-icon" [config]="menuItem().icon!"></gnro-icon>
+    }
+    <span class="gnro-menu-title"> {{ title | translate }} </span>
+    @if (hasChildItem(menuItem())) {
+      <gnro-icon class="gnro-menu-icon-has-children" config="caret-right"></gnro-icon>
+    }
+  </div>
+}

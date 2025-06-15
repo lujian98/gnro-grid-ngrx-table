@@ -1,0 +1,25 @@
+<span
+  cdkDrag
+  [cdkDragDisabled]="dragDisabled(tab())"
+  cdkDragPreviewClass="gnro-drag-tabs-preview"
+  cdkDragRootElement=".gnro-mdc-tab"
+  [gnroPopover]="menu"
+  [gnroPopoverTrigger]="contextMenuTrigger"
+  [clickToClose]="true"
+  [gnroPopoverPosition]="position"
+  >{{ getTabLabel(tab()) }}
+</span>
+
+@if (closeable(tab())) {
+  <gnro-icon class="gnro-tab-remove-icon" icon="remove" (click)="closeTab($event, tab())"></gnro-icon>
+}
+
+<ng-template #menu>
+  <gnro-menus
+    [items]="contextMenu"
+    [level]="1"
+    [disabled]="getDisabled(tab())"
+    (gnroMenuItemClick)="onContextMenuClicked($event, tab())"
+  >
+  </gnro-menus>
+</ng-template>

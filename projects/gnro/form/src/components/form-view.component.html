@@ -1,0 +1,22 @@
+<gnro-layout-header [title]="formConfig().title">
+  @for (button of formConfig().buttons; track $index; let index = $index) {
+    @if (!buttonHidden(button)) {
+      <button gnro-button [disabled]="buttonDisabled(button)" (click)="buttonClick(button)">
+        @if (button.icon) {
+          <gnro-icon [icon]="button.icon"></gnro-icon>
+        }
+        {{ getButtonTitle(button) | translate }}
+      </button>
+    }
+  }
+</gnro-layout-header>
+
+<form [formGroup]="form" [gnroFormLabelWidth]="formConfig().labelWidth">
+  @for (fieldConfig of formFields(); track $index; let index = $index) {
+    @if (fieldConfig.fieldType === FieldType.Fieldset) {
+      <gnro-fieldset [form]="form" [fieldConfig]="fieldConfig"></gnro-fieldset>
+    } @else {
+      <gnro-fields [form]="form" [fieldConfig]="fieldConfig"></gnro-fields>
+    }
+  }
+</form>
