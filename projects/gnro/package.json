@@ -1,6 +1,35 @@
 {
   "name": "@gnro/ui",
-  "version": "2.4.19",
+  "version": "2.5.19",
+  "description": "Angular grid ui kit",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lujian98/gnro-grid-ngrx-table.git"
+  },
+  "keywords": [
+    "Angular",
+    "19",
+    "grid",
+    "table",
+    "virtual",
+    "scroll",
+    "tree",
+    "grid",
+    "dashboard",
+    "form",
+    "fields",
+    "autocomplete",
+    "select",
+    "virtual",
+    "scroll"
+  ],
+  "author": "Jimmy Lu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lujian98/gnro-grid-ngrx-table/issues"
+  },
+  "homepage": "https://github.com/lujian98/gnro-grid-ngrx-table#readme",
   "peerDependencies": {
     "@angular/common": "^19.2.11",
     "@angular/core": "^19.2.11"
