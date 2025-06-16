@@ -1,6 +1,6 @@
 {
   "name": "@gnro/ui",
-  "version": "2.5.19",
+  "version": "2.6.19",
   "description": "Angular grid ui kit",
   "main": "index.js",
   "repository": {
@@ -8,21 +8,18 @@
     "url": "git+https://github.com/lujian98/gnro-grid-ngrx-table.git"
   },
   "keywords": [
-    "Angular",
-    "19",
-    "grid",
-    "table",
-    "virtual",
-    "scroll",
-    "tree",
-    "grid",
-    "dashboard",
-    "form",
-    "fields",
-    "autocomplete",
-    "select",
-    "virtual",
-    "scroll"
+    "Angular 19,",
+    "grid table virtual scroll,",
+    "tree grid,",
+    "dashboard,",
+    "form fields,",
+    "autocomplete select virtial scroll,",
+    "date and date range picker fields,",
+    "tabs panel,",
+    "menu, accordion menu,",
+    "layout, resize, spinner,",
+    "file drag/drop upload,",
+    "dialog, popover, window"
   ],
   "author": "Jimmy Lu",
   "license": "ISC",

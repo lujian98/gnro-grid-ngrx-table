@@ -1,31 +1,44 @@
-# Gnro
+# Gnro grid ui kit components
 
-## npx prettier . --write --print-width 120
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.14.
+## ng build gnro --configuration production
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/` for grid ui kit demos
 
-## Code scaffolding
+## Support features:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+# Grid table local or remote configures, local or remote data. 
+  # virtual scroll, column filter, sort, resize, reorder, hide, row selection, horizontal scroll
+  # page size and auto fit vier port 
+  # row group, configurable row heigh, display image, group header
+  # grid cell edit, etc.
 
-## Build
+# Tree grid: extends grid table with most feature of the grid.
+  # Tree node drag and drop
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+# Menus: accordion menus, grid column menus.
 
-## Running unit tests
+# Caledar: date picker and date range picker.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+# Form fields: field set, checkbox, date, date range, display, hidden, number, password, radio group, select, text, textarea, upload files.
 
-## Running end-to-end tests
+# File upload with drag and drop.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+# Form panel and form field
 
-## Further help
+# Select and Autocomplete: support: string | object | string[] | object[]
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+# button, icon, spinner
 
-# gnro-grid-ngrx-table
+# layout and resize
+
+# dashboard: resize, drag and drop
+
+# popover, overlay and portal
+
+# tabs panel and tab-group
+
+# widnow and dialog: resizeablle, drag and drop, closeable, expandale.
+
+# theme and i18n
