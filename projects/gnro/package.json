@@ -2,8 +2,8 @@
   "name": "@gnro/ui",
   "version": "2.4.19",
   "peerDependencies": {
-    "@angular/common": "^19.0.6",
-    "@angular/core": "^19.0.6"
+    "@angular/common": "^19.2.11",
+    "@angular/core": "^19.2.11"
   },
   "dependencies": {
     "tslib": "^2.3.0"
