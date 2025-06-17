@@ -8,6 +8,8 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/` for grid u
 
 ## Support features:
 
+Angular 19 ngrx
+
 Grid table local or remote configures, local or remote data. 
    virtual scroll, column filter, sort, resize, reorder, hide, row selection, horizontal scroll
    page size and auto fit vier port 
