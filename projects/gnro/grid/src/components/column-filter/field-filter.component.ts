@@ -79,7 +79,6 @@ export class GnroFieldFilterComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.filterChanged$.next(null);
     this.filterChanged$.complete();
     this.destroy$.next();
     this.destroy$.complete();
