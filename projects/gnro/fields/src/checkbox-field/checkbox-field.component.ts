@@ -100,8 +100,7 @@ export class GnroCheckboxFieldComponent implements OnInit, OnDestroy, ControlVal
     timer(5)
       .pipe(take(1))
       .subscribe(() => {
-        //this.setDisabledState(!this.fieldConfig().editable);
-        !this.fieldConfig().editable ? this.field.disable() : this.field.enable();
+        this.setDisabledState(!this.fieldConfig().editable);
         this.setEnableFields();
       });
   }

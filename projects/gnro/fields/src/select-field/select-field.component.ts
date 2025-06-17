@@ -149,7 +149,7 @@ export class GnroSelectFieldComponent<T, G> implements OnDestroy, ControlValueAc
       timer(5)
         .pipe(take(1))
         .subscribe(() => {
-          return this.fieldConfig$().editable ? this.field.enable() : this.field.disable();
+          return this.setDisabledState(!this.fieldConfig$().editable);
         });
     }
   }
