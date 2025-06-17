@@ -213,11 +213,6 @@ export class GnroGridFacade {
     this.store.dispatch(gridActions.getGridData({ gridId }));
   }
 
-  // TODO not used???
-  private setGridData(gridId: string, gridConfig: GnroGridConfig, gridData: GnroGridData<object>): void {
-    this.store.dispatch(gridActions.getGridDataSuccess({ gridId, gridData }));
-  }
-
   setGridInMemoryData(gridId: string, gridConfig: GnroGridConfig, gridData: GnroGridData<object>): void {
     this.store.dispatch(gridActions.setGridInMemoryData({ gridId, gridConfig, gridData }));
     this.dispatchGridData(gridId);
@@ -225,10 +220,6 @@ export class GnroGridFacade {
 
   clearGridDataStore(gridId: string): void {
     this.store.dispatch(gridActions.clearGridDataStore({ gridId }));
-  }
-
-  selectGridConfig(gridId: string): Observable<GnroGridConfig> {
-    return this.store.select(selectGridConfig(gridId));
   }
 
   getGridConfig(gridId: string): Signal<GnroGridConfig> {
@@ -247,30 +238,8 @@ export class GnroGridFacade {
     return this.store.selectSignal(selectGridData(gridId));
   }
 
-  selectColumnsConfig(gridId: string): Observable<GnroColumnConfig[]> {
-    return this.store.select(selectColumnsConfig(gridId));
-  }
-
-  selectGridData(gridId: string): Observable<object[]> {
-    return this.store.select(selectGridData(gridId)) as Observable<object[]>;
-  }
-
-  selectGridModifiedRecords(gridId: string): Observable<{ [key: string]: unknown }[]> {
-    return this.store.select(selectGridModifiedRecords(gridId)) as Observable<{ [key: string]: unknown }[]>;
-  }
-
   getRowSelection(gridId: string): Signal<SelectionModel<object>> {
     return this.store.selectSignal(selectRowSelection(gridId));
-  }
-
-  selectRowSelection<T>(gridId: string): Observable<SelectionModel<object>> {
-    return this.store.select(selectRowSelection(gridId));
-  }
-
-  selectRowSelections(
-    gridId: string,
-  ): Observable<{ selection: SelectionModel<object>; allSelected: boolean; indeterminate: boolean }> {
-    return this.store.select(selectRowSelections(gridId));
   }
 
   getRowSelections(
@@ -283,12 +252,28 @@ export class GnroGridFacade {
     return this.store.selectSignal(selectRowGroups(gridId));
   }
 
-  selectRowGroups(gridId: string): Observable<GnroRowGroups | boolean> {
-    return this.store.select(selectRowGroups(gridId));
+  selectGridConfig(gridId: string): Observable<GnroGridConfig> {
+    return this.store.select(selectGridConfig(gridId));
+  }
+
+  selectColumnsConfig(gridId: string): Observable<GnroColumnConfig[]> {
+    return this.store.select(selectColumnsConfig(gridId));
+  }
+
+  selectGridModifiedRecords(gridId: string): Observable<{ [key: string]: unknown }[]> {
+    return this.store.select(selectGridModifiedRecords(gridId)) as Observable<{ [key: string]: unknown }[]>;
+  }
+
+  selectRowSelection(gridId: string): Observable<SelectionModel<object>> {
+    return this.store.select(selectRowSelection(gridId));
   }
 
   selectGridInMemoryData<T>(gridId: string): Observable<T[]> {
     return this.store.select(selectGridInMemoryData(gridId)) as Observable<T[]>;
+  }
+
+  selectSetting(gridId: string): Observable<GnroGridSetting> {
+    return this.store.select(selectGridSetting(gridId));
   }
 
   openButtonClick(gridId: string): void {
@@ -306,9 +291,5 @@ export class GnroGridFacade {
 
   runTask(setting: GnroGridSetting): void {
     this.store.dispatch(gridActions.getConcatGridData({ gridId: setting.gridId }));
-  }
-
-  selectSetting(gridId: string): Observable<GnroGridSetting> {
-    return this.store.select(selectGridSetting(gridId));
   }
 }

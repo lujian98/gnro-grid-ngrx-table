@@ -75,10 +75,6 @@ export class GnroDashboardComponent<T> implements AfterViewInit, OnDestroy {
     this.setupGridViewport();
   }
 
-  private initTabsConfig(config: GnroDashboardConfig): void {
-    this.dashboardFacade.initDashboardConfig(this.dashboardId, config);
-  }
-
   buttonClick(button: GnroButtonConfg): void {}
 
   private setupGridViewport(): void {

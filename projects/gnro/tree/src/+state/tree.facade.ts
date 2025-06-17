@@ -82,10 +82,6 @@ export class GnroTreeFacade {
     return this.store.selectSignal(selectTreeData(treeId));
   }
 
-  selectTreeData<T>(treeId: string): Observable<GnroTreeNode<T>[]> {
-    return this.store.select(selectTreeData(treeId));
-  }
-
   selectTreeInMemoryData<T>(treeId: string): Observable<GnroTreeNode<T>[]> {
     return this.store.select(selectTreeInMemoryData(treeId));
   }
