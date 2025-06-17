@@ -109,7 +109,6 @@ export class GnroGridFacade {
 
   setGridColumnConfig(gridId: string, columnsConfig: GnroColumnConfig): void {
     this.store.dispatch(gridActions.setGridColumnsConfig({ gridId, columnsConfig }));
-    this.dispatchGridData(gridId);
   }
 
   setSelectAllRows(gridId: string, selectAll: boolean): void {
