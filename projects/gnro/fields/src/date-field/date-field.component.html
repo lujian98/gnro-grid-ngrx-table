@@ -6,6 +6,7 @@
     [gnroFieldWidth]="fieldConfig().fieldWidth"
     [gnroFormFieldControl]="field"
     [showFieldEditIndicator]="showFieldEditIndicator()"
+    [editable]="editable$()"
   >
     @if (fieldConfig().fieldLabel !== undefined) {
       <gnro-label>{{ fieldConfig().fieldLabel! | translate }}</gnro-label>

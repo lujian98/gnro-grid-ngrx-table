@@ -46,6 +46,12 @@ export class GnroFormFieldComponent implements AfterViewInit, OnDestroy {
       return field;
     },
   });
+  editable = input(false, {
+    transform: (editable: boolean) => {
+      editable ? this.field()!.enable() : this.field()!.disable();
+      return editable;
+    },
+  });
 
   get formFieldControl(): FormControl | undefined {
     return this.field();

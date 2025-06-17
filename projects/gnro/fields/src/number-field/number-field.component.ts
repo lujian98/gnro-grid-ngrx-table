@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  computed,
   ElementRef,
   forwardRef,
   inject,
@@ -77,6 +78,7 @@ export class GnroNumberFieldComponent implements ControlValueAccessor, Validator
   onTouched: Function = () => {};
   form = input(new FormGroup({}), { transform: (form: FormGroup) => form });
   showFieldEditIndicator = input<boolean>(true);
+  editable$ = computed(() => !!this.fieldConfig().editable);
   fieldConfig = input.required({
     transform: (config: Partial<GnroNumberFieldConfig>) => {
       const fieldConfig = { ...defaultNumberFieldConfig, ...config };
@@ -96,9 +98,6 @@ export class GnroNumberFieldComponent implements ControlValueAccessor, Validator
     if (!this.form().get(fieldConfig.fieldName!)) {
       this.form().addControl(fieldConfig.fieldName!, new FormControl<number | null>(null));
     }
-    timer(5)
-      .pipe(take(1))
-      .subscribe(() => this.setDisabledState(!this.fieldConfig().editable));
   }
 
   get field(): FormControl {

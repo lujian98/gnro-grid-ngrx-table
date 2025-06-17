@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  computed,
   ElementRef,
   forwardRef,
   inject,
@@ -41,7 +42,7 @@ import {
 import { GnroIconModule } from '@gnro/ui/icon';
 import { GnroDialogService } from '@gnro/ui/overlay';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { Subject, take, takeUntil, timer } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { GnroFieldsErrorsComponent } from '../field-errors/field-errors.component';
 import { GnroDateRangePickerComponent } from './date-range-picker/date-range-picker.component';
 import { defaultDateRangeFieldConfig, GnroDateRange, GnroDateRangeFieldConfig } from './models/date-range-field.model';
@@ -94,6 +95,7 @@ export class GnroDateRangeFieldComponent implements OnInit, OnDestroy, ControlVa
   onTouched: Function = () => {};
   form = input(new FormGroup({}), { transform: (form: FormGroup) => form });
   showFieldEditIndicator = input<boolean>(true);
+  editable$ = computed(() => !!this.fieldConfig().editable);
   fieldConfig = input.required({
     transform: (config: Partial<GnroDateRangeFieldConfig>) => {
       const fieldConfig = { ...defaultDateRangeFieldConfig, ...config };
@@ -114,9 +116,6 @@ export class GnroDateRangeFieldComponent implements OnInit, OnDestroy, ControlVa
     if (!this.form().get(fieldConfig.fieldName!)) {
       this.form().addControl(fieldConfig.fieldName!, new FormControl<GnroDateRange | null>(null));
     }
-    timer(5)
-      .pipe(take(1))
-      .subscribe(() => this.setDisabledState(!this.fieldConfig().editable));
   }
 
   get field(): FormControl {

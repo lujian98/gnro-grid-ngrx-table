@@ -21,7 +21,6 @@ import {
 } from '@gnro/ui/form-field';
 import { GnroIconModule } from '@gnro/ui/icon';
 import { TranslatePipe } from '@ngx-translate/core';
-import { take, timer } from 'rxjs';
 import { defaultDisplayFieldConfig, GnroDisplayFieldConfig } from './models/display-field.model';
 
 @Component({
@@ -58,7 +57,6 @@ export class GnroDisplayFieldComponent implements ControlValueAccessor, Validato
   onChanged: Function = () => {};
   onTouched: Function = () => {};
   form = input(new FormGroup({}), { transform: (form: FormGroup) => form });
-  showFieldEditIndicator = input<boolean>(true);
   fieldConfig = input.required({
     transform: (config: Partial<GnroDisplayFieldConfig>) => {
       const fieldConfig = { ...defaultDisplayFieldConfig, ...config };
@@ -77,9 +75,6 @@ export class GnroDisplayFieldComponent implements ControlValueAccessor, Validato
     if (!this.form().get(fieldConfig.fieldName!)) {
       this.form().addControl(fieldConfig.fieldName!, new FormControl<string>(''));
     }
-    timer(5)
-      .pipe(take(1))
-      .subscribe(() => this.field.disable());
   }
 
   get field(): FormControl {

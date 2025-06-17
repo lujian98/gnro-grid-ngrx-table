@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  computed,
   forwardRef,
   inject,
   input,
@@ -32,7 +33,6 @@ import {
 } from '@gnro/ui/form-field';
 import { GnroIconModule } from '@gnro/ui/icon';
 import { TranslatePipe } from '@ngx-translate/core';
-import { take, timer } from 'rxjs';
 import { GnroFieldsErrorsComponent } from '../field-errors/field-errors.component';
 import { defaultPasswordFieldConfig, GnroPasswordFieldConfig } from './models/password-field.model';
 
@@ -74,6 +74,8 @@ export class GnroPasswordFieldComponent implements ControlValueAccessor, Validat
   onChanged: Function = () => {};
   onTouched: Function = () => {};
   form = input(new FormGroup({}), { transform: (form: FormGroup) => form });
+  showFieldEditIndicator = input<boolean>(true);
+  editable$ = computed(() => !!this.fieldConfig().editable);
   fieldConfig = input.required({
     transform: (config: Partial<GnroPasswordFieldConfig>) => {
       const fieldConfig = { ...defaultPasswordFieldConfig, ...config };
@@ -93,9 +95,6 @@ export class GnroPasswordFieldComponent implements ControlValueAccessor, Validat
     if (!this.form().get(fieldConfig.fieldName!)) {
       this.form().addControl(fieldConfig.fieldName!, new FormControl<string>(''));
     }
-    timer(5)
-      .pipe(take(1))
-      .subscribe(() => this.setDisabledState(!this.fieldConfig().editable));
   }
 
   get field(): FormControl {

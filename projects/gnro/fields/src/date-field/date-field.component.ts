@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  computed,
   ElementRef,
   forwardRef,
   inject,
@@ -94,6 +95,7 @@ export class GnroDateFieldComponent implements OnInit, OnDestroy, ControlValueAc
   onTouched: Function = () => {};
   form = input(new FormGroup({}), { transform: (form: FormGroup) => form });
   showFieldEditIndicator = input<boolean>(true);
+  editable$ = computed(() => !!this.fieldConfig().editable);
   fieldConfig = input.required({
     transform: (config: Partial<GnroDateFieldConfig>) => {
       const fieldConfig = { ...defaultDateFieldConfig, ...config };
@@ -114,9 +116,6 @@ export class GnroDateFieldComponent implements OnInit, OnDestroy, ControlValueAc
     if (!this.form().get(fieldConfig.fieldName!)) {
       this.form().addControl(fieldConfig.fieldName!, new FormControl<Date | string>(''));
     }
-    timer(5)
-      .pipe(take(1))
-      .subscribe(() => this.setDisabledState(!this.fieldConfig().editable));
   }
 
   get field(): FormControl {

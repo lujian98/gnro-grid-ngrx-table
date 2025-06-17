@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  computed,
   forwardRef,
   inject,
   input,
@@ -76,6 +77,7 @@ export class GnroCheckboxFieldComponent implements OnInit, OnDestroy, ControlVal
   onTouched: Function = () => {};
   form = input(new FormGroup({}), { transform: (form: FormGroup) => form });
   showFieldEditIndicator = input<boolean>(true);
+  editable$ = computed(() => !!this.fieldConfig().editable);
   disabled = input<boolean>(false);
   fieldConfig = input.required({
     transform: (config: Partial<GnroCheckboxFieldConfig>) => {
@@ -100,9 +102,6 @@ export class GnroCheckboxFieldComponent implements OnInit, OnDestroy, ControlVal
     timer(5)
       .pipe(take(1))
       .subscribe(() => {
-        // WARNING use field enable/disable for grid column menu show/hide!!
-        // select and other field use form enable/disable!!
-        this.fieldConfig().editable ? this.field.enable() : this.field.disable();
         this.setEnableFields();
       });
   }

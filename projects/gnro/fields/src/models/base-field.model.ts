@@ -22,5 +22,6 @@ export interface GnroBaseField {
 export const defaultBaseField: Partial<GnroBaseField> = {
   placeholder: '',
   clearValue: false,
+  editable: true,
   editButtons: ['Add', 'Edit'],
 };

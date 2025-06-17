@@ -2,12 +2,13 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  computed,
   forwardRef,
   inject,
   input,
-  signal,
   OnDestroy,
   output,
+  signal,
   ViewChild,
 } from '@angular/core';
 import {
@@ -28,6 +29,7 @@ import {
   GnroAutocompleteContentDirective,
   GnroAutocompleteDirective,
 } from '@gnro/ui/autocomplete';
+import { uniqueId } from '@gnro/ui/core';
 import {
   GnroFieldWidthDirective,
   GnroFormFieldComponent,
@@ -39,10 +41,8 @@ import {
   GnroSuffixDirective,
 } from '@gnro/ui/form-field';
 import { GnroIconModule } from '@gnro/ui/icon';
-import { TranslatePipe } from '@ngx-translate/core';
-import { Subject, take, timer } from 'rxjs';
-import { isEqual, sortByField, uniqueId } from '@gnro/ui/core';
 import { GnroOptionComponent } from '@gnro/ui/option';
+import { TranslatePipe } from '@ngx-translate/core';
 import { GnroFieldsErrorsComponent } from '../field-errors/field-errors.component';
 import { GnroSelectFieldStateModule } from './+state/select-field-state.module';
 import { GnroSelectFieldFacade } from './+state/select-field.facade';
@@ -102,6 +102,7 @@ export class GnroSelectFieldComponent<T, G> implements OnDestroy, ControlValueAc
 
   form = input(new FormGroup({}), { transform: (form: FormGroup) => form });
   showFieldEditIndicator = input<boolean>(true);
+  editable$ = computed(() => !!this.fieldConfig().editable);
   fieldConfig = input.required({
     transform: (config: Partial<GnroSelectFieldConfig>) => {
       const fieldConfig = { ...defaultSelectFieldConfig, ...config };
@@ -112,7 +113,6 @@ export class GnroSelectFieldComponent<T, G> implements OnDestroy, ControlValueAc
       if (fieldConfig.options) {
         this.selectFieldFacade.setSelectFieldOptions(this.fieldId, fieldConfig.options);
       }
-      this.setFieldEditable();
       return fieldConfig;
     },
   });
@@ -141,17 +141,6 @@ export class GnroSelectFieldComponent<T, G> implements OnDestroy, ControlValueAc
       this.setFormvalue();
     }
     return this.form();
-  }
-
-  private setFieldEditable(): void {
-    if (this.field) {
-      // filter not working and need check this form
-      timer(5)
-        .pipe(take(1))
-        .subscribe(() => {
-          return this.setDisabledState(!this.fieldConfig$().editable);
-        });
-    }
   }
 
   private setFormvalue(): void {

@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  computed,
   forwardRef,
   inject,
   input,
@@ -29,7 +30,6 @@ import {
 } from '@gnro/ui/form-field';
 import { GnroRadioComponent } from '@gnro/ui/radio';
 import { TranslatePipe } from '@ngx-translate/core';
-import { take, timer } from 'rxjs';
 import { GnroFieldsErrorsComponent } from '../field-errors/field-errors.component';
 import {
   defaultRadioGroupFieldConfig,
@@ -73,6 +73,7 @@ export class GnroRadioGroupFieldComponent implements ControlValueAccessor, Valid
   onChanged: Function = () => {};
   onTouched: Function = () => {};
   form = input(new FormGroup({}), { transform: (form: FormGroup) => form });
+  editable$ = computed(() => !!this.fieldConfig().editable);
   fieldConfig = input.required({
     transform: (config: Partial<GnroRadioGroupFieldConfig>) => {
       const fieldConfig = { ...defaultRadioGroupFieldConfig, ...config };
@@ -92,9 +93,6 @@ export class GnroRadioGroupFieldComponent implements ControlValueAccessor, Valid
     if (!this.form().get(fieldConfig.fieldName!)) {
       this.form().addControl(fieldConfig.fieldName!, new FormControl<boolean>(false));
     }
-    timer(5)
-      .pipe(take(1))
-      .subscribe(() => this.setDisabledState(!this.fieldConfig().editable));
   }
 
   get field(): FormControl {

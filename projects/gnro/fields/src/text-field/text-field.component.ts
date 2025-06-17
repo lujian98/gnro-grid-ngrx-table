@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  computed,
   ElementRef,
   forwardRef,
   inject,
@@ -34,7 +35,6 @@ import {
 } from '@gnro/ui/form-field';
 import { GnroIconModule } from '@gnro/ui/icon';
 import { TranslatePipe } from '@ngx-translate/core';
-import { take, timer } from 'rxjs';
 import { GnroFieldsErrorsComponent } from '../field-errors/field-errors.component';
 import { defaultTextFieldConfig, GnroTextFieldConfig } from './models/text-field.model';
 
@@ -77,6 +77,7 @@ export class GnroTextFieldComponent implements ControlValueAccessor, Validator {
   onTouched: Function = () => {};
   form = input(new FormGroup({}), { transform: (form: FormGroup) => form });
   showFieldEditIndicator = input<boolean>(true);
+  editable$ = computed(() => !!this.fieldConfig().editable);
   fieldConfig = input.required({
     transform: (config: Partial<GnroTextFieldConfig>) => {
       const fieldConfig = { ...defaultTextFieldConfig, ...config };
@@ -96,9 +97,6 @@ export class GnroTextFieldComponent implements ControlValueAccessor, Validator {
     if (!this.form().get(fieldConfig.fieldName!)) {
       this.form().addControl(fieldConfig.fieldName!, new FormControl<string>(''));
     }
-    timer(5)
-      .pipe(take(1))
-      .subscribe(() => this.setDisabledState(!this.fieldConfig().editable));
   }
 
   get field(): FormControl {
