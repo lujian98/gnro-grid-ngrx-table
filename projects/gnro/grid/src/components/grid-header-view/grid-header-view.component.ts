@@ -111,7 +111,7 @@ export class GnroGridHeaderViewComponent {
     } else if (moved.groupHeader && changed.groupHeader) {
       const columns = [...this.columns()];
       if (currentIndex < previousIndex) {
-        let newIndex = currentIndex;
+        let newIndex = this.firstIndex(changed.groupHeader?.name);
         this.columns().forEach((col, index) => {
           if (col.groupHeader?.name === moved.groupHeader?.name) {
             moveItemInArray(columns, index, newIndex);
@@ -119,7 +119,7 @@ export class GnroGridHeaderViewComponent {
           }
         });
       } else if (currentIndex > previousIndex) {
-        let newIndex = previousIndex;
+        let newIndex = this.firstIndex(moved.groupHeader?.name);
         this.columns().forEach((col, index) => {
           if (col.groupHeader?.name === changed.groupHeader?.name) {
             moveItemInArray(columns, index, newIndex);
