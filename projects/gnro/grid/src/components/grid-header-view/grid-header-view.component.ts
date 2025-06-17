@@ -24,7 +24,6 @@ export class GnroGridHeaderViewComponent {
   gridConfig = input.required<GnroGridConfig>();
   columnConfigs = input.required({
     transform: (columnConfigs: GnroColumnConfig[]) => {
-      //console.log(' column changed 99999')
       this.columns.set(columnConfigs);
       this.resizedColumns.set(this.columns());
       this.columnWidths();
