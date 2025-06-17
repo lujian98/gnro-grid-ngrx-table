@@ -31,18 +31,22 @@ export class GnroGridFooterComponent implements OnDestroy {
   gridConfig = input.required<GnroGridConfig>();
   page: number = 1;
   get displaying(): string {
+    const total = this.gridSetting().totalCounts;
     if (!this.gridConfig().virtualScroll) {
-      const start = (this.gridConfig().page - 1) * this.gridConfig().pageSize + 1;
-      let end = start + this.gridConfig().pageSize - 1;
-      if (end > this.gridSetting().totalCounts) {
-        end = this.gridSetting().totalCounts;
-      }
+      const start = this.getStart((this.gridConfig().page - 1) * this.gridConfig().pageSize + 1, total);
+      const end = this.getEnd(start + this.gridConfig().pageSize - 1, total);
       return `${start} - ${end}`;
     } else {
-      const index = this.gridSetting().scrollIndex + 1;
-      const endindex = index + this.gridSetting().viewportSize;
+      const index = this.getStart(this.gridSetting().scrollIndex + 1, total);
+      const endindex = this.getEnd(index + this.gridSetting().viewportSize, total);
       return `${index} - ${endindex}`;
     }
+  }
+  getStart(start: number, total: number): number {
+    return total === 0 ? 0 : start;
+  }
+  getEnd(end: number, total: number): number {
+    return end > total ? total : end;
   }
   lastPage = computed(() => {
     return Math.ceil(this.gridSetting().totalCounts / this.gridConfig().pageSize) - 0;
