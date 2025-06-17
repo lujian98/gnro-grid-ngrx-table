@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { sortByField, GnroObjectType } from '@gnro/ui/core';
 import { GnroColumnConfig, GnroGridConfig, GnroGridComponent, defaultGridConfig, GnroGroupHeader } from '@gnro/ui/grid';
 
 @Component({
@@ -37,7 +38,7 @@ export class AppGridGroupHeaderComponent {
   columnsConfig: GnroColumnConfig[] = [
     {
       name: 'ID',
-      width: 50,
+      width: 30,
       align: 'center',
     },
     {
@@ -49,16 +50,38 @@ export class AppGridGroupHeaderComponent {
       groupHeader: this.vehicleGroupHeader,
     },
     {
+      name: 'Price',
+      width: 30,
+      groupHeader: this.vehicleGroupHeader,
+      rendererType: GnroObjectType.Number,
+      rendererFieldConfig: {
+        decimals: 2,
+      },
+      filterField: GnroObjectType.Number,
+      align: 'right',
+    },
+    {
       name: 'year',
-      width: 50,
+      width: 30,
       align: 'right',
       groupHeader: this.valueGroupHeader,
     },
     {
       name: 'color',
-      width: 80,
+      width: 50,
       align: 'center',
       groupHeader: this.valueGroupHeader,
+    },
+    {
+      name: 'MakerColor',
+      align: 'center',
+      groupHeader: this.valueGroupHeader,
+      rendererType: GnroObjectType.Select,
+      rendererFieldConfig: {
+        optionKey: 'name',
+        optionLabel: 'title',
+      },
+      width: 30,
     },
   ];
 }
