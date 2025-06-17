@@ -53,13 +53,8 @@ export class GnroFormFieldComponent implements AfterViewInit, OnDestroy {
     },
   });
 
-  get formFieldControl(): FormControl | undefined {
-    return this.field();
-    //return this.formFieldControlDirective?.fieldControl;
-  }
   get required(): boolean {
-    const control = this.formFieldControl;
-    return !!control && control.hasValidator(Validators.required) && !control.disabled;
+    return !!(this.field()?.hasValidator(Validators.required) && !this.field()?.disabled);
   }
 
   private set fieldIndicator(val: string) {
@@ -107,8 +102,7 @@ export class GnroFormFieldComponent implements AfterViewInit, OnDestroy {
 
   private setFieldIndicator(): void {
     this.checkFieldIndicator();
-    const control = this.formFieldControl;
-    this.invalid = (!!control?.touched || !!control?.dirty) && !!control?.invalid;
+    this.invalid = (!!this.field()?.touched || !!this.field()?.dirty) && !!this.field()?.invalid;
     this.changeDetectorRef.markForCheck();
   }
 
@@ -117,9 +111,8 @@ export class GnroFormFieldComponent implements AfterViewInit, OnDestroy {
       .pipe(take(1))
       .subscribe(() => {
         let fieldIndicator = '';
-        const control = this.formFieldControl;
-        if (control && !control.disabled) {
-          fieldIndicator = control.dirty ? `gnro-form-field-indicator-red` : `gnro-form-field-indicator-green`;
+        if (!this.field()?.disabled) {
+          fieldIndicator = this.field()?.dirty ? `gnro-form-field-indicator-red` : `gnro-form-field-indicator-green`;
         }
         if (fieldIndicator !== this.fieldIndicator) {
           this.fieldIndicator = fieldIndicator;
