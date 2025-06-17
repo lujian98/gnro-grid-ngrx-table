@@ -1,25 +1,38 @@
-# Gnro
+# Gnro grid ui kits
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.0.
+Angular 19 ngrx
 
-## Code scaffolding
+Grid table local or remote configures, local or remote data. 
+   virtual scroll, column filter, sort, resize, reorder, hide, row selection, horizontal scroll
+   page size and auto fit vier port 
+   row group, configurable row heigh, display image, group header
+   grid cell edit, etc.
 
-Run `ng generate component component-name --project gnro` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project gnro`.
+ Tree grid: extends grid table with most feature of the grid.
+   Tree node drag and drop
 
-> Note: Don't forget to add `--project gnro` or else it will be added to the default project in your `angular.json` file.
+ Menus: accordion menus, grid column menus.
 
-## Build
+ Caledar: date picker and date range picker.
 
-Run `ng build gnro` to build the project. The build artifacts will be stored in the `dist/` directory.
+ Form fields: field set, checkbox, date, date range, display, hidden, number, password, radio group, select, text, textarea, upload files.
 
-## Publishing
+ File upload with drag and drop.
 
-After building your library with `ng build gnro`, go to the dist folder `cd dist/gnro` and run `npm publish`.
+ Form panel and form field
 
-## Running unit tests
+ Select and Autocomplete: support: string | object | string[] | object[]
 
-Run `ng test gnro` to execute the unit tests via [Karma](https://karma-runner.github.io).
+ button, icon, spinner
 
-## Further help
+ layout and resize
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+ dashboard: resize, drag and drop
+
+ popover, overlay and portal
+
+ tabs panel and tab-group
+
+ widnow and dialog: resizeablle, drag and drop, closeable, expandale.
+
+ theme and i18n
