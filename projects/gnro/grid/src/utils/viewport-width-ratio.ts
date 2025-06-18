@@ -9,16 +9,23 @@ export function viewportWidthRatio(
   if (gridConfig.horizontalScroll) {
     return 1.0;
   }
-  const totalWidth = getTableWidth(columns);
-  const viewportWidth = gridSetting.viewportWidth - (gridConfig.rowSelection ? ROW_SELECTION_CELL_WIDTH : 0);
+  const fiexWidth = getTableFixedWidth(columns);
+  const totalWidth = getTableWidth(columns) - fiexWidth;
+  const viewportWidth =
+    gridSetting.viewportWidth - (gridConfig.rowSelection ? ROW_SELECTION_CELL_WIDTH : 0) - fiexWidth;
   return viewportWidth / totalWidth;
 }
 
+function getTableFixedWidth(columns: GnroColumnConfig[]): number {
+  return [...columns]
+    .filter((column) => !column.hidden && column.resizeable === false)
+    .map((column) => column.width || MIN_GRID_COLUMN_WIDTH)
+    .reduce((prev, curr) => prev + curr, 0);
+}
+
 export function getTableWidth(columns: GnroColumnConfig[]): number {
-  return (
-    [...columns]
-      .filter((column) => !column.hidden)
-      .map((column) => column.width || MIN_GRID_COLUMN_WIDTH)
-      .reduce((prev, curr) => prev + curr, 0) || 1000
-  );
+  return [...columns]
+    .filter((column) => !column.hidden)
+    .map((column) => column.width || MIN_GRID_COLUMN_WIDTH)
+    .reduce((prev, curr) => prev + curr, 0);
 }

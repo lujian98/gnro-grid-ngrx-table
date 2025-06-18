@@ -48,11 +48,10 @@ export class GnroColumnResizeDirective {
     this.currentIndex = this.displayedColumns.findIndex((item) => item.name === this.column().name);
     this.columnWidths = [...this.displayedColumns].map((column) => {
       const resizeable = this.columns().find((col) => col.name === column.name)?.resizeable;
-      const ratio =
-        resizeable === false ? 1 : viewportWidthRatio(this.gridConfig(), this.gridSetting(), this.displayedColumns);
+      const ratio = viewportWidthRatio(this.gridConfig(), this.gridSetting(), this.displayedColumns);
       return {
         name: column.name,
-        width: ratio * column.width!,
+        width: resizeable === false ? column.width! : ratio * column.width!,
       };
     });
     event.stopPropagation();
@@ -130,6 +129,8 @@ export class GnroColumnResizeDirective {
             nextIndex++;
           }
         }
+      } else {
+        nextIndex++;
       }
       return {
         name: column.name,
