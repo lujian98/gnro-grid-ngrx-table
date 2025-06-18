@@ -7,7 +7,7 @@ import {
   GnroColumnFilter,
   GnroRowGroupField,
   GnroCellEdit,
-} from '../models/grid-column.model';
+} from '../models/grid.model';
 import { GnroRowGroup } from '../utils/row-group/row-group';
 
 export const initGridConfig = createAction(

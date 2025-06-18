@@ -7,7 +7,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { BehaviorSubject, Subject, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, skip, switchMap, takeUntil } from 'rxjs/operators';
 import { GnroGridFacade } from '../../+state/grid.facade';
-import { GnroGridConfig, GnroGridSetting } from '../../models/grid-column.model';
+import { GnroGridConfig, GnroGridSetting } from '../../models/grid.model';
 
 @Component({
   selector: 'gnro-grid-footer',

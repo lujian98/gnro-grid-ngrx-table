@@ -9,7 +9,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { GnroObjectType } from '@gnro/ui/core';
-import { GnroColumnConfig, GnroGridCell, GnroGridConfig, GnroGridSetting } from '../../../models/grid-column.model';
+import { GnroColumnConfig, GnroGridCell, GnroGridConfig, GnroGridSetting } from '../../../models/grid.model';
 import { GnroCellEditDateComponent } from './cell-edit/date/cell-edit-date.component';
 import { GnroCellEditNumberComponent } from './cell-edit/number/cell-edit-number.component';
 import { GnroCellEditSelectComponent } from './cell-edit/select/cell-edit-select.component';

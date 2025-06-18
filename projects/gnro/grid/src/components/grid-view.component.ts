@@ -16,7 +16,7 @@ import { uniqueId } from '@gnro/ui/core';
 import { BehaviorSubject, Subject, interval, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, skip, switchMap, take, takeUntil } from 'rxjs/operators';
 import { GnroGridFacade } from '../+state/grid.facade';
-import { GnroColumnConfig, GnroColumnWidth, GnroGridConfig, GnroGridSetting } from '../models/grid-column.model';
+import { GnroColumnConfig, GnroColumnWidth, GnroGridConfig, GnroGridSetting } from '../models/grid.model';
 import { GnroRowGroup } from '../utils/row-group/row-group';
 import { GnroRowGroups } from '../utils/row-group/row-groups';
 import { getTableWidth } from '../utils/viewport-width-ratio';

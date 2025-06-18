@@ -1,4 +1,4 @@
-import { GnroColumnConfig } from '../../models/grid-column.model';
+import { GnroColumnConfig } from '../../models/grid.model';
 import { GnroNumberFilter } from './number-filter';
 import { GnroTextFilter } from './text-filter';
 import { GnroSelectFilter } from './select-filter';

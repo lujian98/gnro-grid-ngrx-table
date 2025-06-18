@@ -1,4 +1,4 @@
-import { GnroColumnConfig } from '../../models/grid-column.model';
+import { GnroColumnConfig } from '../../models/grid.model';
 
 export interface GnroColumnFilterValue {
   name: string;

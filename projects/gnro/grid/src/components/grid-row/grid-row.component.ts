@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { ROW_SELECTION_CELL_WIDTH } from '../../models/constants';
-import { GnroColumnConfig, GnroColumnWidth, GnroGridConfig, GnroGridSetting } from '../../models/grid-column.model';
+import { GnroColumnConfig, GnroColumnWidth, GnroGridConfig, GnroGridSetting } from '../../models/grid.model';
 import { GnroGridCellEditComponent } from '../grid-cell/grid-cell-edit/grid-cell-edit.component';
 import { GnroGridCellViewComponent } from '../grid-cell/grid-cell-view/grid-cell-view.component';
 import { GnroGridCellComponent } from '../grid-cell/grid-cell.component';

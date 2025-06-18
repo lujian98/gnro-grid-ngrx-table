@@ -4,7 +4,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, input, output, si
 import { GnroGridFacade } from '../../+state/grid.facade';
 import { ROW_SELECTION_CELL_WIDTH } from '../../models/constants';
 import { DragDropEvent } from '../../models/drag-drop-event';
-import { GnroColumnConfig, GnroColumnWidth, GnroGridConfig, GnroGridSetting } from '../../models/grid-column.model';
+import { GnroColumnConfig, GnroColumnWidth, GnroGridConfig, GnroGridSetting } from '../../models/grid.model';
 import { getTableWidth, viewportWidthRatio } from '../../utils/viewport-width-ratio';
 import { GnroGridGroupHeaderComponent } from '../grid-header/grid-group-header/grid-group-header.component';
 import { GnroGridHeaderComponent } from '../grid-header/grid-header.component';

@@ -2,7 +2,7 @@ import { Directive, ElementRef, inject, input, output, Renderer2 } from '@angula
 import { MIN_GRID_COLUMN_WIDTH } from '../models/constants';
 import { EventTargetTypes } from '../models/event-target-types';
 import { EventTypes } from '../models/event-types';
-import { GnroColumnConfig, GnroColumnWidth, GnroGridConfig, GnroGridSetting } from '../models/grid-column.model';
+import { GnroColumnConfig, GnroColumnWidth, GnroGridConfig, GnroGridSetting } from '../models/grid.model';
 import { viewportWidthRatio } from '../utils/viewport-width-ratio';
 
 @Directive({

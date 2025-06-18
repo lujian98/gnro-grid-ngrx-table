@@ -3,7 +3,7 @@ import { GnroObjectType } from '@gnro/ui/core';
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { MIN_GRID_COLUMN_WIDTH, VIRTUAL_SCROLL_PAGE_SIZE } from '../models/constants';
 import { defaultState } from '../models/default-grid';
-import { GridState } from '../models/grid-column.model';
+import { GridState } from '../models/grid.model';
 import { GnroRowGroup } from '../utils/row-group/row-group';
 import { GnroRowGroups } from '../utils/row-group/row-groups';
 import { getSelected } from '../utils/row-selection';

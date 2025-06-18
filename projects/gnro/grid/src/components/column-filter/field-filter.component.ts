@@ -3,7 +3,7 @@ import { GnroObjectType } from '@gnro/ui/core';
 import { GnroFormField } from '@gnro/ui/fields';
 import { BehaviorSubject, Subject, debounceTime, of, skip, switchMap, takeUntil } from 'rxjs';
 import { GnroGridFacade } from '../../+state/grid.facade';
-import { GnroColumnConfig, GnroFilterValueType, GnroGridConfig, GnroGridSetting } from '../../models/grid-column.model';
+import { GnroColumnConfig, GnroFilterValueType, GnroGridConfig, GnroGridSetting } from '../../models/grid.model';
 
 @Component({
   template: '',

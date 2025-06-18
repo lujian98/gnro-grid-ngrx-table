@@ -1,5 +1,5 @@
 import { GnroRowGroup } from './row-group';
-import { GnroRowGroupField } from '../../models/grid-column.model';
+import { GnroRowGroupField } from '../../models/grid.model';
 
 export class GnroRowGroups {
   private _rowGroupFields: GnroRowGroupField[] = []; // only support one level more than two use tree grid

@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { GnroGridConfig } from '../models/grid-column.model';
+import { GnroGridConfig } from '../models/grid.model';
 
 export function getSelected<T>(gridConfig: GnroGridConfig, selection: SelectionModel<T>, data: T[]): number {
   let selected = 0;

@@ -5,7 +5,7 @@ import { concatLatestFrom } from '@ngrx/operators';
 import { Store } from '@ngrx/store';
 import { concatMap, debounceTime, delay, exhaustMap, map, mergeMap, of, switchMap } from 'rxjs';
 import { GnroGridFormViewComponent } from '../components/form-view/form-view.component';
-import { GnroColumnConfig, GnroGridConfig } from '../models/grid-column.model';
+import { GnroColumnConfig, GnroGridConfig } from '../models/grid.model';
 import { GnroGridinMemoryService } from '../services/grid-in-memory.service';
 import { GnroGridService } from '../services/grid.service';
 import * as gridActions from './grid.actions';

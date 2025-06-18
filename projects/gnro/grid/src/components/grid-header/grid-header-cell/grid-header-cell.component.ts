@@ -8,7 +8,7 @@ import {
   GnroGridConfig,
   GnroGridSetting,
   GnroSortField,
-} from '../../../models/grid-column.model';
+} from '../../../models/grid.model';
 
 @Component({
   selector: 'gnro-grid-header-cell',

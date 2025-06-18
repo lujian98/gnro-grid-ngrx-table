@@ -1,5 +1,5 @@
 export * from './src/grid.component';
-export * from './src/models/grid-column.model';
+export * from './src/models/grid.model';
 export * from './src/models/default-grid';
 export * from './src/+state/grid-state.module';
 export * from './src/+state/grid.facade';

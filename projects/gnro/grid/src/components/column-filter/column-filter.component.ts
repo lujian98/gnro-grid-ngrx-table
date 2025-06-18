@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { GnroObjectType } from '@gnro/ui/core';
 import { defaultSelectFieldConfig, defaultTextFieldConfig, GnroFormField } from '@gnro/ui/fields';
-import { GnroColumnConfig, GnroGridConfig, GnroGridSetting } from '../../models/grid-column.model';
+import { GnroColumnConfig, GnroGridConfig, GnroGridSetting } from '../../models/grid.model';
 import { GnroDateRangeFilterComponent } from './date-range/date-range-filter.component';
 import { GnroNumberFilterComponent } from './number/number-filter.component';
 import { GnroSelectFilterComponent } from './select/select-filter.component';

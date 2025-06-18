@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
-import { GnroColumnConfig, GnroGridConfig } from '../../../../models/grid-column.model';
+import { GnroColumnConfig, GnroGridConfig } from '../../../../models/grid.model';
 
 @Component({
   selector: 'gnro-grid-cell-renderer',

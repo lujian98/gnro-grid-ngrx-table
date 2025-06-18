@@ -2,13 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, of, catchError, map, throwError } from 'rxjs';
 import { GnroBackendService } from '@gnro/ui/core';
-import {
-  GnroColumnConfig,
-  GnroColumnFilter,
-  GnroGridConfig,
-  GnroGridData,
-  GnroSortField,
-} from '../models/grid-column.model';
+import { GnroColumnConfig, GnroColumnFilter, GnroGridConfig, GnroGridData, GnroSortField } from '../models/grid.model';
 import { GnroFilterFactory } from './filter/filter-factory';
 import { GnroRansackFilterFactory } from './ransack/filter/filter-factory';
 

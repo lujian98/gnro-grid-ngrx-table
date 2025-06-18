@@ -11,7 +11,7 @@ import {
   GnroGridSetting,
   GnroRowGroupField,
   GnroSortField,
-} from '../models/grid-column.model';
+} from '../models/grid.model';
 import { GnroRowGroup } from '../utils/row-group/row-group';
 import { GnroRowGroups } from '../utils/row-group/row-groups';
 import * as gridActions from './grid.actions';

@@ -3,12 +3,7 @@ import { GnroDisabled } from '@gnro/ui/core';
 import { GnroMenuConfig, GnroMenusComponent } from '@gnro/ui/menu';
 import { GnroGridStateModule } from '../../../+state/grid-state.module';
 import { GnroGridFacade } from '../../../+state/grid.facade';
-import {
-  GnroColumnConfig,
-  GnroGridConfig,
-  GnroGridSetting,
-  GnroRowGroupField,
-} from '../../../models/grid-column.model';
+import { GnroColumnConfig, GnroGridConfig, GnroGridSetting, GnroRowGroupField } from '../../../models/grid.model';
 
 @Component({
   selector: 'gnro-grid-column-menu',

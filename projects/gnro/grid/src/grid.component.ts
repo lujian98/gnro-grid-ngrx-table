@@ -8,7 +8,7 @@ import { GnroGridFacade } from './+state/grid.facade';
 import { GnroGridFooterComponent } from './components/grid-footer/grid-footer.component';
 import { GnroGridViewComponent } from './components/grid-view.component';
 import { defaultGridConfig, defaultGridSetting } from './models/default-grid';
-import { GnroColumnConfig, GnroGridConfig, GnroGridData, GnroGridSetting } from './models/grid-column.model';
+import { GnroColumnConfig, GnroGridConfig, GnroGridData, GnroGridSetting } from './models/grid.model';
 
 export interface GnroButtonClick {
   button: GnroButtonConfg;

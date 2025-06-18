@@ -1,4 +1,4 @@
-import { GnroColumnConfig, GnroGridConfig, GnroGridSetting } from '../models/grid-column.model';
+import { GnroColumnConfig, GnroGridConfig, GnroGridSetting } from '../models/grid.model';
 import { MIN_GRID_COLUMN_WIDTH, ROW_SELECTION_CELL_WIDTH } from '../models/constants';
 
 export function viewportWidthRatio(

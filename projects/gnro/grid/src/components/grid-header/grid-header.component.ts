@@ -13,7 +13,7 @@ import {
   GnroColumnWidth,
   GnroGridConfig,
   GnroGridSetting,
-} from '../../models/grid-column.model';
+} from '../../models/grid.model';
 import { GnroColumnFilterComponent } from '../column-filter/column-filter.component';
 import { GnroRowSelectComponent } from '../row-select/row-select.component';
 import { GnroGridColumnMenuComponent } from './grid-column-menu/grid-column-menu.component';

@@ -1,12 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import {
-  GnroColumnConfig,
-  GnroColumnFilter,
-  GnroGridConfig,
-  GnroGridData,
-  GnroSortField,
-} from '../models/grid-column.model';
+import { GnroColumnConfig, GnroColumnFilter, GnroGridConfig, GnroGridData, GnroSortField } from '../models/grid.model';
 import { GnroFilterFactory } from './filter/filter-factory';
 import { GnroRansackFilterFactory } from './ransack/filter/filter-factory';
 import { sortByField } from '@gnro/ui/core';

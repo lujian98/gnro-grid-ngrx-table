@@ -8,7 +8,7 @@ import {
   GnroGridConfig,
   GnroGridSetting,
   GnroGroupHeader,
-} from '../../../models/grid-column.model';
+} from '../../../models/grid.model';
 import { GnroGridHeaderItemComponent } from '../grid-header-item/grid-header-item.component';
 
 @Component({

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, input, output } f
 import { GnroIconModule } from '@gnro/ui/icon';
 import { TranslatePipe } from '@ngx-translate/core';
 import { GnroGridFacade } from '../../+state/grid.facade';
-import { GnroColumnConfig, GnroGridConfig, GnroGridSetting } from '../../models/grid-column.model';
+import { GnroColumnConfig, GnroGridConfig, GnroGridSetting } from '../../models/grid.model';
 import { GnroRowGroup } from '../../utils/row-group/row-group';
 
 @Component({

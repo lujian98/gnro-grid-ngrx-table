@@ -4,7 +4,7 @@ import { isEqual } from '@gnro/ui/core';
 import { GnroFormField } from '@gnro/ui/fields';
 import { take, timer } from 'rxjs';
 import { GnroGridFacade } from '../../../../+state/grid.facade';
-import { GnroCellEdit, GnroColumnConfig, GnroGridConfig, GnroGridSetting } from '../../../../models/grid-column.model';
+import { GnroCellEdit, GnroColumnConfig, GnroGridConfig, GnroGridSetting } from '../../../../models/grid.model';
 
 @Component({
   selector: 'gnro-grid-cell-edit-base',

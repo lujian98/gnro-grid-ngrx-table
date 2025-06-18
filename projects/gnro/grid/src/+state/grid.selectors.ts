@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store';
 import { SelectionModel } from '@angular/cdk/collections';
 import { GnroRowGroup } from '../utils/row-group/row-group';
-import { GridState } from '../models/grid-column.model';
+import { GridState } from '../models/grid.model';
 import { defaultState } from '../models/default-grid';
 
 export interface AppGridState {
