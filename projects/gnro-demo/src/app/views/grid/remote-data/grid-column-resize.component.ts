@@ -34,6 +34,7 @@ export class AppGridColumnResizeComponent {
     {
       name: 'year',
       width: 50,
+      resizeable: false,
       align: 'right',
     },
     {
