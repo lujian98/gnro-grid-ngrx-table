@@ -42,7 +42,8 @@ export class GnroGridHeaderViewComponent {
     const displayColumns = [...this.resizedColumns()].filter((column) => column.hidden !== true);
     let tot = this.gridConfig().rowSelection ? ROW_SELECTION_CELL_WIDTH : 0;
     const columnWidths = displayColumns.map((column, index) => {
-      let width = Math.round(this.widthRatio() * column.width!);
+      const resizeable = this.columns().find((col) => col.name === column.name)?.resizeable;
+      let width = resizeable === false ? column.width! : Math.round(this.widthRatio() * column.width!);
       tot += width;
       if (index === displayColumns.length - 1) {
         width += this.tableWidth - tot;
@@ -66,10 +67,14 @@ export class GnroGridHeaderViewComponent {
   }
 
   onColumnResized(columnWidths: GnroColumnWidth[]): void {
-    const columns: GnroColumnConfig[] = [...this.columns()].map((column, index) => ({
-      ...column,
-      width: columnWidths[index].width / this.widthRatio(),
-    }));
+    const columns: GnroColumnConfig[] = [...this.columns()].map((column, index) => {
+      const resizeable = this.columns().find((col) => col.name === column.name)?.resizeable;
+      const ratio = resizeable === false ? 1 : this.widthRatio();
+      return {
+        ...column,
+        width: columnWidths[index].width / ratio,
+      };
+    });
     this.resizedColumns.set(this.columns());
     this.isResizing.set(false);
     this.gridFacade.setGridColumnsConfig(this.gridConfig(), this.gridSetting(), columns);

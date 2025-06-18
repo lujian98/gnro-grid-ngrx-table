@@ -20,7 +20,7 @@ export class AppGridColumnResizeComponent {
   columnsConfig: GnroColumnConfig[] = [
     {
       name: 'ID',
-      width: 50,
+      width: 20,
       align: 'center',
     },
     {
@@ -28,6 +28,8 @@ export class AppGridColumnResizeComponent {
     },
     {
       name: 'brand',
+      resizeable: false,
+      width: 75,
     },
     {
       name: 'year',

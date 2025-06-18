@@ -157,6 +157,7 @@ export interface GnroColumnConfig {
   hidden?: boolean;
   allowHide?: boolean; // default is true
   width?: number;
+  resizeable?: boolean; // default is true // TODO
   align?: string;
   draggable?: boolean; // default is true
   sortField?: boolean; // default is true

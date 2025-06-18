@@ -10,7 +10,7 @@ export function viewportWidthRatio(
     return 1.0;
   }
   const totalWidth = getTableWidth(columns);
-  const viewportWidth = gridSetting.viewportWidth - (gridConfig.rowSelection ? ROW_SELECTION_CELL_WIDTH : 0);
+  const viewportWidth = gridSetting.viewportWidth - (gridConfig.rowSelection ? ROW_SELECTION_CELL_WIDTH : 0) - 75;
   return viewportWidth / totalWidth;
 }
 

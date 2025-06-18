@@ -46,10 +46,15 @@ export class GnroColumnResizeDirective {
 
   onMouseDown(event: MouseEvent): void {
     this.currentIndex = this.displayedColumns.findIndex((item) => item.name === this.column().name);
-    this.columnWidths = [...this.displayedColumns].map((column) => ({
-      name: column.name,
-      width: viewportWidthRatio(this.gridConfig(), this.gridSetting(), this.displayedColumns) * column.width!,
-    }));
+    this.columnWidths = [...this.displayedColumns].map((column) => {
+      const resizeable = this.columns().find((col) => col.name === column.name)?.resizeable;
+      const ratio =
+        resizeable === false ? 1 : viewportWidthRatio(this.gridConfig(), this.gridSetting(), this.displayedColumns);
+      return {
+        name: column.name,
+        width: ratio * column.width!,
+      };
+    });
     event.stopPropagation();
     this.columnInResizeMode = true;
     this.resizeStartPositionX = event.x;
@@ -106,21 +111,24 @@ export class GnroColumnResizeDirective {
     let nextIndex = this.currentIndex + 1;
 
     this.columnWidths = [...this.columnWidths].map((column, idx) => {
+      const resizeable = this.columns().find((col) => col.name === column.name)?.resizeable;
       let width = column.width!;
-      if (idx == this.currentIndex) {
-        width = column.width! + dx;
-        if (width < MIN_GRID_COLUMN_WIDTH) {
-          width = MIN_GRID_COLUMN_WIDTH;
-          dx = 0;
-        }
-      } else if (idx == nextIndex && !this.gridConfig().horizontalScroll) {
-        width = column.width! - dx;
-        if (width < MIN_GRID_COLUMN_WIDTH) {
-          width = MIN_GRID_COLUMN_WIDTH;
-          if (nextIndex === this.columnWidths.length - 1) {
+      if (resizeable !== false) {
+        if (idx == this.currentIndex) {
+          width = column.width! + dx;
+          if (width < MIN_GRID_COLUMN_WIDTH) {
+            width = MIN_GRID_COLUMN_WIDTH;
             dx = 0;
           }
-          nextIndex++;
+        } else if (idx == nextIndex && !this.gridConfig().horizontalScroll) {
+          width = column.width! - dx;
+          if (width < MIN_GRID_COLUMN_WIDTH) {
+            width = MIN_GRID_COLUMN_WIDTH;
+            if (nextIndex === this.columnWidths.length - 1) {
+              dx = 0;
+            }
+            nextIndex++;
+          }
         }
       }
       return {
