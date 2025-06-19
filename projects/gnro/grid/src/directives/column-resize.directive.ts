@@ -111,9 +111,9 @@ export class GnroColumnResizeDirective {
     const width = this.currentWidth - Number(this.resizeStartPositionX - currentPositionX);
     let dx = width - this.columnWidths[this.currentIndex].width;
     let nextIndex = this.currentIndex + 1;
-
     let tot = 0;
-    this.columnWidths = [...this.columnWidths].map((column, idx) => {
+    let changedIndex = -1;
+    const columnWidths = [...this.columnWidths].map((column, idx) => {
       const resizeable = this.columns().find((col) => col.name === column.name)?.resizeable;
       let width = column.width!;
       if (resizeable !== false) {
@@ -124,6 +124,7 @@ export class GnroColumnResizeDirective {
             dx = 0;
           }
         } else if (idx == nextIndex && !this.gridConfig().horizontalScroll) {
+          changedIndex = idx;
           width = column.width! - dx;
           if (width < MIN_GRID_COLUMN_WIDTH) {
             width = MIN_GRID_COLUMN_WIDTH;
@@ -133,7 +134,7 @@ export class GnroColumnResizeDirective {
             nextIndex++;
           }
         }
-      } else {
+      } else if (idx > this.currentIndex) {
         nextIndex++;
       }
       tot += width;
@@ -142,8 +143,9 @@ export class GnroColumnResizeDirective {
         width: width!,
       };
     });
-    console.log(' this.columnWidths=', this.columnWidths);
+    console.log(' this.columnWidths=', columnWidths);
     console.log(' total width=', tot);
-    return this.columnWidths;
+    console.log(' changedIndex=', changedIndex);
+    return columnWidths;
   }
 }
