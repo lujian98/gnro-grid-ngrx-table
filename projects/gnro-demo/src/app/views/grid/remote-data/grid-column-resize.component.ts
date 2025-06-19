@@ -37,13 +37,13 @@ export class AppGridColumnResizeComponent {
     {
       name: 'year',
       width: 100,
-      resizeable: false,
+      //resizeable: false,
       align: 'right',
     },
     {
       name: 'color',
       width: 80,
-      //resizeable: false,
+      resizeable: false,
       align: 'center',
     },
   ];
