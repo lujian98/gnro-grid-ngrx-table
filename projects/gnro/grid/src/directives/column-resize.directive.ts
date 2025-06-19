@@ -46,17 +46,17 @@ export class GnroColumnResizeDirective {
 
   onMouseDown(event: MouseEvent): void {
     this.currentIndex = this.displayedColumns.findIndex((item) => item.name === this.column().name);
-    let tot = 0;
+    //let tot = 0;
     this.columnWidths = [...this.displayedColumns].map((column) => {
       const resizeable = this.columns().find((col) => col.name === column.name)?.resizeable;
       const ratio = viewportWidthRatio(this.gridConfig(), this.gridSetting(), this.displayedColumns);
-      tot += resizeable === false ? column.width! : ratio * column.width!;
+      //tot += resizeable === false ? column.width! : ratio * column.width!;
       return {
         name: column.name,
         width: resizeable === false ? column.width! : ratio * column.width!,
       };
     });
-    console.log('xxxxx this.tot =', tot);
+    //console.log('xxxxx this.tot =', tot);
     event.stopPropagation();
     this.columnInResizeMode = true;
     this.resizeStartPositionX = event.x;
@@ -143,9 +143,9 @@ export class GnroColumnResizeDirective {
         width: width!,
       };
     });
-    console.log(' this.columnWidths=', columnWidths);
-    console.log(' total width=', tot);
-    console.log(' changedIndex=', changedIndex);
+    //console.log(' this.columnWidths=', columnWidths);
+    //console.log(' total width=', tot);
+    //console.log(' changedIndex=', changedIndex);
     return columnWidths;
   }
 }

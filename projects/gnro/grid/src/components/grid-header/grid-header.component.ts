@@ -73,6 +73,15 @@ export class GnroGridHeaderComponent<T> {
     return index;
   }
 
+  resizeable(column: GnroColumnConfig, index: number): boolean {
+    const nextResizeable = this.columns().filter((col, idx) => idx > index && col.resizeable !== false).length;
+    return (
+      this.gridConfig().columnResize &&
+      column.resizeable !== false &&
+      (nextResizeable > 0 || this.gridConfig().horizontalScroll)
+    );
+  }
+
   dragDisabled(column: GnroColumnConfig): boolean {
     return !(this.gridConfig().columnReorder && column.draggable !== false);
   }
