@@ -13,10 +13,12 @@ export function viewportWidthRatio(
   const totalWidth = getTableWidth(columns) - fiexWidth;
   const viewportWidth =
     gridSetting.viewportWidth - (gridConfig.rowSelection ? ROW_SELECTION_CELL_WIDTH : 0) - fiexWidth;
+  console.log(' viewportWidth =', viewportWidth + fiexWidth);
+  console.log(' ratio =', viewportWidth / totalWidth);
   return viewportWidth / totalWidth;
 }
 
-function getTableFixedWidth(columns: GnroColumnConfig[]): number {
+export function getTableFixedWidth(columns: GnroColumnConfig[]): number {
   return [...columns]
     .filter((column) => !column.hidden && column.resizeable === false)
     .map((column) => column.width || MIN_GRID_COLUMN_WIDTH)

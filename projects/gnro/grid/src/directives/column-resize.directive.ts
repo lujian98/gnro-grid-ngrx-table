@@ -46,14 +46,17 @@ export class GnroColumnResizeDirective {
 
   onMouseDown(event: MouseEvent): void {
     this.currentIndex = this.displayedColumns.findIndex((item) => item.name === this.column().name);
+    let tot = 0;
     this.columnWidths = [...this.displayedColumns].map((column) => {
       const resizeable = this.columns().find((col) => col.name === column.name)?.resizeable;
       const ratio = viewportWidthRatio(this.gridConfig(), this.gridSetting(), this.displayedColumns);
+      tot += resizeable === false ? column.width! : ratio * column.width!;
       return {
         name: column.name,
         width: resizeable === false ? column.width! : ratio * column.width!,
       };
     });
+    console.log('xxxxx this.tot =', tot);
     event.stopPropagation();
     this.columnInResizeMode = true;
     this.resizeStartPositionX = event.x;
@@ -109,6 +112,7 @@ export class GnroColumnResizeDirective {
     let dx = width - this.columnWidths[this.currentIndex].width;
     let nextIndex = this.currentIndex + 1;
 
+    let tot = 0;
     this.columnWidths = [...this.columnWidths].map((column, idx) => {
       const resizeable = this.columns().find((col) => col.name === column.name)?.resizeable;
       let width = column.width!;
@@ -132,11 +136,14 @@ export class GnroColumnResizeDirective {
       } else {
         nextIndex++;
       }
+      tot += width;
       return {
         name: column.name,
         width: width!,
       };
     });
+    console.log(' this.columnWidths=', this.columnWidths);
+    console.log(' total width=', tot);
     return this.columnWidths;
   }
 }

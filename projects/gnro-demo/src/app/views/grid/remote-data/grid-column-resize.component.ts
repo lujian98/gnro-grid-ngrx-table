@@ -21,21 +21,23 @@ export class AppGridColumnResizeComponent {
     {
       name: 'ID',
       width: 40,
-      resizeable: false,
+      //resizeable: false,
       align: 'center',
     },
     {
       name: 'vin',
+      width: 150,
+      resizeable: false,
     },
     {
       name: 'brand',
-      resizeable: false,
+      //resizeable: false,
       width: 75,
     },
     {
       name: 'year',
-      width: 50,
-      //resizeable: false,
+      width: 100,
+      resizeable: false,
       align: 'right',
     },
     {
