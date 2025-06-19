@@ -292,9 +292,8 @@ export class GnroSelectFieldComponent<T, G> implements OnDestroy, ControlValueAc
     this.onTouched = fn;
   }
 
-  //TODO should use form or field???
   setDisabledState(disabled: boolean): void {
-    disabled ? this.form().disable() : this.form().enable();
+    disabled ? this.field.disable() : this.field.enable();
   }
 
   writeValue(value: { [key: string]: string[] | object[] }): void {

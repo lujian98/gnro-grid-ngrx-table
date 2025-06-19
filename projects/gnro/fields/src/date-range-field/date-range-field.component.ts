@@ -188,7 +188,7 @@ export class GnroDateRangeFieldComponent implements OnInit, OnDestroy, ControlVa
   }
 
   setDisabledState(disabled: boolean): void {
-    disabled ? this.form().disable() : this.form().enable();
+    disabled ? this.field.disable() : this.field.enable();
   }
 
   writeValue(value: { [key: string]: GnroDateRange }): void {

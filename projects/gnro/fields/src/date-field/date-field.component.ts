@@ -201,7 +201,7 @@ export class GnroDateFieldComponent implements OnInit, OnDestroy, ControlValueAc
   }
 
   setDisabledState(disabled: boolean): void {
-    disabled ? this.form().disable() : this.form().enable();
+    disabled ? this.field.disable() : this.field.enable();
   }
 
   writeValue(value: { [key: string]: Date }): void {

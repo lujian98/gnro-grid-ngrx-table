@@ -47,7 +47,7 @@ export function setFormFieldsEditable(formFields: GnroFormField[], button: GnroB
           return { ...field };
         } else {
           const editButtons = field.editButtons ? field.editButtons : defaultBaseField.editButtons;
-          const editable = editButtons?.find((item) => item === button.name);
+          const editable = !!editButtons?.find((item) => item === button.name);
           return { ...field, editable };
         }
       }

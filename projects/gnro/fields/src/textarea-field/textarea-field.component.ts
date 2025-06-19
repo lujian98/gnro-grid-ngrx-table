@@ -131,7 +131,7 @@ export class GnroTextareaFieldComponent implements ControlValueAccessor, Validat
   }
 
   setDisabledState(disabled: boolean): void {
-    disabled ? this.form().disable() : this.form().enable();
+    disabled ? this.field.disable() : this.field.enable();
   }
 
   writeValue(value: { [key: string]: string }): void {

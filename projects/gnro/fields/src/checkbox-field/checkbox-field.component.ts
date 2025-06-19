@@ -184,7 +184,7 @@ export class GnroCheckboxFieldComponent implements OnInit, OnDestroy, ControlVal
   }
 
   setDisabledState(disabled: boolean): void {
-    disabled ? this.form().disable() : this.form().enable();
+    disabled ? this.field.disable() : this.field.enable();
   }
 
   writeValue(value: { [key: string]: boolean }): void {
