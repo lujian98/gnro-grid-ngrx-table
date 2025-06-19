@@ -157,7 +157,7 @@ export interface GnroColumnConfig {
   hidden?: boolean;
   allowHide?: boolean; // default is true
   width?: number;
-  resizeable?: boolean; // default is true // TODO
+  resizeable?: boolean; // default is true
   align?: string;
   draggable?: boolean; // default is true
   sortField?: boolean; // default is true
@@ -172,9 +172,5 @@ export interface GnroColumnConfig {
   renderer?: Function; // renderer function
   cellEditable?: boolean;
 
-  //fixedWidth?: boolean | 'auto';
-  //minWidth?: number;
-  //editField?: GnroEditField;
-  //validations?: GnroValidation[];
-  //menu?: boolean | GnroMenuConfig;
+  //menu?: boolean | GnroMenuConfig; // custom input column menu??
 }
