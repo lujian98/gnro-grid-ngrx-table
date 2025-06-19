@@ -46,17 +46,14 @@ export class GnroColumnResizeDirective {
 
   onMouseDown(event: MouseEvent): void {
     this.currentIndex = this.displayedColumns.findIndex((item) => item.name === this.column().name);
-    //let tot = 0;
     this.columnWidths = [...this.displayedColumns].map((column) => {
       const resizeable = this.columns().find((col) => col.name === column.name)?.resizeable;
       const ratio = viewportWidthRatio(this.gridConfig(), this.gridSetting(), this.displayedColumns);
-      //tot += resizeable === false ? column.width! : ratio * column.width!;
       return {
         name: column.name,
         width: resizeable === false ? column.width! : ratio * column.width!,
       };
     });
-    //console.log('xxxxx this.tot =', tot);
     event.stopPropagation();
     this.columnInResizeMode = true;
     this.resizeStartPositionX = event.x;
@@ -111,8 +108,6 @@ export class GnroColumnResizeDirective {
     const width = this.currentWidth - Number(this.resizeStartPositionX - currentPositionX);
     let dx = width - this.columnWidths[this.currentIndex].width;
     let nextIndex = this.currentIndex + 1;
-    let tot = 0;
-    let changedIndex = -1;
     const columnWidths = [...this.columnWidths].map((column, idx) => {
       const resizeable = this.columns().find((col) => col.name === column.name)?.resizeable;
       let width = column.width!;
@@ -124,7 +119,6 @@ export class GnroColumnResizeDirective {
             dx = 0;
           }
         } else if (idx == nextIndex && !this.gridConfig().horizontalScroll) {
-          changedIndex = idx;
           width = column.width! - dx;
           if (width < MIN_GRID_COLUMN_WIDTH) {
             width = MIN_GRID_COLUMN_WIDTH;
@@ -137,15 +131,11 @@ export class GnroColumnResizeDirective {
       } else if (idx > this.currentIndex) {
         nextIndex++;
       }
-      tot += width;
       return {
         name: column.name,
         width: width!,
       };
     });
-    //console.log(' this.columnWidths=', columnWidths);
-    //console.log(' total width=', tot);
-    //console.log(' changedIndex=', changedIndex);
     return columnWidths;
   }
 }

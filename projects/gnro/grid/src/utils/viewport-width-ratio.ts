@@ -11,11 +11,8 @@ export function viewportWidthRatio(
   }
   const fiexWidth = getTableFixedWidth(columns);
   const totalWidth = getTableWidth(columns) - fiexWidth;
-  const viewportWidth =
-    gridSetting.viewportWidth - (gridConfig.rowSelection ? ROW_SELECTION_CELL_WIDTH : 0) - fiexWidth;
-  //console.log(' viewportWidth =', viewportWidth + fiexWidth);
-  //console.log(' ratio =', viewportWidth / totalWidth);
-  return viewportWidth / totalWidth;
+  const width = gridSetting.viewportWidth - (gridConfig.rowSelection ? ROW_SELECTION_CELL_WIDTH : 0) - fiexWidth;
+  return width / totalWidth;
 }
 
 export function getTableFixedWidth(columns: GnroColumnConfig[]): number {

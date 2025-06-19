@@ -31,7 +31,7 @@ export class AppGridColumnResizeComponent {
     },
     {
       name: 'brand',
-      //resizeable: false,
+      resizeable: false,
       width: 75,
     },
     {
