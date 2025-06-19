@@ -43,6 +43,7 @@ export class AppGridColumnResizeComponent {
     {
       name: 'color',
       width: 80,
+      //resizeable: false,
       align: 'center',
     },
   ];
