@@ -1,6 +1,5 @@
 @if (gridConfig().rowSelection) {
   <gnro-grid-header-item
-    class="gnro-grid-header-sticky"
     [class.gnro-grid-header-sticky]="gridConfig().columnSticky"
     [class.gnro-grid-column-last-sticky]="isSelectLastSticky"
     [style.flex]="'0 0 ' + selectColumnWidth"
