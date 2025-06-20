@@ -34,4 +34,9 @@ export class GnroGridRowComponent<T> {
   isCellEditable(column: GnroColumnConfig): boolean {
     return !!(this.gridSetting().gridEditable && column.cellEditable);
   }
+
+  get isSelectLastSticky(): boolean {
+    //TODO
+    return this.gridConfig().columnSticky ? true : false;
+  }
 }

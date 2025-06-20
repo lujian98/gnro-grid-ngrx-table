@@ -38,6 +38,10 @@
       }
     }
 
+    .gnro-grid-column-last-sticky {
+      border-right: 2px solid gnro.gnro-theme(app-border-basic-color);
+    }
+
     gnro-grid-header-item {
       border-style: solid;
       border-color: gnro.gnro-theme(app-border-basic-color);

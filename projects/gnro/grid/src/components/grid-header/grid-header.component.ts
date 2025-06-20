@@ -68,6 +68,12 @@ export class GnroGridHeaderComponent<T> {
   get headerCellLeft(): string {
     return this.gridConfig().columnSticky ? `${-this.columnHeaderPosition()}px` : `0px`;
   }
+
+  get isSelectLastSticky(): boolean {
+    //TODO
+    return this.gridConfig().columnSticky ? true : false;
+  }
+
   getColumnWidth(column: GnroColumnConfig): string {
     const width = this.columnWidths().find((col) => col.name === column.name)?.width;
     return width ? `${width}px` : '';
