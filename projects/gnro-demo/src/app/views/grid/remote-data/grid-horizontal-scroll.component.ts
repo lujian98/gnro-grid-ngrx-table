@@ -26,16 +26,18 @@ export class AppGridHorizontalScrollComponent {
   columnsConfig: GnroColumnConfig[] = [
     {
       name: 'ID',
-      width: 50,
+      width: 80,
       align: 'center',
+      sticky: true,
     },
     {
       name: 'vin',
-      width: 450,
+      width: 150,
+      sticky: true,
     },
     {
       name: 'brand',
-      width: 150,
+      width: 450,
     },
     {
       name: 'year',

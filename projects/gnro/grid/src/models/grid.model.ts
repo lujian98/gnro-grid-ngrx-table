@@ -172,6 +172,8 @@ export interface GnroColumnConfig {
   component?: Type<unknown>; // renderer component
   renderer?: Function; // renderer function
   cellEditable?: boolean;
+  sticky?: boolean;
+  stickyEnd?: boolean;
 
   //menu?: boolean | GnroMenuConfig; // custom input column menu??
 }
