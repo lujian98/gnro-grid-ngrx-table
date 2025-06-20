@@ -4,6 +4,7 @@
   gnro-grid,
   gnro-tree {
     gnro-grid-header,
+    .gnro-grid-header-sticky,
     gnro-grid-header-view {
       background-color: gnro.gnro-theme(gnro-grid-header-background-color);
     }
@@ -37,6 +38,7 @@
       }
     }
 
+    .gnro-grid-header-sticky,
     .gnro-grid-cell-row-select {
       border-right: 1px solid gnro.gnro-theme(app-border-basic-color);
     }
