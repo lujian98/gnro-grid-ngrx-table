@@ -3,6 +3,10 @@
   position: relative;
   overflow: hidden;
 
+  .gnro-grid-header-sticky {
+    z-index: 1001;
+  }
+
   .gnro-header-row-select {
     display: flex;
     align-items: center;

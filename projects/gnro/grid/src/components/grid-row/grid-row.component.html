@@ -1,8 +1,10 @@
 @if (gridConfig().rowSelection) {
   <gnro-grid-cell
     class="gnro-grid-cell-row-select"
+    [class.gnro-grid-cell-row-sticky]="gridConfig().columnSticky"
     [style.height]="gridConfig().rowHeight + 'px'"
     [style.flex]="'0 0 ' + selectColumnWidth"
+    [style.left]="gridConfig().columnSticky ? '0px' : 'unset'"
   >
     <gnro-row-select [selected]="selected()"> </gnro-row-select>
   </gnro-grid-cell>

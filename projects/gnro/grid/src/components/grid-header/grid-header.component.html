@@ -1,9 +1,9 @@
 @if (gridConfig().rowSelection) {
   <gnro-grid-header-item
     class="gnro-grid-header-sticky"
+    [class.gnro-grid-header-sticky]="gridConfig().columnSticky"
     [style.flex]="'0 0 ' + selectColumnWidth"
-    [style.left]="-columnHeaderPosition() + 'px'"
-    [style.z-index]="'1001'"
+    [style.left]="headerCellLeft"
   >
     @if (gridConfig().multiRowSelection) {
       <gnro-row-select

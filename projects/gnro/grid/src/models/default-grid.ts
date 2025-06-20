@@ -17,6 +17,7 @@ export const defaultGridConfig: GnroGridConfig = {
   rowGroup: false,
   groupHeader: false,
   horizontalScroll: false,
+  columnSticky: false,
   verticalScroll: false,
   virtualScroll: false,
   sortFields: [],

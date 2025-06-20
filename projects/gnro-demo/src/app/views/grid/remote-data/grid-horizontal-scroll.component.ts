@@ -14,6 +14,7 @@ export class AppGridHorizontalScrollComponent {
     ...defaultGridConfig,
     urlKey: 'DCR',
     horizontalScroll: true,
+    columnSticky: true,
     rowSelection: true,
     multiRowSelection: true,
     columnResize: true,

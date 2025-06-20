@@ -65,6 +65,9 @@ export class GnroGridHeaderComponent<T> {
     return `${GRID_FILTER_ROW_HEIGHT + 1}px`;
   }
 
+  get headerCellLeft(): string {
+    return this.gridConfig().columnSticky ? `${-this.columnHeaderPosition()}px` : `0px`;
+  }
   getColumnWidth(column: GnroColumnConfig): string {
     const width = this.columnWidths().find((col) => col.name === column.name)?.width;
     return width ? `${width}px` : '';

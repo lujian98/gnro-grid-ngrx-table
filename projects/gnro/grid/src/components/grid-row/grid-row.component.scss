@@ -2,9 +2,13 @@
   display: flex;
 
   .gnro-grid-cell-row-select {
-    position: sticky;
-    left: 0;
-    z-index: 1001;
     justify-content: center;
+  }
+
+  .gnro-grid-cell-row-sticky {
+    position: sticky;
+    // background-color:initial;
+    //left: 0;
+    z-index: 1001;
   }
 }

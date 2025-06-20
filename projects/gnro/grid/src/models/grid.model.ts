@@ -58,6 +58,7 @@ export interface GnroGridConfig {
   multiRowSelection: boolean;
   rowGroup: boolean;
   horizontalScroll: boolean;
+  columnSticky: boolean;
   verticalScroll: boolean;
   virtualScroll: boolean;
   sortFields: GnroSortField[];

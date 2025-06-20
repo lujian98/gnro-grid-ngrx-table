@@ -20,8 +20,8 @@
       border-bottom: 1px solid gnro.gnro-theme(app-border-basic-color);
     }
 
-    .gnro-grid-row:nth-child(odd),
-    .gnro-grid-cell-row-select:nth-child(odd) {
+    .gnro-grid-cell-row-sticky:nth-child(odd), // TODO incorrect
+    .gnro-grid-row:nth-child(odd) {
       background-color: gnro.gnro-theme(gnro-grid-row-odd-background-color);
       &:focus,
       &:hover {
@@ -29,18 +29,13 @@
       }
     }
 
-    .gnro-grid-row:nth-child(even),
-    .gnro-grid-cell-row-select:nth-child(even) {
+    .gnro-grid-cell-row-sticky:nth-child(even), // TODO incorrect
+    .gnro-grid-row:nth-child(even) {
       background-color: gnro.gnro-theme(gnro-grid-row-even-background-color);
       &:focus,
       &:hover {
         background-color: gnro.gnro-theme(gnro-grid-row-hover-background-color);
       }
-    }
-
-    .gnro-grid-header-sticky,
-    .gnro-grid-cell-row-select {
-      border-right: 1px solid gnro.gnro-theme(app-border-basic-color);
     }
 
     gnro-grid-header-item {
