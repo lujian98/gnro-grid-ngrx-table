@@ -1,5 +1,10 @@
 @if (gridConfig().rowSelection) {
-  <gnro-grid-header-item [style.flex]="'0 0 ' + selectColumnWidth">
+  <gnro-grid-header-item
+    [style.flex]="'0 0 ' + selectColumnWidth"
+    [style.left]="-columnHeaderPosition() + 'px'"
+    [style.background-color]="'cyan'"
+    [style.z-index]="'1001'"
+  >
     @if (gridConfig().multiRowSelection) {
       <gnro-row-select
         class="gnro-header-row-select"

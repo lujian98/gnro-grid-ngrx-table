@@ -55,6 +55,7 @@ export class GnroGridHeaderComponent<T> {
   columnWidths = input.required<GnroColumnWidth[]>();
   columnResizing = output<GnroColumnWidth[]>();
   columnResized = output<GnroColumnWidth[]>();
+  columnHeaderPosition = input<number>(0);
 
   get selectColumnWidth(): string {
     return `${ROW_SELECTION_CELL_WIDTH}px`;

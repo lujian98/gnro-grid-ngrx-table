@@ -123,6 +123,7 @@ export class GnroGridViewComponent<T> implements AfterViewInit, OnDestroy {
 
   onViewportScroll(event: Event): void {
     this.columnHeaderPosition = -(event.target as HTMLElement).scrollLeft;
+    console.log('  this.columnHeaderPosition=', this.columnHeaderPosition);
   }
 
   private setViewportPageSize(loadData: boolean = true, event?: string | MouseEvent | null): void {
