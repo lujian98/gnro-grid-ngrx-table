@@ -1,8 +1,8 @@
 <gnro-menus
-  [items]="menuItems"
+  [items]="menuItems$()"
   [level]="level + 1"
   [values]="values"
-  [disabled]="disabled()"
+  [disabled]="disabled$()"
   (gnroMenuFormChanges)="onMenuFormChanges($event)"
   (gnroMenuItemClick)="onMenuItemClick($event)"
 >

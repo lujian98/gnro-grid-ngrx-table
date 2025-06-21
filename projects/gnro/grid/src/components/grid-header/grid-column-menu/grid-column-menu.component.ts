@@ -1,6 +1,5 @@
 import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, computed, inject, Signal } from '@angular/core';
-import { GnroDisabled } from '@gnro/ui/core';
 import { GnroMenuConfig, GnroMenusComponent } from '@gnro/ui/menu';
 import { GnroGridStateModule } from '../../../+state/grid-state.module';
 import { GnroGridFacade } from '../../../+state/grid.facade';
@@ -38,12 +37,8 @@ export class GnroGridColumnMenuComponent {
   }
   column!: GnroColumnConfig;
   column$ = computed(() => this.columns$().find((col) => col.name === this.column.name));
-  menuItems: GnroMenuConfig[] = [];
-  set columns(columns: GnroColumnConfig[]) {
-    this.menuItems = this.getMenuItems(columns);
-  }
-  values: { [key: string]: boolean } = {};
-  disabled = computed(() => [
+  values: { [key: string]: boolean } = {}; // checkbox checked
+  disabled$ = computed(() => [
     { name: 'asc', disabled: this.sortDisabled('asc') },
     { name: 'desc', disabled: this.sortDisabled('desc') },
     { name: 'sticky', disabled: !!this.column$()?.sticky },
@@ -52,8 +47,7 @@ export class GnroGridColumnMenuComponent {
     { name: 'unGroupBy', disabled: this.unGroupByDisabled() },
     { name: 'columns', disabled: false },
   ]);
-
-  private getMenuItems(columns: GnroColumnConfig[]): GnroMenuConfig[] {
+  menuItems$ = computed(() => {
     const menus = [];
     menus.push(
       {
@@ -101,7 +95,7 @@ export class GnroGridColumnMenuComponent {
         },
       );
     }
-    const columnItems = [...columns].map((column) => {
+    const columnItems = [...this.columns$()].map((column) => {
       return {
         name: column.name,
         title: column.title,
@@ -117,7 +111,7 @@ export class GnroGridColumnMenuComponent {
       children: columnItems,
     });
     return menus;
-  }
+  });
 
   onMenuFormChanges(values: { [key: string]: boolean }): void {
     this.columnHideShow(values, this.columns$());
@@ -127,10 +121,7 @@ export class GnroGridColumnMenuComponent {
     if (item.name === 'asc' || item.name === 'desc') {
       this.columnSort(item.name);
     } else if (item.name === 'groupBy') {
-      const rowGroupField: GnroRowGroupField = {
-        field: this.column.name,
-        dir: 'asc',
-      };
+      const rowGroupField: GnroRowGroupField = { field: this.column.name, dir: 'asc' };
       this.gridFacade.setGridGroupBy(this.gridId, this.gridConfig$(), rowGroupField);
     } else if (item.name === 'unGroupBy') {
       this.gridFacade.setGridUnGroupBy(this.gridId, this.gridConfig$());
@@ -160,10 +151,7 @@ export class GnroGridColumnMenuComponent {
   }
 
   private columnSort(dir: string): void {
-    const sort = {
-      field: this.column.name,
-      dir: dir,
-    };
+    const sort = { field: this.column.name, dir: dir };
     this.gridFacade.setGridSortFields(this.gridConfig$(), this.gridSetting$(), [sort]);
   }
 
@@ -174,10 +162,7 @@ export class GnroGridColumnMenuComponent {
       return checked !== undefined && checked !== colChecked;
     })!;
     if (column) {
-      const col: GnroColumnConfig = {
-        ...column,
-        hidden: !values[column.name],
-      };
+      const col: GnroColumnConfig = { ...column, hidden: !values[column.name] };
       this.gridFacade.setGridColumnConfig(this.gridId, col);
     }
   }
