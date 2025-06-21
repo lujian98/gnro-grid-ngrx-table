@@ -47,8 +47,18 @@ export class GnroGridRowComponent<T> {
 
   getStickyLeft(column: GnroColumnConfig, index: number): string {
     if (column.sticky) {
-      const columns = [...this.columns()].filter((_, idx) => idx < index);
+      const columns = [...this.columnWidths()].filter((_, idx) => idx < index);
       const width = getColumnsWidth(columns, this.gridConfig().rowSelection);
+      return `${width}px`;
+    } else {
+      return 'unset';
+    }
+  }
+
+  getStickyRight(column: GnroColumnConfig, index: number): string {
+    if (column.stickyEnd) {
+      const columns = [...this.columnWidths()].filter((_, idx) => idx > index);
+      const width = getColumnsWidth(columns, false);
       return `${width}px`;
     } else {
       return 'unset';

@@ -4,6 +4,7 @@ import { ChangeDetectionStrategy, Component, ElementRef, inject, input, output, 
 import { DEFAULT_OVERLAY_SERVICE_CONFIG, GnroOverlayServiceConfig, GnroPosition, GnroTrigger } from '@gnro/ui/overlay';
 import { GnroPopoverComponent, GnroPopoverService } from '@gnro/ui/popover';
 import { GnroGridFacade } from '../../+state/grid.facade';
+import { getTableWidth, viewportWidthRatio } from '../../utils/viewport-width-ratio';
 import { GnroColumnResizeTriggerDirective } from '../../directives/column-resize-trigger.directive';
 import { GnroColumnResizeDirective } from '../../directives/column-resize.directive';
 import { GRID_FILTER_ROW_HEIGHT, ROW_SELECTION_CELL_WIDTH } from '../../models/constants';
@@ -65,8 +66,16 @@ export class GnroGridHeaderComponent<T> {
     return `${GRID_FILTER_ROW_HEIGHT + 1}px`;
   }
 
-  getStickyLeft(sticky: boolean | undefined): string {
-    return sticky ? `${-this.columnHeaderPosition()}px` : `0px`;
+  getStickyLeft(sticky: boolean | undefined, stickyEnd: boolean | undefined): string {
+    if (sticky) {
+      return `${-this.columnHeaderPosition()}px`;
+    } else if (stickyEnd) {
+      const width = getTableWidth(this.columns()) - this.gridSetting().viewportWidth;
+      const postion = -width - this.columnHeaderPosition();
+      return `${postion}px`;
+    } else {
+      return `0px`;
+    }
   }
 
   isLastSticky(index: number): boolean {
