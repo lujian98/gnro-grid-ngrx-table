@@ -103,7 +103,7 @@ export class GnroGridFacade {
     const isTreeGrid = gridSetting.isTreeGrid;
     this.store.dispatch(gridActions.setGridColumnFilters({ gridId, gridConfig, isTreeGrid, columnFilters }));
     if (!gridSetting.columnUpdating) {
-      console.log(' ffffffffffffff getGridData');
+      //console.log(' ffffffffffffff getGridData');
       this.getGridData(gridId, gridSetting);
     }
   }

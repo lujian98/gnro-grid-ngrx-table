@@ -71,17 +71,8 @@ export class GnroGridColumnMenuComponent {
   }
 
   private getMenuItems(columns: GnroColumnConfig[]): GnroMenuConfig[] {
-    const columnItems = [...columns].map((column) => {
-      return {
-        name: column.name,
-        title: column.title,
-        keepOpen: true,
-        checkbox: true,
-        checked: !column.hidden,
-        disabled: !this.gridConfig$().columnHidden || column.allowHide === false,
-      };
-    });
-    return [
+    const menus = [];
+    menus.push(
       {
         name: 'asc',
         title: 'GNRO.UI.GRID.SORT_ASCENDING',
@@ -94,6 +85,9 @@ export class GnroGridColumnMenuComponent {
         icon: 'arrow-down-wide-short',
         disabled: this.sortDisabled('desc'),
       },
+    );
+
+    menus.push(
       {
         name: 'groupBy',
         title: 'GNRO.UI.GRID.GROUP_BY_THIS_FIELD',
@@ -106,12 +100,40 @@ export class GnroGridColumnMenuComponent {
         icon: 'arrow-down-wide-short',
         disabled: this.unGroupByDisabled(),
       },
-      {
-        name: 'columns',
-        title: 'GNRO.UI.GRID.COLUMNS',
-        children: columnItems,
-      },
-    ];
+    );
+
+    if (this.gridConfig$().columnSticky) {
+      menus.push(
+        {
+          name: 'sticky',
+          title: 'Sticky',
+          icon: 'arrow-down-wide-short',
+          //disabled: this.groupByDisabled(),
+        },
+        {
+          name: 'unSticky',
+          title: 'Unsticky',
+          icon: 'arrow-down-wide-short',
+          //disabled: this.groupByDisabled(),
+        },
+      );
+    }
+    const columnItems = [...columns].map((column) => {
+      return {
+        name: column.name,
+        title: column.title,
+        keepOpen: true,
+        checkbox: true,
+        checked: !column.hidden,
+        disabled: !this.gridConfig$().columnHidden || column.allowHide === false,
+      };
+    });
+    menus.push({
+      name: 'columns',
+      title: 'GNRO.UI.GRID.COLUMNS',
+      children: columnItems,
+    });
+    return menus;
   }
 
   onMenuFormChanges(values: { [key: string]: boolean }): void {
@@ -129,6 +151,10 @@ export class GnroGridColumnMenuComponent {
       this.gridFacade.setGridGroupBy(this.gridId, this.gridConfig$(), rowGroupField);
     } else if (item.name === 'unGroupBy') {
       this.gridFacade.setGridUnGroupBy(this.gridId, this.gridConfig$());
+    } else if (item.name === 'sticky') {
+      this.columnSticky(true);
+    } else if (item.name === 'unSticky') {
+      this.columnSticky(false);
     }
   }
 
@@ -171,5 +197,15 @@ export class GnroGridColumnMenuComponent {
       };
       this.gridFacade.setGridColumnConfig(this.gridId, col);
     }
+  }
+
+  private columnSticky(sticky: boolean): void {
+    const columns = [...this.columns$()].map((col) => {
+      return {
+        ...col,
+        sticky: col.name === this.column.name ? sticky : col.sticky,
+      };
+    });
+    this.gridFacade.setGridColumnsConfig(this.gridConfig$(), this.gridSetting$(), columns);
   }
 }
