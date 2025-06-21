@@ -72,20 +72,20 @@ export class AppGridGroupHeaderComponent {
       name: 'year',
       width: 230,
       align: 'right',
-      stickyEnd: true,
+      //stickyEnd: true,
       groupHeader: this.valueGroupHeader,
     },
     {
       name: 'color',
       width: 150,
       align: 'center',
-      stickyEnd: true,
+      //stickyEnd: true,
       groupHeader: this.valueGroupHeader,
     },
     {
       name: 'MakerColor',
       align: 'center',
-      stickyEnd: true,
+      //stickyEnd: true,
       groupHeader: this.valueGroupHeader,
       rendererType: GnroObjectType.Select,
       rendererFieldConfig: {

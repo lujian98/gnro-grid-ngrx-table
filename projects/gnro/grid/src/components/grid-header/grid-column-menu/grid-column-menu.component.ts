@@ -176,17 +176,25 @@ export class GnroGridColumnMenuComponent {
   }
 
   private columnSticky(sticky: boolean, stickyEnd: boolean): void {
+    //console.log( ' xxx column=', this.column$())
     const columns = [...this.columns$()].map((col) => ({
       ...col,
-      sticky: col.name === this.column.name ? sticky : col.sticky,
-      stickyEnd: col.name === this.column.name ? stickyEnd : col.stickyEnd,
+      sticky: this.isSameGroup(col) ? sticky : col.sticky,
+      stickyEnd: this.isSameGroup(col) ? stickyEnd : col.stickyEnd,
     }));
+
     const previousIndex = columns.findIndex((col) => col.name === this.column.name);
     const currentIndex = this.getCurrentIndex(sticky, stickyEnd, columns);
     if (currentIndex !== undefined) {
       moveItemInArray(columns, previousIndex, currentIndex);
     }
+
     this.gridFacade.setGridColumnsConfig(this.gridConfig$(), this.gridSetting$(), columns);
+  }
+
+  private isSameGroup(col: GnroColumnConfig): boolean {
+    const group = this.column$()?.groupHeader?.name;
+    return col.name === this.column.name || group === col.groupHeader?.name;
   }
 
   private getCurrentIndex(sticky: boolean, stickyEnd: boolean, columns: GnroColumnConfig[]): number | undefined {
