@@ -218,7 +218,10 @@ export class GnroGridColumnMenuComponent {
         sticky: col.name === this.column.name ? sticky : col.sticky,
       };
     });
-    //moveItemInArray(columns, previousIndex, currentIndex);
+    const previousIndex = columns.findIndex((col) => col.name === this.column.name);
+    const stickyLength = columns.filter((col) => col.sticky).length;
+    const currentIndex = sticky ? stickyLength - 1 : stickyLength;
+    moveItemInArray(columns, previousIndex, currentIndex);
     this.gridFacade.setGridColumnsConfig(this.gridConfig$(), this.gridSetting$(), columns);
   }
 }
