@@ -32,8 +32,8 @@ export class AppGridHorizontalScrollComponent {
     },
     {
       name: 'vin',
-      width: 150,
-      sticky: true,
+      width: 450,
+      //sticky: true,
     },
     {
       name: 'brand',
@@ -41,13 +41,14 @@ export class AppGridHorizontalScrollComponent {
     },
     {
       name: 'year',
-      width: 350,
+      width: 550,
       align: 'right',
     },
     {
       name: 'color',
-      width: 750,
+      width: 150,
       align: 'center',
+      stickyEnd: true,
     },
   ];
 }
