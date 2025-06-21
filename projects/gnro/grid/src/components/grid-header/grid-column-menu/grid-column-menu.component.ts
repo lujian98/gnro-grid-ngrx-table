@@ -1,3 +1,4 @@
+import { DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, computed, inject, Signal } from '@angular/core';
 import { GnroDisabled } from '@gnro/ui/core';
 import { GnroMenuConfig, GnroMenusComponent } from '@gnro/ui/menu';
@@ -36,6 +37,9 @@ export class GnroGridColumnMenuComponent {
     return this._gridId;
   }
   column!: GnroColumnConfig;
+  column$ = computed(() => {
+    return this.columns$().find((col) => col.name === this.column.name);
+  });
   menuItems: GnroMenuConfig[] = [];
   set columns(columns: GnroColumnConfig[]) {
     this.menuItems = this.getMenuItems(columns);
@@ -54,6 +58,14 @@ export class GnroGridColumnMenuComponent {
       {
         name: 'desc',
         disabled: this.sortDisabled('desc'),
+      },
+      {
+        name: 'sticky',
+        disabled: !!this.column$()?.sticky,
+      },
+      {
+        name: 'unSticky',
+        disabled: !this.column$()?.sticky,
       },
       {
         name: 'groupBy',
@@ -109,14 +121,12 @@ export class GnroGridColumnMenuComponent {
         {
           name: 'sticky',
           title: 'Sticky',
-          icon: 'arrow-down-wide-short',
-          //disabled: this.groupByDisabled(),
+          icon: 'arrow-down-wide-short', // TODO icon
         },
         {
           name: 'unSticky',
           title: 'Unsticky',
-          icon: 'arrow-down-wide-short',
-          //disabled: this.groupByDisabled(),
+          icon: 'arrow-down-wide-short', // TODO icon
         },
       );
     }
@@ -208,6 +218,7 @@ export class GnroGridColumnMenuComponent {
         sticky: col.name === this.column.name ? sticky : col.sticky,
       };
     });
+    //moveItemInArray(columns, previousIndex, currentIndex);
     this.gridFacade.setGridColumnsConfig(this.gridConfig$(), this.gridSetting$(), columns);
   }
 }
