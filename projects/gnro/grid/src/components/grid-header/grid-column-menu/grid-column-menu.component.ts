@@ -101,19 +101,21 @@ export class GnroGridColumnMenuComponent {
         },
       );
     }
-    const columnItems = [...this.columns$()].map((column) => ({
-      name: column.name,
-      title: column.title,
-      keepOpen: true,
-      checkbox: true,
-      checked: !column.hidden,
-      disabled: !this.gridConfig$().columnHidden || column.allowHide === false,
-    }));
-    menus.push({
-      name: 'columns',
-      title: 'GNRO.UI.GRID.COLUMNS',
-      children: columnItems,
-    });
+    if (this.gridConfig$().columnHidden) {
+      const columnItems = [...this.columns$()].map((column) => ({
+        name: column.name,
+        title: column.title,
+        keepOpen: true,
+        checkbox: true,
+        checked: !column.hidden,
+        disabled: !this.gridConfig$().columnHidden || column.allowHide === false,
+      }));
+      menus.push({
+        name: 'columns',
+        title: 'GNRO.UI.GRID.COLUMNS',
+        children: columnItems,
+      });
+    }
     return menus;
   });
 
