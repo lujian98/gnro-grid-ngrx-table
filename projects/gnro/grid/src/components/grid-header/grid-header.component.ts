@@ -65,13 +65,17 @@ export class GnroGridHeaderComponent<T> {
     return `${GRID_FILTER_ROW_HEIGHT + 1}px`;
   }
 
-  get headerCellLeft(): string {
-    return this.gridConfig().columnSticky ? `${-this.columnHeaderPosition()}px` : `0px`;
+  getStickyLeft(sticky: boolean | undefined): string {
+    return sticky ? `${-this.columnHeaderPosition()}px` : `0px`;
   }
 
-  get isSelectLastSticky(): boolean {
-    //TODO
-    return this.gridConfig().columnSticky ? true : false;
+  isLastSticky(index: number): boolean {
+    if (this.gridConfig().columnSticky) {
+      const totSticky = [...this.columns()].filter((col) => col.sticky).length;
+      return index === totSticky - 1;
+    } else {
+      return false;
+    }
   }
 
   getColumnWidth(column: GnroColumnConfig): string {

@@ -2,7 +2,7 @@
   <gnro-grid-cell
     class="gnro-grid-cell-row-select"
     [class.gnro-grid-cell-row-sticky]="gridConfig().columnSticky"
-    [class.gnro-grid-column-last-sticky]="isSelectLastSticky"
+    [class.gnro-grid-column-last-sticky]="isLastSticky(-1)"
     [style.height]="gridConfig().rowHeight + 'px'"
     [style.flex]="'0 0 ' + selectColumnWidth"
     [style.left]="gridConfig().columnSticky ? '0px' : 'unset'"
@@ -15,7 +15,7 @@
   @if (!column.hidden) {
     <gnro-grid-cell
       [class.gnro-grid-cell-row-sticky]="column.sticky"
-      [class.gnro-grid-column-last-sticky]="isColumnLastSticky(index)"
+      [class.gnro-grid-column-last-sticky]="isLastSticky(index)"
       [style.height]="gridConfig().rowHeight + 'px'"
       [style.flex]="'0 0 ' + getColumnWidth(column)"
       [style.max-width]="getColumnWidth(column)"

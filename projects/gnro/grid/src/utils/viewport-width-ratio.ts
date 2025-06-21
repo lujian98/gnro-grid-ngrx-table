@@ -28,3 +28,10 @@ export function getTableWidth(columns: GnroColumnConfig[]): number {
     .map((column) => column.width || MIN_GRID_COLUMN_WIDTH)
     .reduce((prev, curr) => prev + curr, 0);
 }
+
+export function getColumnsWidth(columns: GnroColumnConfig[], selection: boolean): number {
+  return [...columns]
+    .filter((column) => !column.hidden)
+    .map((column) => column.width!)
+    .reduce((prev, curr) => prev + curr, selection ? ROW_SELECTION_CELL_WIDTH : 0);
+}

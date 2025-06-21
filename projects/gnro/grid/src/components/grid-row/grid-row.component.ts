@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { ROW_SELECTION_CELL_WIDTH } from '../../models/constants';
 import { GnroColumnConfig, GnroColumnWidth, GnroGridConfig, GnroGridSetting } from '../../models/grid.model';
+import { getColumnsWidth } from '../../utils/viewport-width-ratio';
 import { GnroGridCellEditComponent } from '../grid-cell/grid-cell-edit/grid-cell-edit.component';
 import { GnroGridCellViewComponent } from '../grid-cell/grid-cell-view/grid-cell-view.component';
 import { GnroGridCellComponent } from '../grid-cell/grid-cell.component';
@@ -35,16 +36,7 @@ export class GnroGridRowComponent<T> {
     return !!(this.gridSetting().gridEditable && column.cellEditable);
   }
 
-  get isSelectLastSticky(): boolean {
-    if (this.gridConfig().columnSticky) {
-      const totSticky = [...this.columns()].filter((col) => col.sticky).length;
-      return totSticky === 0 ? true : false;
-    } else {
-      return false;
-    }
-  }
-
-  isColumnLastSticky(index: number): boolean {
+  isLastSticky(index: number): boolean {
     if (this.gridConfig().columnSticky) {
       const totSticky = [...this.columns()].filter((col) => col.sticky).length;
       return index === totSticky - 1;
@@ -62,11 +54,4 @@ export class GnroGridRowComponent<T> {
       return 'unset';
     }
   }
-}
-
-export function getColumnsWidth(columns: GnroColumnConfig[], selection: boolean): number {
-  return [...columns]
-    .filter((column) => !column.hidden)
-    .map((column) => column.width!)
-    .reduce((prev, curr) => prev + curr, selection ? ROW_SELECTION_CELL_WIDTH : 0);
 }
