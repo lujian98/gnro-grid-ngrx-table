@@ -58,7 +58,9 @@ export class GnroGridRowComponent<T> {
   getStickyRight(column: GnroColumnConfig, index: number): string {
     if (column.stickyEnd) {
       const columns = [...this.columnWidths()].filter((_, idx) => idx > index);
+      console.log(' this.columnWidths()=', this.columnWidths());
       const width = getColumnsWidth(columns, false);
+      console.log(' width=', width);
       return `${width}px`;
     } else {
       return 'unset';

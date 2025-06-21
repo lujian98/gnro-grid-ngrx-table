@@ -86,17 +86,17 @@ export class GnroGridColumnMenuComponent {
       menus.push(
         {
           name: 'sticky',
-          title: 'Sticky',
+          title: 'GNRO.UI.GRID.STICKY',
           icon: 'circle-left',
         },
         {
           name: 'stickyEnd',
-          title: 'Sticky End',
+          title: 'GNRO.UI.GRID.STICKY_END',
           icon: 'circle-right',
         },
         {
           name: 'unSticky',
-          title: 'Unsticky',
+          title: 'GNRO.UI.GRID.UNSTICKY',
           icon: 'circle-xmark',
         },
       );
@@ -181,7 +181,7 @@ export class GnroGridColumnMenuComponent {
     }));
     const previousIndex = columns.findIndex((col) => col.name === this.column.name);
     const currentIndex = this.getCurrentIndex(sticky, stickyEnd, columns);
-    if (currentIndex) {
+    if (currentIndex !== undefined) {
       moveItemInArray(columns, previousIndex, currentIndex);
     }
     this.gridFacade.setGridColumnsConfig(this.gridConfig$(), this.gridSetting$(), columns);

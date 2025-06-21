@@ -74,7 +74,10 @@ export const GNRO = {
       PAGE_SIZE: 'Page Size',
       SORT_ASCENDING: 'Sort Ascending',
       SORT_DESCENDING: 'Sort Descending',
+      STICKY: 'Sticky',
+      STICKY_END: 'Sticky End',
       UNGROUP: 'Ungroup',
+      UNSTICKY: 'Unsticky',
     },
     LIST: {
       NO_RESULT: 'No Result',

@@ -71,7 +71,10 @@ export const GNRO = {
       PAGE_SIZE: '每页数',
       SORT_ASCENDING: '正序',
       SORT_DESCENDING: '倒序',
+      STICKY: 'Sticky',
+      STICKY_END: 'Sticky End',
       UNGROUP: 'Ungroup',
+      UNSTICKY: 'Unsticky',
     },
     LIST: {
       NO_RESULT: '没有数据',
