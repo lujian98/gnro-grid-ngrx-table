@@ -1,4 +1,4 @@
-import { DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
+import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, computed, inject, Signal } from '@angular/core';
 import { GnroDisabled } from '@gnro/ui/core';
 import { GnroMenuConfig, GnroMenusComponent } from '@gnro/ui/menu';
@@ -212,12 +212,10 @@ export class GnroGridColumnMenuComponent {
   }
 
   private columnSticky(sticky: boolean): void {
-    const columns = [...this.columns$()].map((col) => {
-      return {
-        ...col,
-        sticky: col.name === this.column.name ? sticky : col.sticky,
-      };
-    });
+    const columns = [...this.columns$()].map((col) => ({
+      ...col,
+      sticky: col.name === this.column.name ? sticky : col.sticky,
+    }));
     const previousIndex = columns.findIndex((col) => col.name === this.column.name);
     const stickyLength = columns.filter((col) => col.sticky).length;
     const currentIndex = sticky ? stickyLength - 1 : stickyLength;
