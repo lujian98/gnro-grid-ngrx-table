@@ -47,19 +47,19 @@ export class AppGridGroupHeaderComponent {
     {
       name: 'vin',
       width: 330,
-      sticky: true,
+      //sticky: true,
       groupHeader: this.vehicleGroupHeader,
     },
     {
       name: 'brand',
       width: 430,
-      sticky: true,
+      //sticky: true,
       groupHeader: this.vehicleGroupHeader,
     },
     {
       name: 'Price',
       width: 130,
-      sticky: true,
+      //sticky: true,
       groupHeader: this.vehicleGroupHeader,
       rendererType: GnroObjectType.Number,
       rendererFieldConfig: {
@@ -72,17 +72,20 @@ export class AppGridGroupHeaderComponent {
       name: 'year',
       width: 230,
       align: 'right',
+      stickyEnd: true,
       groupHeader: this.valueGroupHeader,
     },
     {
       name: 'color',
       width: 150,
       align: 'center',
+      stickyEnd: true,
       groupHeader: this.valueGroupHeader,
     },
     {
       name: 'MakerColor',
       align: 'center',
+      stickyEnd: true,
       groupHeader: this.valueGroupHeader,
       rendererType: GnroObjectType.Select,
       rendererFieldConfig: {

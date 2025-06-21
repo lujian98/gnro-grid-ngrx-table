@@ -79,8 +79,10 @@ export class GnroGridGroupHeaderComponent {
       let newindex = index;
       if (index > -1) {
         const header = this.groupHeaderColumns()[index];
-        const group = this.columns().filter((col) => col.groupHeader?.name === header.name);
-        newindex += group.length - 1;
+        if (header.isGroupHeader) {
+          const group = this.columns().filter((col) => col.groupHeader?.name === header.name);
+          newindex += group.length - 1;
+        }
       }
       const totSticky = [...this.columns()].filter((col) => col.sticky).length;
       return newindex === totSticky - 1;
