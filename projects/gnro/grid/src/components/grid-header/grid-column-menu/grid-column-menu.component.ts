@@ -184,11 +184,11 @@ export class GnroGridColumnMenuComponent {
     }));
 
     const previousIndex = columns.findIndex((col) => col.name === this.column.name);
+
     const currentIndex = this.getCurrentIndex(sticky, stickyEnd, columns);
     if (currentIndex !== undefined) {
       moveItemInArray(columns, previousIndex, currentIndex);
     }
-
     this.gridFacade.setGridColumnsConfig(this.gridConfig$(), this.gridSetting$(), columns);
   }
 
