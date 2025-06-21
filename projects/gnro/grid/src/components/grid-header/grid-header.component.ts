@@ -4,7 +4,6 @@ import { ChangeDetectionStrategy, Component, ElementRef, inject, input, output, 
 import { DEFAULT_OVERLAY_SERVICE_CONFIG, GnroOverlayServiceConfig, GnroPosition, GnroTrigger } from '@gnro/ui/overlay';
 import { GnroPopoverComponent, GnroPopoverService } from '@gnro/ui/popover';
 import { GnroGridFacade } from '../../+state/grid.facade';
-import { getTableWidth, viewportWidthRatio } from '../../utils/viewport-width-ratio';
 import { GnroColumnResizeTriggerDirective } from '../../directives/column-resize-trigger.directive';
 import { GnroColumnResizeDirective } from '../../directives/column-resize.directive';
 import { GRID_FILTER_ROW_HEIGHT, ROW_SELECTION_CELL_WIDTH } from '../../models/constants';
@@ -15,6 +14,7 @@ import {
   GnroGridConfig,
   GnroGridSetting,
 } from '../../models/grid.model';
+import { getTableWidth } from '../../utils/viewport-width-ratio';
 import { GnroColumnFilterComponent } from '../column-filter/column-filter.component';
 import { GnroRowSelectComponent } from '../row-select/row-select.component';
 import { GnroGridColumnMenuComponent } from './grid-column-menu/grid-column-menu.component';
