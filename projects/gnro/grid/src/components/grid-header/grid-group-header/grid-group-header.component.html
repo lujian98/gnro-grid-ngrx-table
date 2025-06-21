@@ -10,7 +10,7 @@
 
 @for (header of groupHeaderColumns(); track $index; let index = $index) {
   <gnro-grid-header-item
-    [class.gnro-grid-header-sticky]="isHeaderSticky(header, index)"
+    [class.gnro-grid-header-sticky]="isHeaderSticky(header)"
     [class.gnro-grid-column-last-sticky]="isLastSticky(index)"
     [style.flex]="'0 0 ' + getHeaderWidth(header)"
     [style.max-width]="getHeaderWidth(header)"

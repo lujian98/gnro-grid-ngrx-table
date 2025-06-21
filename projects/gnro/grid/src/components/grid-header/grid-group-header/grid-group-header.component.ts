@@ -44,7 +44,6 @@ export class GnroGridGroupHeaderComponent {
 
   getStickyLeft(sticky: boolean | undefined, stickyEnd: boolean | undefined): string {
     if (sticky) {
-      //console.log(' xxxxxxxxxx this.columnHeaderPosition()=', this.columnHeaderPosition())
       return `${-this.columnHeaderPosition()}px`;
     } else if (stickyEnd) {
       const width = getTableWidth(this.columns()) - this.gridSetting().viewportWidth;
@@ -60,26 +59,31 @@ export class GnroGridGroupHeaderComponent {
       const column = this.columns().find((col) => col.name === header.field);
       return this.getStickyLeft(column?.sticky, column?.stickyEnd);
     } else {
-      return `0px`;
+      const column = this.columns().find((col) => col.name === header.field);
+      return this.getStickyLeft(column?.sticky, column?.stickyEnd);
     }
   }
 
-  isHeaderSticky(header: GnroGroupHeader, index: number): boolean {
+  isHeaderSticky(header: GnroGroupHeader): boolean {
     if (!header.isGroupHeader) {
-      console.log(' this.columns()=', this.columns());
       const column = this.columns().find((col) => col.name === header.field);
-      console.log(' dddddddddd this.column=', column);
-      console.log(' header=', header);
+      return !!column?.sticky || !!column?.stickyEnd;
+    } else {
+      const column = this.columns().find((col) => col.groupHeader?.name === header.name);
       return !!column?.sticky || !!column?.stickyEnd;
     }
-    return false;
   }
 
   isLastSticky(index: number): boolean {
-    // TODO header index
     if (this.gridConfig().columnSticky) {
+      let newindex = index;
+      if (index > -1) {
+        const header = this.groupHeaderColumns()[index];
+        const group = this.columns().filter((col) => col.groupHeader?.name === header.name);
+        newindex += group.length - 1;
+      }
       const totSticky = [...this.columns()].filter((col) => col.sticky).length;
-      return index === totSticky - 1;
+      return newindex === totSticky - 1;
     } else {
       return false;
     }
