@@ -87,20 +87,22 @@ export class GnroGridColumnMenuComponent {
       },
     );
 
-    menus.push(
-      {
-        name: 'groupBy',
-        title: 'GNRO.UI.GRID.GROUP_BY_THIS_FIELD',
-        icon: 'arrow-down-wide-short',
-        disabled: this.groupByDisabled(),
-      },
-      {
-        name: 'unGroupBy',
-        title: 'GNRO.UI.GRID.UNGROUP',
-        icon: 'arrow-down-wide-short',
-        disabled: this.unGroupByDisabled(),
-      },
-    );
+    if (this.gridConfig$().rowGroup) {
+      menus.push(
+        {
+          name: 'groupBy',
+          title: 'GNRO.UI.GRID.GROUP_BY_THIS_FIELD',
+          icon: 'arrow-down-wide-short',
+          disabled: this.groupByDisabled(),
+        },
+        {
+          name: 'unGroupBy',
+          title: 'GNRO.UI.GRID.UNGROUP',
+          icon: 'arrow-down-wide-short',
+          disabled: this.unGroupByDisabled(),
+        },
+      );
+    }
 
     if (this.gridConfig$().columnSticky) {
       menus.push(
