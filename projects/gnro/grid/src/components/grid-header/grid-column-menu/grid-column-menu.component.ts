@@ -179,12 +179,23 @@ export class GnroGridColumnMenuComponent {
       sticky: col.name === this.column.name ? sticky : col.sticky,
       stickyEnd: col.name === this.column.name ? stickyEnd : col.stickyEnd,
     }));
-    if (sticky) {
-      const previousIndex = columns.findIndex((col) => col.name === this.column.name);
-      const stickyLength = columns.filter((col) => col.sticky).length;
-      const currentIndex = sticky ? stickyLength - 1 : stickyLength;
+    const previousIndex = columns.findIndex((col) => col.name === this.column.name);
+    const currentIndex = this.getCurrentIndex(sticky, stickyEnd, columns);
+    if (currentIndex) {
       moveItemInArray(columns, previousIndex, currentIndex);
     }
     this.gridFacade.setGridColumnsConfig(this.gridConfig$(), this.gridSetting$(), columns);
+  }
+
+  private getCurrentIndex(sticky: boolean, stickyEnd: boolean, columns: GnroColumnConfig[]): number | undefined {
+    if ((sticky || this.column$()?.sticky) && !stickyEnd) {
+      const stickyLength = columns.filter((col) => col.sticky).length;
+      return sticky ? stickyLength - 1 : stickyLength;
+    } else if (stickyEnd || this.column$()?.stickyEnd) {
+      const stickyEndLength = columns.length - columns.filter((col) => col.stickyEnd).length;
+      return stickyEnd ? stickyEndLength : stickyEndLength - 1;
+    } else {
+      return undefined;
+    }
   }
 }

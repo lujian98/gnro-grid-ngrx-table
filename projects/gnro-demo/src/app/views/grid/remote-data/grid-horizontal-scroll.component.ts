@@ -43,7 +43,7 @@ export class AppGridHorizontalScrollComponent {
       name: 'year',
       width: 150,
       align: 'right',
-      stickyEnd: true,
+      //stickyEnd: true,
     },
     {
       name: 'color',
