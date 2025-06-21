@@ -37,50 +37,21 @@ export class GnroGridColumnMenuComponent {
     return this._gridId;
   }
   column!: GnroColumnConfig;
-  column$ = computed(() => {
-    return this.columns$().find((col) => col.name === this.column.name);
-  });
+  column$ = computed(() => this.columns$().find((col) => col.name === this.column.name));
   menuItems: GnroMenuConfig[] = [];
   set columns(columns: GnroColumnConfig[]) {
     this.menuItems = this.getMenuItems(columns);
   }
   values: { [key: string]: boolean } = {};
-  disabled = computed(() => {
-    return this.getDisabledMenu();
-  });
-
-  private getDisabledMenu(): GnroDisabled[] {
-    return [
-      {
-        name: 'asc',
-        disabled: this.sortDisabled('asc'),
-      },
-      {
-        name: 'desc',
-        disabled: this.sortDisabled('desc'),
-      },
-      {
-        name: 'sticky',
-        disabled: !!this.column$()?.sticky,
-      },
-      {
-        name: 'unSticky',
-        disabled: !this.column$()?.sticky,
-      },
-      {
-        name: 'groupBy',
-        disabled: this.groupByDisabled(),
-      },
-      {
-        name: 'unGroupBy',
-        disabled: this.unGroupByDisabled(),
-      },
-      {
-        name: 'columns',
-        disabled: false,
-      },
-    ];
-  }
+  disabled = computed(() => [
+    { name: 'asc', disabled: this.sortDisabled('asc') },
+    { name: 'desc', disabled: this.sortDisabled('desc') },
+    { name: 'sticky', disabled: !!this.column$()?.sticky },
+    { name: 'unSticky', disabled: !this.column$()?.sticky },
+    { name: 'groupBy', disabled: this.groupByDisabled() },
+    { name: 'unGroupBy', disabled: this.unGroupByDisabled() },
+    { name: 'columns', disabled: false },
+  ]);
 
   private getMenuItems(columns: GnroColumnConfig[]): GnroMenuConfig[] {
     const menus = [];
