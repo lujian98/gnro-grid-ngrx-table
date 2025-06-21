@@ -42,7 +42,8 @@ export class GnroGridColumnMenuComponent {
     { name: 'asc', disabled: this.sortDisabled('asc') },
     { name: 'desc', disabled: this.sortDisabled('desc') },
     { name: 'sticky', disabled: !!this.column$()?.sticky },
-    { name: 'unSticky', disabled: !this.column$()?.sticky },
+    { name: 'stickyEnd', disabled: !!this.column$()?.stickyEnd },
+    { name: 'unSticky', disabled: !this.column$()?.sticky && !this.column$()?.stickyEnd },
     { name: 'groupBy', disabled: this.groupByDisabled() },
     { name: 'unGroupBy', disabled: this.unGroupByDisabled() },
     { name: 'columns', disabled: false },
@@ -86,12 +87,17 @@ export class GnroGridColumnMenuComponent {
         {
           name: 'sticky',
           title: 'Sticky',
-          icon: 'arrow-down-wide-short', // TODO icon
+          icon: 'circle-left',
+        },
+        {
+          name: 'stickyEnd',
+          title: 'Sticky End',
+          icon: 'circle-right',
         },
         {
           name: 'unSticky',
           title: 'Unsticky',
-          icon: 'arrow-down-wide-short', // TODO icon
+          icon: 'circle-xmark',
         },
       );
     }
@@ -124,9 +130,11 @@ export class GnroGridColumnMenuComponent {
     } else if (item.name === 'unGroupBy') {
       this.gridFacade.setGridUnGroupBy(this.gridId, this.gridConfig$());
     } else if (item.name === 'sticky') {
-      this.columnSticky(true);
+      this.columnSticky(true, false);
+    } else if (item.name === 'stickyEnd') {
+      this.columnSticky(false, true);
     } else if (item.name === 'unSticky') {
-      this.columnSticky(false);
+      this.columnSticky(false, false);
     }
   }
 
@@ -165,15 +173,18 @@ export class GnroGridColumnMenuComponent {
     }
   }
 
-  private columnSticky(sticky: boolean): void {
+  private columnSticky(sticky: boolean, stickyEnd: boolean): void {
     const columns = [...this.columns$()].map((col) => ({
       ...col,
       sticky: col.name === this.column.name ? sticky : col.sticky,
+      stickyEnd: col.name === this.column.name ? stickyEnd : col.stickyEnd,
     }));
-    const previousIndex = columns.findIndex((col) => col.name === this.column.name);
-    const stickyLength = columns.filter((col) => col.sticky).length;
-    const currentIndex = sticky ? stickyLength - 1 : stickyLength;
-    moveItemInArray(columns, previousIndex, currentIndex);
+    if (sticky) {
+      const previousIndex = columns.findIndex((col) => col.name === this.column.name);
+      const stickyLength = columns.filter((col) => col.sticky).length;
+      const currentIndex = sticky ? stickyLength - 1 : stickyLength;
+      moveItemInArray(columns, previousIndex, currentIndex);
+    }
     this.gridFacade.setGridColumnsConfig(this.gridConfig$(), this.gridSetting$(), columns);
   }
 }
