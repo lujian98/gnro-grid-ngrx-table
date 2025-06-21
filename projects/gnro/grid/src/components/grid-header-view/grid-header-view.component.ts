@@ -5,7 +5,7 @@ import { GnroGridFacade } from '../../+state/grid.facade';
 import { ROW_SELECTION_CELL_WIDTH } from '../../models/constants';
 import { DragDropEvent } from '../../models/drag-drop-event';
 import { GnroColumnConfig, GnroColumnWidth, GnroGridConfig, GnroGridSetting } from '../../models/grid.model';
-import { moveGroupColumn } from '../../utils/move-group-column';
+import { groupColumnMove } from '../../utils/group-column-move';
 import { getTableWidth, viewportWidthRatio } from '../../utils/viewport-width-ratio';
 import { GnroGridGroupHeaderComponent } from '../grid-header/grid-group-header/grid-group-header.component';
 import { GnroGridHeaderComponent } from '../grid-header/grid-header.component';
@@ -92,7 +92,7 @@ export class GnroGridHeaderViewComponent {
   }
 
   private moveGroupColumn(previousIndex: number, currentIndex: number): void {
-    const columns = moveGroupColumn(previousIndex, currentIndex, [...this.columns()]);
+    const columns = groupColumnMove(previousIndex, currentIndex, [...this.columns()]);
     this.gridFacade.setGridColumnsConfig(this.gridConfig(), this.gridSetting(), columns);
     this.columns.set(columns);
   }
