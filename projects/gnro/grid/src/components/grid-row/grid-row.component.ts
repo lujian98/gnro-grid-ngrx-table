@@ -36,7 +36,37 @@ export class GnroGridRowComponent<T> {
   }
 
   get isSelectLastSticky(): boolean {
-    //TODO
-    return this.gridConfig().columnSticky ? true : false;
+    if (this.gridConfig().columnSticky) {
+      const totSticky = [...this.columns()].filter((col) => col.sticky).length;
+      return totSticky === 0 ? true : false;
+    } else {
+      return false;
+    }
   }
+
+  isColumnLastSticky(index: number): boolean {
+    if (this.gridConfig().columnSticky) {
+      const totSticky = [...this.columns()].filter((col) => col.sticky).length;
+      return index === totSticky - 1;
+    } else {
+      return false;
+    }
+  }
+
+  getStickyLeft(column: GnroColumnConfig, index: number): string {
+    if (column.sticky) {
+      const columns = [...this.columns()].filter((_, idx) => idx < index);
+      const width = getColumnsWidth(columns, this.gridConfig().rowSelection);
+      return `${width}px`;
+    } else {
+      return 'unset';
+    }
+  }
+}
+
+export function getColumnsWidth(columns: GnroColumnConfig[], selection: boolean): number {
+  return [...columns]
+    .filter((column) => !column.hidden)
+    .map((column) => column.width!)
+    .reduce((prev, curr) => prev + curr, selection ? ROW_SELECTION_CELL_WIDTH : 0);
 }
