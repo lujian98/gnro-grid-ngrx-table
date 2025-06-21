@@ -9,6 +9,7 @@ import {
   GnroGridSetting,
   GnroGroupHeader,
 } from '../../../models/grid.model';
+import { getTableWidth } from '../../../utils/viewport-width-ratio';
 import { GnroGridHeaderItemComponent } from '../grid-header-item/grid-header-item.component';
 
 @Component({
@@ -24,6 +25,7 @@ export class GnroGridGroupHeaderComponent {
   gridSetting = input.required<GnroGridSetting>();
   gridConfig = input.required<GnroGridConfig>();
   columnWidths = input<GnroColumnWidth[]>([]);
+  columnHeaderPosition = input<number>(0);
   groupHeaderColumns = computed(() => {
     let groupHeaders: GnroGroupHeader[] = [];
     this.columns().forEach((column) => {
@@ -38,6 +40,18 @@ export class GnroGridGroupHeaderComponent {
 
   getColumn(header: GnroGroupHeader): GnroColumnConfig {
     return this.columns().find((col) => col.name === header.field)!;
+  }
+
+  getStickyLeft(sticky: boolean | undefined, stickyEnd: boolean | undefined): string {
+    if (sticky) {
+      return `${-this.columnHeaderPosition()}px`;
+    } else if (stickyEnd) {
+      const width = getTableWidth(this.columns()) - this.gridSetting().viewportWidth;
+      const postion = -width - this.columnHeaderPosition();
+      return `${postion}px`;
+    } else {
+      return `0px`;
+    }
   }
 
   private getGroupHeader(column: GnroColumnConfig, groupHeaders: GnroGroupHeader[]): GnroGroupHeader[] {

@@ -14,6 +14,8 @@ export class AppGridGroupHeaderComponent {
   gridConfig: GnroGridConfig = {
     ...defaultGridConfig,
     urlKey: 'DCR',
+    horizontalScroll: true,
+    //columnSticky: true,
     rowSelection: true,
     multiRowSelection: true,
     columnMenu: true,
@@ -38,20 +40,22 @@ export class AppGridGroupHeaderComponent {
   columnsConfig: GnroColumnConfig[] = [
     {
       name: 'ID',
-      width: 30,
+      width: 80,
       align: 'center',
     },
     {
       name: 'vin',
+      width: 330,
       groupHeader: this.vehicleGroupHeader,
     },
     {
       name: 'brand',
+      width: 430,
       groupHeader: this.vehicleGroupHeader,
     },
     {
       name: 'Price',
-      width: 30,
+      width: 130,
       groupHeader: this.vehicleGroupHeader,
       rendererType: GnroObjectType.Number,
       rendererFieldConfig: {
@@ -62,13 +66,13 @@ export class AppGridGroupHeaderComponent {
     },
     {
       name: 'year',
-      width: 30,
+      width: 230,
       align: 'right',
       groupHeader: this.valueGroupHeader,
     },
     {
       name: 'color',
-      width: 50,
+      width: 150,
       align: 'center',
       groupHeader: this.valueGroupHeader,
     },
@@ -81,7 +85,7 @@ export class AppGridGroupHeaderComponent {
         optionKey: 'name',
         optionLabel: 'title',
       },
-      width: 30,
+      width: 230,
     },
   ];
 }
