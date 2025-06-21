@@ -42,22 +42,21 @@ export class GnroGridHeaderViewComponent {
     this.tableWidth = w;
     const displayColumns = [...this.resizedColumns()].filter((column) => column.hidden !== true);
     let tot = this.gridConfig().rowSelection ? ROW_SELECTION_CELL_WIDTH : 0;
-    const columnWidths = displayColumns.map((column, index) => {
+    const columnW = displayColumns.map((column, index) => {
       const resizeable = this.columns().find((col) => col.name === column.name)?.resizeable;
       let width = resizeable === false ? column.width! : Math.round(this.widthRatio() * column.width!);
       tot += width;
-      //TODO this will have issue when last column (too small) is stickyEnd
+      //WARNING this will last column is too small) when it is only stickyEnd
       if (index === displayColumns.length - 1) {
         width += this.tableWidth - tot;
       }
-      return {
-        name: column.name,
-        width: width,
-      };
+      return { name: column.name, width: width };
     });
+    const columnWidths = this.stickyEndcolumnWidthsCorrection(columnW);
     this.gridColumnWidthsEvent.emit(columnWidths);
     return columnWidths;
   });
+
   gridColumnWidthsEvent = output<GnroColumnWidth[]>();
 
   onColumnResizing(columnWidths: GnroColumnWidth[]): void {
@@ -111,5 +110,23 @@ export class GnroGridHeaderViewComponent {
       }
     });
     return idx;
+  }
+
+  private stickyEndcolumnWidthsCorrection(columnWidths: GnroColumnWidth[]): GnroColumnWidth[] {
+    const length = columnWidths.length;
+    const column = columnWidths[length - 1];
+    const lastColumn = this.columns().find((col) => col.name === column.name);
+    if (lastColumn?.stickyEnd && column.width < 50) {
+      return columnWidths.map((col, index) => {
+        let width = col.width;
+        if (index === length - 2) {
+          width = col.width - (lastColumn.width! - column.width);
+        } else if (index === length - 1) {
+          width = lastColumn.width!;
+        }
+        return { ...col, width };
+      });
+    }
+    return columnWidths;
   }
 }
