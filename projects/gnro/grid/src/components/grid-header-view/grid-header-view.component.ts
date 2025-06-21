@@ -46,6 +46,7 @@ export class GnroGridHeaderViewComponent {
       const resizeable = this.columns().find((col) => col.name === column.name)?.resizeable;
       let width = resizeable === false ? column.width! : Math.round(this.widthRatio() * column.width!);
       tot += width;
+      //TODO this will have issue when last column (too small) is stickyEnd
       if (index === displayColumns.length - 1) {
         width += this.tableWidth - tot;
       }
