@@ -64,7 +64,9 @@ export class GnroGridViewComponent<T> implements AfterViewInit, OnDestroy {
   });
 
   get tableWidth(): number {
-    return this.gridConfig().horizontalScroll ? getTableWidth(this.columns()) : this.gridSetting().viewportWidth;
+    return this.gridConfig().horizontalScroll
+      ? getTableWidth(this.columns(), this.gridConfig())
+      : this.gridSetting().viewportWidth;
   }
 
   gridColumnWidthsEvent(values: GnroColumnWidth[]): void {

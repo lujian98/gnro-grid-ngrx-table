@@ -70,7 +70,7 @@ export class GnroGridHeaderComponent<T> {
     if (sticky) {
       return `${-this.columnHeaderPosition()}px`;
     } else if (stickyEnd) {
-      const width = getTableWidth(this.columns()) - this.gridSetting().viewportWidth;
+      const width = getTableWidth(this.columns(), this.gridConfig()) - this.gridSetting().viewportWidth;
       const postion = -width - this.columnHeaderPosition();
       return `${postion}px`;
     } else {
