@@ -15,7 +15,7 @@ export class AppGridGroupHeaderComponent {
     ...defaultGridConfig,
     urlKey: 'DCR',
     horizontalScroll: true,
-    columnSticky: true,
+    //columnSticky: true,
     rowSelection: true,
     multiRowSelection: true,
     columnMenu: true,
@@ -41,7 +41,7 @@ export class AppGridGroupHeaderComponent {
     {
       name: 'ID',
       width: 80,
-      sticky: true,
+      //sticky: true,
       align: 'center',
     },
     {
