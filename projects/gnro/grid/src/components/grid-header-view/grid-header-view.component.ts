@@ -71,11 +71,13 @@ export class GnroGridHeaderViewComponent {
     const columns: GnroColumnConfig[] = [...this.columns()].map((column, index) => {
       const resizeable = this.columns().find((col) => col.name === column.name)?.resizeable;
       const ratio = resizeable === false ? 1 : this.widthRatio();
+      const find = columnWidths.find((col) => col.name == column.name);
       return {
         ...column,
-        width: columnWidths[index].width / ratio,
+        width: find ? find.width / ratio : column.width,
       };
     });
+
     this.resizedColumns.set(this.columns());
     this.isResizing.set(false);
     this.gridFacade.setGridColumnsConfig(this.gridConfig(), this.gridSetting(), columns);

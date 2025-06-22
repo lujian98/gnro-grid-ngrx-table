@@ -11,8 +11,12 @@ export function viewportWidthRatio(
   }
   const fiexWidth = getTableFixedWidth(columns);
   const totalWidth = getTableWidth(columns, gridConfig) - fiexWidth;
-  const width = gridSetting.viewportWidth - (gridConfig.rowSelection ? ROW_SELECTION_CELL_WIDTH : 0) - fiexWidth;
+  const width = gridSetting.viewportWidth - seletionWith(gridConfig) - fiexWidth;
   return width / totalWidth;
+}
+
+export function seletionWith(gridConfig: GnroGridConfig): number {
+  return gridConfig.horizontalScroll && gridConfig.rowSelection ? ROW_SELECTION_CELL_WIDTH : 0;
 }
 
 export function getTableFixedWidth(columns: GnroColumnConfig[]): number {
@@ -23,11 +27,10 @@ export function getTableFixedWidth(columns: GnroColumnConfig[]): number {
 }
 
 export function getTableWidth(columns: GnroColumnConfig[], gridConfig: GnroGridConfig): number {
-  const initWidth = gridConfig.rowSelection ? ROW_SELECTION_CELL_WIDTH : 0; // gridConfig.horizontalScroll &&
   return [...columns]
     .filter((column) => !column.hidden)
     .map((column) => column.width || MIN_GRID_COLUMN_WIDTH)
-    .reduce((prev, curr) => prev + curr, initWidth);
+    .reduce((prev, curr) => prev + curr, seletionWith(gridConfig));
 }
 
 export function getColumnsWidth(columns: GnroColumnConfig[], selection: boolean): number {
