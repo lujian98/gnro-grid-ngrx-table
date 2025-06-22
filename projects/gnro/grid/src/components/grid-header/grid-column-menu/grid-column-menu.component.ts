@@ -182,18 +182,12 @@ export class GnroGridColumnMenuComponent {
       sticky: this.isSameGroup(col) ? sticky : col.sticky,
       stickyEnd: this.isSameGroup(col) ? stickyEnd : col.stickyEnd,
     }));
-
     const previousIndex = columns.findIndex((col) => col.name === this.column.name);
-
-    const currentIndex = this.getCurrentIndex(sticky, stickyEnd, columns);
+    const currentIndex = this.getCurrentIndex(sticky, stickyEnd, [...columns]);
     if (currentIndex !== undefined) {
       if (this.gridConfig$().groupHeader) {
         const cols = groupColumnMove(previousIndex, currentIndex, [...columns]);
         this.setGridColumnsConfig(cols);
-        //this.columns$.set(columns);
-
-        //moveItemInArray(columns, previousIndex, currentIndex);
-        //this.setGridColumnsConfig(columns);
       } else {
         moveItemInArray(columns, previousIndex, currentIndex);
         this.setGridColumnsConfig(columns);
@@ -211,14 +205,15 @@ export class GnroGridColumnMenuComponent {
   }
 
   private getCurrentIndex(sticky: boolean, stickyEnd: boolean, columns: GnroColumnConfig[]): number | undefined {
-    if ((sticky || this.column$()?.sticky) && !stickyEnd) {
-      const stickyLength = columns.filter((col) => col.sticky).length;
-      return sticky ? stickyLength - 1 : stickyLength;
-    } else if (stickyEnd || this.column$()?.stickyEnd) {
-      const stickyEndLength = columns.length - columns.filter((col) => col.stickyEnd).length;
-      return stickyEnd ? stickyEndLength : stickyEndLength - 1;
-    } else {
-      return undefined;
+    if (sticky) {
+      return [...this.columns$()].filter((col) => col.sticky).length;
+    } else if (stickyEnd) {
+      return this.columns$().length - [...this.columns$()].filter((col) => col.stickyEnd).length - 1;
+    } else if (this.column$()?.sticky) {
+      return columns.findIndex((col) => col.sticky);
+    } else if (this.column$()?.stickyEnd) {
+      return [...this.columns$()].findIndex((col) => col.stickyEnd);
     }
+    return undefined;
   }
 }

@@ -4,8 +4,7 @@
     [class.gnro-grid-column-last-sticky]="isLastSticky(-1)"
     [style.flex]="'0 0 ' + rowSelectionCellWidth + 'px'"
     [style.left]="getStickyLeft(gridConfig().columnSticky, false)"
-    >9999</gnro-grid-header-item
-  >
+  ></gnro-grid-header-item>
 }
 
 @for (header of groupHeaderColumns(); track $index; let index = $index) {
@@ -24,7 +23,7 @@
     (columnResized)="columnResized.emit($event)"
     gnroColumnResize
   >
-    {{ header.title }}XX
+    {{ header.title }}
     @if (gridConfig().columnResize) {
       <div class="gnro-grid-column-resize-action" gnroColumnResizeTrigger></div>
     }
