@@ -17,10 +17,11 @@ export class AppGridHorizontalScrollComponent {
     columnSticky: true,
     rowSelection: true,
     multiRowSelection: true,
-    columnReorder: true,
-    columnResize: true,
     columnMenu: true,
     columnSort: true,
+    columnReorder: true, // TODO reorder and resize without filter together have problem
+    columnResize: true,
+    columnFilter: true,
     remoteGridData: true,
   };
 
@@ -29,7 +30,7 @@ export class AppGridHorizontalScrollComponent {
       name: 'ID',
       width: 80,
       align: 'center',
-      sticky: true,
+      //sticky: true,
     },
     {
       name: 'vin',
@@ -50,7 +51,7 @@ export class AppGridHorizontalScrollComponent {
       name: 'color',
       width: 150,
       align: 'center',
-      stickyEnd: true,
+      //stickyEnd: true,
     },
   ];
 }
