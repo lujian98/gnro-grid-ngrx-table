@@ -21,6 +21,7 @@ export class GnroGridRowGroupComponent<T> {
   gridSetting = input.required<GnroGridSetting>();
   gridConfig = input.required<GnroGridConfig>();
   rowIndex = input.required<number>();
+  columnHeaderPosition = input<number>(0);
   record = input.required<T | GnroRowGroup>();
   onToggleRowGroup = output<GnroRowGroup>();
   rowGroup!: GnroRowGroup;

@@ -1,5 +1,9 @@
 @if (rowGroup$()) {
-  <div [style.height]="gridConfig().rowHeight + 'px'" (click)="toggleRowGroup()">
+  <div
+    [style.height]="gridConfig().rowHeight + 'px'"
+    [style.padding-left]="-columnHeaderPosition() + 'px'"
+    (click)="toggleRowGroup()"
+  >
     <gnro-icon [icon]="rowGroup.expanded ? 'minus' : 'plus'"></gnro-icon>
     {{ title | translate }}: {{ rowGroup.value }} ({{ rowGroup.totalCounts }})
   </div>

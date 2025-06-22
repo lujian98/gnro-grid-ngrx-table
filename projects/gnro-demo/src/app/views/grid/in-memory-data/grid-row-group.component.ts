@@ -13,6 +13,8 @@ import { CARSDATA3 } from '../../../data/cars-large';
 export class AppGridRowGroupComponent {
   gridConfig: GnroGridConfig = {
     ...defaultGridConfig,
+    horizontalScroll: true,
+    columnSticky: true,
     columnSort: true,
     columnFilter: true,
     columnResize: true,
@@ -36,23 +38,27 @@ export class AppGridRowGroupComponent {
       name: 'ID',
       width: 50,
       align: 'center',
+      sticky: true,
       groupField: false,
     },
     {
       name: 'vin',
+      width: 350,
       groupField: false,
     },
     {
       name: 'brand',
+      width: 350,
     },
     {
       name: 'year',
-      width: 50,
+      width: 350,
       align: 'right',
     },
     {
       name: 'color',
       width: 80,
+      stickyEnd: true,
       align: 'center',
     },
   ];

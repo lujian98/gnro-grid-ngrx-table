@@ -13,6 +13,8 @@ export class AppGridRemoteRowGroupComponent {
   gridConfig: GnroGridConfig = {
     ...defaultGridConfig,
     urlKey: 'DCR',
+    //horizontalScroll: true,
+    //columnSticky: true,
     columnSort: true,
     columnFilter: true,
     columnResize: true,
