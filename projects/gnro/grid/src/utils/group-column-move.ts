@@ -33,6 +33,7 @@ export function groupColumnMove(
       let newIndex = firstGroupIndex(changed.groupHeader?.name, columns);
       [...columns].forEach((col, index) => {
         if (col.groupHeader?.name === moved.groupHeader?.name) {
+          console.log(' 1111 from =', index, ' to =', newIndex);
           moveItemInArray(columns, index, newIndex);
           newIndex++;
         }
@@ -41,6 +42,7 @@ export function groupColumnMove(
       let newIndex = firstGroupIndex(moved.groupHeader?.name, columns);
       [...columns].forEach((col, index) => {
         if (col.groupHeader?.name === changed.groupHeader?.name) {
+          console.log(' 2222 from =', index, ' to =', newIndex);
           moveItemInArray(columns, index, newIndex);
           newIndex++;
         }
