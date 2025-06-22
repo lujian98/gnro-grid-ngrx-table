@@ -47,13 +47,11 @@ export class GnroGridHeaderViewComponent {
       const resizeable = this.columns().find((col) => col.name === column.name)?.resizeable;
       let width = resizeable === false ? column.width! : Math.round(this.widthRatio() * column.width!);
       tot += width;
-      //WARNING this will last column is too small) when it is only stickyEnd
       if (index === displayColumns.length - 1) {
         width += this.tableWidth - tot;
       }
       return { name: column.name, width: width };
     });
-    //const columnWidths = this.stickyEndcolumnWidthsCorrection(columnW);
     this.gridColumnWidthsEvent.emit(columnWidths);
     return columnWidths;
   });
@@ -64,7 +62,7 @@ export class GnroGridHeaderViewComponent {
     this.resizedColumns.set(columnWidths);
     this.isResizing.set(true);
     if (this.gridConfig().horizontalScroll) {
-      this.tableWidth = getTableWidth(columnWidths, this.gridConfig()); // TOD use different???
+      this.tableWidth = getTableWidth(columnWidths, this.gridConfig());
     }
   }
 
@@ -85,11 +83,33 @@ export class GnroGridHeaderViewComponent {
   onColumnDragDrop(events: DragDropEvent): void {
     const previousIndex = this.indexCorrection(events.previousIndex);
     const currentIndex = this.indexCorrection(events.currentIndex);
-    if (this.gridConfig().groupHeader) {
-      this.moveGroupColumn(previousIndex, currentIndex);
-    } else {
-      this.moveColumn(previousIndex, currentIndex);
+    if (this.isDroppabe(previousIndex, currentIndex)) {
+      if (this.gridConfig().groupHeader) {
+        this.moveGroupColumn(previousIndex, currentIndex);
+      } else {
+        this.moveColumn(previousIndex, currentIndex);
+      }
     }
+  }
+
+  // cdk cdkDropListEnterPredicate not working?? use isDroppabe for now
+  private isDroppabe(previousIndex: number, currentIndex: number): boolean {
+    if (this.gridConfig().columnSticky) {
+      const prevCol = this.columns().find((col, index) => previousIndex === index);
+      const currCol = this.columns().find((col, index) => currentIndex === index);
+      if (prevCol?.sticky && currCol?.sticky) {
+        // TODO trigger scroll to left??
+        return true;
+      } else if (prevCol?.stickyEnd && currCol?.stickyEnd) {
+        // TODO trigger scroll to righr??
+        return true;
+      } else if (!prevCol?.sticky && !currCol?.sticky && !prevCol?.stickyEnd && !currCol?.stickyEnd) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return true;
   }
 
   private moveGroupColumn(previousIndex: number, currentIndex: number): void {
@@ -112,23 +132,4 @@ export class GnroGridHeaderViewComponent {
     });
     return idx;
   }
-
-  /*
-  private stickyEndcolumnWidthsCorrection(columnWidths: GnroColumnWidth[]): GnroColumnWidth[] {
-    const length = columnWidths.length;
-    const column = columnWidths[length - 1];
-    const lastColumn = this.columns().find((col) => col.name === column.name);
-    if (lastColumn?.stickyEnd && column.width < 50) {
-      return columnWidths.map((col, index) => {
-        let width = col.width;
-        if (index === length - 2) {
-          width = col.width - (lastColumn.width! - column.width);
-        } else if (index === length - 1) {
-          width = lastColumn.width!;
-        }
-        return { ...col, width };
-      });
-    }
-    return columnWidths;
-  }*/
 }
