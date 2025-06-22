@@ -92,6 +92,23 @@ export class GnroGridGroupHeaderComponent {
     }
   }
 
+  isFirstStickyEnd(index: number): boolean {
+    if (this.gridConfig().columnSticky) {
+      const header = this.groupHeaderColumns()[index];
+      if (!header.isGroupHeader) {
+        const find = this.columns().findIndex((col) => col.name === header.field);
+        const idx = [...this.columns()].findIndex((col) => col.stickyEnd);
+        return find === idx;
+      } else {
+        const find = this.columns().findIndex((col) => col.groupHeader?.name === header.name);
+        const idx = [...this.columns()].findIndex((col) => col.stickyEnd);
+        return find === idx;
+      }
+    } else {
+      return false;
+    }
+  }
+
   private getGroupHeader(column: GnroColumnConfig, groupHeaders: GnroGroupHeader[]): GnroGroupHeader[] {
     if (column.groupHeader) {
       const find = groupHeaders.find((item) => item.name === column.groupHeader?.name);

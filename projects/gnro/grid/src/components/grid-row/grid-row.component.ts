@@ -45,6 +45,14 @@ export class GnroGridRowComponent<T> {
     }
   }
 
+  isFirstStickyEnd(index: number): boolean {
+    if (this.gridConfig().columnSticky) {
+      return index === [...this.columns()].findIndex((col) => col.stickyEnd);
+    } else {
+      return false;
+    }
+  }
+
   getStickyLeft(column: GnroColumnConfig, index: number): string {
     if (this.gridConfig().columnSticky && column.sticky) {
       const columns = [...this.columnWidths()].filter((_, idx) => idx < index);

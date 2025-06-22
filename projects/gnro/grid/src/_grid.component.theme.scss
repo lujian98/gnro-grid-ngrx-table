@@ -46,6 +46,10 @@
       border-right: 2px solid gnro.gnro-theme(app-border-basic-color);
     }
 
+    .gnro-grid-column-first-sticky-end {
+      border-left: 2px solid gnro.gnro-theme(app-border-basic-color);
+    }
+
     gnro-grid-header-item {
       border-style: solid;
       border-color: gnro.gnro-theme(app-border-basic-color);

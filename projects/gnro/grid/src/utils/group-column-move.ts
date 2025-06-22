@@ -8,8 +8,6 @@ export function groupColumnMove(
 ): GnroColumnConfig[] {
   const moved = columns[previousIndex];
   const changed = columns[currentIndex];
-  console.log('previousIndex=', previousIndex, ' currentIndex=', currentIndex);
-  console.log('moved=', moved);
   if (!moved.groupHeader && !changed.groupHeader) {
     moveItemInArray(columns, previousIndex, currentIndex);
   } else if (moved.groupHeader?.name === changed.groupHeader?.name) {

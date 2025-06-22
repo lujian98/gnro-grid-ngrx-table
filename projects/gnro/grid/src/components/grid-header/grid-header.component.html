@@ -30,6 +30,7 @@
     <gnro-grid-header-item
       [class.gnro-grid-header-sticky]="gridConfig().columnSticky && (column.sticky || column.stickyEnd)"
       [class.gnro-grid-column-last-sticky]="isLastSticky(index)"
+      [class.gnro-grid-column-first-sticky-end]="isFirstStickyEnd(index)"
       [style.flex]="'0 0 ' + getColumnWidth(column)"
       [style.max-width]="getColumnWidth(column)"
       [style.left]="getStickyLeft(column.sticky, column.stickyEnd)"

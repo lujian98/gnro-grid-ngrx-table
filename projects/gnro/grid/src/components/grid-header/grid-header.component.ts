@@ -92,6 +92,14 @@ export class GnroGridHeaderComponent<T> {
     }
   }
 
+  isFirstStickyEnd(index: number): boolean {
+    if (this.gridConfig().columnSticky) {
+      return index === [...this.columns()].findIndex((col) => col.stickyEnd);
+    } else {
+      return false;
+    }
+  }
+
   getColumnWidth(column: GnroColumnConfig): string {
     const width = this.columnWidths().find((col) => col.name === column.name)?.width;
     return width ? `${width}px` : '';
