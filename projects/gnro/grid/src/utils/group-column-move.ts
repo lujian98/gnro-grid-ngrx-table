@@ -41,9 +41,6 @@ export function groupColumnMove(
       const moveGroup = [...columns].filter((col) => col.groupHeader?.name === moved.groupHeader?.name);
       const items = [...columns].filter((col) => col.groupHeader?.name !== moved.groupHeader?.name);
       const index = lastGroupIndex(changed.groupHeader?.name, items) + 1;
-      console.log(' items =', items);
-      console.log(' moveGroup =', moveGroup);
-      console.log(' newIndex =', index);
       items.splice(index, 0, ...moveGroup);
       return items;
     }
