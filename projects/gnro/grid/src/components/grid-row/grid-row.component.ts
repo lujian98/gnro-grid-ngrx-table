@@ -46,7 +46,7 @@ export class GnroGridRowComponent<T> {
   }
 
   getStickyLeft(column: GnroColumnConfig, index: number): string {
-    if (column.sticky) {
+    if (this.gridConfig().columnSticky && column.sticky) {
       const columns = [...this.columnWidths()].filter((_, idx) => idx < index);
       const width = getColumnsWidth(columns, this.gridConfig().rowSelection);
       return `${width}px`;
@@ -56,7 +56,7 @@ export class GnroGridRowComponent<T> {
   }
 
   getStickyRight(column: GnroColumnConfig, index: number): string {
-    if (column.stickyEnd) {
+    if (this.gridConfig().columnSticky && column.stickyEnd) {
       const columns = [...this.columnWidths()].filter((_, idx) => idx > index);
       const width = getColumnsWidth(columns, false);
       return `${width}px`;

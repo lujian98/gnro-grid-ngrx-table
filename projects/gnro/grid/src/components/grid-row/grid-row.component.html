@@ -14,7 +14,7 @@
 @for (column of columns(); track $index; let index = $index) {
   @if (!column.hidden) {
     <gnro-grid-cell
-      [class.gnro-grid-cell-row-sticky]="column.sticky || column.stickyEnd"
+      [class.gnro-grid-cell-row-sticky]="gridConfig().columnSticky && (column.sticky || column.stickyEnd)"
       [class.gnro-grid-column-last-sticky]="isLastSticky(index)"
       [style.height]="gridConfig().rowHeight + 'px'"
       [style.flex]="'0 0 ' + getColumnWidth(column)"
