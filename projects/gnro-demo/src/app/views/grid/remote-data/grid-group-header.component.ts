@@ -16,7 +16,7 @@ export class AppGridGroupHeaderComponent {
     urlKey: 'DCR',
     horizontalScroll: true,
     columnSticky: true,
-    rowSelection: true,
+    //rowSelection: true,
     multiRowSelection: true,
     columnMenu: true,
     columnSort: true,
