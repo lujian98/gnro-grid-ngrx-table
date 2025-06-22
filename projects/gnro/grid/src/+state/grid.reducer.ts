@@ -7,6 +7,7 @@ import { GridState } from '../models/grid.model';
 import { GnroRowGroup } from '../utils/row-group/row-group';
 import { GnroRowGroups } from '../utils/row-group/row-groups';
 import { getSelected } from '../utils/row-selection';
+import { stickyEndMinWidth } from '../utils/viewport-width-ratio';
 import * as gridActions from './grid.actions';
 
 export const initialState: GridState = {};
@@ -64,7 +65,15 @@ export const gnroGridFeature = createFeature({
       const key = action.gridId;
       const newState: GridState = { ...state };
       if (state[key]) {
+        const columns = action.columnsConfig.map((column) => {
+          return {
+            ...column,
+            rendererType: column.rendererType || GnroObjectType.Text,
+            width: column.width || MIN_GRID_COLUMN_WIDTH,
+          };
+        });
         const gridConfig = state[key].gridConfig;
+        const columnsConfig = stickyEndMinWidth(columns, gridConfig, state[key].gridSetting);
         newState[key] = {
           ...state[key],
           gridSetting: {
@@ -72,13 +81,7 @@ export const gnroGridFeature = createFeature({
             viewportReady: true,
             columnUpdating: true,
           },
-          columnsConfig: action.columnsConfig.map((column) => {
-            return {
-              ...column,
-              rendererType: column.rendererType || GnroObjectType.Text,
-              width: column.width || MIN_GRID_COLUMN_WIDTH,
-            };
-          }),
+          columnsConfig,
           selection: gridConfig.multiRowSelection ? new SelectionModel<object>(true, []) : state[key].selection,
         };
       }
@@ -90,17 +93,20 @@ export const gnroGridFeature = createFeature({
       if (state[key]) {
         const gridConfig = state[key].gridConfig;
         const pageSize = gridConfig.virtualScroll || gridConfig.verticalScroll ? gridConfig.pageSize : action.pageSize;
+        const gridSetting = {
+          ...state[key].gridSetting,
+          viewportWidth: action.viewportWidth,
+          viewportSize: action.pageSize,
+        };
+        const columnsConfig = stickyEndMinWidth(state[key].columnsConfig, gridConfig, gridSetting);
         newState[key] = {
           ...state[key],
+          columnsConfig,
           gridConfig: {
             ...gridConfig,
             pageSize: pageSize,
           },
-          gridSetting: {
-            ...state[key].gridSetting,
-            viewportWidth: action.viewportWidth,
-            viewportSize: action.pageSize,
-          },
+          gridSetting,
         };
       }
       return { ...newState };
@@ -171,15 +177,16 @@ export const gnroGridFeature = createFeature({
       const key = action.gridId;
       const newState: GridState = { ...state };
       if (state[key]) {
+        const columns = state[key].columnsConfig.map((column) => {
+          if (column.name === action.columnsConfig.name) {
+            return { ...action.columnsConfig };
+          } else {
+            return column;
+          }
+        });
         newState[key] = {
           ...state[key],
-          columnsConfig: state[key].columnsConfig.map((column) => {
-            if (column.name === action.columnsConfig.name) {
-              return { ...action.columnsConfig };
-            } else {
-              return column;
-            }
-          }),
+          columnsConfig: stickyEndMinWidth(columns, state[key].gridConfig, state[key].gridSetting),
         };
       }
       return { ...newState };

@@ -104,10 +104,8 @@ export class GnroGridHeaderViewComponent {
         this.gridDragDropStickyEvent.emit('stickyEnd');
       }
       if (prevCol?.sticky && currCol?.sticky) {
-        // TODO trigger scroll to left??
         return true;
       } else if (prevCol?.stickyEnd && currCol?.stickyEnd) {
-        // TODO trigger scroll to righr??
         return true;
       } else if (!prevCol?.sticky && !currCol?.sticky && !prevCol?.stickyEnd && !currCol?.stickyEnd) {
         return true;

@@ -36,3 +36,27 @@ export function getColumnsWidth(columns: GnroColumnConfig[], selection: boolean)
     .map((column) => column.width!)
     .reduce((prev, curr) => prev + curr, selection ? ROW_SELECTION_CELL_WIDTH : 0);
 }
+
+export function stickyEndMinWidth(
+  columns: GnroColumnConfig[],
+  gridConfig: GnroGridConfig,
+  gridSetting: GnroGridSetting,
+): GnroColumnConfig[] {
+  if (gridConfig.horizontalScroll) {
+    const stickyEnd = [...columns].filter((col) => col.stickyEnd).length;
+    const width = getTableWidth(columns, gridConfig);
+    if (stickyEnd > 0 && width < gridSetting.viewportWidth) {
+      const calRatio = (gridSetting.viewportWidth + 50) / width;
+      const adjColumns: GnroColumnConfig[] = [...columns].map((column, index) => {
+        const resizeable = columns.find((col) => col.name === column.name)?.resizeable;
+        const ratio = resizeable === false ? 1 : calRatio;
+        return {
+          ...column,
+          width: columns[index].width! * ratio,
+        };
+      });
+      return adjColumns;
+    }
+  }
+  return columns;
+}
