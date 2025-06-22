@@ -66,6 +66,10 @@ export class GnroGridHeaderComponent<T> {
     return `${GRID_FILTER_ROW_HEIGHT + 1}px`;
   }
 
+  get columnResizeHeight(): number {
+    return 32 + (this.gridConfig().columnFilter ? 28 : 0);
+  }
+
   getStickyLeft(sticky: boolean | undefined, stickyEnd: boolean | undefined): string {
     if (this.gridConfig().columnSticky) {
       if (sticky) {

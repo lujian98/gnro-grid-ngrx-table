@@ -65,7 +65,11 @@
       <div class="drag-placeholder" *cdkDragPlaceholder></div>
 
       @if (resizeable(column, index)) {
-        <div class="gnro-grid-column-resize-action" gnroColumnResizeTrigger></div>
+        <div
+          class="gnro-grid-column-resize-action"
+          [style.height]="columnResizeHeight + 'px'"
+          gnroColumnResizeTrigger
+        ></div>
       }
     </gnro-grid-header-item>
   }

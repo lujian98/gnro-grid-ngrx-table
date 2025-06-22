@@ -19,9 +19,9 @@ export class AppGridHorizontalScrollComponent {
     multiRowSelection: true,
     columnMenu: true,
     columnSort: true,
-    columnReorder: true, // TODO reorder and resize without filter together have problem
+    columnReorder: true,
     columnResize: true,
-    columnFilter: true,
+    //columnFilter: true,
     remoteGridData: true,
   };
 
