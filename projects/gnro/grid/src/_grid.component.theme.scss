@@ -25,8 +25,8 @@
       color: cyan;
     }
 
-    .gnro-grid-cell-row-sticky:nth-child(odd), // TODO incorrect
-    .gnro-grid-row:nth-child(odd) {
+    .gnro-grid-row:nth-child(odd),
+    .gnro-grid-row:nth-child(odd) gnro-grid-cell {
       background-color: gnro.gnro-theme(gnro-grid-row-odd-background-color);
       &:focus,
       &:hover {
@@ -34,8 +34,8 @@
       }
     }
 
-    .gnro-grid-cell-row-sticky:nth-child(even), // TODO incorrect
-    .gnro-grid-row:nth-child(even) {
+    .gnro-grid-row:nth-child(even),
+    .gnro-grid-row:nth-child(even) gnro-grid-cell {
       background-color: gnro.gnro-theme(gnro-grid-row-even-background-color);
       &:focus,
       &:hover {
