@@ -43,15 +43,16 @@ export class GnroGridGroupHeaderComponent {
   }
 
   getStickyLeft(sticky: boolean | undefined, stickyEnd: boolean | undefined): string {
-    if (sticky) {
-      return `${-this.columnHeaderPosition()}px`;
-    } else if (stickyEnd) {
-      const width = getTableWidth(this.columns(), this.gridConfig()) - this.gridSetting().viewportWidth;
-      const postion = -width - this.columnHeaderPosition();
-      return `${postion}px`;
-    } else {
-      return `0px`;
+    if (this.gridConfig().columnSticky) {
+      if (sticky) {
+        return `${-this.columnHeaderPosition()}px`;
+      } else if (stickyEnd) {
+        const width = getTableWidth(this.columns(), this.gridConfig()) - this.gridSetting().viewportWidth;
+        const postion = -width - this.columnHeaderPosition();
+        return `${postion}px`;
+      }
     }
+    return `0px`;
   }
 
   getHeaderStickyLeft(header: GnroGroupHeader, index: number): string {
