@@ -33,20 +33,19 @@ export function groupColumnMove(
       let newIndex = firstGroupIndex(changed.groupHeader?.name, columns);
       [...columns].forEach((col, index) => {
         if (col.groupHeader?.name === moved.groupHeader?.name) {
-          console.log(' 1111 from =', index, ' to =', newIndex);
           moveItemInArray(columns, index, newIndex);
           newIndex++;
         }
       });
     } else if (currentIndex > previousIndex) {
-      let newIndex = firstGroupIndex(moved.groupHeader?.name, columns);
-      [...columns].forEach((col, index) => {
-        if (col.groupHeader?.name === changed.groupHeader?.name) {
-          console.log(' 2222 from =', index, ' to =', newIndex);
-          moveItemInArray(columns, index, newIndex);
-          newIndex++;
-        }
-      });
+      const moveGroup = [...columns].filter((col) => col.groupHeader?.name === moved.groupHeader?.name);
+      const items = [...columns].filter((col) => col.groupHeader?.name !== moved.groupHeader?.name);
+      const index = lastGroupIndex(changed.groupHeader?.name, items) + 1;
+      console.log(' items =', items);
+      console.log(' moveGroup =', moveGroup);
+      console.log(' newIndex =', index);
+      items.splice(index, 0, ...moveGroup);
+      return items;
     }
   }
   return columns;
