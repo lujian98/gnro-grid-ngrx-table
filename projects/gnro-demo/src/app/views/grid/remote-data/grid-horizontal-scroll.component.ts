@@ -17,6 +17,7 @@ export class AppGridHorizontalScrollComponent {
     columnSticky: true,
     rowSelection: true,
     multiRowSelection: true,
+    columnReorder: true,
     columnResize: true,
     columnMenu: true,
     columnSort: true,

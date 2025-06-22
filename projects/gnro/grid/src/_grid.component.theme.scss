@@ -20,6 +20,11 @@
       border-bottom: 1px solid gnro.gnro-theme(app-border-basic-color);
     }
 
+    .gnro-grid-header-sticky {
+      z-index: 101;
+      color: cyan;
+    }
+
     .gnro-grid-cell-row-sticky:nth-child(odd), // TODO incorrect
     .gnro-grid-row:nth-child(odd) {
       background-color: gnro.gnro-theme(gnro-grid-row-odd-background-color);
