@@ -23,7 +23,7 @@ export function getTableFixedWidth(columns: GnroColumnConfig[]): number {
 }
 
 export function getTableWidth(columns: GnroColumnConfig[], gridConfig: GnroGridConfig): number {
-  const initWidth = gridConfig.horizontalScroll && gridConfig.rowSelection ? ROW_SELECTION_CELL_WIDTH : 0;
+  const initWidth = gridConfig.rowSelection ? ROW_SELECTION_CELL_WIDTH : 0; // gridConfig.horizontalScroll &&
   return [...columns]
     .filter((column) => !column.hidden)
     .map((column) => column.width || MIN_GRID_COLUMN_WIDTH)
