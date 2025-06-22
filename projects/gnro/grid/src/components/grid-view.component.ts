@@ -99,6 +99,11 @@ export class GnroGridViewComponent<T> implements AfterViewInit, OnDestroy {
       )
       .subscribe((event) => {
         this.setViewportPageSize(typeof event === 'string' ? false : true, event);
+        if (this.gridConfig().verticalScroll) {
+          //initital column align issue??
+          this.viewport.scrollToIndex(1);
+          this.viewport.scrollToIndex(0);
+        }
       });
   }
 
