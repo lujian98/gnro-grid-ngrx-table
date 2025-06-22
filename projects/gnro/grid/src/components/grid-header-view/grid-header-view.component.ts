@@ -38,13 +38,12 @@ export class GnroGridHeaderViewComponent {
     return this.isResizing() ? 1 : viewportWidthRatio(this.gridConfig(), this.gridSetting(), this.columns());
   });
   columnWidths = computed(() => {
-    const w = this.gridConfig().horizontalScroll
+    this.tableWidth = this.gridConfig().horizontalScroll
       ? getTableWidth(this.columns(), this.gridConfig())
       : this.gridSetting().viewportWidth;
-    this.tableWidth = w;
     const displayColumns = [...this.resizedColumns()].filter((column) => column.hidden !== true);
     let tot = this.gridConfig().rowSelection ? ROW_SELECTION_CELL_WIDTH : 0;
-    const columnW = displayColumns.map((column, index) => {
+    const columnWidths = displayColumns.map((column, index) => {
       const resizeable = this.columns().find((col) => col.name === column.name)?.resizeable;
       let width = resizeable === false ? column.width! : Math.round(this.widthRatio() * column.width!);
       tot += width;
@@ -54,7 +53,7 @@ export class GnroGridHeaderViewComponent {
       }
       return { name: column.name, width: width };
     });
-    const columnWidths = this.stickyEndcolumnWidthsCorrection(columnW);
+    //const columnWidths = this.stickyEndcolumnWidthsCorrection(columnW);
     this.gridColumnWidthsEvent.emit(columnWidths);
     return columnWidths;
   });
@@ -114,6 +113,7 @@ export class GnroGridHeaderViewComponent {
     return idx;
   }
 
+  /*
   private stickyEndcolumnWidthsCorrection(columnWidths: GnroColumnWidth[]): GnroColumnWidth[] {
     const length = columnWidths.length;
     const column = columnWidths[length - 1];
@@ -130,5 +130,5 @@ export class GnroGridHeaderViewComponent {
       });
     }
     return columnWidths;
-  }
+  }*/
 }
