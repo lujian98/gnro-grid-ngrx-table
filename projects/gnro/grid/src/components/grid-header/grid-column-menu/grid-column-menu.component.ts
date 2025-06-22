@@ -207,7 +207,7 @@ export class GnroGridColumnMenuComponent {
 
   private isSameGroup(col: GnroColumnConfig): boolean {
     const group = this.column$()?.groupHeader?.name;
-    return col.name === this.column.name || group === col.groupHeader?.name;
+    return col.name === this.column.name || !!(group && group === col.groupHeader?.name);
   }
 
   private getCurrentIndex(sticky: boolean, stickyEnd: boolean, columns: GnroColumnConfig[]): number | undefined {
