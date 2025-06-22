@@ -73,6 +73,15 @@ export class GnroGridViewComponent<T> implements AfterViewInit, OnDestroy {
     this.columnWidths = values;
   }
 
+  gridDragDropStickyEvent(sticky: string): void {
+    const el = this.viewport.elementRef.nativeElement;
+    if (sticky === 'sticky') {
+      el.scrollLeft = 0;
+    } else if (sticky === 'stickyEnd') {
+      el.scrollLeft = el.scrollWidth - el.clientWidth;
+    }
+  }
+
   @ViewChild(CdkVirtualScrollViewport, { static: true }) private viewport!: CdkVirtualScrollViewport;
 
   ngAfterViewInit(): void {

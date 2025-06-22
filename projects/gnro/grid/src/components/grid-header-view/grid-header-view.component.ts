@@ -57,6 +57,7 @@ export class GnroGridHeaderViewComponent {
   });
 
   gridColumnWidthsEvent = output<GnroColumnWidth[]>();
+  gridDragDropStickyEvent = output<string>();
 
   onColumnResizing(columnWidths: GnroColumnWidth[]): void {
     this.resizedColumns.set(columnWidths);
@@ -97,6 +98,11 @@ export class GnroGridHeaderViewComponent {
     if (this.gridConfig().columnSticky) {
       const prevCol = this.columns().find((col, index) => previousIndex === index);
       const currCol = this.columns().find((col, index) => currentIndex === index);
+      if (prevCol?.sticky) {
+        this.gridDragDropStickyEvent.emit('sticky');
+      } else if (prevCol?.stickyEnd) {
+        this.gridDragDropStickyEvent.emit('stickyEnd');
+      }
       if (prevCol?.sticky && currCol?.sticky) {
         // TODO trigger scroll to left??
         return true;
