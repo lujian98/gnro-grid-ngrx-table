@@ -1,6 +1,6 @@
 {
   "name": "@gnro/ui",
-  "version": "2.10.19",
+  "version": "2.11.19",
   "description": "Angular grid ngrx ui kit",
   "main": "index.js",
   "repository": {
@@ -9,7 +9,7 @@
   },
   "keywords": [
     "Angular 19, ngrx,",
-    "grid table virtual scroll,",
+    "grid table virtual scroll, resize, sort, filter, reorder, sticky, etc.",
     "tree grid,",
     "dashboard,",
     "form fields,",

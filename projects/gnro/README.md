@@ -3,7 +3,7 @@
 Angular 19 ngrx
 
 Grid table local or remote configures, local or remote data. 
-   virtual scroll, column filter, sort, resize, reorder, hide, row selection, horizontal scroll
+   virtual scroll, column filter, sort, resize, reorder, hide, sticky, row selection, horizontal scroll
    page size and auto fit vier port 
    row group, configurable row heigh, display image, group header
    grid cell edit, etc.
