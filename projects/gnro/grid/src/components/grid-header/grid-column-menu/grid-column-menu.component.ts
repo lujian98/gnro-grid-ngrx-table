@@ -4,6 +4,7 @@ import { GnroMenuConfig, GnroMenusComponent } from '@gnro/ui/menu';
 import { GnroGridStateModule } from '../../../+state/grid-state.module';
 import { GnroGridFacade } from '../../../+state/grid.facade';
 import { GnroColumnConfig, GnroGridConfig, GnroGridSetting, GnroRowGroupField } from '../../../models/grid.model';
+import { groupColumnMove } from '../../../utils/group-column-move';
 
 @Component({
   selector: 'gnro-grid-column-menu',
@@ -176,7 +177,6 @@ export class GnroGridColumnMenuComponent {
   }
 
   private columnSticky(sticky: boolean, stickyEnd: boolean): void {
-    //console.log( ' xxx column=', this.column$())
     const columns = [...this.columns$()].map((col) => ({
       ...col,
       sticky: this.isSameGroup(col) ? sticky : col.sticky,
@@ -187,8 +187,21 @@ export class GnroGridColumnMenuComponent {
 
     const currentIndex = this.getCurrentIndex(sticky, stickyEnd, columns);
     if (currentIndex !== undefined) {
-      moveItemInArray(columns, previousIndex, currentIndex);
+      if (this.gridConfig$().groupHeader) {
+        const cols = groupColumnMove(previousIndex, currentIndex, [...columns]);
+        this.setGridColumnsConfig(cols);
+        //this.columns$.set(columns);
+
+        //moveItemInArray(columns, previousIndex, currentIndex);
+        //this.setGridColumnsConfig(columns);
+      } else {
+        moveItemInArray(columns, previousIndex, currentIndex);
+        this.setGridColumnsConfig(columns);
+      }
     }
+  }
+
+  private setGridColumnsConfig(columns: GnroColumnConfig[]): void {
     this.gridFacade.setGridColumnsConfig(this.gridConfig$(), this.gridSetting$(), columns);
   }
 
