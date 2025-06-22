@@ -30,7 +30,7 @@ export class AppGridHorizontalScrollComponent {
       name: 'ID',
       width: 80,
       align: 'center',
-      //sticky: true,
+      sticky: true,
     },
     {
       name: 'vin',
