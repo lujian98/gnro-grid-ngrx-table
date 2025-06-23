@@ -27,7 +27,7 @@ import {
   selectRowSelections,
 } from './grid.selectors';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class GnroGridFacade {
   private readonly store = inject(Store);
 

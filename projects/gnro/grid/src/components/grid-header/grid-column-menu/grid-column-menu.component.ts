@@ -1,7 +1,6 @@
 import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, computed, inject, Signal } from '@angular/core';
 import { GnroMenuConfig, GnroMenusComponent } from '@gnro/ui/menu';
-import { GnroGridStateModule } from '../../../+state/grid-state.module';
 import { GnroGridFacade } from '../../../+state/grid.facade';
 import { GnroColumnConfig, GnroGridConfig, GnroGridSetting, GnroRowGroupField } from '../../../models/grid.model';
 import { groupColumnMove } from '../../../utils/group-column-move';
@@ -11,7 +10,7 @@ import { groupColumnMove } from '../../../utils/group-column-move';
   templateUrl: './grid-column-menu.component.html',
   styleUrls: ['./grid-column-menu.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [GnroGridStateModule, GnroMenusComponent],
+  imports: [GnroMenusComponent],
 })
 export class GnroGridColumnMenuComponent {
   private readonly gridFacade = inject(GnroGridFacade);
