@@ -5,6 +5,7 @@ import {
   GnroGridCellComponent,
   GnroGridCellViewComponent,
   GnroGridSetting,
+  GnroRowSelectComponent,
   ROW_SELECTION_CELL_WIDTH,
 } from '@gnro/ui/grid';
 import { GnroTreeConfig, GnroTreeNode } from '../../models/tree-grid.model';
@@ -15,13 +16,15 @@ import { GnroTreeNodeComponent } from './tree-node/tree-node.component';
   templateUrl: './tree-row.component.html',
   styleUrls: ['./tree-row.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [GnroTreeNodeComponent, GnroGridCellComponent, GnroGridCellViewComponent],
+  imports: [GnroTreeNodeComponent, GnroGridCellComponent, GnroGridCellViewComponent, GnroRowSelectComponent],
 })
 export class GnroTreeRowComponent<T> {
   columns = input.required<GnroColumnConfig[]>();
   gridSetting = input.required<GnroGridSetting>();
   treeConfig = input.required<GnroTreeConfig>();
   record = input.required<GnroTreeNode<T>>();
+  //selected = input.required<boolean>();
+  selected = input<boolean>(false);
   columnWidths = input.required<GnroColumnWidth[]>();
   rowIndex = input.required<number>();
 

@@ -66,6 +66,7 @@ export const gnroGridFeature = createFeature({
       const newState: GridState = { ...state };
       if (state[key]) {
         const gridConfig = state[key].gridConfig;
+        const gridSetting = state[key].gridSetting;
         const allowHide = action.columnsConfig.filter((col) => col.allowHide === false).length;
         const columns = action.columnsConfig.map((column, index) => {
           return {
@@ -73,6 +74,7 @@ export const gnroGridFeature = createFeature({
             allowHide: allowHide === 0 && index === 0 ? false : column.allowHide,
             rendererType: column.rendererType || GnroObjectType.Text,
             width: column.width || MIN_GRID_COLUMN_WIDTH,
+            sticky: gridSetting.isTreeGrid && column.name === 'name' ? true : column.sticky,
           };
         });
 

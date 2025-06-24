@@ -1,4 +1,18 @@
-<!-- not support tree row selection -->
+<!-- not support tree row selection
+     [class.gnro-grid-column-last-sticky]="isLastSticky(-1)"
+ -->
+
+@if (treeConfig().rowSelection) {
+  <gnro-grid-cell
+    class="gnro-tree-cell-row-select"
+    [class.gnro-grid-cell-row-sticky]="treeConfig().columnSticky"
+    [style.height]="treeConfig().rowHeight + 'px'"
+    [style.flex]="'0 0 ' + selectColumnWidth"
+    [style.left]="treeConfig().columnSticky ? '0px' : 'unset'"
+  >
+    <gnro-row-select [selected]="selected()"> </gnro-row-select>
+  </gnro-grid-cell>
+}
 
 @if (treeColumn && !treeColumn.hidden) {
   <gnro-grid-cell

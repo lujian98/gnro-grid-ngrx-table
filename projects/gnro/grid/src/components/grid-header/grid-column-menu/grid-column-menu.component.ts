@@ -42,8 +42,16 @@ export class GnroGridColumnMenuComponent {
     { name: 'asc', disabled: this.sortDisabled('asc') },
     { name: 'desc', disabled: this.sortDisabled('desc') },
     { name: 'sticky', disabled: !!this.column$()?.sticky },
-    { name: 'stickyEnd', disabled: !!this.column$()?.stickyEnd },
-    { name: 'unSticky', disabled: !this.column$()?.sticky && !this.column$()?.stickyEnd },
+    {
+      name: 'stickyEnd',
+      disabled: !!this.column$()?.stickyEnd || (this.gridSetting$().isTreeGrid && this.column$()?.name === 'name'),
+    },
+    {
+      name: 'unSticky',
+      disabled:
+        (!this.column$()?.sticky && !this.column$()?.stickyEnd) ||
+        (this.gridSetting$().isTreeGrid && this.column$()?.name === 'name'),
+    },
     { name: 'groupBy', disabled: this.groupByDisabled() },
     { name: 'unGroupBy', disabled: this.unGroupByDisabled() },
     { name: 'columns', disabled: false },
@@ -210,7 +218,7 @@ export class GnroGridColumnMenuComponent {
       return this.columns$().length - [...this.columns$()].filter((col) => col.stickyEnd).length - 1;
     } else if (this.column$()?.sticky) {
       const findIndex = columns.findIndex((col) => col.sticky);
-      return findIndex === -1 ? 0 : findIndex;
+      return findIndex === -1 ? 0 : findIndex + 1;
     } else if (this.column$()?.stickyEnd) {
       return [...this.columns$()].findIndex((col) => col.stickyEnd);
     }
