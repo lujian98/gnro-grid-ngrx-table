@@ -14,5 +14,9 @@ export class AppTreeRemoteAllComponent {
     ...defaultTreeConfig,
     urlKey: 'ECR',
     remoteGridConfig: true,
+    horizontalScroll: true,
+    columnSticky: true,
+    //rowSelection: true,
+    //multiRowSelection: true,
   };
 }

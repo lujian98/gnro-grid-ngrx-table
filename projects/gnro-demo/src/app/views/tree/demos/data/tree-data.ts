@@ -49,18 +49,20 @@ export const ECRTreeGridConfig: Partial<GnroTreeConfig> = {
 export const ECRColumnConfig: GnroColumnConfig[] = [
   {
     name: 'name',
-    width: 50,
+    width: 150,
     align: 'left',
   },
   {
     name: 'vin',
+    width: 450,
   },
   {
     name: 'brand',
+    width: 350,
   },
   {
     name: 'year',
-    width: 50,
+    width: 350,
     align: 'right',
   },
   {

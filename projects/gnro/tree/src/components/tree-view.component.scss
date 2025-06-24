@@ -4,7 +4,12 @@
   height: -webkit-fill-available;
 
   cdk-virtual-scroll-viewport {
+    display: flex;
     flex: 1;
+
+    ::ng-deep .cdk-virtual-scroll-content-wrapper {
+      contain: unset;
+    }
   }
 }
 
