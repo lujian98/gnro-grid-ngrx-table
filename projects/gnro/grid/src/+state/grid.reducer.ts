@@ -70,7 +70,7 @@ export const gnroGridFeature = createFeature({
         const columns = action.columnsConfig.map((column, index) => {
           return {
             ...column,
-            allowHide: gridConfig.columnHidden && allowHide === 0 && index === 0 ? false : column.allowHide,
+            allowHide: allowHide === 0 && index === 0 ? false : column.allowHide,
             rendererType: column.rendererType || GnroObjectType.Text,
             width: column.width || MIN_GRID_COLUMN_WIDTH,
           };
