@@ -9,6 +9,7 @@ import {
   HostListener,
   inject,
   input,
+  signal,
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -44,7 +45,7 @@ export class GnroTreeViewComponent<T> implements AfterViewInit {
   private dragNode: GnroTreeNode<T> | null = null;
   private dropInfo: GnroTreeDropInfo<T> | null = null;
   columnHeaderPosition = 0;
-  columnWidths: GnroColumnWidth[] = [];
+  columnWidths = signal<GnroColumnWidth[]>([]);
   sizeChanged$ = new BehaviorSubject<string | MouseEvent | null>(null);
   gridSetting = input.required<GnroGridSetting>();
   treeConfig = input.required<GnroTreeConfig>();
@@ -79,7 +80,7 @@ export class GnroTreeViewComponent<T> implements AfterViewInit {
   }
 
   gridColumnWidthsEvent(values: GnroColumnWidth[]): void {
-    this.columnWidths = values;
+    this.columnWidths.set(values);
   }
 
   onScrolledIndexChange(index: number): void {}
