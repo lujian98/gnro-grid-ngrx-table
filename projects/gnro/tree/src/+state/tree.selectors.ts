@@ -21,7 +21,7 @@ export const selectTreeInMemoryData = (treeId: string) =>
 export const selectRowSelection = (treeId: string) =>
   createSelector(featureSelector, (state: TreeState) => {
     if (state && state[treeId]) {
-      console.log(' yyyyyyyyyyy selection=', state[treeId].selection);
+      //console.log(' yyyyyyyyyyy selection=', state[treeId].selection);
     }
     return state && state[treeId] ? state[treeId].selection : new SelectionModel<object>(false, []);
   });

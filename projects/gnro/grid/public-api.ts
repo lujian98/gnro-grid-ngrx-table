@@ -19,3 +19,4 @@ export * from './src/models/drag-drop-event';
 export * from './src/services/grid-in-memory.service';
 export * from './src/utils/row-group/row-group';
 export * from './src/utils/row-group/row-groups';
+export * from './src/utils/row-selection';
