@@ -24,8 +24,7 @@ export class GnroTreeRowComponent<T> {
   gridSetting = input.required<GnroGridSetting>();
   treeConfig = input.required<GnroTreeConfig>();
   record = input.required<GnroTreeNode<T>>();
-  selected = input.required<boolean>(); // TODO
-  //selected = input<boolean>(false);
+  selected = input.required<boolean>();
   columnWidths = input.required<GnroColumnWidth[]>();
   rowIndex = input.required<number>();
 
@@ -67,7 +66,6 @@ export class GnroTreeRowComponent<T> {
     if (this.treeConfig().columnSticky && column.sticky) {
       const columns = [...this.columnWidths()].filter((_, idx) => idx < index);
       const width = getColumnsWidth(columns, this.treeConfig().rowSelection);
-      console.log(' width =', width);
       return `${width}px`;
     } else {
       return 'unset';

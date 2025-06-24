@@ -50,7 +50,7 @@ export class GnroGridHeaderComponent<T> {
   rowSelections = input.required<GnroGridRowSelections>();
   columnResizing = output<GnroColumnWidth[]>();
   columnResized = output<GnroColumnWidth[]>();
-  selectAll = output<boolean>();
+  rowSelectAll = output<boolean>();
 
   get selectColumnWidth(): string {
     return `${ROW_SELECTION_CELL_WIDTH}px`;
@@ -117,8 +117,8 @@ export class GnroGridHeaderComponent<T> {
   }
 
   onToggleSelectAll(allSelected: boolean): void {
+    this.rowSelectAll.emit(allSelected);
     this.gridFacade.setSelectAllRows(this.gridSetting().gridId, !allSelected);
-    this.selectAll.emit(!allSelected);
   }
 
   onColumnMenuClick(menuClick: ColumnMenuClick): void {

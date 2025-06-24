@@ -268,6 +268,11 @@ export class GnroTreeViewComponent<T> implements AfterViewInit {
     this.clearDragInfo(true);
   }
 
+  onRowSelectAll(allSelected: boolean): void {
+    console.log(' selectAll=', allSelected);
+    this.treeFacade.setSelectAllRows(this.gridSetting().gridId, !allSelected);
+  }
+
   rowClick(event: MouseEvent, rowIndex: number, record: object): void {
     if (this.treeConfig().rowSelection) {
       if (this.prevRowIndex < 0) {

@@ -5,6 +5,7 @@
     [columnConfigs]="columns()"
     [columnHeaderPosition]="columnHeaderPosition"
     [rowSelections]="rowSelections$()"
+    (rowSelectAll)="onRowSelectAll($event)"
     (gridColumnWidthsEvent)="gridColumnWidthsEvent($event)"
   >
   </gnro-grid-header-view>

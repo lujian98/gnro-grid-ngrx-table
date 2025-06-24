@@ -66,6 +66,11 @@ export class GnroGridHeaderViewComponent {
 
   gridColumnWidthsEvent = output<GnroColumnWidth[]>();
   gridDragDropStickyEvent = output<string>();
+  rowSelectAll = output<boolean>();
+
+  onRowSelectAll(allSelected: boolean): void {
+    this.rowSelectAll.emit(allSelected);
+  }
 
   onColumnResizing(columnWidths: GnroColumnWidth[]): void {
     this.resizedColumns.set(columnWidths);
