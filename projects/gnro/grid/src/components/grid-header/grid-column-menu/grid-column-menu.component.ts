@@ -217,7 +217,9 @@ export class GnroGridColumnMenuComponent {
     } else if (stickyEnd) {
       return this.columns$().length - [...this.columns$()].filter((col) => col.stickyEnd).length - 1;
     } else if (this.column$()?.sticky) {
-      const findIndex = columns.findIndex((col) => col.sticky);
+      const findIndex = [...this.columns$()]
+        .filter((col) => col.name !== this.column$()?.name)
+        .findIndex((col) => col.sticky);
       return findIndex === -1 ? 0 : findIndex + 1;
     } else if (this.column$()?.stickyEnd) {
       return [...this.columns$()].findIndex((col) => col.stickyEnd);

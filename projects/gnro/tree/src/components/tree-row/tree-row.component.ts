@@ -67,6 +67,7 @@ export class GnroTreeRowComponent<T> {
     if (this.treeConfig().columnSticky && column.sticky) {
       const columns = [...this.columnWidths()].filter((_, idx) => idx < index);
       const width = getColumnsWidth(columns, this.treeConfig().rowSelection);
+      console.log(' width =', width);
       return `${width}px`;
     } else {
       return 'unset';
