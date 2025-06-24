@@ -6,7 +6,7 @@ import { GnroFormField } from '@gnro/ui/fields';
 import * as formActions from './form.actions';
 import { selectFormConfig, selectFormFieldsConfig, selectFormData, selectFormSetting } from './form.selectors';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class GnroFormFacade {
   private readonly store = inject(Store);
 

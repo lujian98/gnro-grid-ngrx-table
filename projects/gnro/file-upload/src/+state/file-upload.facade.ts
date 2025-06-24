@@ -4,7 +4,7 @@ import * as fileUploadActions from './file-upload.actions';
 import { selectUploadFiles, selectUploadFilesGridData } from './file-upload.selectors';
 import { GnroFileUploadConfig } from '../models/file-upload.model';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class GnroFileUploadFacade {
   private readonly store = inject(Store);
   selectUploadFiles$ = this.store.select(selectUploadFiles);

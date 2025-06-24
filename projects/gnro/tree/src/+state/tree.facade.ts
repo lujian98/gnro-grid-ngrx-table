@@ -1,12 +1,12 @@
-import { Injectable, inject, Signal } from '@angular/core';
+import { inject, Injectable, Signal } from '@angular/core';
+import { GnroGridFacade, GnroGridSetting } from '@gnro/ui/grid';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { GnroColumnConfig, GnroGridFacade, GnroGridStateModule, GnroGridSetting } from '@gnro/ui/grid';
+import { GnroTreeConfig, GnroTreeNode } from '../models/tree-grid.model';
 import * as treeActions from './tree.actions';
 import { selectTreeData, selectTreeInMemoryData } from './tree.selectors';
-import { GnroTreeConfig, GnroTreeNode } from '../models/tree-grid.model';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class GnroTreeFacade {
   private store = inject(Store);
   private gridFacade = inject(GnroGridFacade);

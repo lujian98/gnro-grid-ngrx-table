@@ -4,7 +4,7 @@ import { GnroOptionType, GnroSelectFieldConfig, GnroSelectFieldSetting } from '.
 import * as selectFieldActions from './select-field.actions';
 import { selectFieldConfig, selectFieldSetting, selectOptions } from './select-field.selectors';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class GnroSelectFieldFacade {
   private readonly store = inject(Store);
 

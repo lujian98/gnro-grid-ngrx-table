@@ -6,7 +6,7 @@ import { GnroD3ChartConfig } from '../models/options.model';
 import * as d3Actions from './d3.actions';
 import { selectD3Config, selectD3ChartConfigs, selectD3Data, selectD3Setting } from './d3.selectors';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class GnroD3Facade {
   private readonly store = inject(Store);
 

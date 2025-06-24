@@ -4,7 +4,7 @@ import { GnroDashboardConfig, GnroDashboardSetting, GnroTile, GnroTileOption } f
 import * as dashboardActions from './dashboard.actions';
 import { selectDashboardConfig, selectDashboardSetting, selectDashboardTiles } from './dashboard.selectors';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class GnroDashboardFacade {
   private readonly store = inject(Store);
 

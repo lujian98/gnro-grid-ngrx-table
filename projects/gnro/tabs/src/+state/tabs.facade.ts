@@ -5,7 +5,7 @@ import { GnroTabConfig, GnroTabOption, GnroTabsConfig, GnroTabsSetting } from '.
 import * as tabsActions from './tabs.actions';
 import { selectTabsConfig, selectTabsOptions, selectTabsSetting, selectTabsTabs } from './tabs.selectors';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class GnroTabsFacade {
   private store = inject(Store);
 
