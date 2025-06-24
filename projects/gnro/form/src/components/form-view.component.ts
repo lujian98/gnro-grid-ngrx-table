@@ -2,12 +2,13 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   inject,
   input,
-  OnDestroy,
   OnInit,
   output,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { GnroButtonComponent } from '@gnro/ui/button';
 import { GnroButtonConfg, GnroButtonType, GnroObjectType, GnroUploadFileService, isEqual } from '@gnro/ui/core';
@@ -23,7 +24,6 @@ import { GnroFormLabelWidthDirective } from '@gnro/ui/form-field';
 import { GnroIconModule } from '@gnro/ui/icon';
 import { GnroLayoutHeaderComponent } from '@gnro/ui/layout';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Subject, takeUntil } from 'rxjs';
 import { GnroFormFacade } from '../+state/form.facade';
 import { GnroFormButtonClick, GnroFormConfig, GnroFormSetting } from '../models/form.model';
 
@@ -44,11 +44,11 @@ import { GnroFormButtonClick, GnroFormConfig, GnroFormSetting } from '../models/
     GnroIconModule,
   ],
 })
-export class GnroFormViewComponent implements OnInit, OnDestroy {
+export class GnroFormViewComponent implements OnInit {
   private readonly changeDetectorRef = inject(ChangeDetectorRef);
   private readonly uploadFileService = inject(GnroUploadFileService);
   private readonly formFacade = inject(GnroFormFacade);
-  private readonly destroy$ = new Subject<void>();
+  private readonly destroyRef = inject(DestroyRef);
   form: FormGroup = new FormGroup({});
   FieldType = GnroObjectType;
   formSetting = input.required<GnroFormSetting>();
@@ -147,7 +147,9 @@ export class GnroFormViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.form.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((values) => this.checkFormValueChanged(values));
+    this.form.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((values) => this.checkFormValueChanged(values));
     this.uploadFileService.uploadFiles = [];
   }
 
@@ -247,10 +249,5 @@ export class GnroFormViewComponent implements OnInit, OnDestroy {
     if (this.form.valid) {
       this.formFacade.saveFormData(this.formSetting().formId, this.formConfig(), this.form.getRawValue());
     }
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

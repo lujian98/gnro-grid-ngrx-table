@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, input, OnDestroy, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, input, output, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GnroDisabled } from '@gnro/ui/core';
 import { GnroIconModule } from '@gnro/ui/icon';
 import { GnroPosition, GnroTrigger } from '@gnro/ui/overlay';
 import { GnroPopoverDirective } from '@gnro/ui/popover';
-import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { GnroMenuItemComponent } from './components/menu-item/menu-item.component';
 import { GnroMenuConfig } from './models/menu-item.model';
 
@@ -16,8 +16,8 @@ import { GnroMenuConfig } from './models/menu-item.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, FormsModule, GnroIconModule, GnroMenuItemComponent, GnroPopoverDirective],
 })
-export class GnroMenusComponent<T> implements OnDestroy {
-  private readonly destroy$ = new Subject<void>();
+export class GnroMenusComponent<T> {
+  private readonly destroyRef = inject(DestroyRef);
   private selected: GnroMenuConfig | undefined;
   private isFirstTime: boolean = true;
   bottom = GnroPosition.BOTTOM;
@@ -36,7 +36,7 @@ export class GnroMenusComponent<T> implements OnDestroy {
       this.setSelected(this.selected);
       if (this.isFirstTime) {
         this.form()
-          .valueChanges.pipe(debounceTime(100), distinctUntilChanged(), takeUntil(this.destroy$))
+          .valueChanges.pipe(debounceTime(100), distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
           .subscribe((val) => {
             this.gnroMenuFormChanges.emit(this.form().value as T);
             this.values$.set(this.form().value);
@@ -97,10 +97,5 @@ export class GnroMenusComponent<T> implements OnDestroy {
       this.items$.set(items);
     }
     this.selected = selected;
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

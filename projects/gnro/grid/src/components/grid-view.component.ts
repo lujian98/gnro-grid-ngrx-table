@@ -4,16 +4,17 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   ElementRef,
   HostListener,
-  OnDestroy,
   Signal,
   ViewChild,
   inject,
   input,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { uniqueId } from '@gnro/ui/core';
-import { BehaviorSubject, Subject, interval, of } from 'rxjs';
+import { BehaviorSubject, interval, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, skip, switchMap, take, takeUntil } from 'rxjs/operators';
 import { GnroGridFacade } from '../+state/grid.facade';
 import { GnroColumnConfig, GnroColumnWidth, GnroGridConfig, GnroGridSetting } from '../models/grid.model';
@@ -31,10 +32,10 @@ import { GnroGridRowComponent } from './grid-row/grid-row.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ScrollingModule, GnroGridRowComponent, GnroGridRowGroupComponent, GnroGridHeaderViewComponent],
 })
-export class GnroGridViewComponent<T> implements AfterViewInit, OnDestroy {
+export class GnroGridViewComponent<T> implements AfterViewInit {
   private readonly elementRef = inject(ElementRef);
   private readonly gridFacade = inject(GnroGridFacade);
-  private readonly destroy$ = new Subject<void>();
+  private readonly destroyRef = inject(DestroyRef);
   private scrollIndex: number = 0;
   private prevRowIndex: number = -1;
   rowSelection$!: Signal<SelectionModel<object>>;
@@ -95,7 +96,7 @@ export class GnroGridViewComponent<T> implements AfterViewInit, OnDestroy {
         debounceTime(300),
         distinctUntilChanged(),
         switchMap((event) => of(event).pipe(takeUntil(this.sizeChanged$.pipe(skip(1))))),
-        takeUntil(this.destroy$),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((event) => {
         this.setViewportPageSize(typeof event === 'string' ? false : true, event);
@@ -242,12 +243,5 @@ export class GnroGridViewComponent<T> implements AfterViewInit, OnDestroy {
   @HostListener('window:resize', ['$event'])
   onResize(event: MouseEvent): void {
     this.sizeChanged$.next(event);
-  }
-
-  ngOnDestroy(): void {
-    this.sizeChanged$.next(null);
-    this.sizeChanged$.complete();
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

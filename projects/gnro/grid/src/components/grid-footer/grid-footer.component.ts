@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, ViewChild, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, ViewChild, computed, inject, input } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { GnroButtonComponent } from '@gnro/ui/button';
 import { GnroNumberFieldComponent, defaultNumberFieldConfig } from '@gnro/ui/fields';
 import { GnroIconModule } from '@gnro/ui/icon';
 import { GnroLayoutFooterComponent, GnroLayoutFooterEndComponent } from '@gnro/ui/layout';
 import { TranslatePipe } from '@ngx-translate/core';
-import { BehaviorSubject, Subject, of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, skip, switchMap, takeUntil } from 'rxjs/operators';
 import { GnroGridFacade } from '../../+state/grid.facade';
 import { GnroGridConfig, GnroGridSetting } from '../../models/grid.model';
@@ -23,9 +24,9 @@ import { GnroGridConfig, GnroGridSetting } from '../../models/grid.model';
     GnroLayoutFooterEndComponent,
   ],
 })
-export class GnroGridFooterComponent implements OnDestroy {
+export class GnroGridFooterComponent {
   private readonly gridFacade = inject(GnroGridFacade);
-  private destroy$ = new Subject<void>();
+  private readonly destroyRef = inject(DestroyRef);
   valueChanged$: BehaviorSubject<number> = new BehaviorSubject(0);
   gridSetting = input.required<GnroGridSetting>();
   gridConfig = input.required<GnroGridConfig>();
@@ -79,7 +80,7 @@ export class GnroGridFooterComponent implements OnDestroy {
         switchMap((page) => {
           return of(page).pipe(takeUntil(this.valueChanged$.pipe(skip(1))));
         }),
-        takeUntil(this.destroy$),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe(() => this.getGridPageData(this.page));
   }
@@ -108,12 +109,5 @@ export class GnroGridFooterComponent implements OnDestroy {
       this.page = page;
       this.valueChanged$.next(page);
     }
-  }
-
-  ngOnDestroy(): void {
-    this.valueChanged$.next(0);
-    this.valueChanged$.complete();
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

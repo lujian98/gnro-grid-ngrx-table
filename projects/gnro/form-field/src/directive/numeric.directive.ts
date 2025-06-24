@@ -1,13 +1,14 @@
-import { Directive, ElementRef, HostListener, input, OnDestroy, Optional, Self } from '@angular/core';
+import { DestroyRef, Directive, ElementRef, HostListener, inject, input, Optional, Self } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgControl } from '@angular/forms';
-import { BehaviorSubject, interval, Subject } from 'rxjs';
-import { debounce, filter, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, interval } from 'rxjs';
+import { debounce, filter } from 'rxjs/operators';
 
 @Directive({
   selector: '[gnroNumeric]',
 })
-export class GnroNumericDirective implements OnDestroy {
-  private readonly destroy$ = new Subject<void>();
+export class GnroNumericDirective {
+  private readonly destroyRef = inject(DestroyRef);
   private readonly valueChange$: BehaviorSubject<string> = new BehaviorSubject('');
   decimals = input<number>(2);
   allowNegative = input<boolean>(false);
@@ -20,7 +21,7 @@ export class GnroNumericDirective implements OnDestroy {
       .pipe(
         debounce(() => interval(1)),
         filter(() => this.el.nativeElement.value !== ''),
-        takeUntil(this.destroy$),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe(() => {
         if (!this.check(this.el.nativeElement.value)) {
@@ -56,10 +57,5 @@ export class GnroNumericDirective implements OnDestroy {
   @HostListener('paste', ['$event'])
   onPaste(event: ClipboardEvent): void {
     this.valueChange$.next(this.el.nativeElement.value);
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

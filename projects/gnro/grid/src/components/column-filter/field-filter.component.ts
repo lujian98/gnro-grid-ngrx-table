@@ -1,7 +1,15 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, inject } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  DestroyRef,
+  inject,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { GnroObjectType } from '@gnro/ui/core';
 import { GnroFormField } from '@gnro/ui/fields';
-import { BehaviorSubject, Subject, debounceTime, of, skip, switchMap, takeUntil } from 'rxjs';
+import { BehaviorSubject, debounceTime, of, skip, switchMap, takeUntil } from 'rxjs';
 import { GnroGridFacade } from '../../+state/grid.facade';
 import { GnroColumnConfig, GnroFilterValueType, GnroGridConfig, GnroGridSetting } from '../../models/grid.model';
 
@@ -9,9 +17,9 @@ import { GnroColumnConfig, GnroFilterValueType, GnroGridConfig, GnroGridSetting 
   template: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GnroFieldFilterComponent implements AfterViewInit, OnDestroy {
+export class GnroFieldFilterComponent implements AfterViewInit {
   private readonly gridFacade = inject(GnroGridFacade);
-  protected readonly destroy$ = new Subject<void>();
+  protected readonly destroyRef = inject(DestroyRef);
   protected _value: GnroFilterValueType = '';
 
   changeDetectorRef = inject(ChangeDetectorRef);
@@ -52,7 +60,7 @@ export class GnroFieldFilterComponent implements AfterViewInit, OnDestroy {
         debounceTime(500),
         //distinctUntilChanged(), //WARNING not need distinct change here
         switchMap((filterValue) => of(filterValue).pipe(takeUntil(this.filterChanged$.pipe(skip(1))))),
-        takeUntil(this.destroy$),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((filterValue) => {
         this.applyFilter(filterValue);
@@ -76,11 +84,5 @@ export class GnroFieldFilterComponent implements AfterViewInit, OnDestroy {
       });
     }
     this.gridFacade.setGridColumnFilters(this.gridConfig, this.gridSetting, columnFilters);
-  }
-
-  ngOnDestroy(): void {
-    this.filterChanged$.complete();
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

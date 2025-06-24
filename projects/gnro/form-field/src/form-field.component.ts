@@ -4,15 +4,16 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChild,
+  DestroyRef,
   ElementRef,
   inject,
   input,
-  OnDestroy,
   Optional,
   ViewChild,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, Validators } from '@angular/forms';
-import { Subject, take, takeUntil, timer } from 'rxjs';
+import { take, timer } from 'rxjs';
 import { GnroFieldWidthDirective } from './directive/field-width.directive';
 import { GnroFieldsetLabelWidthDirective } from './directive/fieldset-label-width.directive';
 import { GnroFormLabelWidthDirective } from './directive/form-label-width.directive';
@@ -30,9 +31,9 @@ import { DEFAULT_FORM_FIELD_LABEL_WIDTH } from './models/form-field.model';
     '[class.gnro-form-field-invalid]': 'invalid',
   },
 })
-export class GnroFormFieldComponent implements AfterViewInit, OnDestroy {
+export class GnroFormFieldComponent implements AfterViewInit {
   private readonly changeDetectorRef = inject(ChangeDetectorRef);
-  private readonly destroy$ = new Subject<void>();
+  private readonly destroyRef = inject(DestroyRef);
   private _fieldIndicator: string = '';
   public readonly elementRef = inject(ElementRef); // autocomplete.directive need this public
   focused: boolean = false;
@@ -42,7 +43,7 @@ export class GnroFormFieldComponent implements AfterViewInit, OnDestroy {
   field = input(undefined, {
     alias: 'gnroFormFieldControl',
     transform: (field: FormControl) => {
-      field.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => this.setFieldIndicator());
+      field.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.setFieldIndicator());
       return field;
     },
   });
@@ -126,10 +127,5 @@ export class GnroFormFieldComponent implements AfterViewInit, OnDestroy {
   }
   onMouseleave(): void {
     this.focused = false;
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

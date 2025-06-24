@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { GnroTextFieldComponent, GnroTextFieldConfig } from '@gnro/ui/fields';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslateService } from '@ngx-translate/core';
-import { delay, takeUntil } from 'rxjs';
+import { delay } from 'rxjs';
 import { GnroFieldFilterComponent } from '../field-filter.component';
 
 @Component({
@@ -34,7 +35,7 @@ export class GnroNumberFilterComponent extends GnroFieldFilterComponent implemen
   }
 
   ngOnInit(): void {
-    this.translateService.onLangChange.pipe(delay(50), takeUntil(this.destroy$)).subscribe(() => {
+    this.translateService.onLangChange.pipe(delay(50), takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.checkField();
       this.changeDetectorRef.markForCheck();
     });

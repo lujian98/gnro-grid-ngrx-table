@@ -3,17 +3,18 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   OnChanges,
-  OnDestroy,
-  output,
   ViewChild,
   inject,
   input,
+  output,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatCalendar, MatCalendarCellCssClasses, MatCalendarUserEvent } from '@angular/material/datepicker';
 import { GnroLocaleDatePipe } from '@gnro/ui/core';
 import { TranslateDirective } from '@ngx-translate/core';
-import { Subject, take, takeUntil, timer } from 'rxjs';
+import { take, timer } from 'rxjs';
 import { GnroCalendarConfig, defaultCalendarConfig } from './models/calendar.model';
 
 @Component({
@@ -23,9 +24,9 @@ import { GnroCalendarConfig, defaultCalendarConfig } from './models/calendar.mod
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslateDirective, GnroLocaleDatePipe, MatCalendar],
 })
-export class GnroCalendarComponent implements AfterViewInit, OnChanges, OnDestroy {
+export class GnroCalendarComponent implements AfterViewInit, OnChanges {
   private readonly changeDetectorRef = inject(ChangeDetectorRef);
-  private readonly destroy$ = new Subject<void>();
+  private readonly destroyRef = inject(DestroyRef);
   private currentMonth!: Date | null;
   minDate!: Date | null;
   maxDate!: Date | null;
@@ -81,7 +82,7 @@ export class GnroCalendarComponent implements AfterViewInit, OnChanges, OnDestro
 
   ngAfterViewInit(): void {
     if (this.matCalendar) {
-      this.matCalendar.stateChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.matCalendar.stateChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
         this.onMonthSelected(this.matCalendar.activeDate);
       });
     }
@@ -158,10 +159,5 @@ export class GnroCalendarComponent implements AfterViewInit, OnChanges, OnDestro
       }
       return '';
     };
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

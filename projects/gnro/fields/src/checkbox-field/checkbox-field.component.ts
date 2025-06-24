@@ -3,13 +3,14 @@ import {
   ChangeDetectorRef,
   Component,
   computed,
+  DestroyRef,
   forwardRef,
   inject,
   input,
-  OnDestroy,
   OnInit,
   output,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -34,7 +35,7 @@ import {
 } from '@gnro/ui/form-field';
 import { GnroIconModule } from '@gnro/ui/icon';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Subject, take, takeUntil, timer } from 'rxjs';
+import { take, timer } from 'rxjs';
 import { GnroFieldsErrorsComponent } from '../field-errors/field-errors.component';
 import { defaultCheckboxFieldConfig, GnroCheckboxFieldConfig } from './models/checkbox-field.model';
 
@@ -70,9 +71,9 @@ import { defaultCheckboxFieldConfig, GnroCheckboxFieldConfig } from './models/ch
     GnroFormFieldControlDirective,
   ],
 })
-export class GnroCheckboxFieldComponent implements OnInit, OnDestroy, ControlValueAccessor, Validator {
+export class GnroCheckboxFieldComponent implements OnInit, ControlValueAccessor, Validator {
   private readonly changeDetectorRef = inject(ChangeDetectorRef);
-  private readonly destroy$ = new Subject<void>();
+  private readonly destroyRef = inject(DestroyRef);
   onChanged: Function = () => {};
   onTouched: Function = () => {};
   form = input(new FormGroup({}), { transform: (form: FormGroup) => form });
@@ -108,7 +109,7 @@ export class GnroCheckboxFieldComponent implements OnInit, OnDestroy, ControlVal
 
   ngOnInit(): void {
     if (this.field) {
-      this.field.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => this.setEnableFields());
+      this.field.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.setEnableFields());
     }
   }
 
@@ -194,10 +195,5 @@ export class GnroCheckboxFieldComponent implements OnInit, OnDestroy, ControlVal
 
   validate(control: AbstractControl): ValidationErrors | null {
     return this.form().valid ? null : { [this.fieldConfig().fieldName!]: true };
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

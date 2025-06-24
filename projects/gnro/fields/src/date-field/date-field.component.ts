@@ -4,16 +4,17 @@ import {
   ChangeDetectorRef,
   Component,
   computed,
+  DestroyRef,
   ElementRef,
   forwardRef,
   inject,
   Injector,
   input,
-  OnDestroy,
   OnInit,
   output,
   ViewChild,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -42,7 +43,7 @@ import {
 import { GnroIconModule } from '@gnro/ui/icon';
 import { GnroDialogService } from '@gnro/ui/overlay';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { delay, Subject, take, takeUntil, timer } from 'rxjs';
+import { delay, take, timer } from 'rxjs';
 import { GnroFieldsErrorsComponent } from '../field-errors/field-errors.component';
 import { GnroDatePickerComponent } from './date-picker/date-picker.component';
 import { defaultDateFieldConfig, GnroDateFieldConfig } from './models/date-field.model';
@@ -84,13 +85,13 @@ import { GnroDateStoreService } from './services/date-store.service';
     provideNativeDateAdapter(),
   ],
 })
-export class GnroDateFieldComponent implements OnInit, OnDestroy, ControlValueAccessor, Validator {
+export class GnroDateFieldComponent implements OnInit, ControlValueAccessor, Validator {
   private readonly changeDetectorRef = inject(ChangeDetectorRef);
   private readonly translateService = inject(TranslateService);
   private readonly dialogService = inject(GnroDialogService);
   private readonly injector = inject(Injector);
   private readonly dateStoreService = inject(GnroDateStoreService);
-  private readonly destroy$ = new Subject<void>();
+  private readonly destroyRef = inject(DestroyRef);
   onChanged: Function = () => {};
   onTouched: Function = () => {};
   form = input(new FormGroup({}), { transform: (form: FormGroup) => form });
@@ -148,10 +149,10 @@ export class GnroDateFieldComponent implements OnInit, OnDestroy, ControlValueAc
 
   ngOnInit(): void {
     this.translateService.onLangChange
-      .pipe(delay(50), takeUntil(this.destroy$))
+      .pipe(delay(50), takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.setLocaleChange());
 
-    this.dateStoreService.updateSelected$.pipe(takeUntil(this.destroy$)).subscribe((selectedDate) => {
+    this.dateStoreService.updateSelected$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((selectedDate) => {
       this.field.setValue(selectedDate);
       this.valueChange.emit(selectedDate);
       this.changeDetectorRef.markForCheck();
@@ -211,10 +212,5 @@ export class GnroDateFieldComponent implements OnInit, OnDestroy, ControlValueAc
 
   validate(control: AbstractControl): ValidationErrors | null {
     return this.form().valid ? null : { [this.fieldConfig().fieldName!]: true };
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

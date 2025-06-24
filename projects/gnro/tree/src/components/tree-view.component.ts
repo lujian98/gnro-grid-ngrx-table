@@ -4,13 +4,14 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   ElementRef,
   HostListener,
   inject,
   input,
-  OnDestroy,
   ViewChild,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { uniqueId } from '@gnro/ui/core';
 import {
   GnroColumnConfig,
@@ -20,7 +21,7 @@ import {
   GnroGridSetting,
 } from '@gnro/ui/grid';
 import { GNRO_DOCUMENT } from '@gnro/ui/theme';
-import { BehaviorSubject, interval, of, Subject } from 'rxjs';
+import { BehaviorSubject, interval, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, skip, switchMap, take, takeUntil } from 'rxjs/operators';
 import { GnroTreeFacade } from '../+state/tree.facade';
 import { GnroTreeConfig, GnroTreeDropInfo, GnroTreeNode } from '../models/tree-grid.model';
@@ -34,12 +35,12 @@ import { GnroTreeRowComponent } from './tree-row/tree-row.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DragDropModule, ScrollingModule, GnroGridHeaderViewComponent, GnroTreeRowComponent],
 })
-export class GnroTreeViewComponent<T> implements AfterViewInit, OnDestroy {
+export class GnroTreeViewComponent<T> implements AfterViewInit {
   private readonly elementRef = inject(ElementRef);
   private readonly document = inject(GNRO_DOCUMENT);
   private readonly treeFacade = inject(GnroTreeFacade);
   private readonly gridFacade = inject(GnroGridFacade);
-  private readonly destroy$ = new Subject<void>();
+  private readonly destroyRef = inject(DestroyRef);
   private dragNode: GnroTreeNode<T> | null = null;
   private dropInfo: GnroTreeDropInfo<T> | null = null;
   columnHeaderPosition = 0;
@@ -68,7 +69,7 @@ export class GnroTreeViewComponent<T> implements AfterViewInit, OnDestroy {
         debounceTime(300),
         distinctUntilChanged(),
         switchMap((event) => of(event).pipe(takeUntil(this.sizeChanged$.pipe(skip(1))))),
-        takeUntil(this.destroy$),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((event) => this.setViewportPageSize(typeof event === 'string' ? false : true, event));
   }
@@ -253,12 +254,5 @@ export class GnroTreeViewComponent<T> implements AfterViewInit, OnDestroy {
   @HostListener('window:resize', ['$event'])
   onResize(event: MouseEvent): void {
     this.sizeChanged$.next(event);
-  }
-
-  ngOnDestroy(): void {
-    this.sizeChanged$.next(null);
-    this.sizeChanged$.complete();
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

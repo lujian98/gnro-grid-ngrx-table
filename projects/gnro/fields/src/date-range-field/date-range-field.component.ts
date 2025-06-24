@@ -4,16 +4,17 @@ import {
   ChangeDetectorRef,
   Component,
   computed,
+  DestroyRef,
   ElementRef,
   forwardRef,
   inject,
   Injector,
   input,
-  OnDestroy,
   OnInit,
   output,
   ViewChild,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -42,7 +43,6 @@ import {
 import { GnroIconModule } from '@gnro/ui/icon';
 import { GnroDialogService } from '@gnro/ui/overlay';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { Subject, takeUntil } from 'rxjs';
 import { GnroFieldsErrorsComponent } from '../field-errors/field-errors.component';
 import { GnroDateRangePickerComponent } from './date-range-picker/date-range-picker.component';
 import { defaultDateRangeFieldConfig, GnroDateRange, GnroDateRangeFieldConfig } from './models/date-range-field.model';
@@ -84,13 +84,13 @@ import { GnroDateRangeStoreService } from './services/date-range-store.service';
     provideNativeDateAdapter(),
   ],
 })
-export class GnroDateRangeFieldComponent implements OnInit, OnDestroy, ControlValueAccessor, Validator {
+export class GnroDateRangeFieldComponent implements OnInit, ControlValueAccessor, Validator {
   private readonly changeDetectorRef = inject(ChangeDetectorRef);
   private readonly translateService = inject(TranslateService);
+  private readonly destroyRef = inject(DestroyRef);
   private readonly dialogService = inject(GnroDialogService);
   private readonly injector = inject(Injector);
   private readonly rangeStoreService = inject(GnroDateRangeStoreService);
-  private readonly destroy$ = new Subject<void>();
   onChanged: Function = () => {};
   onTouched: Function = () => {};
   form = input(new FormGroup({}), { transform: (form: FormGroup) => form });
@@ -149,7 +149,7 @@ export class GnroDateRangeFieldComponent implements OnInit, OnDestroy, ControlVa
   @ViewChild('calendarInput', { static: false }) calendarInput!: ElementRef<HTMLInputElement>;
 
   ngOnInit(): void {
-    this.rangeStoreService.rangeUpdate$.pipe(takeUntil(this.destroy$)).subscribe((range) => {
+    this.rangeStoreService.rangeUpdate$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((range) => {
       this.field.setValue(range);
       this.valueChange.emit(range);
       this.changeDetectorRef.detectChanges();
@@ -198,10 +198,5 @@ export class GnroDateRangeFieldComponent implements OnInit, OnDestroy, ControlVa
 
   validate(control: AbstractControl): ValidationErrors | null {
     return this.form().valid ? null : { [this.fieldConfig().fieldName!]: true };
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }
