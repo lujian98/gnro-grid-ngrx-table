@@ -25,24 +25,17 @@
   </gnro-grid-cell>
 }
 
-<!--
-
-[class.gnro-grid-cell-row-sticky]="gridConfig().columnSticky && (column.sticky || column.stickyEnd)"
-[class.gnro-grid-column-last-sticky]="isLastSticky(index)"
-[class.gnro-grid-column-first-sticky-end]="isFirstStickyEnd(index)"
-[style.height]="gridConfig().rowHeight + 'px'"
-[style.flex]="'0 0 ' + getColumnWidth(column)"
-[style.max-width]="getColumnWidth(column)"
-[style.left]="getStickyLeft(column, index)"
-[style.right]="getStickyRight(column, index)"
--->
-
 @for (column of columns(); track $index; let index = $index) {
   @if (!column.hidden && column.name !== "name") {
     <gnro-grid-cell
+      [class.gnro-tree-cell-row-sticky]="treeConfig().columnSticky && (column.sticky || column.stickyEnd)"
+      [class.gnro-grid-column-last-sticky]="isLastSticky(index)"
+      [class.gnro-grid-column-first-sticky-end]="isFirstStickyEnd(index)"
       [style.height]="treeConfig().rowHeight + 'px'"
       [style.flex]="'0 0 ' + getColumnWidth(column)"
       [style.max-width]="getColumnWidth(column)"
+      [style.left]="getStickyLeft(column, index)"
+      [style.right]="getStickyRight(column, index)"
     >
       <gnro-grid-cell-view [gridConfig]="treeConfig()" [rowIndex]="rowIndex()" [record]="record()" [column]="column">
       </gnro-grid-cell-view>

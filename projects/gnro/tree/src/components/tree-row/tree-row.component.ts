@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import {
+  getColumnsWidth,
   GnroColumnConfig,
   GnroColumnWidth,
   GnroGridCellComponent,
   GnroGridCellViewComponent,
   GnroGridSetting,
   GnroRowSelectComponent,
-  getColumnsWidth,
   ROW_SELECTION_CELL_WIDTH,
 } from '@gnro/ui/grid';
 import { GnroTreeConfig, GnroTreeNode } from '../../models/tree-grid.model';
@@ -24,7 +24,7 @@ export class GnroTreeRowComponent<T> {
   gridSetting = input.required<GnroGridSetting>();
   treeConfig = input.required<GnroTreeConfig>();
   record = input.required<GnroTreeNode<T>>();
-  //selected = input.required<boolean>();
+  //selected = input.required<boolean>(); // TODO
   selected = input<boolean>(false);
   columnWidths = input.required<GnroColumnWidth[]>();
   rowIndex = input.required<number>();
@@ -55,6 +55,14 @@ export class GnroTreeRowComponent<T> {
     }
   }
 
+  isFirstStickyEnd(index: number): boolean {
+    if (this.treeConfig().columnSticky) {
+      return index === [...this.columns()].findIndex((col) => col.stickyEnd);
+    } else {
+      return false;
+    }
+  }
+
   getStickyLeft(column: GnroColumnConfig, index: number): string {
     if (this.treeConfig().columnSticky && column.sticky) {
       const columns = [...this.columnWidths()].filter((_, idx) => idx < index);
@@ -65,7 +73,13 @@ export class GnroTreeRowComponent<T> {
     }
   }
 
-  trackByIndex(index: number): number {
-    return index;
+  getStickyRight(column: GnroColumnConfig, index: number): string {
+    if (this.treeConfig().columnSticky && column.stickyEnd) {
+      const columns = [...this.columnWidths()].filter((_, idx) => idx > index);
+      const width = getColumnsWidth(columns, false);
+      return `${width}px`;
+    } else {
+      return 'unset';
+    }
   }
 }
