@@ -6,7 +6,7 @@ import { defaultState } from '../models/default-grid';
 import { GridState } from '../models/grid.model';
 import { GnroRowGroup } from '../utils/row-group/row-group';
 import { GnroRowGroups } from '../utils/row-group/row-groups';
-import { getSelected } from '../utils/row-selection';
+import { allRowSelected, getSelected } from '../utils/row-selection';
 import { stickyEndMinWidth } from '../utils/viewport-width-ratio';
 import * as gridActions from './grid.actions';
 
@@ -243,6 +243,7 @@ export const gnroGridFeature = createFeature({
             recordModified: false,
             columnUpdating: false,
             selected: getSelected(gridConfig, oldState.selection, data),
+            allRowSelected: allRowSelected(oldState.selection, data),
           },
           totalCounts: totalCounts,
           data,
@@ -306,6 +307,7 @@ export const gnroGridFeature = createFeature({
           gridSetting: {
             ...state[key].gridSetting,
             selected,
+            allRowSelected: allRowSelected(selection, oldState.data),
           },
         };
       }
@@ -329,6 +331,7 @@ export const gnroGridFeature = createFeature({
           gridSetting: {
             ...state[key].gridSetting,
             selected: action.selected,
+            allRowSelected: allRowSelected(selection, oldState.data),
           },
         };
       }
@@ -347,6 +350,7 @@ export const gnroGridFeature = createFeature({
           gridSetting: {
             ...state[key].gridSetting,
             selected: 1,
+            allRowSelected: allRowSelected(selection, oldState.data),
           },
         };
       }

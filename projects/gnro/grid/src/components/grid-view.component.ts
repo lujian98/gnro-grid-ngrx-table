@@ -44,7 +44,6 @@ export class GnroGridViewComponent<T> implements AfterViewInit {
   private readonly destroyRef = inject(DestroyRef);
   private scrollIndex: number = 0;
   private prevRowIndex: number = -1;
-  rowSelections$!: Signal<GnroGridRowSelections>;
   rowSelection$!: Signal<SelectionModel<object>>;
   rowGroups$!: Signal<GnroRowGroups | boolean>;
   sizeChanged$ = new BehaviorSubject<string | MouseEvent | null>(null);
@@ -53,9 +52,6 @@ export class GnroGridViewComponent<T> implements AfterViewInit {
 
   gridSetting = input.required({
     transform: (gridSetting: GnroGridSetting) => {
-      if (!this.rowSelections$) {
-        this.rowSelections$ = this.gridFacade.getRowSelections(gridSetting.gridId);
-      }
       if (!this.rowSelection$) {
         this.rowSelection$ = this.gridFacade.getRowSelection(gridSetting.gridId);
       }

@@ -48,6 +48,7 @@ export const defaultGridSetting: GnroGridSetting = {
   selected: 0,
   scrollIndex: 0,
   viewportSize: 25,
+  allRowSelected: false,
 };
 
 export const defaultState: GnroGridState = {

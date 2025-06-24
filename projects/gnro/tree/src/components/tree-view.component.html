@@ -1,15 +1,12 @@
-@if (rowSelections$()) {
-  <gnro-grid-header-view
-    [gridSetting]="gridSetting()"
-    [gridConfig]="treeConfig()"
-    [columnConfigs]="columns()"
-    [columnHeaderPosition]="columnHeaderPosition"
-    [rowSelections]="rowSelections$()"
-    (rowSelectAll)="onRowSelectAll($event)"
-    (gridColumnWidthsEvent)="gridColumnWidthsEvent($event)"
-  >
-  </gnro-grid-header-view>
-}
+<gnro-grid-header-view
+  [gridSetting]="gridSetting()"
+  [gridConfig]="treeConfig()"
+  [columnConfigs]="columns()"
+  [columnHeaderPosition]="columnHeaderPosition"
+  (rowSelectAll)="onRowSelectAll($event)"
+  (gridColumnWidthsEvent)="gridColumnWidthsEvent($event)"
+>
+</gnro-grid-header-view>
 
 <cdk-virtual-scroll-viewport
   [itemSize]="treeConfig().rowHeight"

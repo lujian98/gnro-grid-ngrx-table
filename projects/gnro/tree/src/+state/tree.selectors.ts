@@ -20,6 +20,9 @@ export const selectTreeInMemoryData = (treeId: string) =>
 
 export const selectRowSelection = (treeId: string) =>
   createSelector(featureSelector, (state: TreeState) => {
+    if (state && state[treeId]) {
+      console.log(' yyyyyyyyyyy selection=', state[treeId].selection);
+    }
     return state && state[treeId] ? state[treeId].selection : new SelectionModel<object>(false, []);
   });
 
@@ -29,6 +32,7 @@ export const selectRowSelections = (treeId: string) =>
       const oldState = state[treeId];
       const selection = oldState.selection;
       //const dataCounts = oldState.data.filter((item) => item && !(item instanceof GnroRowGroup)).length;
+      console.log(' xxxxxxxxxxx selection=', selection);
       const dataCounts = oldState.treeData.filter((item) => item).length;
       const allSelected = selection.selected.length === dataCounts && dataCounts > 0;
       return {

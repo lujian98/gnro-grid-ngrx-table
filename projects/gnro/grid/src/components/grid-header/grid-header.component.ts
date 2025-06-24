@@ -11,7 +11,6 @@ import {
   GnroColumnConfig,
   GnroColumnWidth,
   GnroGridConfig,
-  GnroGridRowSelections,
   GnroGridSetting,
 } from '../../models/grid.model';
 import { getTableWidth } from '../../utils/viewport-width-ratio';
@@ -47,7 +46,6 @@ export class GnroGridHeaderComponent<T> {
   columns = input.required<GnroColumnConfig[]>();
   columnWidths = input.required<GnroColumnWidth[]>();
   columnHeaderPosition = input<number>(0);
-  rowSelections = input.required<GnroGridRowSelections>();
   columnResizing = output<GnroColumnWidth[]>();
   columnResized = output<GnroColumnWidth[]>();
   rowSelectAll = output<boolean>();
