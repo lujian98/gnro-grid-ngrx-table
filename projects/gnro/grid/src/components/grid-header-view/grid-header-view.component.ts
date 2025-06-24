@@ -97,9 +97,12 @@ export class GnroGridHeaderViewComponent {
 
   // cdk cdkDropListEnterPredicate not working?? use isDroppabe for now
   private isDroppabe(previousIndex: number, currentIndex: number): boolean {
+    const prevCol = this.columns().find((col, index) => previousIndex === index);
+    const currCol = this.columns().find((col, index) => currentIndex === index);
+    if (this.gridSetting().isTreeGrid && (prevCol?.name === 'name' || currCol?.name === 'name')) {
+      return false;
+    }
     if (this.gridConfig().columnSticky) {
-      const prevCol = this.columns().find((col, index) => previousIndex === index);
-      const currCol = this.columns().find((col, index) => currentIndex === index);
       if (prevCol?.sticky) {
         this.gridDragDropStickyEvent.emit('sticky');
       } else if (prevCol?.stickyEnd) {
