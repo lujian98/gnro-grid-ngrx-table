@@ -1,12 +1,15 @@
-<gnro-grid-header-view
-  [gridSetting]="gridSetting()"
-  [gridConfig]="gridConfig()"
-  [columnConfigs]="columns()"
-  [columnHeaderPosition]="columnHeaderPosition"
-  (gridColumnWidthsEvent)="gridColumnWidthsEvent($event)"
-  (gridDragDropStickyEvent)="gridDragDropStickyEvent($event)"
->
-</gnro-grid-header-view>
+@if (rowSelections$()) {
+  <gnro-grid-header-view
+    [gridSetting]="gridSetting()"
+    [gridConfig]="gridConfig()"
+    [columnConfigs]="columns()"
+    [columnHeaderPosition]="columnHeaderPosition"
+    [rowSelections]="rowSelections$()"
+    (gridColumnWidthsEvent)="gridColumnWidthsEvent($event)"
+    (gridDragDropStickyEvent)="gridDragDropStickyEvent($event)"
+  >
+  </gnro-grid-header-view>
+}
 
 <cdk-virtual-scroll-viewport
   [itemSize]="gridConfig().rowHeight"

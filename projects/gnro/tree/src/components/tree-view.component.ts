@@ -1,4 +1,5 @@
 import { CdkDragDrop, CdkDragMove, DragDropModule } from '@angular/cdk/drag-drop';
+import { SelectionModel } from '@angular/cdk/collections';
 import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 import {
   AfterViewInit,
@@ -10,6 +11,7 @@ import {
   inject,
   input,
   signal,
+  Signal,
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -20,6 +22,7 @@ import {
   GnroGridFacade,
   GnroGridHeaderViewComponent,
   GnroGridSetting,
+  GnroGridRowSelections,
 } from '@gnro/ui/grid';
 import { GNRO_DOCUMENT } from '@gnro/ui/theme';
 import { BehaviorSubject, interval, of } from 'rxjs';
@@ -46,8 +49,21 @@ export class GnroTreeViewComponent<T> implements AfterViewInit {
   private dropInfo: GnroTreeDropInfo<T> | null = null;
   columnHeaderPosition = 0;
   columnWidths = signal<GnroColumnWidth[]>([]);
+  private prevRowIndex: number = -1;
+  rowSelections$!: Signal<GnroGridRowSelections>;
+  rowSelection$!: Signal<SelectionModel<object>>;
   sizeChanged$ = new BehaviorSubject<string | MouseEvent | null>(null);
-  gridSetting = input.required<GnroGridSetting>();
+  gridSetting = input.required({
+    transform: (gridSetting: GnroGridSetting) => {
+      if (!this.rowSelections$) {
+        this.rowSelections$ = this.gridFacade.getRowSelections(gridSetting.gridId);
+      }
+      if (!this.rowSelection$) {
+        this.rowSelection$ = this.treeFacade.getRowSelection(gridSetting.gridId);
+      }
+      return gridSetting;
+    },
+  });
   treeConfig = input.required<GnroTreeConfig>();
   columns = input.required<GnroColumnConfig[]>();
   treeData = input.required({
@@ -251,6 +267,70 @@ export class GnroTreeViewComponent<T> implements AfterViewInit {
     }
     this.clearDragInfo(true);
   }
+
+  rowClick(event: MouseEvent, rowIndex: number, record: object): void {
+    if (this.treeConfig().rowSelection) {
+      if (this.prevRowIndex < 0) {
+        this.prevRowIndex = rowIndex;
+      }
+      const selected = this.rowSelection$().isSelected(record as object);
+      if (this.treeConfig().multiRowSelection) {
+        if (event.ctrlKey || event.metaKey) {
+          this.selectRecord([record], !selected);
+        } else if (event.shiftKey) {
+          if (rowIndex === this.prevRowIndex) {
+            this.selectRecord([record], !selected);
+          } else {
+            const records = this.getSelectionRange(this.prevRowIndex, rowIndex);
+            this.selectRecord(records, true);
+          }
+        } else {
+          if (selected) {
+            this.treeFacade.setSelectAllRows(this.gridSetting().gridId, false);
+          } else {
+            this.treeFacade.setSelectRow(this.gridSetting().gridId, record as object);
+          }
+        }
+      } else {
+        this.selectRecord([record], !selected);
+      }
+      this.prevRowIndex = rowIndex;
+    }
+  }
+
+  private getSelectionRange(prevRowIndex: number, rowIndex: number): object[] {
+    if (prevRowIndex > rowIndex) {
+      return [...this.treeData()].slice(rowIndex, prevRowIndex);
+    } else {
+      return [...this.treeData()].slice(prevRowIndex, rowIndex + 1);
+    }
+  }
+
+  private selectRecord(record: object[], isSelected: boolean): void {
+    const selected = this.getSelectedTotal(record, isSelected);
+    this.treeFacade.setSelectRows(this.gridSetting().gridId, record as object[], isSelected, selected);
+  }
+
+  private getSelectedTotal(record: object[], isSelected: boolean): number {
+    if (this.treeConfig().multiRowSelection) {
+      const prevSelectedLength = this.rowSelection$().selected.length;
+      if (isSelected) {
+        const preSelected = record.filter((item) => this.rowSelection$().isSelected(item));
+        return prevSelectedLength - preSelected.length + record.length;
+      } else {
+        return prevSelectedLength - record.length;
+      }
+    } else {
+      return isSelected ? 1 : 0;
+    }
+  }
+
+  /*
+  rowDblClick(record: object): void {
+    if (this.treeConfig().hasDetailView) {
+      this.gridFacade.rowDblClick(this.gridSetting().gridId, record as object);
+    }
+  }*/
 
   @HostListener('window:resize', ['$event'])
   onResize(event: MouseEvent): void {

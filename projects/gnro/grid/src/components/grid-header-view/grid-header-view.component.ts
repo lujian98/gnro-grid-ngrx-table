@@ -1,10 +1,17 @@
 import { DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
+import { SelectionModel } from '@angular/cdk/collections';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { ChangeDetectionStrategy, Component, computed, inject, input, output, signal } from '@angular/core';
 import { GnroGridFacade } from '../../+state/grid.facade';
 import { ROW_SELECTION_CELL_WIDTH } from '../../models/constants';
 import { DragDropEvent } from '../../models/drag-drop-event';
-import { GnroColumnConfig, GnroColumnWidth, GnroGridConfig, GnroGridSetting } from '../../models/grid.model';
+import {
+  GnroColumnConfig,
+  GnroColumnWidth,
+  GnroGridConfig,
+  GnroGridSetting,
+  GnroGridRowSelections,
+} from '../../models/grid.model';
 import { groupColumnMove } from '../../utils/group-column-move';
 import { getTableWidth, viewportWidthRatio } from '../../utils/viewport-width-ratio';
 import { GnroGridGroupHeaderComponent } from '../grid-header/grid-group-header/grid-group-header.component';
@@ -31,6 +38,7 @@ export class GnroGridHeaderViewComponent {
       return columnConfigs;
     },
   });
+  rowSelections = input.required<GnroGridRowSelections>();
   columns = signal<GnroColumnConfig[]>([]);
   resizedColumns = signal<GnroColumnConfig[]>([]);
   isResizing = signal<boolean>(false);

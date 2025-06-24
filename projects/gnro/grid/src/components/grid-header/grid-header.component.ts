@@ -1,6 +1,5 @@
-import { SelectionModel } from '@angular/cdk/collections';
 import { CdkDragHandle, DragDropModule } from '@angular/cdk/drag-drop';
-import { ChangeDetectionStrategy, Component, ElementRef, inject, input, output, Signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, inject, input, output } from '@angular/core';
 import { DEFAULT_OVERLAY_SERVICE_CONFIG, GnroOverlayServiceConfig, GnroPosition, GnroTrigger } from '@gnro/ui/overlay';
 import { GnroPopoverComponent, GnroPopoverService } from '@gnro/ui/popover';
 import { GnroGridFacade } from '../../+state/grid.facade';
@@ -12,6 +11,7 @@ import {
   GnroColumnConfig,
   GnroColumnWidth,
   GnroGridConfig,
+  GnroGridRowSelections,
   GnroGridSetting,
 } from '../../models/grid.model';
 import { getTableWidth } from '../../utils/viewport-width-ratio';
@@ -42,21 +42,15 @@ export class GnroGridHeaderComponent<T> {
   private readonly gridFacade = inject(GnroGridFacade);
   private readonly popoverService = inject(GnroPopoverService);
   private readonly elementRef = inject(ElementRef);
-  rowSelections$!: Signal<{ selection: SelectionModel<object>; allSelected: boolean; indeterminate: boolean }>;
-  gridSetting = input.required({
-    transform: (gridSetting: GnroGridSetting) => {
-      if (!this.rowSelections$) {
-        this.rowSelections$ = this.gridFacade.getRowSelections(gridSetting.gridId);
-      }
-      return gridSetting;
-    },
-  });
+  gridSetting = input.required<GnroGridSetting>();
   gridConfig = input.required<GnroGridConfig>();
   columns = input.required<GnroColumnConfig[]>();
   columnWidths = input.required<GnroColumnWidth[]>();
+  columnHeaderPosition = input<number>(0);
+  rowSelections = input.required<GnroGridRowSelections>();
   columnResizing = output<GnroColumnWidth[]>();
   columnResized = output<GnroColumnWidth[]>();
-  columnHeaderPosition = input<number>(0);
+  selectAll = output<boolean>();
 
   get selectColumnWidth(): string {
     return `${ROW_SELECTION_CELL_WIDTH}px`;
@@ -124,6 +118,7 @@ export class GnroGridHeaderComponent<T> {
 
   onToggleSelectAll(allSelected: boolean): void {
     this.gridFacade.setSelectAllRows(this.gridSetting().gridId, !allSelected);
+    this.selectAll.emit(!allSelected);
   }
 
   onColumnMenuClick(menuClick: ColumnMenuClick): void {

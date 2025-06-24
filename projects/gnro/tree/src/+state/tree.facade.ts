@@ -1,10 +1,11 @@
 import { inject, Injectable, Signal } from '@angular/core';
+import { SelectionModel } from '@angular/cdk/collections';
 import { GnroGridFacade, GnroGridSetting } from '@gnro/ui/grid';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { GnroTreeConfig, GnroTreeNode } from '../models/tree-grid.model';
 import * as treeActions from './tree.actions';
-import { selectTreeData, selectTreeInMemoryData } from './tree.selectors';
+import { selectTreeData, selectTreeInMemoryData, selectRowSelection, selectRowSelections } from './tree.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class GnroTreeFacade {
@@ -70,6 +71,18 @@ export class GnroTreeFacade {
     //TODO remote update node
   }
 
+  setSelectAllRows(treeId: string, selectAll: boolean): void {
+    this.store.dispatch(treeActions.setSelectAllRows({ treeId, selectAll }));
+  }
+
+  setSelectRows(treeId: string, records: object[], isSelected: boolean, selected: number): void {
+    this.store.dispatch(treeActions.setSelectRows({ treeId, records, isSelected, selected }));
+  }
+
+  setSelectRow(treeId: string, record: object): void {
+    this.store.dispatch(treeActions.setSelectRow({ treeId, record }));
+  }
+
   setTreeInMemoryData<T>(treeId: string, treeConfig: GnroTreeConfig, treeData: GnroTreeNode<T>[]): void {
     this.store.dispatch(treeActions.setTreeInMemoryData({ treeId, treeConfig, treeData }));
   }
@@ -84,5 +97,15 @@ export class GnroTreeFacade {
 
   selectTreeInMemoryData<T>(treeId: string): Observable<GnroTreeNode<T>[]> {
     return this.store.select(selectTreeInMemoryData(treeId));
+  }
+
+  getRowSelection(treeId: string): Signal<SelectionModel<object>> {
+    return this.store.selectSignal(selectRowSelection(treeId));
+  }
+
+  getRowSelections(
+    treeId: string,
+  ): Signal<{ selection: SelectionModel<object>; allSelected: boolean; indeterminate: boolean }> {
+    return this.store.selectSignal(selectRowSelections(treeId));
   }
 }

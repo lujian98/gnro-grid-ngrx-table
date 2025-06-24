@@ -57,5 +57,20 @@ export const dropNode = createAction(
   }>(),
 );
 
+export const setSelectAllRows = createAction(
+  '[Tree] Setup Tree Set Select or Unselect All Rows',
+  props<{ treeId: string; selectAll: boolean }>(),
+);
+
+export const setSelectRows = createAction(
+  '[Tree] Setup Tree Set Select or Unselect Rows',
+  props<{ treeId: string; records: object[]; isSelected: boolean; selected: number }>(),
+);
+
+export const setSelectRow = createAction(
+  '[Tree] Setup Tree Set Select a Row and clear all other rows',
+  props<{ treeId: string; record: object }>(),
+);
+
 export const clearTreeDataStore = createAction('[Tree] Clear Tree Data Store', props<{ treeId: string }>());
 export const removeTreeDataStore = createAction('[Tree] Remove Tree Data Store', props<{ treeId: string }>());

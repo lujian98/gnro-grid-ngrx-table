@@ -24,8 +24,8 @@ export class GnroTreeRowComponent<T> {
   gridSetting = input.required<GnroGridSetting>();
   treeConfig = input.required<GnroTreeConfig>();
   record = input.required<GnroTreeNode<T>>();
-  //selected = input.required<boolean>(); // TODO
-  selected = input<boolean>(false);
+  selected = input.required<boolean>(); // TODO
+  //selected = input<boolean>(false);
   columnWidths = input.required<GnroColumnWidth[]>();
   rowIndex = input.required<number>();
 

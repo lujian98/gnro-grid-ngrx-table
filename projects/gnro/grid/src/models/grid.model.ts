@@ -177,3 +177,9 @@ export interface GnroColumnConfig {
 
   //menu?: boolean | GnroMenuConfig; // custom input column menu??
 }
+
+export interface GnroGridRowSelections {
+  selection: SelectionModel<object>;
+  allSelected: boolean;
+  indeterminate: boolean;
+}

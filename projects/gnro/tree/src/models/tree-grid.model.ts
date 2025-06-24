@@ -1,4 +1,5 @@
-import { GnroGridConfig, defaultGridConfig, GnroGridSetting, defaultGridSetting } from '@gnro/ui/grid';
+import { SelectionModel } from '@angular/cdk/collections';
+import { GnroGridConfig, GnroGridSetting, defaultGridConfig, defaultGridSetting } from '@gnro/ui/grid';
 
 export interface GnroTreeConfig extends GnroGridConfig {
   remoteLoadAll?: boolean;
@@ -40,6 +41,8 @@ export interface GnroTreeState<T extends object = object> {
   treeConfig: GnroTreeConfig;
   treeSetting: GnroTreeSetting;
   treeData: GnroTreeNode<T>[];
+  totalCounts: number;
+  selection: SelectionModel<T>;
   inMemoryData: GnroTreeNode<T>[];
 }
 
@@ -47,6 +50,8 @@ export const defaultTreeState: GnroTreeState = {
   treeConfig: defaultTreeConfig,
   treeSetting: defaultTreeSetting,
   treeData: [],
+  totalCounts: 0,
+  selection: new SelectionModel<object>(false, []),
   inMemoryData: [],
 };
 

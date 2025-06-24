@@ -1,11 +1,14 @@
-<gnro-grid-header-view
-  [gridSetting]="gridSetting()"
-  [gridConfig]="treeConfig()"
-  [columnConfigs]="columns()"
-  [columnHeaderPosition]="columnHeaderPosition"
-  (gridColumnWidthsEvent)="gridColumnWidthsEvent($event)"
->
-</gnro-grid-header-view>
+@if (rowSelections$()) {
+  <gnro-grid-header-view
+    [gridSetting]="gridSetting()"
+    [gridConfig]="treeConfig()"
+    [columnConfigs]="columns()"
+    [columnHeaderPosition]="columnHeaderPosition"
+    [rowSelections]="rowSelections$()"
+    (gridColumnWidthsEvent)="gridColumnWidthsEvent($event)"
+  >
+  </gnro-grid-header-view>
+}
 
 <cdk-virtual-scroll-viewport
   [itemSize]="treeConfig().rowHeight"
@@ -30,6 +33,8 @@
         [columns]="columns()"
         [columnWidths]="columnWidths()"
         [record]="record"
+        [selected]="rowSelection$().isSelected(record)"
+        (click)="rowClick($event, index, record)"
         cdkDrag
         [cdkDragDisabled]="treeConfig().dragDisabled"
         (cdkDragStarted)="dragStart(record)"

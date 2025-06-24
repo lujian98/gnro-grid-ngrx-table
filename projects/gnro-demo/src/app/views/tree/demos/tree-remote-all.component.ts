@@ -16,7 +16,7 @@ export class AppTreeRemoteAllComponent {
     remoteGridConfig: true,
     horizontalScroll: true,
     columnSticky: true,
-    //rowSelection: true,
+    rowSelection: true,
     multiRowSelection: true,
   };
 }

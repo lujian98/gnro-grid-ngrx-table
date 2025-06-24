@@ -9,9 +9,9 @@
       <gnro-row-select
         class="gnro-header-row-select"
         [style.height]="gridConfig().headerHeight + 'px'"
-        [selected]="rowSelections$().allSelected"
-        [indeterminate]="rowSelections$().indeterminate"
-        (click)="onToggleSelectAll(rowSelections$().allSelected)"
+        [selected]="rowSelections().allSelected"
+        [indeterminate]="rowSelections().indeterminate"
+        (click)="onToggleSelectAll(rowSelections().allSelected)"
       >
       </gnro-row-select>
     }

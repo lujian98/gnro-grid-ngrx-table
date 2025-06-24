@@ -113,6 +113,72 @@ export const gnroTreeFeature = createFeature({
       return { ...newState };
     }),
 
+    on(treeActions.setSelectAllRows, (state, action) => {
+      const key = action.treeId;
+      const newState: TreeState = { ...state };
+      if (state[key]) {
+        const oldState = state[key];
+        const selection = oldState.selection;
+        let selected = 0;
+        if (action.selectAll) {
+          const selectedRecords = oldState.treeData.filter((item) => item);
+          selectedRecords.forEach((record) => selection.select(record));
+          selected = selectedRecords.length;
+        } else {
+          selection.clear();
+        }
+        newState[key] = {
+          ...oldState,
+          treeSetting: {
+            ...state[key].treeSetting,
+            selected,
+          },
+        };
+      }
+      return { ...newState };
+    }),
+    on(treeActions.setSelectRows, (state, action) => {
+      const key = action.treeId;
+      const newState: TreeState = { ...state };
+      if (state[key]) {
+        const oldState = state[key];
+        const selection = oldState.selection;
+        action.records.forEach((record) => {
+          if (action.isSelected) {
+            selection.select(record);
+          } else {
+            selection.deselect(record);
+          }
+        });
+        newState[key] = {
+          ...oldState,
+          treeSetting: {
+            ...state[key].treeSetting,
+            selected: action.selected,
+          },
+        };
+      }
+      return { ...newState };
+    }),
+    on(treeActions.setSelectRow, (state, action) => {
+      const key = action.treeId;
+      const newState: TreeState = { ...state };
+      if (state[key]) {
+        const oldState = state[key];
+        const selection = oldState.selection;
+        selection.clear();
+        selection.select(action.record);
+        newState[key] = {
+          ...oldState,
+          treeSetting: {
+            ...state[key].treeSetting,
+            selected: 1,
+          },
+        };
+      }
+      return { ...newState };
+    }),
+
     on(treeActions.removeTreeDataStore, (state, action) => {
       const key = action.treeId;
       const newState: TreeState = { ...state };
