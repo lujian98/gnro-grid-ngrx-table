@@ -6,6 +6,7 @@ import {
   GnroGridCellViewComponent,
   GnroGridSetting,
   GnroRowSelectComponent,
+  getColumnsWidth,
   ROW_SELECTION_CELL_WIDTH,
 } from '@gnro/ui/grid';
 import { GnroTreeConfig, GnroTreeNode } from '../../models/tree-grid.model';
@@ -43,6 +44,25 @@ export class GnroTreeRowComponent<T> {
 
   get selectColumnWidth(): string {
     return `${ROW_SELECTION_CELL_WIDTH}px`;
+  }
+
+  isLastSticky(index: number): boolean {
+    if (this.treeConfig().columnSticky) {
+      const totSticky = [...this.columns()].filter((col) => col.sticky).length;
+      return index === totSticky - 1;
+    } else {
+      return false;
+    }
+  }
+
+  getStickyLeft(column: GnroColumnConfig, index: number): string {
+    if (this.treeConfig().columnSticky && column.sticky) {
+      const columns = [...this.columnWidths()].filter((_, idx) => idx < index);
+      const width = getColumnsWidth(columns, this.treeConfig().rowSelection);
+      return `${width}px`;
+    } else {
+      return 'unset';
+    }
   }
 
   trackByIndex(index: number): number {
