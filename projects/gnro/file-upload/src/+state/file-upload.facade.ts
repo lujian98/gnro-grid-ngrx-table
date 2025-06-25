@@ -7,7 +7,6 @@ import { GnroFileUploadConfig } from '../models/file-upload.model';
 @Injectable({ providedIn: 'root' })
 export class GnroFileUploadFacade {
   private readonly store = inject(Store);
-  selectUploadFiles$ = this.store.select(selectUploadFiles);
   getUploadFiles$ = this.store.selectSignal(selectUploadFiles);
   getUploadFilesGridData$ = this.store.selectSignal(selectUploadFilesGridData);
 

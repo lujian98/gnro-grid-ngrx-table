@@ -1,6 +1,5 @@
 import { inject, Injectable, Signal } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 import {
   GnroCellEdit,
   GnroColumnConfig,
@@ -232,6 +231,10 @@ export class GnroGridFacade {
     return this.store.selectSignal(selectColumnsConfig(gridId));
   }
 
+  getGridModifiedRecords(gridId: string): Signal<{ [key: string]: unknown }[]> {
+    return this.store.selectSignal(selectGridModifiedRecords(gridId)) as Signal<{ [key: string]: unknown }[]>;
+  }
+
   getGridSignalData(gridId: string): Signal<object[]> {
     return this.store.selectSignal(selectGridData(gridId));
   }
@@ -240,32 +243,12 @@ export class GnroGridFacade {
     return this.store.selectSignal(selectRowSelection(gridId));
   }
 
+  getGridInMemoryData<T>(gridId: string): Signal<T[]> {
+    return this.store.selectSignal(selectGridInMemoryData(gridId)) as Signal<T[]>;
+  }
+
   getRowGroups(gridId: string): Signal<GnroRowGroups | boolean> {
     return this.store.selectSignal(selectRowGroups(gridId));
-  }
-
-  selectGridConfig(gridId: string): Observable<GnroGridConfig> {
-    return this.store.select(selectGridConfig(gridId));
-  }
-
-  selectColumnsConfig(gridId: string): Observable<GnroColumnConfig[]> {
-    return this.store.select(selectColumnsConfig(gridId));
-  }
-
-  selectGridModifiedRecords(gridId: string): Observable<{ [key: string]: unknown }[]> {
-    return this.store.select(selectGridModifiedRecords(gridId)) as Observable<{ [key: string]: unknown }[]>;
-  }
-
-  selectRowSelection(gridId: string): Observable<GnroGridRowSelections<object> | undefined> {
-    return this.store.select(selectRowSelection(gridId));
-  }
-
-  selectGridInMemoryData<T>(gridId: string): Observable<T[]> {
-    return this.store.select(selectGridInMemoryData(gridId)) as Observable<T[]>;
-  }
-
-  selectSetting(gridId: string): Observable<GnroGridSetting> {
-    return this.store.select(selectGridSetting(gridId));
   }
 
   openButtonClick(gridId: string): void {

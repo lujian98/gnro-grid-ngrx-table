@@ -1,7 +1,6 @@
 import { inject, Injectable, Signal } from '@angular/core';
 import { GnroGridFacade, GnroGridRowSelections, GnroGridSetting } from '@gnro/ui/grid';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 import { GnroTreeConfig, GnroTreeNode } from '../models/tree-grid.model';
 import * as treeActions from './tree.actions';
 import { selectRowSelection, selectTreeData, selectTreeInMemoryData } from './tree.selectors';
@@ -94,8 +93,8 @@ export class GnroTreeFacade {
     return this.store.selectSignal(selectTreeData(treeId));
   }
 
-  selectTreeInMemoryData<T>(treeId: string): Observable<GnroTreeNode<T>[]> {
-    return this.store.select(selectTreeInMemoryData(treeId));
+  getTreeInMemoryData<T>(treeId: string): Signal<GnroTreeNode<T>[]> {
+    return this.store.selectSignal(selectTreeInMemoryData(treeId));
   }
 
   getRowSelection(gridId: string): Signal<GnroGridRowSelections<object> | undefined> {

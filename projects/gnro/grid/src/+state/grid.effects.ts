@@ -1,7 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { GnroDialogService } from '@gnro/ui/overlay';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { concatLatestFrom } from '@ngrx/operators';
 import { Store } from '@ngrx/store';
 import { concatMap, debounceTime, delay, exhaustMap, map, mergeMap, of, switchMap } from 'rxjs';
 import { GnroGridFormViewComponent } from '../components/form-view/form-view.component';
@@ -47,11 +46,10 @@ export class GnroGridEffects {
   loadGridColumnsConfig$ = createEffect(() =>
     this.actions$.pipe(
       ofType(gridActions.loadGridColumnsConfig),
-      concatLatestFrom((action) => {
-        return [this.gridFacade.selectSetting(action.gridId), this.gridFacade.selectGridConfig(action.gridId)];
-      }),
-      concatMap(([action, gridSetting, gridConfig]) => {
+      concatMap((action) => {
         const gridId = action.gridId;
+        const gridSetting = this.gridFacade.getSetting(gridId)();
+        const gridConfig = this.gridFacade.getGridConfig(gridId)();
         return this.gridService.getGridColumnsConfig(gridConfig).pipe(
           map((columnsConfig) => {
             const isTreeGrid = gridSetting.isTreeGrid;
@@ -81,14 +79,11 @@ export class GnroGridEffects {
     this.actions$.pipe(
       ofType(gridActions.getGridData),
       debounceTime(10), // debounce with switchMap may lose data if two or more grid pull, but will cancel previous call
-      concatLatestFrom((action) => {
-        return [
-          this.gridFacade.selectGridConfig(action.gridId),
-          this.gridFacade.selectColumnsConfig(action.gridId),
-          this.gridFacade.selectGridInMemoryData(action.gridId),
-        ];
-      }),
-      switchMap(([action, gridConfig, columns, inMemoryData]) => {
+      switchMap((action) => {
+        const gridId = action.gridId;
+        const gridConfig = this.gridFacade.getGridConfig(gridId)();
+        const columns = this.gridFacade.getColumnsConfig(gridId)();
+        const inMemoryData = this.gridFacade.getGridInMemoryData(gridId)();
         return this.getGridData(action.gridId, gridConfig, columns, inMemoryData);
       }),
     ),
@@ -97,14 +92,11 @@ export class GnroGridEffects {
   getConcatGridData$ = createEffect(() =>
     this.actions$.pipe(
       ofType(gridActions.getConcatGridData),
-      concatLatestFrom((action) => {
-        return [
-          this.gridFacade.selectGridConfig(action.gridId),
-          this.gridFacade.selectColumnsConfig(action.gridId),
-          this.gridFacade.selectGridInMemoryData(action.gridId),
-        ];
-      }),
-      mergeMap(([action, gridConfig, columns, inMemoryData]) => {
+      mergeMap((action) => {
+        const gridId = action.gridId;
+        const gridConfig = this.gridFacade.getGridConfig(gridId)();
+        const columns = this.gridFacade.getColumnsConfig(gridId)();
+        const inMemoryData = this.gridFacade.getGridInMemoryData(gridId)();
         return this.getGridData(action.gridId, gridConfig, columns, inMemoryData);
       }),
     ),
@@ -134,13 +126,10 @@ export class GnroGridEffects {
   saveGridModifiedRecords$ = createEffect(() =>
     this.actions$.pipe(
       ofType(gridActions.saveGridModifiedRecords),
-      concatLatestFrom((action) => {
-        return [
-          this.gridFacade.selectGridConfig(action.gridId),
-          this.gridFacade.selectGridModifiedRecords(action.gridId),
-        ];
-      }),
-      concatMap(([action, gridConfig, modifiedRecords]) => {
+      concatMap((action) => {
+        const gridId = action.gridId;
+        const gridConfig = this.gridFacade.getGridConfig(gridId)();
+        const modifiedRecords = this.gridFacade.getGridModifiedRecords(gridId)();
         return this.gridService.saveModifiedRecords(gridConfig, modifiedRecords).pipe(
           map((newRecords) => {
             const gridId = action.gridId;
@@ -154,14 +143,11 @@ export class GnroGridEffects {
   openGridFormView$ = createEffect(() =>
     this.actions$.pipe(
       ofType(gridActions.openGridFormView), // TODO filter open condition
-      concatLatestFrom((action) => {
-        return [
-          this.gridFacade.selectGridConfig(action.gridId),
-          this.gridFacade.selectSetting(action.gridId),
-          this.gridFacade.selectRowSelection(action.gridId),
-        ];
-      }),
-      exhaustMap(([action, gridConfig, gridSetting, selection]) => {
+      exhaustMap((action) => {
+        const gridId = action.gridId;
+        const gridSetting = this.gridFacade.getSetting(gridId)();
+        const gridConfig = this.gridFacade.getGridConfig(gridId)();
+        const selection = this.gridFacade.getRowSelection(gridId)();
         const dialogRef = this.dialogService.open(GnroGridFormViewComponent, {
           closeOnBackdropClick: false,
         });

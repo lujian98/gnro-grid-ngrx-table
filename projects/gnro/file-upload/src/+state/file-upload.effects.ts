@@ -1,8 +1,7 @@
 import { Injectable, inject } from '@angular/core';
-import { GnroFileUploadService } from '../services/file-upload.service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { concatLatestFrom } from '@ngrx/operators';
 import { concatMap, map } from 'rxjs';
+import { GnroFileUploadService } from '../services/file-upload.service';
 import * as fileUploadActions from './file-upload.actions';
 import { GnroFileUploadFacade } from './file-upload.facade';
 
@@ -15,10 +14,8 @@ export class GnroFileUploadEffects {
   uploadFiles$ = createEffect(() =>
     this.actions$.pipe(
       ofType(fileUploadActions.uploadFiles),
-      concatLatestFrom(() => {
-        return [this.fileUploadFacade.selectUploadFiles$];
-      }),
-      concatMap(([action, uploadFiles]) => {
+      concatMap((action) => {
+        const uploadFiles = this.fileUploadFacade.getUploadFiles$();
         return this.fileUploadService.sendUploadFiles(action.fileUploadConfig, uploadFiles).pipe(
           map(() => {
             return fileUploadActions.uploadFilesSuccess();

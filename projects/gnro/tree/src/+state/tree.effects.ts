@@ -1,7 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { GnroGridFacade, loadGridColumnsConfigSuccess, setGridColumnFilters, setGridSortFields } from '@gnro/ui/grid';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { concatLatestFrom } from '@ngrx/operators';
 import { concatMap, debounceTime, delay, filter, map, mergeMap, of, switchMap } from 'rxjs';
 import { GnroTreeConfig } from '../models/tree-grid.model';
 import { GnroTreeinMemoryService } from '../services/tree-in-memory.service';
@@ -21,11 +20,10 @@ export class GnroTreeEffects {
     this.actions$.pipe(
       ofType(treeActions.getTreeRemoteData),
       debounceTime(10), // debounce with switchMap may lose data if two or more tree pull, but will cancel previous call
-      concatLatestFrom((action) => {
-        return [this.gridFacade.selectGridConfig(action.treeId), this.gridFacade.selectColumnsConfig(action.treeId)];
-      }),
-      switchMap(([action, treeConfig, columns]) => {
+      switchMap((action) => {
         const treeId = action.treeId;
+        const treeConfig = this.gridFacade.getGridConfig(treeId)();
+        const columns = this.gridFacade.getColumnsConfig(treeId)();
         return this.treeRemoteService.getTreeRemoteData(treeConfig, columns).pipe(
           map((treeData) => {
             this.gridFacade.setLoadTreeDataLoading(treeId, false);
@@ -39,15 +37,11 @@ export class GnroTreeEffects {
   getConcatTreeData$ = createEffect(() =>
     this.actions$.pipe(
       ofType(treeActions.getConcatTreeData),
-      concatLatestFrom((action) => {
-        return [
-          this.gridFacade.selectGridConfig(action.treeId),
-          this.gridFacade.selectColumnsConfig(action.treeId),
-          this.treeFacade.selectTreeInMemoryData(action.treeId),
-        ];
-      }),
-      concatMap(([action, treeConfig, columns, inMemoryData]) => {
+      concatMap((action) => {
         const treeId = action.treeId;
+        const treeConfig = this.gridFacade.getGridConfig(treeId)();
+        const columns = this.gridFacade.getColumnsConfig(treeId)();
+        const inMemoryData = this.treeFacade.getTreeInMemoryData(treeId)();
         if (treeConfig.remoteGridData) {
           return this.treeRemoteService.getTreeRemoteData(treeConfig, columns).pipe(
             map((treeData) => {
@@ -72,15 +66,11 @@ export class GnroTreeEffects {
     this.actions$.pipe(
       ofType(treeActions.getTreeInMemoryData),
       debounceTime(10), // debounce with switchMap may lose data if two or more tree pull, but will cancel previous call
-      concatLatestFrom((action) => {
-        return [
-          this.gridFacade.selectGridConfig(action.treeId),
-          this.gridFacade.selectColumnsConfig(action.treeId),
-          this.treeFacade.selectTreeInMemoryData(action.treeId),
-        ];
-      }),
-      switchMap(([action, treeConfig, columns, inMemoryData]) => {
+      switchMap((action) => {
         const treeId = action.treeId;
+        const treeConfig = this.gridFacade.getGridConfig(treeId)();
+        const columns = this.gridFacade.getColumnsConfig(treeId)();
+        const inMemoryData = this.treeFacade.getTreeInMemoryData(treeId)();
         return this.treeinMemoryService.getTreeData(treeConfig, columns, inMemoryData).pipe(
           map((treeData) => {
             this.gridFacade.setLoadTreeDataLoading(treeId, false);
