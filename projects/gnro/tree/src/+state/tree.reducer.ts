@@ -1,5 +1,6 @@
-import { createFeature, createReducer, on } from '@ngrx/store';
 import { SelectionModel } from '@angular/cdk/collections';
+import { getSelection } from '@gnro/ui/grid';
+import { createFeature, createReducer, on } from '@ngrx/store';
 import { TreeState, defaultTreeState } from '../models/tree-grid.model';
 import {
   gnroAddNestedTreeNode,
@@ -10,7 +11,6 @@ import {
   gnroSetNestNodeId,
 } from '../utils/nested-tree';
 import * as treeActions from './tree.actions';
-import { allRowSelected, getSelection } from '@gnro/ui/grid';
 
 export const initialState: TreeState = {};
 
@@ -22,7 +22,6 @@ export const gnroTreeFeature = createFeature({
       const treeConfig = { ...action.treeConfig };
       const key = action.treeId;
       const newState: TreeState = { ...state };
-      console.log(' qqqqqqqqqqqq treeConfig=', treeConfig);
       const initSelection = state[key] ? state[key].selection.selection : defaultTreeState.selection.selection;
       const selection = treeConfig.multiRowSelection ? new SelectionModel<object>(true, []) : initSelection;
 
@@ -35,11 +34,9 @@ export const gnroTreeFeature = createFeature({
           gridId: action.treeId,
         },
         selection: getSelection(treeConfig, selection, []),
-        //selection: treeConfig.multiRowSelection ? new SelectionModel<object>(true, []) : selection,
       };
       return { ...newState };
     }),
-    //  selection: gridConfig.multiRowSelection ? new SelectionModel<object>(true, []) : state[key].selection,
 
     on(treeActions.getTreeRemoteDataSuccess, (state, action) => {
       const key = action.treeId;
@@ -129,27 +126,17 @@ export const gnroTreeFeature = createFeature({
         const oldState = state[key];
         const selection = oldState.selection.selection;
         let selected = 0;
-        console.log(' 00000 oldState.treeData=', oldState.treeData);
         if (action.selectAll) {
-          // const selectedRecords = oldState.treeData.filter((item) => item);
           oldState.treeData.forEach((record) => selection.select(record));
           selected = oldState.treeData.length;
         } else {
           selection.clear();
         }
-        console.log(' 11111 selected =', selected);
         newState[key] = {
           ...oldState,
-          treeSetting: {
-            ...state[key].treeSetting,
-            //selected,
-            //allRowSelected: allRowSelected(selection, oldState.treeData),
-          },
           selection: getSelection(oldState.treeConfig, selection, oldState.treeData),
         };
       }
-      //console.log(' aall selection =', newState[key].selection);
-      //console.log(' aall selectioned =', newState[key].treeSetting.allRowSelected);
       return { ...newState };
     }),
     on(treeActions.setSelectRows, (state, action) => {
@@ -165,15 +152,8 @@ export const gnroTreeFeature = createFeature({
             selection.deselect(record);
           }
         });
-        const allselected = allRowSelected(selection, oldState.treeData);
-        console.log(' allselected =', allselected);
         newState[key] = {
           ...oldState,
-          treeSetting: {
-            ...state[key].treeSetting,
-            //selected: action.selected,
-            //allRowSelected: allRowSelected(selection, oldState.treeData),
-          },
           selection: getSelection(oldState.treeConfig, selection, oldState.treeData),
         };
       }
@@ -189,15 +169,9 @@ export const gnroTreeFeature = createFeature({
         selection.select(action.record);
         newState[key] = {
           ...oldState,
-          treeSetting: {
-            ...state[key].treeSetting,
-            //selected: 1,
-            //allRowSelected: allRowSelected(selection, oldState.treeData),
-          },
           selection: getSelection(oldState.treeConfig, selection, oldState.treeData),
         };
       }
-      //console.log(' sssssssss newState =', newState);
       return { ...newState };
     }),
 

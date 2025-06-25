@@ -50,9 +50,6 @@ export class GnroGridComponent<T> implements OnInit, OnDestroy {
   });
   columnsConfig = input([], {
     transform: (columnsConfig: GnroColumnConfig[]) => {
-      //if (!this.gridConfig) {
-      //  this.initGridConfig({ ...defaultGridConfig });
-      //}
       if (!this.gridConfig$().remoteColumnsConfig && columnsConfig.length > 0) {
         const gridSetting = { ...defaultGridSetting, gridId: this.gridId };
         this.gridFacade.setGridColumnsConfig(this.gridConfig$(), gridSetting, columnsConfig);
@@ -98,8 +95,8 @@ export class GnroGridComponent<T> implements OnInit, OnDestroy {
       case GnroButtonType.Save:
       case GnroButtonType.Reset:
         return !this.gridSetting$().recordModified;
-      //case GnroButtonType.Open:
-      //  return !(this.gridConfig().hasDetailView && this.gridSetting$().selected === 1);
+      case GnroButtonType.Open:
+        return !(this.gridConfig().hasDetailView && this.rowSelection$()?.selected === 1);
       default:
         return false;
     }

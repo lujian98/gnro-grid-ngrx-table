@@ -2,6 +2,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { GnroGridConfig, GnroGridRowSelections } from '../models/grid.model';
 import { GnroRowGroup } from '../utils/row-group/row-group';
 
+//TODO not used  yet for init reload selected???
 export function getSelected<T>(gridConfig: GnroGridConfig, selection: SelectionModel<T>, data: T[]): number {
   let selected = 0;
   if (selection.hasValue()) {
@@ -30,8 +31,9 @@ export function getSelection<T>(
   selection: SelectionModel<T>,
   data: T[],
 ): GnroGridRowSelections<T> {
-  const selected = getSelected(gridConfig, selection, data);
-  const allSelected = allRowSelected(selection, data);
+  const dataCounts = data.filter((item) => item && !(item instanceof GnroRowGroup)).length;
+  const allSelected = selection.selected.length === dataCounts && dataCounts > 0;
+  const selected = selection.selected.length;
   return {
     selection: selection,
     selected,

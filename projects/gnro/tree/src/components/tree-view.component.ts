@@ -50,14 +50,9 @@ export class GnroTreeViewComponent<T> implements AfterViewInit {
   columnHeaderPosition = 0;
   columnWidths = signal<GnroColumnWidth[]>([]);
   private prevRowIndex: number = -1;
-  //rowSelection$!: Signal<GnroGridRowSelections<object> | undefined>;
   sizeChanged$ = new BehaviorSubject<string | MouseEvent | null>(null);
   gridSetting = input.required({
     transform: (gridSetting: GnroGridSetting) => {
-      /*
-      if (!this.rowSelection$) {
-        this.rowSelection$ = this.treeFacade.getRowSelection(gridSetting.gridId);
-      }*/
       return gridSetting;
     },
   });

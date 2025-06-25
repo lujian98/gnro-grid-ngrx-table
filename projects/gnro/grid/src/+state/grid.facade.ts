@@ -1,4 +1,3 @@
-import { SelectionModel } from '@angular/cdk/collections';
 import { inject, Injectable, Signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -8,10 +7,10 @@ import {
   GnroColumnFilter,
   GnroGridConfig,
   GnroGridData,
+  GnroGridRowSelections,
   GnroGridSetting,
   GnroRowGroupField,
   GnroSortField,
-  GnroGridRowSelections,
 } from '../models/grid.model';
 import { GnroRowGroup } from '../utils/row-group/row-group';
 import { GnroRowGroups } from '../utils/row-group/row-groups';
@@ -25,7 +24,6 @@ import {
   selectGridSetting,
   selectRowGroups,
   selectRowSelection,
-  //selectRowSelections,
 } from './grid.selectors';
 
 @Injectable({ providedIn: 'root' })
@@ -241,13 +239,6 @@ export class GnroGridFacade {
   getRowSelection(gridId: string): Signal<GnroGridRowSelections<object> | undefined> {
     return this.store.selectSignal(selectRowSelection(gridId));
   }
-
-  /*
-  getRowSelections(
-    gridId: string,
-  ): Signal<{ selection: SelectionModel<object>; allSelected: boolean; indeterminate: boolean }> {
-    return this.store.selectSignal(selectRowSelections(gridId));
-  }*/
 
   getRowGroups(gridId: string): Signal<GnroRowGroups | boolean> {
     return this.store.selectSignal(selectRowGroups(gridId));

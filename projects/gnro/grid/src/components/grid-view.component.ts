@@ -1,4 +1,3 @@
-import { SelectionModel } from '@angular/cdk/collections';
 import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 import {
   AfterViewInit,
@@ -21,8 +20,8 @@ import {
   GnroColumnConfig,
   GnroColumnWidth,
   GnroGridConfig,
-  GnroGridSetting,
   GnroGridRowSelections,
+  GnroGridSetting,
 } from '../models/grid.model';
 import { GnroRowGroup } from '../utils/row-group/row-group';
 import { GnroRowGroups } from '../utils/row-group/row-groups';
@@ -44,7 +43,6 @@ export class GnroGridViewComponent<T> implements AfterViewInit {
   private readonly destroyRef = inject(DestroyRef);
   private scrollIndex: number = 0;
   private prevRowIndex: number = -1;
-  //rowSelection$!: Signal<GnroGridRowSelections<object> | undefined>;
   rowGroups$!: Signal<GnroRowGroups | boolean>;
   sizeChanged$ = new BehaviorSubject<string | MouseEvent | null>(null);
   columnHeaderPosition = 0;
@@ -52,10 +50,6 @@ export class GnroGridViewComponent<T> implements AfterViewInit {
 
   gridSetting = input.required({
     transform: (gridSetting: GnroGridSetting) => {
-      /*
-      if (!this.rowSelection$) {
-        this.rowSelection$ = this.gridFacade.getRowSelection(gridSetting.gridId);
-      }*/
       if (!this.rowGroups$) {
         this.rowGroups$ = this.gridFacade.getRowGroups(gridSetting.gridId);
       }

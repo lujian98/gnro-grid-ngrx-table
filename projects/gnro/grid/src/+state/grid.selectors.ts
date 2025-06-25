@@ -1,8 +1,6 @@
 import { createSelector } from '@ngrx/store';
-import { SelectionModel } from '@angular/cdk/collections';
-import { GnroRowGroup } from '../utils/row-group/row-group';
-import { GridState } from '../models/grid.model';
 import { defaultState } from '../models/default-grid';
+import { GridState } from '../models/grid.model';
 
 export interface AppGridState {
   gnroGrid: GridState;
@@ -37,34 +35,9 @@ export const selectGridModifiedRecords = (gridId: string) =>
 
 export const selectRowSelection = (gridId: string) =>
   createSelector(featureSelector, (state: GridState) => {
-    if (state && state[gridId]) {
-      console.log(' state[gridId].selection=', state[gridId].selection);
-    }
     return state && state[gridId] ? state[gridId].selection : undefined;
   });
 
-/*
-export const selectRowSelections = (gridId: string) =>
-  createSelector(featureSelector, (state: GridState) => {
-    if (state && state[gridId]) {
-      const oldState = state[gridId];
-      const selection = oldState.selection;
-      const dataCounts = oldState.data.filter((item) => item && !(item instanceof GnroRowGroup)).length;
-      const allSelected = selection.selected.length === dataCounts && dataCounts > 0;
-      return {
-        selection,
-        allSelected,
-        indeterminate: selection.hasValue() && !allSelected,
-      };
-    } else {
-      return {
-        selection: new SelectionModel<object>(false, []),
-        allSelected: false,
-        indeterminate: false,
-      };
-    }
-  });
-*/
 export const selectRowGroups = (gridId: string) =>
   createSelector(featureSelector, (state: GridState) => {
     return state && state[gridId].rowGroups ? state[gridId].rowGroups : true;
