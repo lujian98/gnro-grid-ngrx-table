@@ -49,11 +49,7 @@ export class GnroTreeViewComponent<T> implements AfterViewInit {
   columnWidths = signal<GnroColumnWidth[]>([]);
   private prevRowIndex: number = -1;
   sizeChanged$ = new BehaviorSubject<string | MouseEvent | null>(null);
-  gridSetting = input.required({
-    transform: (gridSetting: GnroGridSetting) => {
-      return gridSetting;
-    },
-  });
+  gridSetting = input.required<GnroGridSetting>();
   treeConfig = input.required<GnroTreeConfig>();
   columns = input.required<GnroColumnConfig[]>();
   treeData = input.required({
