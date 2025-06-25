@@ -1,6 +1,6 @@
 {
   "name": "@gnro/ui",
-  "version": "2.12.19",
+  "version": "2.13.19",
   "description": "Angular grid ngrx ui kit",
   "main": "index.js",
   "repository": {
