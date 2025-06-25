@@ -15,6 +15,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { uniqueId } from '@gnro/ui/core';
 import {
+  getTableWidth,
   GnroColumnConfig,
   GnroColumnWidth,
   GnroGridFacade,
@@ -59,6 +60,12 @@ export class GnroTreeViewComponent<T> implements AfterViewInit {
     },
   });
   rowSelection = input.required<GnroGridRowSelections<object>>();
+
+  get tableWidth(): number {
+    return this.treeConfig().horizontalScroll
+      ? getTableWidth(this.columns(), this.treeConfig())
+      : this.gridSetting().viewportWidth;
+  }
 
   @ViewChild(CdkVirtualScrollViewport, { static: true }) private viewport!: CdkVirtualScrollViewport;
 
