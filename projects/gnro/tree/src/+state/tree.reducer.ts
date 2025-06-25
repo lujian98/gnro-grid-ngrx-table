@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { getSelection } from '@gnro/ui/grid';
+import { getSelection, setSelection } from '@gnro/ui/grid';
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { TreeState, defaultTreeState } from '../models/tree-grid.model';
 import {
@@ -44,12 +44,16 @@ export const gnroTreeFeature = createFeature({
       if (state[key]) {
         const oldState = state[key];
         const inMemoryData = gnroSetNestNodeId([...action.treeData]);
+        const treeData = gnroFlattenTree([...inMemoryData], 0);
+        setSelection(oldState.treeConfig, oldState.selection.selection, treeData);
         newState[key] = {
           ...oldState,
           inMemoryData,
-          treeData: gnroFlattenTree([...inMemoryData], 0),
+          treeData,
+          selection: getSelection(oldState.treeConfig, oldState.selection.selection, oldState.treeData),
         };
       }
+
       return { ...newState };
     }),
 
@@ -70,9 +74,11 @@ export const gnroTreeFeature = createFeature({
       const newState: TreeState = { ...state }; // treeData is faltten and filter
       if (state[key]) {
         const oldState = state[key];
+        setSelection(oldState.treeConfig, oldState.selection.selection, action.treeData);
         newState[key] = {
           ...oldState,
           treeData: [...action.treeData],
+          selection: getSelection(oldState.treeConfig, oldState.selection.selection, action.treeData),
         };
       }
       return { ...newState };
@@ -111,9 +117,11 @@ export const gnroTreeFeature = createFeature({
       const newState: TreeState = { ...state };
       if (state[key]) {
         const oldState = state[key];
+        setSelection(oldState.treeConfig, oldState.selection.selection, oldState.treeData);
         newState[key] = {
           ...oldState,
           inMemoryData: gnroExpandAllNodesInMemoryData(oldState.inMemoryData, action.expanded),
+          selection: getSelection(oldState.treeConfig, oldState.selection.selection, oldState.treeData),
         };
       }
       return { ...newState };

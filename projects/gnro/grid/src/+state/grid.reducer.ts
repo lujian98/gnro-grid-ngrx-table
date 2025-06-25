@@ -6,7 +6,7 @@ import { defaultState } from '../models/default-grid';
 import { GridState } from '../models/grid.model';
 import { GnroRowGroup } from '../utils/row-group/row-group';
 import { GnroRowGroups } from '../utils/row-group/row-groups';
-import { getSelection } from '../utils/row-selection';
+import { getSelection, setSelection } from '../utils/row-selection';
 import { stickyEndMinWidth } from '../utils/viewport-width-ratio';
 import * as gridActions from './grid.actions';
 
@@ -236,6 +236,7 @@ export const gnroGridFeature = createFeature({
           totalCounts += groups.length;
         }
 
+        setSelection(gridConfig, oldState.selection.selection, data);
         newState[key] = {
           ...oldState,
           gridSetting: {
