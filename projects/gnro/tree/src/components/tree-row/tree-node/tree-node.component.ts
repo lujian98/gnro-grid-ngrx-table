@@ -29,8 +29,9 @@ export class GnroTreeNodeComponent<T> {
     return (record as { [index: string]: T })[this.column().name];
   }
 
-  @HostListener('click') nodeToggle(): void {
+  @HostListener('click', ['$event']) nodeToggle(event: MouseEvent): void {
     if (!this.node().leaf) {
+      event.stopPropagation();
       this.treeFacade.nodeToggle(this.gridSetting().gridId, this.treeConfig(), this.node());
     }
   }

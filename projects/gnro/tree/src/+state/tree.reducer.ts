@@ -132,10 +132,8 @@ export const gnroTreeFeature = createFeature({
       if (state[key]) {
         const oldState = state[key];
         const selection = oldState.selection.selection;
-        let selected = 0;
         if (action.selectAll) {
           oldState.treeData.forEach((record) => selection.select(record));
-          selected = oldState.treeData.length;
         } else {
           selection.clear();
         }
