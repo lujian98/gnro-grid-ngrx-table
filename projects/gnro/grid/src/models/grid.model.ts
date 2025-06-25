@@ -95,7 +95,6 @@ export interface GnroGridSetting {
   totalCounts: number;
   scrollIndex: number;
   viewportSize: number;
-  //allRowSelected: boolean;
 }
 
 export interface GnroGridRowSelections<T> {
