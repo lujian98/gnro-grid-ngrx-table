@@ -50,9 +50,6 @@ export class GnroTreeComponent<T> implements OnDestroy {
   });
   columnsConfig = input([], {
     transform: (columnsConfig: GnroColumnConfig[]) => {
-      if (!this.treeConfig) {
-        this.initGridConfig({ ...defaultTreeConfig });
-      }
       if (!this.treeConfig$().remoteColumnsConfig && columnsConfig.length > 0) {
         const treeSetting = { ...defaultTreeSetting, gridId: this.treeId };
         this.gridFacade.setGridColumnsConfig(this.treeConfig$(), treeSetting, columnsConfig);

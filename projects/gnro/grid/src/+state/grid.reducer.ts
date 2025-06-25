@@ -91,7 +91,6 @@ export const gnroGridFeature = createFeature({
           },
           columnsConfig,
           selection: getSelection(gridConfig, selection, state[key].data),
-          //selection: gridConfig.multiRowSelection ? new SelectionModel<object>(true, []) : state[key].selection,
         };
       }
       return { ...newState };
@@ -247,8 +246,6 @@ export const gnroGridFeature = createFeature({
             restEdit: false,
             recordModified: false,
             columnUpdating: false,
-            //selected: getSelected(gridConfig, oldState.selection, data),
-            //allRowSelected: allRowSelected(oldState.selection, data),
           },
           totalCounts: totalCounts,
           data,

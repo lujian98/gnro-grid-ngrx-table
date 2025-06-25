@@ -53,7 +53,6 @@ export const gnroTreeFeature = createFeature({
           selection: getSelection(oldState.treeConfig, oldState.selection.selection, oldState.treeData),
         };
       }
-
       return { ...newState };
     }),
 

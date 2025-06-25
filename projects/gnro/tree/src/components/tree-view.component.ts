@@ -1,5 +1,4 @@
 import { CdkDragDrop, CdkDragMove, DragDropModule } from '@angular/cdk/drag-drop';
-import { SelectionModel } from '@angular/cdk/collections';
 import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 import {
   AfterViewInit,
@@ -11,7 +10,6 @@ import {
   inject,
   input,
   signal,
-  Signal,
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -21,8 +19,8 @@ import {
   GnroColumnWidth,
   GnroGridFacade,
   GnroGridHeaderViewComponent,
-  GnroGridSetting,
   GnroGridRowSelections,
+  GnroGridSetting,
 } from '@gnro/ui/grid';
 import { GNRO_DOCUMENT } from '@gnro/ui/theme';
 import { BehaviorSubject, interval, of } from 'rxjs';
