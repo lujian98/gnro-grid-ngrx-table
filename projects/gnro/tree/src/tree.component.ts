@@ -32,6 +32,7 @@ export class GnroTreeComponent<T> implements OnDestroy {
   gridSetting$ = this.gridFacade.getSetting(this.treeId); // Only support gridSetting for now
   columnsConfig$ = this.gridFacade.getColumnsConfig(this.treeId);
   treeData$ = this.treeFacade.getTreeSignalData(this.treeId);
+  rowSelection$ = this.treeFacade.getRowSelection(this.treeId);
 
   buttons: GnroButtonConfg[] = [
     GnroBUTTONS.Refresh,

@@ -50,13 +50,14 @@ export class GnroTreeViewComponent<T> implements AfterViewInit {
   columnHeaderPosition = 0;
   columnWidths = signal<GnroColumnWidth[]>([]);
   private prevRowIndex: number = -1;
-  rowSelection$!: Signal<GnroGridRowSelections<object> | undefined>;
+  //rowSelection$!: Signal<GnroGridRowSelections<object> | undefined>;
   sizeChanged$ = new BehaviorSubject<string | MouseEvent | null>(null);
   gridSetting = input.required({
     transform: (gridSetting: GnroGridSetting) => {
+      /*
       if (!this.rowSelection$) {
         this.rowSelection$ = this.treeFacade.getRowSelection(gridSetting.gridId);
-      }
+      }*/
       return gridSetting;
     },
   });
@@ -68,6 +69,7 @@ export class GnroTreeViewComponent<T> implements AfterViewInit {
       return treeData;
     },
   });
+  rowSelection = input.required<GnroGridRowSelections<object>>();
 
   @ViewChild(CdkVirtualScrollViewport, { static: true }) private viewport!: CdkVirtualScrollViewport;
 
@@ -274,7 +276,7 @@ export class GnroTreeViewComponent<T> implements AfterViewInit {
       if (this.prevRowIndex < 0) {
         this.prevRowIndex = rowIndex;
       }
-      const selected = this.rowSelection$()?.selection.isSelected(record as object);
+      const selected = this.rowSelection().selection.isSelected(record as object);
       if (this.treeConfig().multiRowSelection) {
         if (event.ctrlKey || event.metaKey) {
           this.selectRecord([record], !selected);
@@ -314,9 +316,9 @@ export class GnroTreeViewComponent<T> implements AfterViewInit {
 
   private getSelectedTotal(record: object[], isSelected: boolean): number {
     if (this.treeConfig().multiRowSelection) {
-      const prevSelectedLength = this.rowSelection$()!.selection.selected.length;
+      const prevSelectedLength = this.rowSelection().selection.selected.length;
       if (isSelected) {
-        const preSelected = record.filter((item) => this.rowSelection$()!.selection.isSelected(item));
+        const preSelected = record.filter((item) => this.rowSelection().selection.isSelected(item));
         return prevSelectedLength - preSelected.length + record.length;
       } else {
         return prevSelectedLength - record.length;

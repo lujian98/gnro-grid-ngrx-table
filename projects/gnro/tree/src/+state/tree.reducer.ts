@@ -34,7 +34,7 @@ export const gnroTreeFeature = createFeature({
           ...defaultTreeState.treeSetting,
           gridId: action.treeId,
         },
-        selection: getSelection(treeConfig, selection, state[key].treeData),
+        selection: getSelection(treeConfig, selection, []),
         //selection: treeConfig.multiRowSelection ? new SelectionModel<object>(true, []) : selection,
       };
       return { ...newState };

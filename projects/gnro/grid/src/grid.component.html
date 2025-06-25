@@ -1,4 +1,4 @@
-@if (gridConfig$()) {
+@if (gridConfig$() && rowSelection$()) {
   <gnro-layout>
     @if (!gridConfig$().hideTopbar) {
       <gnro-layout-header [buttons]="buttons$()" (gnroButtonClick)="buttonClick($event)"> </gnro-layout-header>
@@ -9,6 +9,7 @@
       [gridSetting]="gridSetting$()"
       [columns]="columnsConfig$()"
       [gridData]="gridData$()"
+      [rowSelection]="rowSelection$()!"
       [gnroSpinner]="gridSetting$().loading"
     >
     </gnro-grid-view>

@@ -1,4 +1,4 @@
-@if (treeConfig$()) {
+@if (treeConfig$() && rowSelection$()) {
   <gnro-layout>
     @if (!treeConfig$().hideTopbar) {
       <gnro-layout-header [buttons]="buttons" (gnroButtonClick)="buttonClick($event)"> </gnro-layout-header>
@@ -9,6 +9,7 @@
       [treeConfig]="treeConfig$()"
       [columns]="columnsConfig$()"
       [treeData]="treeData$()"
+      [rowSelection]="rowSelection$()!"
       [gnroSpinner]="gridSetting$().loading"
     >
     </gnro-tree-view>

@@ -1,50 +1,48 @@
-@if (rowSelection$()) {
-  <gnro-grid-header-view
-    [gridSetting]="gridSetting()"
-    [gridConfig]="treeConfig()"
-    [columnConfigs]="columns()"
-    [columnHeaderPosition]="columnHeaderPosition"
-    [rowSelection]="rowSelection$()!"
-    (rowSelectAll)="onRowSelectAll($event)"
-    (gridColumnWidthsEvent)="gridColumnWidthsEvent($event)"
-  >
-  </gnro-grid-header-view>
+<gnro-grid-header-view
+  [gridSetting]="gridSetting()"
+  [gridConfig]="treeConfig()"
+  [columnConfigs]="columns()"
+  [columnHeaderPosition]="columnHeaderPosition"
+  [rowSelection]="rowSelection()"
+  (rowSelectAll)="onRowSelectAll($event)"
+  (gridColumnWidthsEvent)="gridColumnWidthsEvent($event)"
+>
+</gnro-grid-header-view>
 
-  <cdk-virtual-scroll-viewport
-    [itemSize]="treeConfig().rowHeight"
-    [style.overflow-x]="treeConfig().horizontalScroll ? 'auto' : 'hidden'"
-    [style.overflow-y]="treeConfig().virtualScroll || treeConfig().verticalScroll ? 'auto' : 'hidden'"
-    (scrolledIndexChange)="onScrolledIndexChange($event)"
-    (scroll)="onViewportScroll($event)"
-  >
-    @if (treeData()) {
-      <div
-        class="gnro-grid-row"
-        *cdkVirtualFor="let record of treeData(); trackBy: trackByIndex; let index = index"
-        cdkDropList
-        [cdkDropListSortingDisabled]="true"
-        (cdkDropListDropped)="drop($event)"
+<cdk-virtual-scroll-viewport
+  [itemSize]="treeConfig().rowHeight"
+  [style.overflow-x]="treeConfig().horizontalScroll ? 'auto' : 'hidden'"
+  [style.overflow-y]="treeConfig().virtualScroll || treeConfig().verticalScroll ? 'auto' : 'hidden'"
+  (scrolledIndexChange)="onScrolledIndexChange($event)"
+  (scroll)="onViewportScroll($event)"
+>
+  @if (treeData()) {
+    <div
+      class="gnro-grid-row"
+      *cdkVirtualFor="let record of treeData(); trackBy: trackByIndex; let index = index"
+      cdkDropList
+      [cdkDropListSortingDisabled]="true"
+      (cdkDropListDropped)="drop($event)"
+    >
+      <gnro-tree-row
+        class="gnro-tree-node"
+        [gridSetting]="gridSetting()"
+        [treeConfig]="treeConfig()"
+        [rowIndex]="index"
+        [columns]="columns()"
+        [columnWidths]="columnWidths()"
+        [record]="record"
+        [selected]="rowSelection().selection.isSelected(record)"
+        (click)="rowClick($event, index, record)"
+        cdkDrag
+        [cdkDragDisabled]="treeConfig().dragDisabled"
+        (cdkDragStarted)="dragStart(record)"
+        (cdkDragMoved)="dragMoved($event, treeData())"
+        [cdkDragData]="record"
+        [attr.tree-node-id]="record.id"
+        [attr.id]="record.id"
       >
-        <gnro-tree-row
-          class="gnro-tree-node"
-          [gridSetting]="gridSetting()"
-          [treeConfig]="treeConfig()"
-          [rowIndex]="index"
-          [columns]="columns()"
-          [columnWidths]="columnWidths()"
-          [record]="record"
-          [selected]="rowSelection$()!.selection.isSelected(record)"
-          (click)="rowClick($event, index, record)"
-          cdkDrag
-          [cdkDragDisabled]="treeConfig().dragDisabled"
-          (cdkDragStarted)="dragStart(record)"
-          (cdkDragMoved)="dragMoved($event, treeData())"
-          [cdkDragData]="record"
-          [attr.tree-node-id]="record.id"
-          [attr.id]="record.id"
-        >
-        </gnro-tree-row>
-      </div>
-    }
-  </cdk-virtual-scroll-viewport>
-}
+      </gnro-tree-row>
+    </div>
+  }
+</cdk-virtual-scroll-viewport>

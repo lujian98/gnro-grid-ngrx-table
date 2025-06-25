@@ -44,7 +44,7 @@ export class GnroGridViewComponent<T> implements AfterViewInit {
   private readonly destroyRef = inject(DestroyRef);
   private scrollIndex: number = 0;
   private prevRowIndex: number = -1;
-  rowSelection$!: Signal<GnroGridRowSelections<object> | undefined>;
+  //rowSelection$!: Signal<GnroGridRowSelections<object> | undefined>;
   rowGroups$!: Signal<GnroRowGroups | boolean>;
   sizeChanged$ = new BehaviorSubject<string | MouseEvent | null>(null);
   columnHeaderPosition = 0;
@@ -52,9 +52,10 @@ export class GnroGridViewComponent<T> implements AfterViewInit {
 
   gridSetting = input.required({
     transform: (gridSetting: GnroGridSetting) => {
+      /*
       if (!this.rowSelection$) {
         this.rowSelection$ = this.gridFacade.getRowSelection(gridSetting.gridId);
-      }
+      }*/
       if (!this.rowGroups$) {
         this.rowGroups$ = this.gridFacade.getRowGroups(gridSetting.gridId);
       }
@@ -62,6 +63,7 @@ export class GnroGridViewComponent<T> implements AfterViewInit {
     },
   });
   gridConfig = input.required<GnroGridConfig>();
+  rowSelection = input.required<GnroGridRowSelections<object>>();
   columns = input.required<GnroColumnConfig[]>();
   gridData = input.required({
     transform: (gridData: object[]) => {
@@ -188,7 +190,7 @@ export class GnroGridViewComponent<T> implements AfterViewInit {
       if (this.prevRowIndex < 0) {
         this.prevRowIndex = rowIndex;
       }
-      const selected = this.rowSelection$()?.selection.isSelected(record as object);
+      const selected = this.rowSelection().selection.isSelected(record as object);
       if (this.gridConfig().multiRowSelection) {
         if (event.ctrlKey || event.metaKey) {
           this.selectRecord([record], !selected);
@@ -228,9 +230,9 @@ export class GnroGridViewComponent<T> implements AfterViewInit {
 
   private getSelectedTotal(record: object[], isSelected: boolean): number {
     if (this.gridConfig().multiRowSelection) {
-      const prevSelectedLength = this.rowSelection$()!.selection.selected.length;
+      const prevSelectedLength = this.rowSelection().selection.selected.length;
       if (isSelected) {
-        const preSelected = record.filter((item) => this.rowSelection$()!.selection.isSelected(item));
+        const preSelected = record.filter((item) => this.rowSelection()!.selection.isSelected(item));
         return prevSelectedLength - preSelected.length + record.length;
       } else {
         return prevSelectedLength - record.length;

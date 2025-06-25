@@ -38,6 +38,7 @@ export class GnroGridComponent<T> implements OnInit, OnDestroy {
   gridConfig$ = this.gridFacade.getGridConfig(this.gridId);
   gridSetting$ = this.gridFacade.getSetting(this.gridId);
   columnsConfig$ = this.gridFacade.getColumnsConfig(this.gridId);
+  rowSelection$ = this.gridFacade.getRowSelection(this.gridId);
   gridData$ = this.gridFacade.getGridSignalData(this.gridId);
   buttons = input<GnroButtonConfg[]>([GnroBUTTONS.Refresh, GnroBUTTONS.ClearAllFilters]);
   gridConfig = input(defaultGridConfig, {
