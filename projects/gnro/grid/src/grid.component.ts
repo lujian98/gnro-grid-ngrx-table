@@ -97,8 +97,8 @@ export class GnroGridComponent<T> implements OnInit, OnDestroy {
       case GnroButtonType.Save:
       case GnroButtonType.Reset:
         return !this.gridSetting$().recordModified;
-      case GnroButtonType.Open:
-        return !(this.gridConfig().hasDetailView && this.gridSetting$().selected === 1);
+      //case GnroButtonType.Open:
+      //  return !(this.gridConfig().hasDetailView && this.gridSetting$().selected === 1);
       default:
         return false;
     }

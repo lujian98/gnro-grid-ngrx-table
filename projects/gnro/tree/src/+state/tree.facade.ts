@@ -1,11 +1,11 @@
 import { inject, Injectable, Signal } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
-import { GnroGridFacade, GnroGridSetting } from '@gnro/ui/grid';
+import { GnroGridFacade, GnroGridSetting, GnroGridRowSelections } from '@gnro/ui/grid';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { GnroTreeConfig, GnroTreeNode } from '../models/tree-grid.model';
 import * as treeActions from './tree.actions';
-import { selectTreeData, selectTreeInMemoryData, selectRowSelection, selectRowSelections } from './tree.selectors';
+import { selectTreeData, selectTreeInMemoryData, selectRowSelection } from './tree.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class GnroTreeFacade {
@@ -99,13 +99,14 @@ export class GnroTreeFacade {
     return this.store.select(selectTreeInMemoryData(treeId));
   }
 
-  getRowSelection(treeId: string): Signal<SelectionModel<object>> {
-    return this.store.selectSignal(selectRowSelection(treeId));
+  getRowSelection(gridId: string): Signal<GnroGridRowSelections<object> | undefined> {
+    return this.store.selectSignal(selectRowSelection(gridId));
   }
 
+  /*
   getRowSelections(
     treeId: string,
   ): Signal<{ selection: SelectionModel<object>; allSelected: boolean; indeterminate: boolean }> {
     return this.store.selectSignal(selectRowSelections(treeId));
-  }
+  }*/
 }

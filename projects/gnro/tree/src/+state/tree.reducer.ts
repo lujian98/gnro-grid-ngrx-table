@@ -10,7 +10,7 @@ import {
   gnroSetNestNodeId,
 } from '../utils/nested-tree';
 import * as treeActions from './tree.actions';
-import { allRowSelected } from '@gnro/ui/grid';
+import { allRowSelected, getSelection } from '@gnro/ui/grid';
 
 export const initialState: TreeState = {};
 
@@ -23,7 +23,9 @@ export const gnroTreeFeature = createFeature({
       const key = action.treeId;
       const newState: TreeState = { ...state };
       console.log(' qqqqqqqqqqqq treeConfig=', treeConfig);
-      const selection = state[key] ? state[key].selection : defaultTreeState.selection;
+      const initSelection = state[key] ? state[key].selection.selection : defaultTreeState.selection.selection;
+      const selection = treeConfig.multiRowSelection ? new SelectionModel<object>(true, []) : initSelection;
+
       newState[key] = {
         ...defaultTreeState,
         treeConfig,
@@ -32,7 +34,8 @@ export const gnroTreeFeature = createFeature({
           ...defaultTreeState.treeSetting,
           gridId: action.treeId,
         },
-        selection: treeConfig.multiRowSelection ? new SelectionModel<object>(true, []) : selection,
+        selection: getSelection(treeConfig, selection, state[key].treeData),
+        //selection: treeConfig.multiRowSelection ? new SelectionModel<object>(true, []) : selection,
       };
       return { ...newState };
     }),
@@ -124,7 +127,7 @@ export const gnroTreeFeature = createFeature({
       const newState: TreeState = { ...state };
       if (state[key]) {
         const oldState = state[key];
-        const selection = oldState.selection;
+        const selection = oldState.selection.selection;
         let selected = 0;
         console.log(' 00000 oldState.treeData=', oldState.treeData);
         if (action.selectAll) {
@@ -139,13 +142,14 @@ export const gnroTreeFeature = createFeature({
           ...oldState,
           treeSetting: {
             ...state[key].treeSetting,
-            selected,
-            allRowSelected: allRowSelected(selection, oldState.treeData),
+            //selected,
+            //allRowSelected: allRowSelected(selection, oldState.treeData),
           },
+          selection: getSelection(oldState.treeConfig, selection, oldState.treeData),
         };
       }
-      console.log(' aall selection =', newState[key].selection);
-      console.log(' aall selectioned =', newState[key].treeSetting.allRowSelected);
+      //console.log(' aall selection =', newState[key].selection);
+      //console.log(' aall selectioned =', newState[key].treeSetting.allRowSelected);
       return { ...newState };
     }),
     on(treeActions.setSelectRows, (state, action) => {
@@ -153,7 +157,7 @@ export const gnroTreeFeature = createFeature({
       const newState: TreeState = { ...state };
       if (state[key]) {
         const oldState = state[key];
-        const selection = oldState.selection;
+        const selection = oldState.selection.selection;
         action.records.forEach((record) => {
           if (action.isSelected) {
             selection.select(record);
@@ -167,9 +171,10 @@ export const gnroTreeFeature = createFeature({
           ...oldState,
           treeSetting: {
             ...state[key].treeSetting,
-            selected: action.selected,
-            allRowSelected: allRowSelected(selection, oldState.treeData),
+            //selected: action.selected,
+            //allRowSelected: allRowSelected(selection, oldState.treeData),
           },
+          selection: getSelection(oldState.treeConfig, selection, oldState.treeData),
         };
       }
       return { ...newState };
@@ -179,19 +184,20 @@ export const gnroTreeFeature = createFeature({
       const newState: TreeState = { ...state };
       if (state[key]) {
         const oldState = state[key];
-        const selection = oldState.selection;
+        const selection = oldState.selection.selection;
         selection.clear();
         selection.select(action.record);
         newState[key] = {
           ...oldState,
           treeSetting: {
             ...state[key].treeSetting,
-            selected: 1,
-            allRowSelected: allRowSelected(selection, oldState.treeData),
+            //selected: 1,
+            //allRowSelected: allRowSelected(selection, oldState.treeData),
           },
+          selection: getSelection(oldState.treeConfig, selection, oldState.treeData),
         };
       }
-      console.log(' sssssssss newState =', newState);
+      //console.log(' sssssssss newState =', newState);
       return { ...newState };
     }),
 

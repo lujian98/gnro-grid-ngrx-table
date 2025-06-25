@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { GnroGridConfig } from '../models/grid.model';
+import { GnroGridConfig, GnroGridRowSelections } from '../models/grid.model';
 import { GnroRowGroup } from '../utils/row-group/row-group';
 
 export function getSelected<T>(gridConfig: GnroGridConfig, selection: SelectionModel<T>, data: T[]): number {
@@ -23,4 +23,19 @@ export function getSelected<T>(gridConfig: GnroGridConfig, selection: SelectionM
 export function allRowSelected<T>(selection: SelectionModel<T>, data: T[]): boolean {
   const dataCounts = data.filter((item) => item && !(item instanceof GnroRowGroup)).length;
   return selection.selected.length === dataCounts && dataCounts > 0;
+}
+
+export function getSelection<T>(
+  gridConfig: GnroGridConfig,
+  selection: SelectionModel<T>,
+  data: T[],
+): GnroGridRowSelections<T> {
+  const selected = getSelected(gridConfig, selection, data);
+  const allSelected = allRowSelected(selection, data);
+  return {
+    selection: selection,
+    selected,
+    allSelected,
+    indeterminate: !allSelected && selected > 0,
+  };
 }

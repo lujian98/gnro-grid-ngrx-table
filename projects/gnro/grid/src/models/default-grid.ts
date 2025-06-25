@@ -45,10 +45,10 @@ export const defaultGridSetting: GnroGridSetting = {
   restEdit: false,
   recordModified: false,
   totalCounts: 0,
-  selected: 0,
+  //selected: 0,
   scrollIndex: 0,
   viewportSize: 25,
-  allRowSelected: false,
+  //allRowSelected: false,
 };
 
 export const defaultState: GnroGridState = {
@@ -60,6 +60,12 @@ export const defaultState: GnroGridState = {
   inMemoryData: [],
   queryData: [],
   rowGroups: undefined,
-  selection: new SelectionModel<object>(false, []),
+  //selection: new SelectionModel<object>(false, []),
+  selection: {
+    selection: new SelectionModel<object>(false, []),
+    selected: 0,
+    allSelected: false,
+    indeterminate: false,
+  },
   modified: [],
 };

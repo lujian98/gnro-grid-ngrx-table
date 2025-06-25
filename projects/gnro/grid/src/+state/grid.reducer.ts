@@ -6,7 +6,7 @@ import { defaultState } from '../models/default-grid';
 import { GridState } from '../models/grid.model';
 import { GnroRowGroup } from '../utils/row-group/row-group';
 import { GnroRowGroups } from '../utils/row-group/row-groups';
-import { allRowSelected, getSelected } from '../utils/row-selection';
+import { allRowSelected, getSelected, getSelection } from '../utils/row-selection';
 import { stickyEndMinWidth } from '../utils/viewport-width-ratio';
 import * as gridActions from './grid.actions';
 
@@ -79,6 +79,9 @@ export const gnroGridFeature = createFeature({
         });
 
         const columnsConfig = stickyEndMinWidth(columns, gridConfig, state[key].gridSetting);
+        const selection = gridConfig.multiRowSelection
+          ? new SelectionModel<object>(true, [])
+          : state[key].selection.selection;
         newState[key] = {
           ...state[key],
           gridSetting: {
@@ -87,7 +90,8 @@ export const gnroGridFeature = createFeature({
             columnUpdating: true,
           },
           columnsConfig,
-          selection: gridConfig.multiRowSelection ? new SelectionModel<object>(true, []) : state[key].selection,
+          selection: getSelection(gridConfig, selection, state[key].data),
+          //selection: gridConfig.multiRowSelection ? new SelectionModel<object>(true, []) : state[key].selection,
         };
       }
       return { ...newState };
@@ -242,13 +246,14 @@ export const gnroGridFeature = createFeature({
             restEdit: false,
             recordModified: false,
             columnUpdating: false,
-            selected: getSelected(gridConfig, oldState.selection, data),
-            allRowSelected: allRowSelected(oldState.selection, data),
+            //selected: getSelected(gridConfig, oldState.selection, data),
+            //allRowSelected: allRowSelected(oldState.selection, data),
           },
           totalCounts: totalCounts,
           data,
           queryData,
           modified: [],
+          selection: getSelection(gridConfig, oldState.selection.selection, data),
         };
       }
       return { ...newState };
@@ -293,7 +298,7 @@ export const gnroGridFeature = createFeature({
       const newState: GridState = { ...state };
       if (state[key]) {
         const oldState = state[key];
-        const selection = oldState.selection;
+        const selection = oldState.selection.selection;
         let selected = 0;
         if (action.selectAll) {
           const selectedRecords = oldState.data.filter((item) => item && !(item instanceof GnroRowGroup));
@@ -306,9 +311,10 @@ export const gnroGridFeature = createFeature({
           ...oldState,
           gridSetting: {
             ...state[key].gridSetting,
-            selected,
-            allRowSelected: allRowSelected(selection, oldState.data),
+            //selected,
+            //allRowSelected: allRowSelected(selection, oldState.data),
           },
+          selection: getSelection(oldState.gridConfig, selection, oldState.data),
         };
       }
       return { ...newState };
@@ -318,7 +324,7 @@ export const gnroGridFeature = createFeature({
       const newState: GridState = { ...state };
       if (state[key]) {
         const oldState = state[key];
-        const selection = oldState.selection;
+        const selection = oldState.selection.selection;
         action.records.forEach((record) => {
           if (action.isSelected) {
             selection.select(record);
@@ -330,9 +336,10 @@ export const gnroGridFeature = createFeature({
           ...oldState,
           gridSetting: {
             ...state[key].gridSetting,
-            selected: action.selected,
-            allRowSelected: allRowSelected(selection, oldState.data),
+            //selected: action.selected,
+            //allRowSelected: allRowSelected(selection, oldState.data),
           },
+          selection: getSelection(oldState.gridConfig, selection, oldState.data),
         };
       }
       return { ...newState };
@@ -342,16 +349,17 @@ export const gnroGridFeature = createFeature({
       const newState: GridState = { ...state };
       if (state[key]) {
         const oldState = state[key];
-        const selection = oldState.selection;
+        const selection = oldState.selection.selection;
         selection.clear();
         selection.select(action.record);
         newState[key] = {
           ...oldState,
           gridSetting: {
             ...state[key].gridSetting,
-            selected: 1,
-            allRowSelected: allRowSelected(selection, oldState.data),
+            //selected: 1,
+            //allRowSelected: allRowSelected(selection, oldState.data),
           },
+          selection: getSelection(oldState.gridConfig, selection, oldState.data),
         };
       }
       return { ...newState };

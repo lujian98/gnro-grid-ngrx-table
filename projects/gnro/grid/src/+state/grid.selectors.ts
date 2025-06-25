@@ -37,9 +37,10 @@ export const selectGridModifiedRecords = (gridId: string) =>
 
 export const selectRowSelection = (gridId: string) =>
   createSelector(featureSelector, (state: GridState) => {
-    return state && state[gridId] ? state[gridId].selection : new SelectionModel<object>(false, []);
+    return state && state[gridId] ? state[gridId].selection : undefined;
   });
 
+/*
 export const selectRowSelections = (gridId: string) =>
   createSelector(featureSelector, (state: GridState) => {
     if (state && state[gridId]) {
@@ -60,7 +61,7 @@ export const selectRowSelections = (gridId: string) =>
       };
     }
   });
-
+*/
 export const selectRowGroups = (gridId: string) =>
   createSelector(featureSelector, (state: GridState) => {
     return state && state[gridId].rowGroups ? state[gridId].rowGroups : true;

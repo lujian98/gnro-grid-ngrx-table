@@ -44,7 +44,7 @@ export class GnroGridViewComponent<T> implements AfterViewInit {
   private readonly destroyRef = inject(DestroyRef);
   private scrollIndex: number = 0;
   private prevRowIndex: number = -1;
-  rowSelection$!: Signal<SelectionModel<object>>;
+  rowSelection$!: Signal<GnroGridRowSelections<object> | undefined>;
   rowGroups$!: Signal<GnroRowGroups | boolean>;
   sizeChanged$ = new BehaviorSubject<string | MouseEvent | null>(null);
   columnHeaderPosition = 0;
@@ -188,7 +188,7 @@ export class GnroGridViewComponent<T> implements AfterViewInit {
       if (this.prevRowIndex < 0) {
         this.prevRowIndex = rowIndex;
       }
-      const selected = this.rowSelection$().isSelected(record as object);
+      const selected = this.rowSelection$()?.selection.isSelected(record as object);
       if (this.gridConfig().multiRowSelection) {
         if (event.ctrlKey || event.metaKey) {
           this.selectRecord([record], !selected);
@@ -228,9 +228,9 @@ export class GnroGridViewComponent<T> implements AfterViewInit {
 
   private getSelectedTotal(record: object[], isSelected: boolean): number {
     if (this.gridConfig().multiRowSelection) {
-      const prevSelectedLength = this.rowSelection$().selected.length;
+      const prevSelectedLength = this.rowSelection$()!.selection.selected.length;
       if (isSelected) {
-        const preSelected = record.filter((item) => this.rowSelection$().isSelected(item));
+        const preSelected = record.filter((item) => this.rowSelection$()!.selection.isSelected(item));
         return prevSelectedLength - preSelected.length + record.length;
       } else {
         return prevSelectedLength - record.length;

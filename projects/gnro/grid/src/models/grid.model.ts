@@ -93,10 +93,16 @@ export interface GnroGridSetting {
   recordModified: boolean;
   viewportReady: boolean;
   totalCounts: number;
-  selected: number;
   scrollIndex: number;
   viewportSize: number;
-  allRowSelected: boolean;
+  //allRowSelected: boolean;
+}
+
+export interface GnroGridRowSelections<T> {
+  selection: SelectionModel<T>;
+  selected: number;
+  allSelected: boolean;
+  indeterminate: boolean;
 }
 
 export interface GnroGridState<T extends object = object> {
@@ -106,7 +112,7 @@ export interface GnroGridState<T extends object = object> {
   data: T[];
   totalCounts: number;
   inMemoryData: T[];
-  selection: SelectionModel<T>;
+  selection: GnroGridRowSelections<T>;
   queryData: T[]; // for row group temporary data
   rowGroups?: GnroRowGroups; // row group will handle at client side data only and only with one level
   modified: { [key: string]: unknown }[];
@@ -177,10 +183,4 @@ export interface GnroColumnConfig {
   stickyEnd?: boolean;
 
   //menu?: boolean | GnroMenuConfig; // custom input column menu??
-}
-
-export interface GnroGridRowSelections {
-  selection: SelectionModel<object>;
-  allSelected: boolean;
-  indeterminate: boolean;
 }

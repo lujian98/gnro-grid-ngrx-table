@@ -23,9 +23,11 @@ export const selectRowSelection = (treeId: string) =>
     if (state && state[treeId]) {
       //console.log(' yyyyyyyyyyy selection=', state[treeId].selection);
     }
-    return state && state[treeId] ? state[treeId].selection : new SelectionModel<object>(false, []);
+    // return state && state[treeId] ? state[treeId].selection : new SelectionModel<object>(false, []);
+    return state && state[treeId] ? state[treeId].selection : undefined;
   });
 
+/*
 export const selectRowSelections = (treeId: string) =>
   createSelector(featureSelector, (state: TreeState) => {
     if (state && state[treeId]) {
@@ -48,3 +50,4 @@ export const selectRowSelections = (treeId: string) =>
       };
     }
   });
+*/

@@ -11,6 +11,7 @@ import {
   GnroGridSetting,
   GnroRowGroupField,
   GnroSortField,
+  GnroGridRowSelections,
 } from '../models/grid.model';
 import { GnroRowGroup } from '../utils/row-group/row-group';
 import { GnroRowGroups } from '../utils/row-group/row-groups';
@@ -24,7 +25,7 @@ import {
   selectGridSetting,
   selectRowGroups,
   selectRowSelection,
-  selectRowSelections,
+  //selectRowSelections,
 } from './grid.selectors';
 
 @Injectable({ providedIn: 'root' })
@@ -237,15 +238,16 @@ export class GnroGridFacade {
     return this.store.selectSignal(selectGridData(gridId));
   }
 
-  getRowSelection(gridId: string): Signal<SelectionModel<object>> {
+  getRowSelection(gridId: string): Signal<GnroGridRowSelections<object> | undefined> {
     return this.store.selectSignal(selectRowSelection(gridId));
   }
 
+  /*
   getRowSelections(
     gridId: string,
   ): Signal<{ selection: SelectionModel<object>; allSelected: boolean; indeterminate: boolean }> {
     return this.store.selectSignal(selectRowSelections(gridId));
-  }
+  }*/
 
   getRowGroups(gridId: string): Signal<GnroRowGroups | boolean> {
     return this.store.selectSignal(selectRowGroups(gridId));
@@ -263,7 +265,7 @@ export class GnroGridFacade {
     return this.store.select(selectGridModifiedRecords(gridId)) as Observable<{ [key: string]: unknown }[]>;
   }
 
-  selectRowSelection(gridId: string): Observable<SelectionModel<object>> {
+  selectRowSelection(gridId: string): Observable<GnroGridRowSelections<object> | undefined> {
     return this.store.select(selectRowSelection(gridId));
   }
 
