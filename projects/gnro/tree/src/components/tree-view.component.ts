@@ -262,7 +262,6 @@ export class GnroTreeViewComponent<T> implements AfterViewInit {
   }
 
   onRowSelectAll(allSelected: boolean): void {
-    console.log(' selectAll=', allSelected);
     this.treeFacade.setSelectAllRows(this.gridSetting().gridId, !allSelected);
   }
 

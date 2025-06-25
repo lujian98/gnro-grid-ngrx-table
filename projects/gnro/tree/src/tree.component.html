@@ -1,4 +1,4 @@
-@if (treeConfig$() && rowSelection$()) {
+@if (treeConfig$()) {
   <gnro-layout>
     @if (!treeConfig$().hideTopbar) {
       <gnro-layout-header [buttons]="buttons" (gnroButtonClick)="buttonClick($event)"> </gnro-layout-header>
