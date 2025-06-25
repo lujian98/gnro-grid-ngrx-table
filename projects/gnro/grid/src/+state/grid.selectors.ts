@@ -37,6 +37,9 @@ export const selectGridModifiedRecords = (gridId: string) =>
 
 export const selectRowSelection = (gridId: string) =>
   createSelector(featureSelector, (state: GridState) => {
+    if (state && state[gridId]) {
+      console.log(' state[gridId].selection=', state[gridId].selection);
+    }
     return state && state[gridId] ? state[gridId].selection : undefined;
   });
 
