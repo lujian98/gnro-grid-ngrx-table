@@ -33,14 +33,14 @@ export const gnroFileUploadFeature = createFeature({
         uploadFiles: [...state.uploadFiles, getFileUpload(fieldName, file, relativePath)],
       };
     }),
-    on(fileUploadActions.selectUploadFile, (state, { fieldName, file }) => {
+    on(fileUploadActions.selectedUploadFile, (state, { fieldName, file }) => {
       const uploadFiles = [...state.uploadFiles].filter((item) => item.fieldName !== fieldName);
       return {
         ...state,
         uploadFiles: [...uploadFiles, getFileUpload(fieldName, file, '')],
       };
     }),
-    on(fileUploadActions.clearSelectUploadFile, (state, { fieldName }) => {
+    on(fileUploadActions.clearSelectedUploadFile, (state, { fieldName }) => {
       return {
         ...state,
         uploadFiles: [...state.uploadFiles].filter((item) => item.fieldName !== fieldName),

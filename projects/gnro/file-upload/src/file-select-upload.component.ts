@@ -77,7 +77,7 @@ export class GnroFileSelectUploadComponent implements OnDestroy {
   @ViewChildren(GnroUploadFileFieldComponent) private uploadFileFields!: QueryList<GnroUploadFileFieldComponent>;
 
   selectUploadFile(fieldConfig: GnroUploadFileFieldConfig, file: File | null): void {
-    this.fileUploadFacade.selectUploadFile(fieldConfig.fieldName!, file);
+    this.fileUploadFacade.selectedUploadFile(fieldConfig.fieldName!, file);
   }
 
   onChange(enabled: boolean): void {

@@ -15,12 +15,12 @@ export const uploadFilesSuccess = createAction('[File Upload] Upload Files Succe
 
 export const clearUploadFiles = createAction('[File Upload] Clear Upload Files');
 
-export const selectUploadFile = createAction(
-  '[File Upload] Select Upload File',
+export const selectedUploadFile = createAction(
+  '[File Upload] Selected Upload File',
   props<{ fieldName: string; file: File }>(),
 );
 
-export const clearSelectUploadFile = createAction(
+export const clearSelectedUploadFile = createAction(
   '[File Upload] Clear Select Upload File',
   props<{ fieldName: string }>(),
 );

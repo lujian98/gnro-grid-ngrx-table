@@ -14,11 +14,11 @@ export class GnroFileUploadFacade {
     this.store.dispatch(fileUploadActions.dropUploadFile({ relativePath, file }));
   }
 
-  selectUploadFile(fieldName: string, file: File | null): void {
+  selectedUploadFile(fieldName: string, file: File | null): void {
     if (file) {
-      this.store.dispatch(fileUploadActions.selectUploadFile({ fieldName, file }));
+      this.store.dispatch(fileUploadActions.selectedUploadFile({ fieldName, file }));
     } else {
-      this.store.dispatch(fileUploadActions.clearSelectUploadFile({ fieldName }));
+      this.store.dispatch(fileUploadActions.clearSelectedUploadFile({ fieldName }));
     }
   }
 
