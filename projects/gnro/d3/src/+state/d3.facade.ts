@@ -1,6 +1,5 @@
 import { Injectable, inject, Signal } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 import { GnroD3Config, GnroD3Setting } from '../models/d3.model';
 import { GnroD3ChartConfig } from '../models/options.model';
 import * as d3Actions from './d3.actions';
@@ -49,21 +48,5 @@ export class GnroD3Facade {
 
   getD3Data(d3Id: string): Signal<any> {
     return this.store.selectSignal(selectD3Data(d3Id));
-  }
-
-  selectD3Config(d3Id: string): Observable<GnroD3Config> {
-    return this.store.select(selectD3Config(d3Id));
-  }
-
-  selectD3ChartConfigs(d3Id: string): Observable<any[] | undefined> {
-    return this.store.select(selectD3ChartConfigs(d3Id));
-  }
-
-  selectSetting(d3Id: string): Observable<GnroD3Setting> {
-    return this.store.select(selectD3Setting(d3Id));
-  }
-
-  selectD3Data(d3Id: string): Observable<any> {
-    return this.store.select(selectD3Data(d3Id));
   }
 }
