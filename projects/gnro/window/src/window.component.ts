@@ -63,7 +63,9 @@ export class GnroWindowComponent<T> {
     if (height) {
       this.setHeight(parseFloat(height));
     }
-    this.setWidth(parseFloat(windowConfig.width));
+    if (windowConfig.width) {
+      this.setWidth(parseFloat(windowConfig.width));
+    }
 
     timer(10)
       .pipe(take(1))

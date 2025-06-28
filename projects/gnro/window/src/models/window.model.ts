@@ -5,7 +5,7 @@ export interface GnroWindowConfig {
   dragDisabled: boolean;
   maximizable: Boolean;
   resizeable: boolean;
-  width: string;
+  width?: string;
   height?: string;
 }
 
