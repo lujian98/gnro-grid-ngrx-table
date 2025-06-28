@@ -29,6 +29,7 @@ export class GnroWindowComponent<T> {
   private readonly document = inject(GNRO_DOCUMENT);
   private readonly elementRef = inject(ElementRef);
   private windowInfo!: GnroWindowInfo;
+
   resizeType = GnroResizeType;
   elementKey = uniqueId(16);
   windowConfig = input.required({
@@ -45,6 +46,10 @@ export class GnroWindowComponent<T> {
 
   get overlay(): HTMLElement {
     return this.document.querySelector('.cdk-overlay-container')!;
+  }
+
+  get overlayPane(): HTMLElement {
+    return this.elementRef.nativeElement.parentNode.parentNode.parentNode;
   }
 
   get isMaxWindowSize(): boolean {
@@ -73,74 +78,27 @@ export class GnroWindowComponent<T> {
     const topAdjust = h < height / 2 ? 4 : 2;
     const left = width < w ? 0 : (width - w) / 2;
     const top = height < h ? 0 : (height - h) / topAdjust;
-    this.setWindowTop(top);
-    this.setWindowLeft(left);
-    this.setWindowInfo();
+    this.setWindowInfo(left, top);
   }
 
   dragEnded(event: CdkDragEnd): void {
-    const element = this.elementRef.nativeElement;
-    const childEl = element.firstChild;
-    var style = window.getComputedStyle(childEl);
-    const transformValue = style.getPropertyValue('transform');
-    const matrix = transformValue
-      .match(/matrix\((.*)\)/)![1]
-      .split(',')
-      .map(Number);
-    const translateX = matrix[4];
-    const translateY = matrix[5];
-    const top = this.getTop(translateY);
-    const left = this.getLeft(translateX);
-
-    this.setWindowTop(top);
-    this.setWindowLeft(left);
-    childEl.style.transform = 'none';
-  }
-
-  private getTop(translateY: number): number {
-    const element = this.elementRef.nativeElement;
-    const top = parseFloat(element.style.top) + translateY;
-    if (top < 0) {
-      return 0;
-    } else if (top > this.overlay.clientHeight) {
-      return top - 20;
-    }
-    return top;
-  }
-
-  private getLeft(translateX: number): number {
-    const element = this.elementRef.nativeElement;
-    const left = parseFloat(element.style.left) + translateX;
-    if (left < 0) {
-      return 0;
-    } else if (left > this.overlay.clientWidth) {
-      return left - 20;
-    }
-    return left;
+    const transformValue = this.overlayPane.style.transform;
+    const values = transformValue.replaceAll('translate3d(', '').replaceAll(')', ',').split(',');
+    const left = parseFloat(values[0]) + parseFloat(values[3]);
+    const top = parseFloat(values[1]) + parseFloat(values[4]);
+    this.setWindowInfo(left, top);
   }
 
   maximize(): void {
-    this.setWindowInfo();
-    this.setWindowTop(0);
-    this.setWindowLeft(0);
+    this.setOverlayPaneTransform(0, 0);
     this.setHeight(this.overlay.clientHeight);
     this.setWidth(this.overlay.clientWidth);
   }
 
   restore(): void {
-    this.setWindowTop(this.windowInfo.top);
-    this.setWindowLeft(this.windowInfo.left);
+    this.setOverlayPaneTransform(this.windowInfo.left, this.windowInfo.top);
     this.setHeight(this.windowInfo.height);
     this.setWidth(this.windowInfo.width);
-  }
-
-  private setWindowInfo(): void {
-    this.windowInfo = {
-      top: parseFloat(this.element.style.top),
-      left: parseFloat(this.element.style.left),
-      width: this.element.clientWidth,
-      height: this.element.clientHeight,
-    };
   }
 
   close(): void {
@@ -156,30 +114,39 @@ export class GnroWindowComponent<T> {
   }
 
   private setWindowPosition(resizeInfo: GnroResizeInfo): void {
-    const top = parseFloat(this.element.style.top);
-    const left = parseFloat(this.element.style.left);
+    const left = this.windowInfo.left;
+    const top = this.windowInfo.top;
     switch (resizeInfo.direction) {
       case GnroResizeType.TOP:
       case GnroResizeType.TOP_RIGHT:
-        this.setWindowTop(top + resizeInfo.dy);
+        this.setWindowInfo(left, top + resizeInfo.dy);
         break;
       case GnroResizeType.LEFT:
       case GnroResizeType.BOTTOM_LEFT:
-        this.setWindowLeft(left + resizeInfo.dx);
+        this.setWindowInfo(left + resizeInfo.dx, top);
         break;
       case GnroResizeType.TOP_LEFT:
-        this.setWindowTop(top + resizeInfo.dy);
-        this.setWindowLeft(left + resizeInfo.dx);
+        this.setWindowInfo(left + resizeInfo.dx, top + resizeInfo.dy);
         break;
     }
   }
 
-  private setWindowTop(top: number): void {
-    this.element.style.top = `${top}px`;
+  private setWindowInfo(left: number, top: number): void {
+    left = left < 0 ? 0 : left;
+    left = left > this.overlay.clientWidth - 20 ? this.overlay.clientWidth - 20 : left;
+    top = top < 0 ? 0 : top;
+    top = top > this.overlay.clientHeight - 20 ? this.overlay.clientHeight - 20 : top;
+    this.windowInfo = {
+      left: left,
+      top: top,
+      width: this.element.clientWidth,
+      height: this.element.clientHeight,
+    };
+    this.setOverlayPaneTransform(left, top);
   }
 
-  private setWindowLeft(left: number): void {
-    this.element.style.left = `${left}px`;
+  private setOverlayPaneTransform(left: number, top: number): void {
+    this.overlayPane.style.transform = `translate3d(${left}px, ${top}px, 0px)`;
   }
 
   private setHeight(height: number): void {
