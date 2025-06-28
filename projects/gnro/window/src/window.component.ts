@@ -132,7 +132,7 @@ export class GnroWindowComponent<T> {
   }
 
   private setWindowInfo(left: number, top: number): void {
-    left = left < 0 ? 0 : left;
+    left = left < -this.element.clientWidth + 20 ? -this.element.clientWidth + 20 : left;
     left = left > this.overlay.clientWidth - 20 ? this.overlay.clientWidth - 20 : left;
     top = top < 0 ? 0 : top;
     top = top > this.overlay.clientHeight - 20 ? this.overlay.clientHeight - 20 : top;
