@@ -30,7 +30,7 @@ export class AppConfirmationComponent {
             message: 'This is confirmation to exit',
           },
         },
-        closeOnBackdropClick: false,
+        closeOnBackdropClick: true,
       })
       .onClose.subscribe((res) => {
         console.log(' on close res=', res);
@@ -51,7 +51,7 @@ export class AppConfirmationComponent {
             message: 'This is Yes/No confirmation to close',
           },
         },
-        closeOnBackdropClick: false,
+        closeOnBackdropClick: true,
       })
       .onClose.subscribe((res) => {
         console.log(' on close res=', res);

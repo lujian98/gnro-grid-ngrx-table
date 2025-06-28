@@ -31,13 +31,11 @@ gnro-layout,
     .cdk-overlay-pane {
       display: block;
       height: auto;
+      position: absolute !important;
+      flex: 1;
       //min-height: 320px; // select drop down height 320px
     }
   }
-}
-
-.cdk-overlay-pane {
-  flex: 1;
 }
 
 .cdk-visually-hidden {
