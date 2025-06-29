@@ -29,7 +29,7 @@ export class GnroWindowComponent<T> {
   private readonly document = inject(GNRO_DOCUMENT);
   private readonly elementRef = inject(ElementRef);
   private windowInfo!: GnroWindowInfo;
-
+  private overlayPaneTransform: string = '';
   resizeType = GnroResizeType;
   elementKey = uniqueId(16);
   windowConfig = input.required({
@@ -84,22 +84,26 @@ export class GnroWindowComponent<T> {
   }
 
   dragEnded(event: CdkDragEnd): void {
+    /*
     const transformValue = this.overlayPane.style.transform;
     const values = transformValue.replaceAll('translate3d(', '').replaceAll(')', ',').split(',');
     const left = parseFloat(values[0]) + parseFloat(values[3]);
     const top = parseFloat(values[1]) + parseFloat(values[4]);
     //this.setWindowInfo(left, top, false);
+    */
   }
 
   maximize(): void {
+    this.overlayPaneTransform = this.overlayPane.style.transform;
     this.overlayPane.style.transform = `translate3d(0px, 0px, 0px)`;
-    this.setOverlayPaneTransform(0, 0);
+    this.setWindowTransform(0, 0);
     this.setHeight(this.overlay.clientHeight);
     this.setWidth(this.overlay.clientWidth);
   }
 
   restore(): void {
-    this.setOverlayPaneTransform(this.windowInfo.left, this.windowInfo.top);
+    this.overlayPane.style.transform = this.overlayPaneTransform;
+    this.setWindowTransform(this.windowInfo.left, this.windowInfo.top);
     this.setHeight(this.windowInfo.height);
     this.setWidth(this.windowInfo.width);
   }
@@ -134,7 +138,7 @@ export class GnroWindowComponent<T> {
     }
   }
 
-  private setWindowInfo(left: number, top: number, setTransform: boolean = true): void {
+  private setWindowInfo(left: number, top: number): void {
     /*
     left = left < -this.element.clientWidth + 20 ? -this.element.clientWidth + 20 : left;
     left = left > this.overlay.clientWidth - 20 ? this.overlay.clientWidth - 20 : left;
@@ -147,13 +151,10 @@ export class GnroWindowComponent<T> {
       width: this.element.clientWidth,
       height: this.element.clientHeight,
     };
-    if (setTransform) {
-      console.log(' xxxxxxxxxxxx ');
-      this.setOverlayPaneTransform(left, top);
-    }
+    this.setWindowTransform(left, top);
   }
 
-  private setOverlayPaneTransform(left: number, top: number): void {
+  private setWindowTransform(left: number, top: number): void {
     this.element.style.transform = `translate3d(${left}px, ${top}px, 0px)`;
   }
 
