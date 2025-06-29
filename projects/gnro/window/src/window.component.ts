@@ -92,11 +92,13 @@ export class GnroWindowComponent<T> {
     this.setWindowTransform(0, 0);
     this.setHeight(this.overlay.clientHeight);
     this.setWidth(this.overlay.clientWidth);
+    console.log(' mmmmmmmmmm this.windowInfo=', this.windowInfo);
   }
 
   restore(): void {
     this.windowInfo.isMaxWindowSize = false;
     this.overlayPane.style.transform = this.overlayPaneTransform;
+    console.log('  rrrrrrrrrthis.windowInfo=', this.windowInfo);
     this.setWindowTransform(this.windowInfo.left, this.windowInfo.top);
     this.setHeight(this.windowInfo.height);
     this.setWidth(this.windowInfo.width);
@@ -137,6 +139,9 @@ export class GnroWindowComponent<T> {
       case GnroResizeType.TOP_LEFT:
         this.setWindowInfo(left + resizeInfo.dx, top + resizeInfo.dy);
         break;
+      default:
+        this.setWindowInfo(left, top);
+        break;
     }
   }
 
@@ -144,10 +149,11 @@ export class GnroWindowComponent<T> {
     this.windowInfo = {
       left: left,
       top: top,
-      width: this.element.clientWidth,
-      height: this.element.clientHeight,
+      width: parseFloat(this.element.style.width),
+      height: parseFloat(this.element.style.height), //this.element.clientHeight,
       isMaxWindowSize: this.isMaxWindowSize,
     };
+    console.log('  this.windowInfo=', this.windowInfo);
     this.setWindowTransform(left, top);
   }
 
