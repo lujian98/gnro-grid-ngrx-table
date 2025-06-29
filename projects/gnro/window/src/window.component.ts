@@ -1,5 +1,5 @@
 import { CdkDrag, CdkDragEnd, CdkDragHandle } from '@angular/cdk/drag-drop';
-import { ChangeDetectionStrategy, Component, ElementRef, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, inject, input } from '@angular/core';
 import { GnroButtonComponent } from '@gnro/ui/button';
 import { uniqueId } from '@gnro/ui/core';
 import { GnroIconModule } from '@gnro/ui/icon';
@@ -94,6 +94,7 @@ export class GnroWindowComponent<T> {
   }
 
   maximize(): void {
+    this.windowInfo.isMaxWindowSize = true;
     this.overlayPaneTransform = this.overlayPane.style.transform;
     this.overlayPane.style.transform = `translate3d(0px, 0px, 0px)`;
     this.setWindowTransform(0, 0);
@@ -102,6 +103,7 @@ export class GnroWindowComponent<T> {
   }
 
   restore(): void {
+    this.windowInfo.isMaxWindowSize = false;
     this.overlayPane.style.transform = this.overlayPaneTransform;
     this.setWindowTransform(this.windowInfo.left, this.windowInfo.top);
     this.setHeight(this.windowInfo.height);
@@ -113,7 +115,7 @@ export class GnroWindowComponent<T> {
   }
 
   onResizePanel(resizeInfo: GnroResizeInfo): void {
-    if (resizeInfo.isResized) {
+    if (resizeInfo.isResized && !this.windowInfo.isMaxWindowSize) {
       this.setWindowPosition(resizeInfo);
       this.setHeight(resizeInfo.height * resizeInfo.scaleY);
       this.setWidth(resizeInfo.width * resizeInfo.scaleX);
@@ -148,6 +150,7 @@ export class GnroWindowComponent<T> {
       top: top,
       width: this.element.clientWidth,
       height: this.element.clientHeight,
+      isMaxWindowSize: this.isMaxWindowSize,
     };
     this.setWindowTransform(left, top);
   }
@@ -167,6 +170,13 @@ export class GnroWindowComponent<T> {
     const el = this.element;
     if (el) {
       el.style.width = `${width}px`;
+    }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: MouseEvent): void {
+    if (this.windowInfo.isMaxWindowSize) {
+      this.maximize();
     }
   }
 }

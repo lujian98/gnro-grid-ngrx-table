@@ -24,4 +24,5 @@ export interface GnroWindowInfo {
   left: number;
   width: number;
   height: number;
+  isMaxWindowSize: boolean;
 }
