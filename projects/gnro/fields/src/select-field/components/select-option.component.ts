@@ -5,9 +5,9 @@ import {
   Component,
   inject,
   input,
-  signal,
   output,
   QueryList,
+  signal,
   ViewChild,
   ViewChildren,
 } from '@angular/core';
@@ -20,13 +20,8 @@ import { GnroOptionComponent } from '@gnro/ui/option';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { filter, take, timer } from 'rxjs';
 import { GnroOptionType, GnroSelectFieldConfig, GnroSelectFieldSetting } from '../models/select-field.model';
+import { GnroHeaderOption } from '../models/select-header-option';
 import { GnroSelectFilterPipe } from '../pipes/select-filter.pipe';
-
-export interface GnroHeaderOption {
-  name: string;
-  title: string;
-  [key: string]: string;
-}
 
 @Component({
   selector: 'gnro-select-option',
@@ -46,6 +41,7 @@ export interface GnroHeaderOption {
 export class GnroSelectOptionComponent<T, G> {
   private readonly changeDetectorRef = inject(ChangeDetectorRef);
   private readonly translateService = inject(TranslateService);
+  private firstTime: boolean = true;
   fieldConfig = input.required({
     transform: (fieldConfig: GnroSelectFieldConfig) => {
       if (fieldConfig) {
@@ -148,8 +144,9 @@ export class GnroSelectOptionComponent<T, G> {
       .pipe(take(1))
       .subscribe(() => {
         this.setSelectChecked();
-        if (overlayOpen) {
+        if (overlayOpen && this.firstTime) {
           this.setVirtualScrollPosition();
+          this.firstTime = false;
         }
       });
   }

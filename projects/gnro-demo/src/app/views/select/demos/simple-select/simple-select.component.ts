@@ -12,10 +12,17 @@ import { State, STATES } from '../../../../data/states';
 })
 export class AppSimpleSelectComponent {
   states = STATES;
+  states2 = [...STATES];
   listStates = [...STATES].map((state) => state.state);
 
-  defaultSelection: Partial<GnroSelectFieldConfig> = {
+  defaultSelection1: Partial<GnroSelectFieldConfig> = {
     ...defaultSelectFieldConfig,
+    fieldName: 'defaultSelection1',
+  };
+
+  defaultSelection2: Partial<GnroSelectFieldConfig> = {
+    ...defaultSelectFieldConfig,
+    fieldName: 'defaultSelection2',
   };
 
   defaultStateValue = [{ name: 'Nevada', title: 'Nevada' }];
@@ -29,11 +36,25 @@ export class AppSimpleSelectComponent {
 
   singleObjectState = [STATES[32]];
   multiObjectStates = [STATES[2], STATES[32], STATES[36]];
+  multiObjectStates2 = [STATES[8], STATES[32], STATES[36]];
+
+  multiObjectStates3 = [STATES[8], STATES[32], STATES[36]];
+  multiObjectStates4 = [STATES[8], STATES[32], STATES[36]];
+
+  multiObjectStates5 = [STATES[8], STATES[32], STATES[36]];
+  multiObjectStates6 = [STATES[8], STATES[32], STATES[36]];
+
   singleListState = 'Louisiana';
-  multiListStates = ['Louisiana', 'Nevada'];
+  multiListStates7 = ['Louisiana', 'Nevada'];
+  multiListStates8 = ['Louisiana', 'Nevada'];
+  multiListStates9 = ['Louisiana', 'Nevada'];
+  multiListStates10 = ['Louisiana', 'Nevada'];
+  multiListStates11 = ['Louisiana', 'Nevada'];
+  multiListStates12 = ['Louisiana', 'Nevada'];
 
   singleSelection: Partial<GnroSelectFieldConfig> = {
     fieldLabel: 'Single Selection (Object)',
+    fieldName: 'singleSelection',
     optionLabel: 'state',
     optionKey: 'abbr',
     placeholder: 'Select One...',
@@ -41,6 +62,7 @@ export class AppSimpleSelectComponent {
 
   multiSelection: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
+    fieldName: 'multiSelection',
     multiSelection: true,
     fieldLabel: 'Multi Selection (Object)',
     optionLabel: 'state',
@@ -50,6 +72,7 @@ export class AppSimpleSelectComponent {
 
   singleAutocomplete: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
+    fieldName: 'singleAutocomplete',
     selectOnly: false,
     fieldLabel: 'Single Autocomplete (Object)',
     optionLabel: 'state',
@@ -59,6 +82,7 @@ export class AppSimpleSelectComponent {
 
   multiAutocomplete: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
+    fieldName: 'multiAutocomplete',
     multiSelection: true,
     selectOnly: false,
     fieldLabel: 'Multi Autocomplete (Object)',
@@ -69,12 +93,14 @@ export class AppSimpleSelectComponent {
 
   singleSelectionList: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
+    fieldName: 'singleSelectionList',
     fieldLabel: 'Single Selection (list)',
     placeholder: 'Select One...',
   };
 
   multiSelectionList: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
+    fieldName: 'multiSelectionList',
     multiSelection: true,
     fieldLabel: 'Multi Selection (list)',
     placeholder: 'Select One or More...',
@@ -82,6 +108,7 @@ export class AppSimpleSelectComponent {
 
   singleAutocompleteList: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
+    fieldName: 'singleAutocompleteList',
     selectOnly: false,
     fieldLabel: 'Single Autocomplete (list)',
     placeholder: 'Select One...',
@@ -89,6 +116,7 @@ export class AppSimpleSelectComponent {
 
   multiAutocompleteList: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
+    fieldName: 'multiAutocompleteList',
     multiSelection: true,
     selectOnly: false,
     fieldLabel: 'Multi Autocomplete (list)',
@@ -99,7 +127,7 @@ export class AppSimpleSelectComponent {
     ...defaultSelectFieldConfig,
     remoteOptions: true,
     urlKey: 'usa',
-    fieldName: 'state',
+    fieldName: 'singleSelectionRemote',
     fieldLabel: 'Single Selection (Object)',
     optionLabel: 'state',
     optionKey: 'abbr',
@@ -110,7 +138,7 @@ export class AppSimpleSelectComponent {
     ...defaultSelectFieldConfig,
     remoteOptions: true,
     urlKey: 'usa',
-    fieldName: 'state',
+    fieldName: 'multiSelectionRemote',
     multiSelection: true,
     fieldLabel: 'Multi Selection (Object)',
     optionLabel: 'state',
@@ -122,7 +150,7 @@ export class AppSimpleSelectComponent {
     ...defaultSelectFieldConfig,
     remoteOptions: true,
     urlKey: 'usa',
-    fieldName: 'state',
+    fieldName: 'singleAutocompleteRemote',
     selectOnly: false,
     fieldLabel: 'Single Autocomplete (Object)',
     optionLabel: 'state',
@@ -134,7 +162,7 @@ export class AppSimpleSelectComponent {
     ...defaultSelectFieldConfig,
     remoteOptions: true,
     urlKey: 'usa',
-    fieldName: 'state',
+    fieldName: 'singleAutocompleteRemote',
     multiSelection: true,
     selectOnly: false,
     fieldLabel: 'Multi Autocomplete (Object)',
@@ -148,7 +176,7 @@ export class AppSimpleSelectComponent {
     ...defaultSelectFieldConfig,
     remoteOptions: true,
     urlKey: 'usa',
-    fieldName: 'statelist',
+    fieldName: 'singleRemoteList',
     fieldLabel: 'Single Selection (list)',
     placeholder: 'Select One...',
   };
@@ -157,7 +185,7 @@ export class AppSimpleSelectComponent {
     ...defaultSelectFieldConfig,
     remoteOptions: true,
     urlKey: 'usa',
-    fieldName: 'statelist',
+    fieldName: 'multiRemoteList',
     multiSelection: true,
     fieldLabel: 'Multi Selection (list)',
     placeholder: 'Select One or More...',
@@ -167,7 +195,7 @@ export class AppSimpleSelectComponent {
     ...defaultSelectFieldConfig,
     remoteOptions: true,
     urlKey: 'usa',
-    fieldName: 'statelist',
+    fieldName: 'singleAutocompleteRemoteList',
     selectOnly: false,
     fieldLabel: 'Single Autocomplete (list)',
     placeholder: 'Select One...',
@@ -177,7 +205,7 @@ export class AppSimpleSelectComponent {
     ...defaultSelectFieldConfig,
     remoteOptions: true,
     urlKey: 'usa',
-    fieldName: 'statelist',
+    fieldName: 'multiAutocompleteRemoteList',
     multiSelection: true,
     selectOnly: false,
     fieldLabel: 'Multi Autocomplete (list)',
