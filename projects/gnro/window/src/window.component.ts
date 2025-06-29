@@ -88,10 +88,11 @@ export class GnroWindowComponent<T> {
     const values = transformValue.replaceAll('translate3d(', '').replaceAll(')', ',').split(',');
     const left = parseFloat(values[0]) + parseFloat(values[3]);
     const top = parseFloat(values[1]) + parseFloat(values[4]);
-    this.setWindowInfo(left, top);
+    //this.setWindowInfo(left, top, false);
   }
 
   maximize(): void {
+    this.overlayPane.style.transform = `translate3d(0px, 0px, 0px)`;
     this.setOverlayPaneTransform(0, 0);
     this.setHeight(this.overlay.clientHeight);
     this.setWidth(this.overlay.clientWidth);
@@ -133,22 +134,27 @@ export class GnroWindowComponent<T> {
     }
   }
 
-  private setWindowInfo(left: number, top: number): void {
+  private setWindowInfo(left: number, top: number, setTransform: boolean = true): void {
+    /*
     left = left < -this.element.clientWidth + 20 ? -this.element.clientWidth + 20 : left;
     left = left > this.overlay.clientWidth - 20 ? this.overlay.clientWidth - 20 : left;
     top = top < 0 ? 0 : top;
     top = top > this.overlay.clientHeight - 20 ? this.overlay.clientHeight - 20 : top;
+    */
     this.windowInfo = {
       left: left,
       top: top,
       width: this.element.clientWidth,
       height: this.element.clientHeight,
     };
-    this.setOverlayPaneTransform(left, top);
+    if (setTransform) {
+      console.log(' xxxxxxxxxxxx ');
+      this.setOverlayPaneTransform(left, top);
+    }
   }
 
   private setOverlayPaneTransform(left: number, top: number): void {
-    this.overlayPane.style.transform = `translate3d(${left}px, ${top}px, 0px)`;
+    this.element.style.transform = `translate3d(${left}px, ${top}px, 0px)`;
   }
 
   private setHeight(height: number): void {
