@@ -3,8 +3,7 @@
   cdkDragBoundary=".cdk-overlay-container"
   cdkDragRootElement=".cdk-overlay-pane"
   cdkDrag
-  [cdkDragDisabled]="windowConfig().dragDisabled"
-  (cdkDragMoved)="dragMoved($event)"
+  [cdkDragDisabled]="windowConfig().dragDisabled || isMaxWindowSize"
   (cdkDragEnded)="dragEnded($event)"
   (dblclick)="dblclickWindow()"
 >

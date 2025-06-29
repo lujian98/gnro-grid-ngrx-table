@@ -82,28 +82,25 @@ export class GnroWindowComponent<T> {
     this.setWindowInfo(left, top);
   }
 
-  dragMoved(event: CdkDragMove) {
-    //TODO boundary
-    const draggedElement = event.source.element.nativeElement;
-    const boundaryElement = draggedElement.parentElement; // Or a specific boundary element
-    //console.log(' draggedElement=', draggedElement)
-    if (boundaryElement) {
-      const draggedRect = draggedElement.getBoundingClientRect();
-      const boundaryRect = boundaryElement.getBoundingClientRect();
-
-      // Check if the element is above the top boundary
-      if (draggedRect.top < boundaryRect.top) {
-        // Calculate the offset needed to move it back within the boundary
-        const newTop = boundaryRect.top;
-        // You'll need to apply this newTop to the element's style or transform
-        // This might involve adjusting the cdkDrag's transform directly or
-        // using a custom position strategy.
-      }
-    }
+  dragEnded(event: CdkDragEnd): void {
+    this.resetWindowPosition();
   }
 
-  dragEnded(event: CdkDragEnd): void {
-    //TODO boundary
+  private resetWindowPosition(): void {
+    const minShow = 50;
+    const { left, top } = this.windowInfo;
+    const values = this.overlayPane.style.transform.replace('translate3d(', '').split(',');
+    const x0 = parseFloat(values[0]);
+    const y0 = parseFloat(values[1]);
+    const x = left + x0;
+    const y = top + y0;
+    if (y > this.overlay.clientHeight - minShow) {
+      const ntop = this.overlay.clientHeight - minShow - y0;
+      this.setWindowInfo(left, ntop);
+    } else if (x > this.overlay.clientWidth - minShow) {
+      const nleft = this.overlay.clientWidth - minShow - x0;
+      this.setWindowInfo(nleft, top);
+    }
   }
 
   maximize(): void {
