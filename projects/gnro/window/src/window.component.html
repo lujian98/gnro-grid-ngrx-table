@@ -4,6 +4,7 @@
   cdkDrag
   [cdkDragDisabled]="windowConfig().dragDisabled"
   (cdkDragEnded)="dragEnded($event)"
+  (dblclick)="dblclickWindow()"
 >
   <!--  cdkDragBoundary=".cdk-overlay-container" -->
   @if (windowConfig().showHeader) {

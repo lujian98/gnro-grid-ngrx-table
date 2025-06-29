@@ -83,15 +83,7 @@ export class GnroWindowComponent<T> {
     this.setWindowInfo(left, top);
   }
 
-  dragEnded(event: CdkDragEnd): void {
-    /*
-    const transformValue = this.overlayPane.style.transform;
-    const values = transformValue.replaceAll('translate3d(', '').replaceAll(')', ',').split(',');
-    const left = parseFloat(values[0]) + parseFloat(values[3]);
-    const top = parseFloat(values[1]) + parseFloat(values[4]);
-    //this.setWindowInfo(left, top, false);
-    */
-  }
+  dragEnded(event: CdkDragEnd): void {}
 
   maximize(): void {
     this.windowInfo.isMaxWindowSize = true;
@@ -108,6 +100,14 @@ export class GnroWindowComponent<T> {
     this.setWindowTransform(this.windowInfo.left, this.windowInfo.top);
     this.setHeight(this.windowInfo.height);
     this.setWidth(this.windowInfo.width);
+  }
+
+  dblclickWindow(): void {
+    if (this.windowInfo.isMaxWindowSize) {
+      this.restore();
+    } else {
+      this.maximize();
+    }
   }
 
   close(): void {
@@ -141,10 +141,6 @@ export class GnroWindowComponent<T> {
   }
 
   private setWindowInfo(left: number, top: number): void {
-    left = left < -this.element.clientWidth + 20 ? -this.element.clientWidth + 20 : left;
-    left = left > this.overlay.clientWidth - 20 ? this.overlay.clientWidth - 20 : left;
-    top = top < 0 ? 0 : top;
-    top = top > this.overlay.clientHeight - 20 ? this.overlay.clientHeight - 20 : top;
     this.windowInfo = {
       left: left,
       top: top,
