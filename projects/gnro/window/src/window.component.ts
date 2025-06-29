@@ -1,4 +1,4 @@
-import { CdkDrag, CdkDragEnd, CdkDragHandle, CdkDragMove } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragEnd, CdkDragHandle } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, ElementRef, HostListener, inject, input } from '@angular/core';
 import { GnroButtonComponent } from '@gnro/ui/button';
 import { uniqueId } from '@gnro/ui/core';
@@ -71,36 +71,8 @@ export class GnroWindowComponent<T> {
       .subscribe(() => this.initWindow());
   }
 
-  private initWindow(): void {
-    const width = this.overlay.clientWidth;
-    const height = this.overlay.clientHeight;
-    const w = this.element.clientWidth;
-    const h = this.element.clientHeight;
-    const topAdjust = h < height / 2 ? 4 : 2;
-    const left = width < w ? 0 : (width - w) / 2;
-    const top = height < h ? 0 : (height - h) / topAdjust;
-    this.setWindowInfo(left, top);
-  }
-
   dragEnded(event: CdkDragEnd): void {
     this.resetWindowPosition();
-  }
-
-  private resetWindowPosition(): void {
-    const minShow = 50;
-    const { left, top } = this.windowInfo;
-    const values = this.overlayPane.style.transform.replace('translate3d(', '').split(',');
-    const x0 = parseFloat(values[0]);
-    const y0 = parseFloat(values[1]);
-    const x = left + x0;
-    const y = top + y0;
-    if (y > this.overlay.clientHeight - minShow) {
-      const ntop = this.overlay.clientHeight - minShow - y0;
-      this.setWindowInfo(left, ntop);
-    } else if (x > this.overlay.clientWidth - minShow) {
-      const nleft = this.overlay.clientWidth - minShow - x0;
-      this.setWindowInfo(nleft, top);
-    }
   }
 
   maximize(): void {
@@ -140,6 +112,17 @@ export class GnroWindowComponent<T> {
     }
   }
 
+  private initWindow(): void {
+    const width = this.overlay.clientWidth;
+    const height = this.overlay.clientHeight;
+    const w = this.element.clientWidth;
+    const h = this.element.clientHeight;
+    const topAdjust = h < height / 2 ? 4 : 2;
+    const left = width < w ? 0 : (width - w) / 2;
+    const top = height < h ? 0 : (height - h) / topAdjust;
+    this.setWindowInfo(left, top);
+  }
+
   private setWindowPosition(resizeInfo: GnroResizeInfo): void {
     const left = this.windowInfo.left;
     const top = this.windowInfo.top;
@@ -165,22 +148,40 @@ export class GnroWindowComponent<T> {
     this.setWindowTransform(left, top);
     timer(10)
       .pipe(take(1))
-      .subscribe(
-        () =>
-          (this.windowInfo = {
-            left: left,
-            top: top,
-            width: this.element.clientWidth,
-            height: this.element.clientHeight,
-            isMaxWindowSize: this.isMaxWindowSize,
-          }),
-      );
+      .subscribe(() => {
+        this.windowInfo = {
+          left: left,
+          top: top,
+          width: this.element.clientWidth,
+          height: this.element.clientHeight,
+          isMaxWindowSize: this.isMaxWindowSize,
+        };
+        this.resetWindowPosition();
+      });
+  }
+
+  private resetWindowPosition(): void {
+    const minShow = 50;
+    const { left, top } = this.windowInfo;
+    const transform = this.overlayPane.style.transform;
+    const values = transform.replace('translate3d(', '').split(',');
+    const x0 = transform ? parseFloat(values[0]) : 0;
+    const y0 = transform ? parseFloat(values[1]) : 0;
+    const x = left + x0;
+    const y = top + y0;
+    if (y > this.overlay.clientHeight - minShow) {
+      const ntop = this.overlay.clientHeight - minShow - y0;
+      this.setWindowInfo(left, ntop);
+    } else if (x > this.overlay.clientWidth - minShow) {
+      const nleft = this.overlay.clientWidth - minShow - x0;
+      this.setWindowInfo(nleft, top);
+    } else if (y < 0) {
+      const ntop = -y0;
+      this.setWindowInfo(left, ntop);
+    }
   }
 
   private setWindowTransform(left: number, top: number): void {
-    //this.element.style.transform = `translate3d(${left}px, ${top}px, 0px)`;
-    //this.element.style.left = `${left}px`;
-    //this.element.style.top = `${top}px`;
     this.overlayPane.style.left = `${left}px`;
     this.overlayPane.style.top = `${top}px`;
   }
