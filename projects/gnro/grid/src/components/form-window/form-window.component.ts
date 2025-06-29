@@ -20,11 +20,7 @@ export class GnroGridFormWindowComponent {
     ...defaultWindowConfig,
     title: 'Window',
     height: '480px',
-    //resizeable: false,
-    //dragDisabled: true,
   };
-
-  dialog: any;
 
   close(): void {
     this.dialogRef.close('test uujj make');
