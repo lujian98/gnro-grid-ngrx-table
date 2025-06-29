@@ -17,12 +17,14 @@ export class AppStringArrayComponent {
 
   singleSelectionList: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
+    fieldName: 'singleSelectionList',
     fieldLabel: 'Single Selection (list)',
     placeholder: 'Select One...',
   };
 
   multiSelectionList: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
+    fieldName: 'multiSelectionList',
     multiSelection: true,
     fieldLabel: 'Multi Selection (list)',
     placeholder: 'Select One or More...',
@@ -38,6 +40,7 @@ export class AppStringArrayComponent {
 
   multiSelectionDisplay: GnroSelectFieldConfig = {
     ...defaultSelectFieldConfig,
+    fieldName: 'multiSelectionDisplay',
     multiSelection: true,
     displayWith: this.displayFn.bind(this),
     fieldLabel: 'Multi Selection (list)',
