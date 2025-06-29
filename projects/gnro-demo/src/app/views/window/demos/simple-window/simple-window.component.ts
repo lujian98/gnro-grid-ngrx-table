@@ -22,7 +22,7 @@ export class AppSimpleWindowComponent {
             content: 'Warning',
           },
         },
-        closeOnBackdropClick: true,
+        closeOnBackdropClick: false,
       })
       .onClose.subscribe((res) => {
         console.log(' on close res=', res);
