@@ -1,12 +1,13 @@
 <div
   class="gnro-dragable-window"
+  cdkDragBoundary=".cdk-overlay-container"
   cdkDragRootElement=".cdk-overlay-pane"
   cdkDrag
   [cdkDragDisabled]="windowConfig().dragDisabled"
+  (cdkDragMoved)="dragMoved($event)"
   (cdkDragEnded)="dragEnded($event)"
   (dblclick)="dblclickWindow()"
 >
-  <!--  cdkDragBoundary=".cdk-overlay-container" -->
   @if (windowConfig().showHeader) {
     <gnro-layout-header [title]="windowConfig().title" cdkDragHandle>
       @if (windowConfig().maximizable && isMaxWindowSize) {

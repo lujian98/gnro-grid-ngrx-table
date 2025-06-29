@@ -1,4 +1,4 @@
-import { CdkDrag, CdkDragEnd, CdkDragHandle } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragEnd, CdkDragHandle, CdkDragMove } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, ElementRef, HostListener, inject, input } from '@angular/core';
 import { GnroButtonComponent } from '@gnro/ui/button';
 import { uniqueId } from '@gnro/ui/core';
@@ -82,7 +82,29 @@ export class GnroWindowComponent<T> {
     this.setWindowInfo(left, top);
   }
 
-  dragEnded(event: CdkDragEnd): void {}
+  dragMoved(event: CdkDragMove) {
+    //TODO boundary
+    const draggedElement = event.source.element.nativeElement;
+    const boundaryElement = draggedElement.parentElement; // Or a specific boundary element
+    //console.log(' draggedElement=', draggedElement)
+    if (boundaryElement) {
+      const draggedRect = draggedElement.getBoundingClientRect();
+      const boundaryRect = boundaryElement.getBoundingClientRect();
+
+      // Check if the element is above the top boundary
+      if (draggedRect.top < boundaryRect.top) {
+        // Calculate the offset needed to move it back within the boundary
+        const newTop = boundaryRect.top;
+        // You'll need to apply this newTop to the element's style or transform
+        // This might involve adjusting the cdkDrag's transform directly or
+        // using a custom position strategy.
+      }
+    }
+  }
+
+  dragEnded(event: CdkDragEnd): void {
+    //TODO boundary
+  }
 
   maximize(): void {
     this.windowInfo.isMaxWindowSize = true;
@@ -159,7 +181,11 @@ export class GnroWindowComponent<T> {
   }
 
   private setWindowTransform(left: number, top: number): void {
-    this.element.style.transform = `translate3d(${left}px, ${top}px, 0px)`;
+    //this.element.style.transform = `translate3d(${left}px, ${top}px, 0px)`;
+    //this.element.style.left = `${left}px`;
+    //this.element.style.top = `${top}px`;
+    this.overlayPane.style.left = `${left}px`;
+    this.overlayPane.style.top = `${top}px`;
   }
 
   private setHeight(height: number): void {
