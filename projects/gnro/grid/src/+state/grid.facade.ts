@@ -252,12 +252,12 @@ export class GnroGridFacade {
   }
 
   openButtonClick(gridId: string): void {
-    this.store.dispatch(gridActions.openGridFormView({ gridId }));
+    this.store.dispatch(gridActions.openGridFormWindow({ gridId }));
   }
 
   rowDblClick(gridId: string, record: object): void {
     this.store.dispatch(gridActions.setSelectRow({ gridId, record }));
-    this.store.dispatch(gridActions.openGridFormView({ gridId }));
+    this.store.dispatch(gridActions.openGridFormWindow({ gridId }));
   }
 
   setLoadTreeDataLoading(gridId: string, loading: boolean): void {

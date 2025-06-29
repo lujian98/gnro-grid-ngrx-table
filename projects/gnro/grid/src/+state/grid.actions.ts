@@ -129,9 +129,9 @@ export const setGridRestEdit = createAction(
   props<{ gridId: string; restEdit: boolean }>(),
 );
 
-export const openGridFormView = createAction('[Grid] Open Grid Form View', props<{ gridId: string }>());
+export const openGridFormWindow = createAction('[Grid] Open Grid Form Window', props<{ gridId: string }>());
 
-export const closeGridFormViewg = createAction('[User] Closed Grid Form View');
+export const closeGridFormWindow = createAction('[User] Closed Grid Form Window');
 
 export const setLoadTreeDataLoading = createAction(
   '[Grid] Set Load Tree Data Loading ',

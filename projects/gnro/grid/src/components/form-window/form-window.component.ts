@@ -7,14 +7,14 @@ import { GnroDialogRef } from '@gnro/ui/overlay';
 import { GnroWindowComponent, GnroWindowConfig, defaultWindowConfig } from '@gnro/ui/window';
 
 @Component({
-  selector: 'gnro-grid-form-view',
-  templateUrl: './form-view.component.html',
-  styleUrls: ['./form-view.component.scss'],
+  selector: 'gnro-grid-form-window',
+  templateUrl: './form-window.component.html',
+  styleUrls: ['./form-window.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [GnroLayoutComponent, GnroWindowComponent, GnroFormComponent],
 })
-export class GnroGridFormViewComponent {
-  private readonly dialogRef = inject(GnroDialogRef<GnroGridFormViewComponent>);
+export class GnroGridFormWindowComponent {
+  private readonly dialogRef = inject(GnroDialogRef<GnroGridFormWindowComponent>);
 
   windowConfig: GnroWindowConfig = {
     ...defaultWindowConfig,

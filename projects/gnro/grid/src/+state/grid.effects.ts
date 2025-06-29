@@ -3,7 +3,7 @@ import { GnroDialogService } from '@gnro/ui/overlay';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { concatMap, debounceTime, delay, exhaustMap, map, mergeMap, of, switchMap } from 'rxjs';
-import { GnroGridFormViewComponent } from '../components/form-view/form-view.component';
+import { GnroGridFormWindowComponent } from '../components/form-window/form-window.component';
 import { GnroColumnConfig, GnroGridConfig } from '../models/grid.model';
 import { GnroGridinMemoryService } from '../services/grid-in-memory.service';
 import { GnroGridService } from '../services/grid.service';
@@ -142,22 +142,22 @@ export class GnroGridEffects {
 
   openGridFormView$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(gridActions.openGridFormView), // TODO filter open condition
+      ofType(gridActions.openGridFormWindow), // TODO filter open condition
       exhaustMap((action) => {
         const gridId = action.gridId;
         const gridSetting = this.gridFacade.getSetting(gridId)();
         const gridConfig = this.gridFacade.getGridConfig(gridId)();
         const selection = this.gridFacade.getRowSelection(gridId)();
-        const dialogRef = this.dialogService.open(GnroGridFormViewComponent, {
+        const dialogRef = this.dialogService.open(GnroGridFormWindowComponent, {
           closeOnBackdropClick: false,
         });
         return dialogRef.onClose;
       }),
       map((res) => {
         if (res === undefined) {
-          return gridActions.closeGridFormViewg();
+          return gridActions.closeGridFormWindow();
         }
-        return gridActions.closeGridFormViewg();
+        return gridActions.closeGridFormWindow();
       }),
     ),
   );
