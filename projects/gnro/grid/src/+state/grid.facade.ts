@@ -1,4 +1,5 @@
 import { inject, Injectable, Signal } from '@angular/core';
+import { GnroFormWindowConfig } from '@gnro/ui/form';
 import { Store } from '@ngrx/store';
 import {
   GnroCellEdit,
@@ -16,6 +17,7 @@ import { GnroRowGroups } from '../utils/row-group/row-groups';
 import * as gridActions from './grid.actions';
 import {
   selectColumnsConfig,
+  selectFormWindowConfig,
   selectGridConfig,
   selectGridData,
   selectGridInMemoryData,
@@ -107,6 +109,10 @@ export class GnroGridFacade {
 
   setGridColumnConfig(gridId: string, columnsConfig: GnroColumnConfig): void {
     this.store.dispatch(gridActions.setGridColumnsConfig({ gridId, columnsConfig }));
+  }
+
+  setFormWindowConfig(gridId: string, formWindowConfig: GnroFormWindowConfig): void {
+    this.store.dispatch(gridActions.loadFormWindowConfigSuccess({ gridId, formWindowConfig }));
   }
 
   setSelectAllRows(gridId: string, selectAll: boolean): void {
@@ -229,6 +235,10 @@ export class GnroGridFacade {
 
   getColumnsConfig(gridId: string): Signal<GnroColumnConfig[]> {
     return this.store.selectSignal(selectColumnsConfig(gridId));
+  }
+
+  getFormWindowConfig(gridId: string): Signal<GnroFormWindowConfig | undefined> {
+    return this.store.selectSignal(selectFormWindowConfig(gridId));
   }
 
   getGridModifiedRecords(gridId: string): Signal<{ [key: string]: unknown }[]> {

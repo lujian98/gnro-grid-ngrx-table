@@ -47,3 +47,8 @@ export const selectGridInMemoryData = (gridId: string) =>
   createSelector(featureSelector, (state: GridState) => {
     return state && state[gridId] ? state[gridId].inMemoryData : [];
   });
+
+export const selectFormWindowConfig = (gridId: string) =>
+  createSelector(featureSelector, (state: GridState) => {
+    return state && state[gridId] ? state[gridId].formWindowConfig : undefined;
+  });

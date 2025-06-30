@@ -1,12 +1,13 @@
+import { GnroFormWindowConfig } from '@gnro/ui/form';
 import { createAction, props } from '@ngrx/store';
 import {
+  GnroCellEdit,
   GnroColumnConfig,
+  GnroColumnFilter,
   GnroGridConfig,
   GnroGridData,
-  GnroSortField,
-  GnroColumnFilter,
   GnroRowGroupField,
-  GnroCellEdit,
+  GnroSortField,
 } from '../models/grid.model';
 import { GnroRowGroup } from '../utils/row-group/row-group';
 
@@ -130,8 +131,11 @@ export const setGridRestEdit = createAction(
 );
 
 export const openGridFormWindow = createAction('[Grid] Open Grid Form Window', props<{ gridId: string }>());
-
 export const closeGridFormWindow = createAction('[User] Closed Grid Form Window');
+export const loadFormWindowConfigSuccess = createAction(
+  '[Grid] Load Grid Form Window Config Success',
+  props<{ gridId: string; formWindowConfig: GnroFormWindowConfig }>(),
+);
 
 export const setLoadTreeDataLoading = createAction(
   '[Grid] Set Load Tree Data Loading ',

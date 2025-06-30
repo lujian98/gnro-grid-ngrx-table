@@ -1,15 +1,14 @@
 import { Injectable, inject } from '@angular/core';
+import { GnroFormWindowComponent } from '@gnro/ui/form';
 import { GnroDialogService } from '@gnro/ui/overlay';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { concatMap, debounceTime, delay, exhaustMap, map, mergeMap, of, switchMap } from 'rxjs';
-import { GnroFormWindowComponent } from '@gnro/ui/form';
 import { GnroColumnConfig, GnroGridConfig } from '../models/grid.model';
 import { GnroGridinMemoryService } from '../services/grid-in-memory.service';
 import { GnroGridService } from '../services/grid.service';
 import * as gridActions from './grid.actions';
 import { GnroGridFacade } from './grid.facade';
-import { MockWindowConfig, MockFormConfig, MockFormFields, MockValues } from './model-help.spec';
 
 @Injectable()
 export class GnroGridEffects {
@@ -141,25 +140,21 @@ export class GnroGridEffects {
     ),
   );
 
-  openGridFormView$ = createEffect(() =>
+  openGridFormWindow$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(gridActions.openGridFormWindow), // TODO filter open condition
+      ofType(gridActions.openGridFormWindow),
       exhaustMap((action) => {
         const gridId = action.gridId;
-        const gridSetting = this.gridFacade.getSetting(gridId)();
-        const gridConfig = this.gridFacade.getGridConfig(gridId)();
-        const selection = this.gridFacade.getRowSelection(gridId)();
-        const dialogRef = this.dialogService.open(GnroFormWindowComponent, {
-          context: {
-            windowConfig: MockWindowConfig,
-            formConfig: MockFormConfig,
-            formFields: MockFormFields,
-            values: MockValues,
-          },
-
-          closeOnBackdropClick: false,
-        });
-        return dialogRef.onClose;
+        const formWindowConfig = this.gridFacade.getFormWindowConfig(gridId)();
+        if (formWindowConfig) {
+          const dialogRef = this.dialogService.open(GnroFormWindowComponent, {
+            context: formWindowConfig,
+            closeOnBackdropClick: false,
+          });
+          return dialogRef.onClose;
+        } else {
+          return of(undefined);
+        }
       }),
       map((res) => {
         if (res === undefined) {

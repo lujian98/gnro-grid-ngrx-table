@@ -1,16 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { GnroBUTTONS, GnroButtonConfg, GnroObjectType } from '@gnro/ui/core';
+import { GnroFormWindowConfig } from '@gnro/ui/form';
 import {
+  GnroButtonClick,
   GnroColumnConfig,
   GnroGridComponent,
   GnroGridConfig,
   GnroGridData,
-  defaultGridConfig,
   GnroGridFacade,
-  GnroButtonClick,
+  defaultGridConfig,
 } from '@gnro/ui/grid';
 import { CARSDATA3, DCRBrands, DCRBrandsList, DCRColorsList, MakerColorList } from '../../../data/cars-large';
+import { MockFormConfig, MockFormFields, MockValues, MockWindowConfig } from './model-help.spec';
 
 @Component({
   selector: 'app-grid-cell-edit-text',
@@ -19,6 +21,7 @@ import { CARSDATA3, DCRBrands, DCRBrandsList, DCRColorsList, MakerColorList } fr
     [columnsConfig]="columnsConfig"
     [buttons]="buttons"
     [gridData]="gridData"
+    [formWindowConfig]="formWindowConfig"
     (gnroButtonClick)="buttonClick($event)"
   ></gnro-grid>`,
   styles: [':host {  display: flex; width: 100%; }'],
@@ -158,6 +161,13 @@ export class AppGridCellEditTextComponent {
     },
   ];
   gridData: GnroGridData<any> = CARSDATA3;
+
+  formWindowConfig: GnroFormWindowConfig = {
+    windowConfig: MockWindowConfig,
+    formConfig: MockFormConfig,
+    formFields: MockFormFields,
+    values: MockValues,
+  };
 
   buttonClick(buttonClick: GnroButtonClick): void {
     if (buttonClick.button.name === 'Reload') {

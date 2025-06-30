@@ -95,6 +95,17 @@ export const gnroGridFeature = createFeature({
       }
       return { ...newState };
     }),
+    on(gridActions.loadFormWindowConfigSuccess, (state, action) => {
+      const key = action.gridId;
+      const newState: GridState = { ...state };
+      if (state[key]) {
+        newState[key] = {
+          ...state[key],
+          formWindowConfig: action.formWindowConfig,
+        };
+      }
+      return { ...newState };
+    }),
     on(gridActions.setViewportPageSize, (state, action) => {
       const key = action.gridId;
       const newState: GridState = { ...state };

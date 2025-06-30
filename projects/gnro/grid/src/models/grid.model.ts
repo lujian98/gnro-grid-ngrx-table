@@ -1,9 +1,9 @@
-import { Type } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
+import { Type } from '@angular/core';
 import { GnroObjectType } from '@gnro/ui/core';
-import { GnroRowGroups } from '../utils/row-group/row-groups';
-import { GnroFieldConfig, GnroDateRange } from '@gnro/ui/fields';
+import { GnroDateRange, GnroFieldConfig } from '@gnro/ui/fields';
 import { GnroFormWindowConfig } from '@gnro/ui/form';
+import { GnroRowGroups } from '../utils/row-group/row-groups';
 
 export interface GnroCellEdit<T> {
   recordKey: string;

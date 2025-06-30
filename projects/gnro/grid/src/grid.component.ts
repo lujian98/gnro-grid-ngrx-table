@@ -9,6 +9,7 @@ import { GnroGridFooterComponent } from './components/grid-footer/grid-footer.co
 import { GnroGridViewComponent } from './components/grid-view.component';
 import { defaultGridConfig, defaultGridSetting } from './models/default-grid';
 import { GnroColumnConfig, GnroGridConfig, GnroGridData, GnroGridSetting } from './models/grid.model';
+import { GnroFormWindowConfig } from '@gnro/ui/form';
 
 export interface GnroButtonClick {
   button: GnroButtonConfg;
@@ -63,6 +64,12 @@ export class GnroGridComponent<T> implements OnInit, OnDestroy {
         this.gridFacade.setGridInMemoryData(this.gridId, this.gridConfig$(), gridData as GnroGridData<object>);
       }
       return gridData;
+    },
+  });
+  formWindowConfig = input(undefined, {
+    transform: (formWindowConfig: GnroFormWindowConfig) => {
+      this.gridFacade.setFormWindowConfig(this.gridId, formWindowConfig);
+      return formWindowConfig;
     },
   });
   buttons$ = computed(() => {
