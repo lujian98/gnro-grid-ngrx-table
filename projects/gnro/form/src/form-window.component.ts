@@ -1,16 +1,16 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { GnroFormField } from '@gnro/ui/fields';
-import { GnroFormComponent, GnroFormConfig } from '@gnro/ui/form';
-import { GnroLayoutComponent } from '@gnro/ui/layout';
+import { GnroFormConfig } from '@gnro/ui/form';
 import { GnroDialogRef } from '@gnro/ui/overlay';
 import { GnroWindowComponent, GnroWindowConfig } from '@gnro/ui/window';
+import { GnroFormPanelComponent } from './form-panel.component';
 
 @Component({
   selector: 'gnro-form-window',
   templateUrl: './form-window.component.html',
   styleUrls: ['./form-window.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [GnroLayoutComponent, GnroWindowComponent, GnroFormComponent],
+  imports: [GnroWindowComponent, GnroFormPanelComponent],
 })
 export class GnroFormWindowComponent {
   private readonly dialogRef = inject(GnroDialogRef<GnroFormWindowComponent>);

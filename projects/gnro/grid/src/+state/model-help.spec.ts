@@ -4,8 +4,8 @@ import { GnroWindowConfig, defaultWindowConfig } from '@gnro/ui/window';
 
 export const MockWindowConfig: GnroWindowConfig = {
   ...defaultWindowConfig,
-  title: 'Window',
-  height: '480px',
+  title: 'Grid Form Window',
+  //height: '480px',
 };
 
 export const MockFormConfig = {
