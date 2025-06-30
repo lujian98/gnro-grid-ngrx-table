@@ -20,4 +20,3 @@ export * from './src/services/grid-in-memory.service';
 export * from './src/utils/row-group/row-group';
 export * from './src/utils/row-group/row-groups';
 export * from './src/utils/row-selection';
-export * from './src/components/form-window/form-window.component';

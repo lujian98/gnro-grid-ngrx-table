@@ -3,12 +3,13 @@ import { GnroDialogService } from '@gnro/ui/overlay';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { concatMap, debounceTime, delay, exhaustMap, map, mergeMap, of, switchMap } from 'rxjs';
-import { GnroGridFormWindowComponent } from '../components/form-window/form-window.component';
+import { GnroFormWindowComponent } from '@gnro/ui/form';
 import { GnroColumnConfig, GnroGridConfig } from '../models/grid.model';
 import { GnroGridinMemoryService } from '../services/grid-in-memory.service';
 import { GnroGridService } from '../services/grid.service';
 import * as gridActions from './grid.actions';
 import { GnroGridFacade } from './grid.facade';
+import { MockWindowConfig, MockFormConfig, MockFormFields, MockValues } from './model-help.spec';
 
 @Injectable()
 export class GnroGridEffects {
@@ -148,7 +149,14 @@ export class GnroGridEffects {
         const gridSetting = this.gridFacade.getSetting(gridId)();
         const gridConfig = this.gridFacade.getGridConfig(gridId)();
         const selection = this.gridFacade.getRowSelection(gridId)();
-        const dialogRef = this.dialogService.open(GnroGridFormWindowComponent, {
+        const dialogRef = this.dialogService.open(GnroFormWindowComponent, {
+          context: {
+            windowConfig: MockWindowConfig,
+            formConfig: MockFormConfig,
+            formFields: MockFormFields,
+            values: MockValues,
+          },
+
           closeOnBackdropClick: false,
         });
         return dialogRef.onClose;
