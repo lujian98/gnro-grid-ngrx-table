@@ -53,6 +53,7 @@ export const defaultState: GnroGridState = {
   gridConfig: defaultGridConfig,
   gridSetting: defaultGridSetting,
   columnsConfig: [],
+  formWindowConfig: undefined,
   data: [],
   totalCounts: 0,
   inMemoryData: [],
