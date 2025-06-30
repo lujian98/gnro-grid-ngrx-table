@@ -1,0 +1,10 @@
+import { GnroFormField } from '@gnro/ui/fields';
+import { GnroFormConfig } from './form.model';
+import { GnroWindowConfig } from '@gnro/ui/window';
+
+export interface GnroFormWindowConfig {
+  windowConfig: GnroWindowConfig;
+  formConfig: Partial<GnroFormConfig>;
+  formFields: GnroFormField[];
+  values?: object;
+}

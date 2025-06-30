@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { GnroFormField } from '@gnro/ui/fields';
-import { GnroFormConfig } from '@gnro/ui/form';
 import { GnroDialogRef } from '@gnro/ui/overlay';
 import { GnroWindowComponent, GnroWindowConfig } from '@gnro/ui/window';
 import { GnroFormPanelComponent } from './form-panel.component';
+import { GnroFormConfig } from './models/form.model';
 
 @Component({
   selector: 'gnro-form-window',
