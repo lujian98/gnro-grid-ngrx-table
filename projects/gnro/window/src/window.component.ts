@@ -117,9 +117,9 @@ export class GnroWindowComponent<T> {
     const height = this.overlay.clientHeight;
     const w = this.element.clientWidth;
     const h = this.element.clientHeight;
-    const topAdjust = h < height / 2 ? 4 : 2;
+    const topAdjust = h < height / 2 ? (height - h) / 4 : 70;
     const left = width < w ? 0 : (width - w) / 2;
-    const top = height < h ? 0 : (height - h) / topAdjust;
+    const top = height < h ? 0 : topAdjust;
     this.setWindowInfo(left, top);
   }
 

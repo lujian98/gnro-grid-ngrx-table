@@ -2,6 +2,7 @@
 
 @mixin gnro-window-theme() {
   gnro-window {
+    background-color: gnro.gnro-theme(--app-background-color);
     .gnro-dragable-window {
       border: solid 1px gnro.gnro-theme(app-border-basic-color);
     }
