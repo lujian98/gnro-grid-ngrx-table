@@ -6,5 +6,9 @@
     .gnro-dragable-window {
       border: solid 1px gnro.gnro-theme(app-border-basic-color);
     }
+
+    .gnro-dragable-window-header {
+      background-color: gnro.gnro-theme(gnro-dragable-window-header);
+    }
   }
 }

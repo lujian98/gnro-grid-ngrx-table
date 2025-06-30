@@ -8,7 +8,7 @@
   (dblclick)="dblclickWindow()"
 >
   @if (windowConfig().showHeader) {
-    <gnro-layout-header [title]="windowConfig().title" cdkDragHandle>
+    <gnro-layout-header class="gnro-dragable-window-header" [title]="windowConfig().title" cdkDragHandle>
       @if (windowConfig().maximizable && isMaxWindowSize) {
         <button gnro-button [ghost]="true" (click)="restore()">
           <gnro-icon icon="window-restore"></gnro-icon>&nbsp;
