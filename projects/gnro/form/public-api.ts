@@ -5,3 +5,5 @@ export * from './src/components/form-view.component';
 export * from './src/models/form.model';
 export * from './src/models/default-form';
 export * from './src/models/form-window.model';
+export * from './src/+state/form-window/form-window.actions';
+export * from './src/+state/form-window/form-window.effects';

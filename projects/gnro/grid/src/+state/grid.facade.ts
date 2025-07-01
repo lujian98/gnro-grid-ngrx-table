@@ -26,6 +26,7 @@ import {
   selectRowGroups,
   selectRowSelection,
 } from './grid.selectors';
+import { openFormWindowDialog } from '@gnro/ui/form';
 
 @Injectable({ providedIn: 'root' })
 export class GnroGridFacade {
@@ -262,12 +263,20 @@ export class GnroGridFacade {
   }
 
   openButtonClick(gridId: string): void {
-    this.store.dispatch(gridActions.openGridFormWindow({ gridId }));
+    this.openGridFormWindow(gridId);
   }
 
   rowDblClick(gridId: string, record: object): void {
     this.store.dispatch(gridActions.setSelectRow({ gridId, record }));
-    this.store.dispatch(gridActions.openGridFormWindow({ gridId }));
+    //this.store.dispatch(gridActions.openGridFormWindow({ gridId }));
+    this.openGridFormWindow(gridId);
+  }
+
+  private openGridFormWindow(formWindowId: string): void {
+    const formWindowConfig = this.getFormWindowConfig(formWindowId)();
+    if (formWindowConfig) {
+      this.store.dispatch(openFormWindowDialog({ formWindowId, formWindowConfig }));
+    }
   }
 
   setLoadTreeDataLoading(gridId: string, loading: boolean): void {

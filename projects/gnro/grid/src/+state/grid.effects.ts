@@ -140,6 +140,7 @@ export class GnroGridEffects {
     ),
   );
 
+  /*
   openGridFormWindow$ = createEffect(() =>
     this.actions$.pipe(
       ofType(gridActions.openGridFormWindow),
@@ -164,6 +165,7 @@ export class GnroGridEffects {
       }),
     ),
   );
+  */
 
   clearGridDataStore$ = createEffect(() =>
     this.actions$.pipe(
