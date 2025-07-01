@@ -1,8 +1,7 @@
 import { Injectable, inject } from '@angular/core';
-import { GnroDialogService } from '@gnro/ui/overlay';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { concatMap, debounceTime, delay, exhaustMap, map, mergeMap, of, switchMap } from 'rxjs';
+import { concatMap, debounceTime, delay, map, mergeMap, of, switchMap } from 'rxjs';
 import { GnroColumnConfig, GnroGridConfig } from '../models/grid.model';
 import { GnroGridinMemoryService } from '../services/grid-in-memory.service';
 import { GnroGridService } from '../services/grid.service';
@@ -12,7 +11,6 @@ import { GnroGridFacade } from './grid.facade';
 @Injectable()
 export class GnroGridEffects {
   private readonly store = inject(Store);
-  private readonly dialogService = inject(GnroDialogService);
   private readonly actions$ = inject(Actions);
   private readonly gridFacade = inject(GnroGridFacade);
   private readonly gridService = inject(GnroGridService);
@@ -138,33 +136,6 @@ export class GnroGridEffects {
       }),
     ),
   );
-
-  /*
-  openGridFormWindow$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(gridActions.openGridFormWindow),
-      exhaustMap((action) => {
-        const gridId = action.gridId;
-        const formWindowConfig = this.gridFacade.getFormWindowConfig(gridId)();
-        if (formWindowConfig) {
-          const dialogRef = this.dialogService.open(GnroFormWindowComponent, {
-            context: formWindowConfig,
-            closeOnBackdropClick: false,
-          });
-          return dialogRef.onClose;
-        } else {
-          return of(undefined);
-        }
-      }),
-      map((res) => {
-        if (res === undefined) {
-          return gridActions.closeGridFormWindow();
-        }
-        return gridActions.closeGridFormWindow();
-      }),
-    ),
-  );
-  */
 
   clearGridDataStore$ = createEffect(() =>
     this.actions$.pipe(

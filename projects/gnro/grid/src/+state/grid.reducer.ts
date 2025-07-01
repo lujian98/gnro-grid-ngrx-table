@@ -103,6 +103,7 @@ export const gnroGridFeature = createFeature({
           ...state[key],
           formWindowConfig: action.formWindowConfig,
         };
+        console.log(' newState[key]=', newState[key]);
       }
       return { ...newState };
     }),

@@ -130,8 +130,6 @@ export const setGridRestEdit = createAction(
   props<{ gridId: string; restEdit: boolean }>(),
 );
 
-//export const openGridFormWindow = createAction('[Grid] Open Grid Form Window', props<{ gridId: string }>());
-//export const closeGridFormWindow = createAction('[User] Closed Grid Form Window');
 export const loadFormWindowConfigSuccess = createAction(
   '[Grid] Load Grid Form Window Config Success',
   props<{ gridId: string; formWindowConfig: GnroFormWindowConfig }>(),
