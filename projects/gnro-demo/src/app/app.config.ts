@@ -15,6 +15,7 @@ import { routes } from './app.routes';
 import { GnroUiModulesModule } from './gnro-ui-modules/gnro-ui-modules.module';
 import { InMemoryHttpInterceptor } from './mock/in-memory-http.interceptor';
 import { InMemoryService } from './mock/in-memory-service';
+import { GnroFormWindowStateModule } from '@gnro/ui/form-window';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -48,5 +49,6 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(GnroThemeModule.forRoot({ name: 'dark' })),
     importProvidersFrom(GnroOverlayModule.forRoot()),
     importProvidersFrom(GnroUiModulesModule),
+    //importProvidersFrom(GnroFormWindowStateModule),
   ],
 };
