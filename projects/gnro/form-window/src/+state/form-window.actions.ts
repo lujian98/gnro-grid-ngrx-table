@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { GnroFormWindowConfig } from '../../models/form-window.model';
+import { GnroFormWindowConfig } from '../models/form-window.model';
 
 export const openFormWindowDialog = createAction(
   '[Form Window] Open Form Window Dialog',

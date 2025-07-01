@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { GnroFormField } from '@gnro/ui/fields';
 import { GnroLayoutComponent } from '@gnro/ui/layout';
-import { GnroFormComponent } from './form.component';
-import { GnroFormConfig } from './models/form.model';
+import { GnroFormComponent, GnroFormConfig } from '@gnro/ui/form';
 
 @Component({
   selector: 'gnro-form-panel',

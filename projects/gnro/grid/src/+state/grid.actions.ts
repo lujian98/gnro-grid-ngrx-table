@@ -1,4 +1,3 @@
-import { GnroFormWindowConfig } from '@gnro/ui/form';
 import { createAction, props } from '@ngrx/store';
 import {
   GnroCellEdit,
@@ -10,6 +9,7 @@ import {
   GnroSortField,
 } from '../models/grid.model';
 import { GnroRowGroup } from '../utils/row-group/row-group';
+import { GnroFormWindowConfig } from '@gnro/ui/form-window';
 
 export const initGridConfig = createAction(
   '[Grid] Init Grid Config',
@@ -130,8 +130,8 @@ export const setGridRestEdit = createAction(
   props<{ gridId: string; restEdit: boolean }>(),
 );
 
-export const openGridFormWindow = createAction('[Grid] Open Grid Form Window', props<{ gridId: string }>());
-export const closeGridFormWindow = createAction('[User] Closed Grid Form Window');
+//export const openGridFormWindow = createAction('[Grid] Open Grid Form Window', props<{ gridId: string }>());
+//export const closeGridFormWindow = createAction('[User] Closed Grid Form Window');
 export const loadFormWindowConfigSuccess = createAction(
   '[Grid] Load Grid Form Window Config Success',
   props<{ gridId: string; formWindowConfig: GnroFormWindowConfig }>(),

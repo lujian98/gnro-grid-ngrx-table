@@ -1,5 +1,5 @@
 import { inject, Injectable, Signal } from '@angular/core';
-import { GnroFormWindowConfig } from '@gnro/ui/form';
+import { GnroFormWindowConfig, openFormWindowDialog } from '@gnro/ui/form-window';
 import { Store } from '@ngrx/store';
 import {
   GnroCellEdit,
@@ -26,7 +26,6 @@ import {
   selectRowGroups,
   selectRowSelection,
 } from './grid.selectors';
-import { openFormWindowDialog } from '@gnro/ui/form';
 
 @Injectable({ providedIn: 'root' })
 export class GnroGridFacade {

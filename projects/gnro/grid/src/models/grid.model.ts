@@ -2,7 +2,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Type } from '@angular/core';
 import { GnroObjectType } from '@gnro/ui/core';
 import { GnroDateRange, GnroFieldConfig } from '@gnro/ui/fields';
-import { GnroFormWindowConfig } from '@gnro/ui/form';
+import { GnroFormWindowConfig } from '@gnro/ui/form-window';
 import { GnroRowGroups } from '../utils/row-group/row-groups';
 
 export interface GnroCellEdit<T> {

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, OnDestroy, OnInit, output } from '@angular/core';
 import { GnroButtonConfg, GnroBUTTONS, GnroButtonType, GnroTasksService } from '@gnro/ui/core';
+import { GnroFormWindowConfig } from '@gnro/ui/form-window';
 import { GnroIconModule } from '@gnro/ui/icon';
 import { GnroLayoutComponent, GnroLayoutHeaderComponent } from '@gnro/ui/layout';
 import { GnroSpinnerDirective } from '@gnro/ui/spinner';
@@ -9,7 +10,6 @@ import { GnroGridFooterComponent } from './components/grid-footer/grid-footer.co
 import { GnroGridViewComponent } from './components/grid-view.component';
 import { defaultGridConfig, defaultGridSetting } from './models/default-grid';
 import { GnroColumnConfig, GnroGridConfig, GnroGridData, GnroGridSetting } from './models/grid.model';
-import { GnroFormWindowConfig } from '@gnro/ui/form';
 
 export interface GnroButtonClick {
   button: GnroButtonConfg;

@@ -1,5 +1,5 @@
 import { GnroFormField } from '@gnro/ui/fields';
-import { GnroFormConfig } from './form.model';
+import { GnroFormConfig } from '@gnro/ui/form';
 import { GnroWindowConfig } from '@gnro/ui/window';
 
 export interface GnroFormWindowConfig {

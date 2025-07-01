@@ -1,5 +1,4 @@
 import { Injectable, inject } from '@angular/core';
-import { GnroFormWindowComponent } from '@gnro/ui/form';
 import { GnroDialogService } from '@gnro/ui/overlay';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';

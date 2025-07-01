@@ -3,7 +3,7 @@ import { GnroFormField } from '@gnro/ui/fields';
 import { GnroDialogRef } from '@gnro/ui/overlay';
 import { GnroWindowComponent, GnroWindowConfig } from '@gnro/ui/window';
 import { GnroFormPanelComponent } from './form-panel.component';
-import { GnroFormConfig } from './models/form.model';
+import { GnroFormConfig } from '@gnro/ui/form';
 
 @Component({
   selector: 'gnro-form-window',

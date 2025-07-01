@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { GnroDialogService } from '@gnro/ui/overlay';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { exhaustMap, map } from 'rxjs';
-import { GnroFormWindowComponent } from '../../form-window.component';
+import { GnroFormWindowComponent } from '../form-window.component';
 import * as formWindowActions from './form-window.actions';
 
 @Injectable()

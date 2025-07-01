@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { GnroBUTTONS, GnroButtonConfg, GnroObjectType } from '@gnro/ui/core';
-import { GnroFormWindowConfig } from '@gnro/ui/form';
+import { GnroFormWindowConfig } from '@gnro/ui/form-window';
 import {
   GnroButtonClick,
   GnroColumnConfig,

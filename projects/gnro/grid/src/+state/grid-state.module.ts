@@ -3,7 +3,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { GnroGridEffects } from './grid.effects';
 import { gnroGridFeature } from './grid.reducer';
-import { GnroFormWindowEffects } from '@gnro/ui/form';
+import { GnroFormWindowEffects } from '@gnro/ui/form-window';
 
 @NgModule({
   imports: [
