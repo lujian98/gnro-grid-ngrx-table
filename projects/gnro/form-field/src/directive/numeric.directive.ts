@@ -12,6 +12,12 @@ export class GnroNumericDirective {
   private readonly valueChange$: BehaviorSubject<string> = new BehaviorSubject('');
   decimals = input<number>(2);
   allowNegative = input<boolean>(false);
+  editable = input(false, {
+    transform: (editable: boolean) => {
+      this.valueChange$.next(this.el.nativeElement.value);
+      return editable;
+    },
+  });
 
   constructor(
     @Optional() @Self() private ngControl: NgControl,
@@ -24,6 +30,7 @@ export class GnroNumericDirective {
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe(() => {
+        //console.log( ' this.el.nativeElement.value=', this.el.nativeElement.value)
         if (!this.check(this.el.nativeElement.value)) {
           this.setValue(Number(this.el.nativeElement.value).toFixed(this.decimals()));
         }
@@ -46,6 +53,8 @@ export class GnroNumericDirective {
 
   private setValue(value: string): void {
     this.el.nativeElement.value = value;
+    console.log('22222 value =', value);
+    console.log('22222 this.ngControl?.control? =', this.ngControl?.control);
     this.ngControl?.control?.patchValue(value, { emitEvent: false, onlySelf: true });
   }
 

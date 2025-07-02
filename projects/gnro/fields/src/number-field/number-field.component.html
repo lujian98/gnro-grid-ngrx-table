@@ -23,6 +23,7 @@
       gnroNumeric
       [allowNegative]="fieldConfig().allowNegative"
       [decimals]="fieldConfig().decimals"
+      [editable]="editable$()"
       placeholder="{{ fieldConfig().placeholder! | translate }}"
     />
     @if (fieldConfig().clearValue && hasValue) {
