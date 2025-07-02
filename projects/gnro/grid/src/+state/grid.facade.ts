@@ -262,7 +262,10 @@ export class GnroGridFacade {
   }
 
   openButtonClick(gridId: string): void {
-    //this.openGridFormWindow(gridId);
+    const selected = this.getRowSelection(gridId)()?.selection.selected;
+    if (selected && selected.length > 0) {
+      this.openGridFormWindow(gridId, selected[0]);
+    }
   }
 
   rowDblClick(gridId: string, record: object): void {
