@@ -131,7 +131,7 @@ export class GnroSelectOptionComponent<T, G> {
   }
 
   private setSelectChecked(): void {
-    const values = !this.filterValue ? this.fieldValue : this.value$();
+    const values = !this.filterValue || this.value$().length === 0 ? this.fieldValue : this.value$();
     this.optionList.toArray().forEach((option) => {
       const find = values.find((item) => isEqual(item, option.value()!));
       option.selected = !!find;
