@@ -42,9 +42,7 @@ export class GnroFormFacade {
   }
 
   saveFormData(formId: string, formConfig: GnroFormConfig, formData: object): void {
-    if (formConfig.remoteFormData) {
-      this.store.dispatch(formActions.saveFormData({ formId, formConfig, formData }));
-    }
+    this.store.dispatch(formActions.saveFormData({ formId, formConfig, formData }));
   }
 
   /*

@@ -95,6 +95,10 @@ export const gnroGridFeature = createFeature({
           selection: getSelection(gridConfig, selection, state[key].data),
           formWindowConfig: {
             ...state[key].formWindowConfig,
+            formConfig: {
+              ...state[key].formWindowConfig.formConfig,
+              urlKey: gridConfig.urlKey,
+            },
             formFields,
           },
         };

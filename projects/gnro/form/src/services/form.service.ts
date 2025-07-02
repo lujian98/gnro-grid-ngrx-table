@@ -54,6 +54,7 @@ export class GnroFormService {
   ): Observable<{ formConfig: GnroFormConfig; formData: object }> {
     const params = this.backendService.getParams(formConfig.urlKey, 'saveFormData');
     const url = this.backendService.apiUrl;
+    console.log(' save url=', url, ' params=', params, ' formData=', formData);
     return this.http.put<{ formConfig: GnroFormConfig; formData: object }>(url, { params }).pipe(
       map((res) => {
         return {
