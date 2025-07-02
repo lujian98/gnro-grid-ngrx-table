@@ -24,6 +24,7 @@
       [allowNegative]="fieldConfig().allowNegative"
       [decimals]="fieldConfig().decimals"
       [editable]="editable$()"
+      [dirty]="field.dirty"
       placeholder="{{ fieldConfig().placeholder! | translate }}"
     />
     @if (fieldConfig().clearValue && hasValue) {

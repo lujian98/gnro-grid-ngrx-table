@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { isEqual } from '@gnro/ui/core';
-import { GnroFormField } from '@gnro/ui/fields';
+import { isEqual, GnroObjectType, isNumeric } from '@gnro/ui/core';
+import { GnroFormField, GnroNumberFieldConfig } from '@gnro/ui/fields';
 import { take, timer } from 'rxjs';
 import { GnroGridFacade } from '../../../../+state/grid.facade';
 import { GnroCellEdit, GnroColumnConfig, GnroGridConfig, GnroGridSetting } from '../../../../models/grid.model';
@@ -69,7 +69,11 @@ export class GnroCellEditBaseComponent<T> {
   }
 
   get data(): T {
-    return (this.record as { [index: string]: T })[this.column.name];
+    const data = (this.record as { [index: string]: T })[this.column.name];
+    if (this.fieldConfig.fieldType === GnroObjectType.Number && isNumeric(data as string | number)) {
+      return (data as number).toFixed((this.fieldConfig as GnroNumberFieldConfig).decimals) as T;
+    }
+    return data;
   }
 
   get recordId(): string {

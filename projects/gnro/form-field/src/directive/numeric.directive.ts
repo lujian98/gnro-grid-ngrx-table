@@ -18,6 +18,12 @@ export class GnroNumericDirective {
       return editable;
     },
   });
+  dirty = input(false, {
+    transform: (dirty: boolean) => {
+      this.valueChange$.next(this.el.nativeElement.value);
+      return dirty;
+    },
+  });
 
   constructor(
     @Optional() @Self() private ngControl: NgControl,
@@ -30,7 +36,6 @@ export class GnroNumericDirective {
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe(() => {
-        //console.log( ' this.el.nativeElement.value=', this.el.nativeElement.value)
         if (!this.check(this.el.nativeElement.value)) {
           this.setValue(Number(this.el.nativeElement.value).toFixed(this.decimals()));
         }
@@ -40,21 +45,17 @@ export class GnroNumericDirective {
       });
   }
 
-  private check(value: string): RegExpMatchArray | null {
+  private check(value: string): boolean {
     if (this.decimals() <= 0) {
-      return String(value).match(new RegExp(/^-?\d+$/));
+      return !!String(value).match(new RegExp(/^-?\d+$/));
     } else {
-      /****** the regex try to find if the number of chars after char dot '.' match input decimals value  *****/
-      const regExpString =
-        '^-?\\s*((\\d+(\\.\\d{0,' + this.decimals + '})?)|((\\d*(\\.\\d{1,' + this.decimals + '}))))\\s*$';
-      return String(value).match(new RegExp(regExpString));
+      const text = value.split('.');
+      return text.length === 1 || text[1].length <= this.decimals();
     }
   }
 
   private setValue(value: string): void {
     this.el.nativeElement.value = value;
-    console.log('22222 value =', value);
-    console.log('22222 this.ngControl?.control? =', this.ngControl?.control);
     this.ngControl?.control?.patchValue(value, { emitEvent: false, onlySelf: true });
   }
 
