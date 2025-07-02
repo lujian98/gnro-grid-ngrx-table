@@ -165,7 +165,7 @@ export class AppGridCellEditTextComponent {
   formWindowConfig: GnroFormWindowConfig = {
     windowConfig: MockWindowConfig,
     formConfig: MockFormConfig,
-    formFields: MockFormFields,
+    formFields: [], //MockFormFields,
     values: MockValues,
   };
 

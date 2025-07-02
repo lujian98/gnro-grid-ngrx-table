@@ -99,9 +99,25 @@ export const gnroGridFeature = createFeature({
       const key = action.gridId;
       const newState: GridState = { ...state };
       if (state[key]) {
+        const columnsConfig = state[key].columnsConfig;
+        const newFormFields = columnsConfig.map((column) => {
+          return {
+            fieldType: column.rendererType || 'text',
+            fieldName: column.name,
+            fieldLabel: column.title || column.name,
+            options: column.rendererType === 'select' ? (column.rendererFieldConfig as any)?.options : undefined,
+            readonly: true,
+            required: true,
+          };
+        });
+        const formFields = action.formWindowConfig.formFields;
+        const formWindowConfig = {
+          ...action.formWindowConfig,
+          formFields: formFields.length === 0 ? newFormFields : formFields,
+        };
         newState[key] = {
           ...state[key],
-          formWindowConfig: action.formWindowConfig,
+          formWindowConfig,
         };
         console.log(' newState[key]=', newState[key]);
       }

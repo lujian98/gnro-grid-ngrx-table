@@ -262,18 +262,21 @@ export class GnroGridFacade {
   }
 
   openButtonClick(gridId: string): void {
-    this.openGridFormWindow(gridId);
+    //this.openGridFormWindow(gridId);
   }
 
   rowDblClick(gridId: string, record: object): void {
     this.store.dispatch(gridActions.setSelectRow({ gridId, record }));
-    //this.store.dispatch(gridActions.openGridFormWindow({ gridId }));
-    this.openGridFormWindow(gridId);
+    this.openGridFormWindow(gridId, record);
   }
 
-  private openGridFormWindow(formWindowId: string): void {
-    const formWindowConfig = this.getFormWindowConfig(formWindowId)();
-    if (formWindowConfig) {
+  private openGridFormWindow(formWindowId: string, values: object): void {
+    const formConfig = this.getFormWindowConfig(formWindowId)();
+    if (formConfig) {
+      const formWindowConfig = {
+        ...formConfig,
+        values,
+      };
       this.store.dispatch(openFormWindowDialog({ formWindowId, formWindowConfig }));
     }
   }
