@@ -32,6 +32,7 @@ import {
   GnroLabelDirective,
   GnroLabelWidthDirective,
   GnroSuffixDirective,
+  GnroNumericDirective,
 } from '@gnro/ui/form-field';
 import { GnroIconModule } from '@gnro/ui/icon';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -70,6 +71,7 @@ import { defaultNumberFieldConfig, GnroNumberFieldConfig } from './models/number
     GnroFormFieldErrorsDirective,
     GnroFieldsErrorsComponent,
     GnroFormFieldControlDirective,
+    GnroNumericDirective,
   ],
 })
 export class GnroNumberFieldComponent implements ControlValueAccessor, Validator {

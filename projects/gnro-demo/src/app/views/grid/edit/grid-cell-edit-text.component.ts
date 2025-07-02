@@ -32,7 +32,7 @@ export class AppGridCellEditTextComponent {
 
   gridConfig: GnroGridConfig = {
     ...defaultGridConfig,
-    horizontalScroll: true,
+    //horizontalScroll: true,
     columnSticky: true,
     columnSort: true,
     columnFilter: true,

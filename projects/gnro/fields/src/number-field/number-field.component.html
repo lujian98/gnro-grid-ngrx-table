@@ -20,6 +20,9 @@
       (keyup)="onChange()"
       (wheel)="onChange()"
       [required]="required"
+      gnroNumeric
+      [allowNegative]="fieldConfig().allowNegative"
+      [decimals]="fieldConfig().decimals"
       placeholder="{{ fieldConfig().placeholder! | translate }}"
     />
     @if (fieldConfig().clearValue && hasValue) {
