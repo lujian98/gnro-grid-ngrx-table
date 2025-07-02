@@ -68,6 +68,8 @@ export class GnroFormEffects {
       concatMap(({ formId, formConfig, formData }) => {
         return this.formService.saveFormData(formConfig, formData).pipe(
           map(({ formConfig, formData }) => {
+            console.log(' ssaved form formConfig=', formConfig);
+            console.log(' ssaved form data=', formData);
             return formActions.saveFormDataSuccess({ formId, formConfig, formData });
           }),
         );

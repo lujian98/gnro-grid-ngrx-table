@@ -57,9 +57,10 @@ export class GnroFormService {
     console.log(' save url=', url, ' params=', params, ' formData=', formData);
     return this.http.put<{ formConfig: GnroFormConfig; formData: object }>(url, { params }).pipe(
       map((res) => {
+        console.log(' res=', res);
         return {
           formConfig: { ...formConfig, ...res.formConfig },
-          formData: { ...res.formData },
+          formData: { ...formData },
         };
       }),
     );

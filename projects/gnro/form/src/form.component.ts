@@ -41,6 +41,7 @@ export class GnroFormComponent implements OnDestroy {
   });
   values = input(undefined, {
     transform: (values: object) => {
+      console.log(' xxx set form data=', values);
       this.formFacade.setFormData(this.formId, this.formConfig(), values);
       return values;
     },
