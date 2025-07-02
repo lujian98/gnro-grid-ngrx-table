@@ -108,7 +108,7 @@ export interface GnroGridRowSelections<T> {
 export interface GnroGridState<T extends object = object> {
   gridConfig: GnroGridConfig; // for external grid config
   gridSetting: GnroGridSetting; // for internal use only settings
-  formWindowConfig?: GnroFormWindowConfig; //use with hasDetailView to open form window edit or view data
+  formWindowConfig: GnroFormWindowConfig; //use with hasDetailView to open form window edit or view data
   columnsConfig: GnroColumnConfig[];
   data: T[];
   totalCounts: number;

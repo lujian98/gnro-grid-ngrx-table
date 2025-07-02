@@ -21,7 +21,6 @@ import { MockFormConfig, MockFormFields, MockValues, MockWindowConfig } from './
     [columnsConfig]="columnsConfig"
     [buttons]="buttons"
     [gridData]="gridData"
-    [formWindowConfig]="formWindowConfig"
     (gnroButtonClick)="buttonClick($event)"
   ></gnro-grid>`,
   styles: [':host {  display: flex; width: 100%; }'],
@@ -84,6 +83,7 @@ export class AppGridCellEditTextComponent {
       rendererFieldConfig: {
         options: DCRBrandsList,
         remoteOptions: false,
+        multiSelection: false,
       },
       filterFieldConfig: {
         fieldType: GnroObjectType.Select,
@@ -166,7 +166,7 @@ export class AppGridCellEditTextComponent {
     windowConfig: MockWindowConfig,
     formConfig: MockFormConfig,
     formFields: [], //MockFormFields,
-    values: MockValues,
+    //values: MockValues,
   };
 
   buttonClick(buttonClick: GnroButtonClick): void {

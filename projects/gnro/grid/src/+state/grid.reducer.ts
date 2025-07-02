@@ -4,6 +4,7 @@ import { createFeature, createReducer, on } from '@ngrx/store';
 import { MIN_GRID_COLUMN_WIDTH, VIRTUAL_SCROLL_PAGE_SIZE } from '../models/constants';
 import { defaultState } from '../models/default-grid';
 import { GridState } from '../models/grid.model';
+import { getFormFields } from '../utils/form-fields';
 import { GnroRowGroup } from '../utils/row-group/row-group';
 import { GnroRowGroups } from '../utils/row-group/row-groups';
 import { getSelection, setSelection } from '../utils/row-selection';
@@ -82,6 +83,7 @@ export const gnroGridFeature = createFeature({
         const selection = gridConfig.multiRowSelection
           ? new SelectionModel<object>(true, [])
           : state[key].selection.selection;
+        const formFields = getFormFields(columnsConfig);
         newState[key] = {
           ...state[key],
           gridSetting: {
@@ -91,6 +93,10 @@ export const gnroGridFeature = createFeature({
           },
           columnsConfig,
           selection: getSelection(gridConfig, selection, state[key].data),
+          formWindowConfig: {
+            ...state[key].formWindowConfig,
+            formFields,
+          },
         };
       }
       return { ...newState };
@@ -99,27 +105,15 @@ export const gnroGridFeature = createFeature({
       const key = action.gridId;
       const newState: GridState = { ...state };
       if (state[key]) {
-        const columnsConfig = state[key].columnsConfig;
-        const newFormFields = columnsConfig.map((column) => {
-          return {
-            fieldType: column.rendererType || 'text',
-            fieldName: column.name,
-            fieldLabel: column.title || column.name,
-            options: column.rendererType === 'select' ? (column.rendererFieldConfig as any)?.options : undefined,
-            readonly: true,
-            required: true,
-          };
-        });
-        const formFields = action.formWindowConfig.formFields;
+        const formFields = action.formWindowConfig.formFields || [];
         const formWindowConfig = {
           ...action.formWindowConfig,
-          formFields: formFields.length === 0 ? newFormFields : formFields,
+          formFields: formFields?.length === 0 ? state[key].formWindowConfig.formFields : formFields,
         };
         newState[key] = {
           ...state[key],
           formWindowConfig,
         };
-        console.log(' newState[key]=', newState[key]);
       }
       return { ...newState };
     }),
@@ -325,11 +319,11 @@ export const gnroGridFeature = createFeature({
       if (state[key]) {
         const oldState = state[key];
         const selection = oldState.selection.selection;
-        let selected = 0;
+        //let selected = 0;
         if (action.selectAll) {
           const selectedRecords = oldState.data.filter((item) => item && !(item instanceof GnroRowGroup));
           selectedRecords.forEach((record) => selection.select(record));
-          selected = selectedRecords.length;
+          //selected = selectedRecords.length;
         } else {
           selection.clear();
         }
