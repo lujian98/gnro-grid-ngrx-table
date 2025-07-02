@@ -280,7 +280,6 @@ export class GnroGridFacade {
         ...formConfig,
         values,
       };
-      console.log(' formWindowConfig=', formWindowConfig);
       this.store.dispatch(openFormWindowDialog({ formWindowId, formWindowConfig }));
     }
   }

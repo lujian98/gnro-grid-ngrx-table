@@ -67,9 +67,9 @@ export class GnroFormViewComponent implements OnInit {
   });
   values = input(undefined, {
     transform: (values: object) => {
-      console.log('set patch set form data=', values);
       if (this.form && values) {
         this.form.patchValue({ ...values });
+        this.form.markAsPristine();
       }
       return values;
     },
