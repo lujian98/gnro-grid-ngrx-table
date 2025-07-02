@@ -3,8 +3,7 @@ import { GnroColumnConfig } from '../models/grid.model';
 import { GnroObjectType } from '@gnro/ui/core';
 
 export function getFormFields(columnsConfig: GnroColumnConfig[]): GnroFormField[] {
-  console.log(' columnsConfig=', columnsConfig);
-  const formFields = columnsConfig.map((column) => {
+  return columnsConfig.map((column) => {
     const rendererFieldConfig = column.rendererFieldConfig ? column.rendererFieldConfig : {};
     const fieldType = getFormFieldType(column);
     const field = {
@@ -15,10 +14,8 @@ export function getFormFields(columnsConfig: GnroColumnConfig[]): GnroFormField[
       required: false,
       ...rendererFieldConfig,
     };
-    console.log(' field=', field);
     return field;
   });
-  return formFields;
 }
 
 function getFormFieldType(column: GnroColumnConfig): GnroObjectType {

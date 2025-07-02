@@ -74,6 +74,9 @@ export class AppGridCellEditTextComponent {
       name: 'vin',
       width: 100,
       cellEditable: true,
+      rendererFieldConfig: {
+        required: true,
+      },
     },
     {
       name: 'brand',
@@ -111,6 +114,7 @@ export class AppGridCellEditTextComponent {
       rendererType: GnroObjectType.Number,
       rendererFieldConfig: {
         decimals: 2,
+        required: true,
       },
       filterField: GnroObjectType.Number,
       align: 'right',
