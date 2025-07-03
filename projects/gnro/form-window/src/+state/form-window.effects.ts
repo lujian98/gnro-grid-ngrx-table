@@ -40,7 +40,6 @@ export class GnroFormWindowEffects {
         of({ formData }).pipe(
           map(({ formData }) => {
             const formWindowId = this.store.selectSignal(selectFormWindowId)();
-            console.log('formWindowId=', formWindowId);
             return formWindowActions.savedFormWindowData({ formWindowId, formData });
           }),
         ),

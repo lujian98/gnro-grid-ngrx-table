@@ -1,5 +1,4 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { GnroBUTTONS, GnroButtonConfg, GnroButtonType } from '@gnro/ui/core';
 import * as formWindowActions from './form-window.actions';
 
 export interface FormWindowState {
