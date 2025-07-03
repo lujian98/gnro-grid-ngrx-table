@@ -12,3 +12,8 @@ export const applyFormWindowDialogChanges = createAction(
   '[Form Window] Apply Form Window Dialog Changes',
   props<{ values: object }>(),
 );
+
+export const savedFormWindowData = createAction(
+  '[Form Window] Saved Form Window Data',
+  props<{ formWindowId: string; formData: object }>(),
+);

@@ -20,7 +20,7 @@ export class GnroGridCellNumberComponent extends GnroGridCellRendererComponent<n
 
   get display(): number | string {
     if (isNumeric(this.data)) {
-      return this.data.toFixed(this.fieldConfig.decimals);
+      return Number(this.data).toFixed(this.fieldConfig.decimals);
     } else {
       return '';
     }
