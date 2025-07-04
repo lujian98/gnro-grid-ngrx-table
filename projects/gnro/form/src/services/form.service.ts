@@ -52,7 +52,7 @@ export class GnroFormService {
     formConfig: GnroFormConfig,
     formData: object,
   ): Observable<{ formConfig: GnroFormConfig; formData: object }> {
-    const params = this.backendService.getParams(formConfig.urlKey, 'saveFormData');
+    const params = this.backendService.getParams(formConfig.urlKey, 'update');
     const url = this.backendService.apiUrl;
     console.log(' save url=', url, ' params=', params, ' formData=', formData);
     return this.http.put<{ formConfig: GnroFormConfig; formData: object }>(url, { params }).pipe(
