@@ -1,8 +1,8 @@
 import { GnroFormField } from '@gnro/ui/fields';
-import { GnroColumnConfig } from '../models/grid.model';
+import { GnroColumnConfig, GnroGridConfig } from '../models/grid.model';
 import { GnroObjectType } from '@gnro/ui/core';
 
-export function getFormFields(columnsConfig: GnroColumnConfig[]): GnroFormField[] {
+export function getFormFields(gridConfig: GnroGridConfig, columnsConfig: GnroColumnConfig[]): GnroFormField[] {
   return columnsConfig.map((column) => {
     const rendererFieldConfig = column.rendererFieldConfig ? column.rendererFieldConfig : {};
     const fieldType = getFormFieldType(column);
@@ -14,6 +14,12 @@ export function getFormFields(columnsConfig: GnroColumnConfig[]): GnroFormField[
       required: false,
       ...rendererFieldConfig,
     };
+    if (fieldType === GnroObjectType.Select) {
+      return {
+        ...field,
+        urlKey: gridConfig.urlKey,
+      };
+    }
     return field;
   });
 }

@@ -59,12 +59,12 @@ export class GnroFormService {
     let params = this.backendService.getParams(formConfig.urlKey, 'update');
     const url = this.backendService.apiUrl;
     params = params.append('record', JSON.stringify(formData));
-    return this.http.put(url, params, { headers: headers }).pipe(
+    return this.http.put<{ formData: object }>(url, params, { headers: headers }).pipe(
       map((res) => {
         console.log(' res=', res);
         return {
           formConfig: { ...formConfig },
-          formData: { ...formData },
+          formData: { ...res.formData },
         };
       }),
     );

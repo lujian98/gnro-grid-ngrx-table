@@ -85,7 +85,7 @@ export const gnroGridFeature = createFeature({
         const selection = gridConfig.multiRowSelection
           ? new SelectionModel<object>(true, [])
           : state[key].selection.selection;
-        const formFields = getFormFields(columnsConfig);
+        const formFields = getFormFields(gridConfig, columnsConfig);
         newState[key] = {
           ...state[key],
           gridSetting: {
