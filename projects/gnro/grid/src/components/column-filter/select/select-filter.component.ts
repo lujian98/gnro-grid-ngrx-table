@@ -55,9 +55,7 @@ export class GnroSelectFilterComponent extends GnroFieldFilterComponent {
       value = [];
     }
     const filter = Array.isArray(value) ? [...value] : [value];
-    if (!isEqual(filter, this.prevFilter) && Array.isArray(filter)) {
-      this.prevFilter = [...filter];
-      this.applyFilter(filter);
-    }
+    this.prevFilter = [...filter];
+    this.applyFilter(filter);
   }
 }

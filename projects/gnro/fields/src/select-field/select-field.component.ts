@@ -29,7 +29,7 @@ import {
   GnroAutocompleteContentDirective,
   GnroAutocompleteDirective,
 } from '@gnro/ui/autocomplete';
-import { uniqueId } from '@gnro/ui/core';
+import { isEqual, uniqueId } from '@gnro/ui/core';
 import {
   GnroFieldWidthDirective,
   GnroFormFieldComponent,
@@ -95,6 +95,7 @@ export class GnroSelectFieldComponent<T, G> implements OnDestroy, ControlValueAc
   private selectFieldFacade = inject(GnroSelectFieldFacade);
   private fieldId = `select-${crypto.randomUUID()}`;
   private firstTimeLoad = true;
+  private prevSelected: string[] | object[] = [];
   setSelected: boolean = false;
   fieldConfig$ = this.selectFieldFacade.getFieldConfig(this.fieldId);
   fieldSetting$ = this.selectFieldFacade.getSetting(this.fieldId);
@@ -192,8 +193,9 @@ export class GnroSelectFieldComponent<T, G> implements OnDestroy, ControlValueAc
   }
   onSelectOptionValueChange(value: T | T[]): void {
     this.field.setValue(value);
-    this.valueChange.emit(value);
-    this.value$.set(value as string | object | string[] | object[]);
+    const val = value as string | object | string[] | object[];
+    this.valueChangeEmit(val);
+    this.value$.set(val);
   }
 
   displayFn(value: string | { [key: string]: string } | { [key: string]: string }[]): string {
@@ -264,13 +266,22 @@ export class GnroSelectFieldComponent<T, G> implements OnDestroy, ControlValueAc
 
   private setValueChanged(value: string | object | string[] | object[]): void {
     this.field.setValue(value);
-    this.valueChange.emit(value as T | T[]);
+    this.valueChangeEmit(value);
     this.value$.set(value);
+  }
+
+  private valueChangeEmit(value: string | object | string[] | object[]): void {
+    let newValue = value ? value : [];
+    newValue = Array.isArray(newValue) ? [...newValue] : [value];
+    if (!isEqual(newValue, this.prevSelected) && Array.isArray(newValue)) {
+      this.prevSelected = [...newValue];
+      this.valueChange.emit(value as T | T[]);
+    }
   }
 
   onChange(): void {
     if (this.fieldConfig$().multiSelection) {
-      this.valueChange.emit(this.fieldValue);
+      this.valueChangeEmit(this.fieldValue);
       this.setSelected = false;
     }
   }
@@ -283,10 +294,10 @@ export class GnroSelectFieldComponent<T, G> implements OnDestroy, ControlValueAc
     event.stopPropagation();
     if (this.fieldConfig$().multiSelection) {
       this.field.setValue([]);
-      this.valueChange.emit([]);
+      this.valueChangeEmit([]);
     } else {
       this.field.setValue('');
-      this.valueChange.emit('' as T);
+      this.valueChangeEmit('');
     }
     this.changeDetectorRef.markForCheck();
     this.setSelected = false;
