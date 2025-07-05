@@ -52,7 +52,7 @@ export interface GnroGridConfig {
   columnReorder: boolean;
   columnMenu: boolean;
   columnHidden: boolean;
-  recordKey: string; // used for cell edit
+  recordKey: string; // need this for cell edit and row selection
   remoteGridConfig: boolean;
   remoteColumnsConfig: boolean;
   rowSelection: boolean;
