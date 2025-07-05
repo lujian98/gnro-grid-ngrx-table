@@ -7,6 +7,7 @@ import { GnroGridinMemoryService } from '../services/grid-in-memory.service';
 import { GnroGridService } from '../services/grid.service';
 import * as gridActions from './grid.actions';
 import { GnroGridFacade } from './grid.facade';
+import { savedFormWindowData } from '@gnro/ui/form-window';
 
 @Injectable()
 export class GnroGridEffects {
@@ -133,6 +134,15 @@ export class GnroGridEffects {
             return gridActions.saveModifiedRecordsSuccess({ gridId, newRecords });
           }),
         );
+      }),
+    ),
+  );
+
+  savedFormWindowData$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(savedFormWindowData),
+      map(({ formWindowId }) => {
+        return gridActions.getGridData({ gridId: formWindowId });
       }),
     ),
   );

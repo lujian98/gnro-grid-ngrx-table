@@ -285,6 +285,7 @@ export const gnroGridFeature = createFeature({
       return { ...newState };
     }),
 
+    /*
     on(savedFormWindowData, (state, action) => {
       const key = action.formWindowId;
       const newState: GridState = { ...state };
@@ -318,6 +319,7 @@ export const gnroGridFeature = createFeature({
       }
       return { ...newState };
     }),
+    */
 
     on(gridActions.setLoadTreeDataLoading, (state, action) => {
       const key = action.gridId;

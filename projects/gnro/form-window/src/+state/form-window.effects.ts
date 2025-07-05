@@ -33,7 +33,7 @@ export class GnroFormWindowEffects {
     ),
   );
 
-  clearFormDataStore$ = createEffect(() =>
+  saveFormDataSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(saveFormDataSuccess),
       concatMap(({ formData }) =>
