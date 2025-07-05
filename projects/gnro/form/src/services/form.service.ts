@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, of, map } from 'rxjs';
 import { GnroBackendService, GnroUploadFile } from '@gnro/ui/core';
@@ -52,14 +52,18 @@ export class GnroFormService {
     formConfig: GnroFormConfig,
     formData: object,
   ): Observable<{ formConfig: GnroFormConfig; formData: object }> {
-    const params = this.backendService.getParams(formConfig.urlKey, 'update');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    let params = this.backendService.getParams(formConfig.urlKey, 'update');
     const url = this.backendService.apiUrl;
-    console.log(' save url=', url, ' params=', params, ' formData=', formData);
-    return this.http.put<{ formConfig: GnroFormConfig; formData: object }>(url, { params }).pipe(
+    params = params.append('record', JSON.stringify(formData));
+    return this.http.put(url, params, { headers: headers }).pipe(
       map((res) => {
         console.log(' res=', res);
         return {
-          formConfig: { ...formConfig, ...res.formConfig },
+          formConfig: { ...formConfig },
           formData: { ...formData },
         };
       }),
