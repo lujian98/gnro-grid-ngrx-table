@@ -23,6 +23,9 @@ export class GnroRansackTextFilter<T> extends GnroRansackFilter<T> {
       } else if (value.endsWith('*')) {
         query = '_start';
         value = value.substring(0, value.length - 1);
+      } else if (value.startsWith('=')) {
+        query = '_eq';
+        value = value.substring(1);
       } else if (value.startsWith('"') && value.endsWith('"')) {
         query = '_eq';
         value = value.substring(1, value.length - 1);
