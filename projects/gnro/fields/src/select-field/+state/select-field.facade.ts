@@ -23,6 +23,11 @@ export class GnroSelectFieldFacade {
     this.store.dispatch(selectFieldActions.loadSelectFieldOptionsSuccess({ fieldId, options }));
   }
 
+  reloadSelectFieldOptions(fieldId: string): void {
+    const fieldConfig = this.getFieldConfig(fieldId)();
+    this.store.dispatch(selectFieldActions.loadSelectFieldOptions({ fieldId, fieldConfig }));
+  }
+
   clearSelectFieldStore(fieldId: string): void {
     this.store.dispatch(selectFieldActions.clearSelectFieldStore({ fieldId }));
   }

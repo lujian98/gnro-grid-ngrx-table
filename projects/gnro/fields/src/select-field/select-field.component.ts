@@ -133,6 +133,14 @@ export class GnroSelectFieldComponent<T, G> implements OnDestroy, ControlValueAc
       return value;
     },
   });
+  requireReload = input(false, {
+    transform: (requireReload: boolean) => {
+      if (requireReload && this.fieldConfig().remoteOptions) {
+        this.selectFieldFacade.reloadSelectFieldOptions(this.fieldId);
+      }
+      return requireReload;
+    },
+  });
   valueChange = output<T | T[]>();
 
   getForm(): FormGroup {

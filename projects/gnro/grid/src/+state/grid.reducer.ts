@@ -284,6 +284,21 @@ export const gnroGridFeature = createFeature({
       }
       return { ...newState };
     }),
+    on(savedFormWindowData, (state, action) => {
+      const key = action.formWindowId;
+      const newState: GridState = { ...state };
+      if (state[key]) {
+        const oldState = state[key];
+        newState[key] = {
+          ...oldState,
+          gridSetting: {
+            ...oldState.gridSetting,
+            recordModified: true,
+          },
+        };
+      }
+      return { ...newState };
+    }),
 
     /*
     on(savedFormWindowData, (state, action) => {

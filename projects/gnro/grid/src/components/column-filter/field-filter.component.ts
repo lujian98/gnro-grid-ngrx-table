@@ -25,14 +25,21 @@ export class GnroFieldFilterComponent implements AfterViewInit {
   changeDetectorRef = inject(ChangeDetectorRef);
   filterChanged$ = new BehaviorSubject<GnroFilterValueType>(null);
   private _gridConfig!: GnroGridConfig;
+  private _gridSetting!: GnroGridSetting;
   column!: GnroColumnConfig;
   fieldConfig!: Partial<GnroFormField>;
 
-  gridSetting!: GnroGridSetting;
+  set gridSetting(gridSetting: GnroGridSetting) {
+    this._gridSetting = gridSetting;
+    this.changeDetectorRef.markForCheck();
+  }
+  get gridSetting(): GnroGridSetting {
+    return this._gridSetting;
+  }
+
   set gridConfig(value: GnroGridConfig) {
     this._gridConfig = { ...value };
     this.checkField();
-
     const find = this.gridConfig.columnFilters.find((column) => column.name === this.column.name);
     if (find) {
       this.value = find.value as string;
