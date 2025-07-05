@@ -7,12 +7,14 @@ import { concatMap, exhaustMap, map, of } from 'rxjs';
 import { GnroFormWindowComponent } from '../form-window.component';
 import * as formWindowActions from './form-window.actions';
 import { selectFormWindowId } from './form-window.selectors';
+import { GnroBuildPageService } from '../services/build-page.service';
 
 @Injectable()
 export class GnroFormWindowEffects {
   private readonly actions$ = inject(Actions);
   private readonly store = inject(Store);
   private readonly dialogService = inject(GnroDialogService);
+  private readonly buildPageService = inject(GnroBuildPageService);
 
   openGridFormWindow$ = createEffect(() =>
     this.actions$.pipe(
@@ -44,6 +46,19 @@ export class GnroFormWindowEffects {
           }),
         ),
       ),
+    ),
+  );
+
+  applyBuildPage$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(formWindowActions.applyBuildPage),
+      concatMap(({ keyName, configType, configData }) => {
+        return this.buildPageService.buildPageConfig(keyName, configType, configData).pipe(
+          map((res) => {
+            return formWindowActions.closeFormWindowDialog();
+          }),
+        );
+      }),
     ),
   );
 }

@@ -17,3 +17,12 @@ export const savedFormWindowData = createAction(
   '[Form Window] Saved Form Window Data',
   props<{ formWindowId: string; formData: object }>(),
 );
+
+export const applyBuildPage = createAction(
+  '[Form Window] Apply Build Page',
+  props<{
+    keyName: string;
+    configType: string;
+    configData: object;
+  }>(),
+);
