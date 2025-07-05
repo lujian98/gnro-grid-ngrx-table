@@ -133,7 +133,6 @@ export const gnroFormFeature = createFeature({
       if (state[key]) {
         newState[key] = {
           ...state[key],
-          //formConfig: { ...state[key].formConfig, ...action.formConfig },
           formData: { ...action.formData },
         };
       }
