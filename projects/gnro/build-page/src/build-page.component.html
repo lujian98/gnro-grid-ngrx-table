@@ -1,0 +1,24 @@
+<gnro-layout>
+  <gnro-layout-header [title]="keyName()">
+    <button gnro-button [ghost]="true" (click)="buildPage()">
+      <gnro-icon icon="window-restore"></gnro-icon>
+      Build Page
+    </button>
+  </gnro-layout-header>
+
+  <div class="build-page-contents">
+    <div>
+      Page Config:
+      <pre>{{ pageConfig() | json }}</pre>
+    </div>
+    <div>
+      Grid Config:
+      <pre>{{ gridConfig() | json }}</pre>
+    </div>
+
+    <div>
+      Column Config:
+      <pre>{{ columnConfig() | json }}</pre>
+    </div>
+  </div>
+</gnro-layout>

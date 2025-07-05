@@ -1,0 +1,13 @@
+:host {
+  gnro-layout-header {
+    position: sticky;
+    top: 0;
+  }
+
+  .build-page-contents {
+    display: flex;
+    div {
+      flex: 1;
+    }
+  }
+}

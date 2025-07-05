@@ -1,7 +1,6 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { ACCEPT_JSON_API_HEADER, GnroBackendService } from '@gnro/ui/core';
-import { GnroFormField } from '@gnro/ui/fields';
 import { Observable, map } from 'rxjs';
 
 @Injectable({
@@ -18,8 +17,6 @@ export class GnroBuildPageService {
     let params = this.backendService.getParams(keyName, 'buildPage');
     params = params.append('configType', configType);
     params = params.append('configData', JSON.stringify(configData));
-    console.log(' url =', url);
-    console.log(' params =', params);
     return this.http.put(url, params, { headers: headers }).pipe(
       map((res) => {
         console.log(' res=', res);
