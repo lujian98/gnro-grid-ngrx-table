@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ComponentRef,
   inject,
@@ -40,6 +41,7 @@ export class GnroColumnFilterComponent implements OnInit {
       return gridSetting;
     },
   });
+  //TODO possible no need loadComponent if _componentRef exist with use markForCheck??
   column = input.required({
     transform: (column: GnroColumnConfig) => {
       if (column && this._componentRef) {
