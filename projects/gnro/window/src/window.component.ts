@@ -76,6 +76,8 @@ export class GnroWindowComponent<T> {
   }
 
   maximize(): void {
+    this.windowInfo.width = this.element.clientWidth;
+    this.windowInfo.height = this.element.clientHeight;
     this.windowInfo.isMaxWindowSize = true;
     this.overlayPaneTransform = this.overlayPane.style.transform;
     this.overlayPane.style.transform = `translate3d(0px, 0px, 0px)`;
