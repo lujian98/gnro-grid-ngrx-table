@@ -1,7 +1,7 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { GnroObjectType } from '@gnro/ui/core';
-import { createFeature, createReducer, on } from '@ngrx/store';
 import { savedFormWindowData } from '@gnro/ui/form-window';
+import { createFeature, createReducer, on } from '@ngrx/store';
 import { MIN_GRID_COLUMN_WIDTH, VIRTUAL_SCROLL_PAGE_SIZE } from '../models/constants';
 import { defaultState } from '../models/default-grid';
 import { GridState } from '../models/grid.model';
@@ -11,7 +11,6 @@ import { GnroRowGroups } from '../utils/row-group/row-groups';
 import { getSelection, setSelection } from '../utils/row-selection';
 import { stickyEndMinWidth } from '../utils/viewport-width-ratio';
 import * as gridActions from './grid.actions';
-import { isEqual } from '@gnro/ui/core';
 
 export const initialState: GridState = {};
 
@@ -299,43 +298,6 @@ export const gnroGridFeature = createFeature({
       }
       return { ...newState };
     }),
-
-    /*
-    on(savedFormWindowData, (state, action) => {
-      const key = action.formWindowId;
-      const newState: GridState = { ...state };
-      if (state[key]) {
-        //TODO in row group?? or in-memory data support??
-        const oldState = state[key];
-        const gridConfig = oldState.gridConfig;
-        const selection = oldState.selection.selection;
-        const newRecord = { ...action.formData };
-        const data = [...oldState.data].map((record) => {
-          if (isEqual(record, selection.selected[0])) {
-            selection.deselect(selection.selected[0]);
-            selection.select(newRecord);
-            return newRecord;
-          }
-          return { ...record };
-        });
-
-        setSelection(gridConfig, oldState.selection.selection, data);
-        newState[key] = {
-          ...oldState,
-          gridSetting: {
-            ...oldState.gridSetting,
-            loading: false,
-            lastUpdateTime: new Date(),
-          },
-          data,
-          modified: [],
-          selection: getSelection(gridConfig, oldState.selection.selection, data),
-        };
-      }
-      return { ...newState };
-    }),
-    */
-
     on(gridActions.setLoadTreeDataLoading, (state, action) => {
       const key = action.gridId;
       const newState: GridState = { ...state };
@@ -354,7 +316,6 @@ export const gnroGridFeature = createFeature({
       }
       return { ...newState };
     }),
-
     on(gridActions.setGridInMemoryData, (state, action) => {
       const key = action.gridId;
       const newState: GridState = { ...state };
