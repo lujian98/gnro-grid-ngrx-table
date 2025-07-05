@@ -1,9 +1,9 @@
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, of, map } from 'rxjs';
-import { GnroBackendService, GnroUploadFile } from '@gnro/ui/core';
-import { GnroFormConfig } from '../models/form.model';
+import { ACCEPT_JSON_API_HEADER, GnroBackendService } from '@gnro/ui/core';
 import { GnroFormField } from '@gnro/ui/fields';
+import { Observable, map } from 'rxjs';
+import { GnroFormConfig } from '../models/form.model';
 
 @Injectable({
   providedIn: 'root',
@@ -52,9 +52,7 @@ export class GnroFormService {
     formConfig: GnroFormConfig,
     formData: object,
   ): Observable<{ formConfig: GnroFormConfig; formData: object }> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
+    const headers = new HttpHeaders(ACCEPT_JSON_API_HEADER);
 
     let params = this.backendService.getParams(formConfig.urlKey, 'update');
     const url = this.backendService.apiUrl;
