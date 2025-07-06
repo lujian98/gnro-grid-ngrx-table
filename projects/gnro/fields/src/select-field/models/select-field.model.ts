@@ -35,3 +35,7 @@ export interface GnroSelectFieldState {
   fieldSetting: GnroSelectFieldSetting;
   options: GnroOptionType[];
 }
+
+export interface GnroOptionsResponse {
+  options: GnroOptionType[];
+}

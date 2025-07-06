@@ -1,6 +1,7 @@
 import { getStatusText, InMemoryDbService, RequestInfo, ResponseOptions, STATUS } from 'angular-in-memory-web-api';
 import { Observable } from 'rxjs';
 import { GnroGridConfig, GnroColumnConfig, GnroGridConfigResponse, GnroColumnsConfigResponse } from '@gnro/ui/grid';
+import { GnroOptionsResponse } from '@gnro/ui/fields';
 import { CARSDATA, DCRBrands, DCRColors, DCRColumnConfig, DCRGridConfig } from '../data/cars-large';
 import { GnroTreeConfig } from '@gnro/ui/tree';
 import {
@@ -48,8 +49,8 @@ import {
 export class InMemoryService extends InMemoryDbService {
   createDb(): {
     DCR: any;
-    DCR_brand: any[];
-    DCR_color: any[];
+    DCR_brand: GnroOptionsResponse;
+    DCR_color: GnroOptionsResponse;
     DCR_columnsConfig: GnroColumnsConfigResponse;
     DCR_gridConfig: GnroGridConfigResponse;
     ECR_tree: NestedFoodNode[];
@@ -62,23 +63,23 @@ export class InMemoryService extends InMemoryDbService {
     RND_gridConfig: GnroGridConfigResponse;
     TST_columnsConfig: GnroColumnsConfigResponse;
 
-    usa_state: State[];
-    usa_statelist: string[];
-    usa_SingleRemote: State[];
+    usa_state: GnroOptionsResponse;
+    usa_statelist: GnroOptionsResponse;
+    usa_SingleRemote: GnroOptionsResponse;
     usa_SingleRemoteFieldConfig: any;
-    usa_MultiRemote: State[];
+    usa_MultiRemote: GnroOptionsResponse;
     usa_MultiRemoteFieldConfig: any;
-    usa_SingleAutocompleteRemotes: State[];
+    usa_SingleAutocompleteRemotes: GnroOptionsResponse;
     usa_SingleAutocompleteRemotesFieldConfig: any;
-    usa_MultiAutocompleteRemotes: State[];
+    usa_MultiAutocompleteRemotes: GnroOptionsResponse;
     usa_MultiAutocompleteRemotesFieldConfig: any;
-    usa_SingleAllRemoteList: string[];
+    usa_SingleAllRemoteList: GnroOptionsResponse;
     usa_SingleAllRemoteListFieldConfig: any;
-    usa_MultiAllRemoteList: string[];
+    usa_MultiAllRemoteList: GnroOptionsResponse;
     usa_MultiAllRemoteListFieldConfig: any;
-    usa_SingleAllAutocompleteRemoteList: string[];
+    usa_SingleAllAutocompleteRemoteList: GnroOptionsResponse;
     usa_SingleAllAutocompleteRemoteListFieldConfig: any;
-    usa_MultiAllAutocompleteRemotes: string[];
+    usa_MultiAllAutocompleteRemotes: GnroOptionsResponse;
     usa_MultiAllAutocompleteRemotesFieldConfig: any;
 
     DCR_formConfig: any;
@@ -121,24 +122,25 @@ export class InMemoryService extends InMemoryDbService {
       RND_gridConfig: RNDTreeGridConfig,
       TST_columnsConfig: ECRColumnConfig,
 
-      usa_state: STATES,
-      usa_statelist: STATES.map((state) => state.state),
-      usa_SingleRemote: STATES,
+      usa_state: { options: STATES },
+      usa_statelist: { options: STATES.map((state) => state.state) },
+      usa_SingleRemote: { options: STATES },
       usa_SingleRemoteFieldConfig: SingleSelectConfig,
-      usa_MultiRemote: STATES,
+      usa_MultiRemote: { options: STATES },
       usa_MultiRemoteFieldConfig: MultiSelectConfig,
-      usa_SingleAutocompleteRemotes: STATES,
+      usa_SingleAutocompleteRemotes: { options: STATES },
       usa_SingleAutocompleteRemotesFieldConfig: SingleAutocompleteConfig,
-      usa_MultiAutocompleteRemotes: STATES,
+      usa_MultiAutocompleteRemotes: { options: STATES },
       usa_MultiAutocompleteRemotesFieldConfig: MultiAutocompleteConfig,
-      usa_SingleAllRemoteList: [...STATES].map((state) => state.state),
+      usa_SingleAllRemoteList: { options: [...STATES].map((state) => state.state) },
       usa_SingleAllRemoteListFieldConfig: SingleListConfig,
-      usa_MultiAllRemoteList: [...STATES].map((state) => state.state),
+      usa_MultiAllRemoteList: { options: [...STATES].map((state) => state.state) },
       usa_MultiAllRemoteListFieldConfig: MultiListConfig,
-      usa_SingleAllAutocompleteRemoteList: [...STATES].map((state) => state.state),
+      usa_SingleAllAutocompleteRemoteList: { options: [...STATES].map((state) => state.state) },
       usa_SingleAllAutocompleteRemoteListFieldConfig: SingleAutocompleteLisConfig,
-      usa_MultiAllAutocompleteRemotes: [...STATES].map((state) => state.state),
+      usa_MultiAllAutocompleteRemotes: { options: [...STATES].map((state) => state.state) },
       usa_MultiAllAutocompleteRemotesFieldConfig: MultiAutocompleteListConfig,
+
       DCR_formConfig: DCRFormConfig,
       DCR_formFields: DCRFormFields,
       DCR_formData: DCRFormData,

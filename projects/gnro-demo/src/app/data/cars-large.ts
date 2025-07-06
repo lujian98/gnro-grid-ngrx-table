@@ -1,7 +1,7 @@
 import { sortByField, GnroObjectType } from '@gnro/ui/core';
 import { GnroColumnConfig, GnroGridConfig, GnroGridConfigResponse, GnroColumnsConfigResponse } from '@gnro/ui/grid';
 
-export const DCRBrands = [
+export const DCRBrandsData = [
   { title: 'Audi', name: 'Audi' },
   { title: 'BMW', name: 'BMW' },
   { title: 'Mercedes', name: 'Mercedes' },
@@ -16,9 +16,12 @@ export const DCRBrands = [
   { title: 'VW', name: 'VW' },
 ];
 
-export const DCRBrandsList = [...DCRBrands].map((item) => item.name);
+export const DCRBrands = {
+  options: DCRBrandsData,
+};
+export const DCRBrandsList = [...DCRBrandsData].map((item) => item.name);
 
-export const DCRColors = [
+export const DCRColorsData = [
   { title: 'Black', name: 'Black' },
   { title: 'Blue', name: 'Blue' },
   { title: 'Brown', name: 'Brown' },
@@ -31,7 +34,11 @@ export const DCRColors = [
   { title: 'White', name: 'White' },
 ];
 
-export const DCRColorsList = [...DCRColors].map((item) => item.name);
+export const DCRColors = {
+  options: DCRColorsData,
+};
+
+export const DCRColorsList = [...DCRColorsData].map((item) => item.name);
 
 console.log(' DCRColorsList=', DCRColorsList);
 

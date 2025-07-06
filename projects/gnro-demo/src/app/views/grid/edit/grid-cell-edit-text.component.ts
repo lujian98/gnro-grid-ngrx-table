@@ -93,7 +93,7 @@ export class AppGridCellEditTextComponent {
         fieldType: GnroObjectType.Select,
         multiSelection: true,
         remoteOptions: false,
-        options: DCRBrands,
+        options: DCRBrands.options,
       },
     },
     {
