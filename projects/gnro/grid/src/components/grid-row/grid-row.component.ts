@@ -75,19 +75,4 @@ export class GnroGridRowComponent<T> {
       return 'unset';
     }
   }
-
-  rowColumnOddSticky(column?: GnroColumnConfig | undefined): boolean {
-    return this.rowIndex() % 2 == 0 && this.columnSticky(column);
-  }
-
-  rowColumnEvenSticky(column?: GnroColumnConfig | undefined): boolean {
-    return this.rowIndex() % 2 == 1 && this.columnSticky(column);
-  }
-
-  columnSticky(column: GnroColumnConfig | undefined): boolean {
-    if (!column) {
-      return this.gridConfig().columnSticky;
-    }
-    return !!(this.gridConfig().columnSticky && (column.sticky || column.stickyEnd));
-  }
 }

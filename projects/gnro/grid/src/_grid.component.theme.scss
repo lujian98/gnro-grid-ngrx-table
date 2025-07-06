@@ -24,25 +24,19 @@
       z-index: 101;
     }
 
-    .gnro-grid-row:nth-child(odd),
-    .gnro-grid-cell-row-odd-sticky {
+    .gnro-grid-row:nth-child(odd) {
       background-color: gnro.gnro-theme(gnro-grid-row-odd-background-color);
-      &:focus,
-      &:hover {
-        background-color: gnro.gnro-theme(gnro-grid-row-hover-background-color);
-      }
     }
 
-    .gnro-grid-row:nth-child(even),
-    .gnro-grid-cell-row-even-sticky {
+    .gnro-grid-row:nth-child(even) {
       background-color: gnro.gnro-theme(gnro-grid-row-even-background-color);
-      &:focus,
-      &:hover {
-        background-color: gnro.gnro-theme(gnro-grid-row-hover-background-color);
-      }
     }
 
     gnro-grid-row {
+      &:focus,
+      &:hover {
+        background-color: gnro.gnro-theme(gnro-grid-row-hover-background-color);
+      }
       &.selected {
         background-color: gnro.gnro-theme(gnro-grid-row-selected-background-color);
       }
@@ -84,8 +78,21 @@
       border-color: gnro.gnro-theme(app-border-basic-color);
       border-width: 0px 0px 1px 1px;
 
+      &.row-odd-sticky {
+        background-color: gnro.gnro-theme(gnro-grid-row-odd-background-color);
+      }
+
+      &.row-even-sticky {
+        background-color: gnro.gnro-theme(gnro-grid-row-even-background-color);
+      }
+
+      &:focus,
+      &:hover {
+        background-color: gnro.gnro-theme(gnro-grid-row-hover-background-color);
+      }
+
       &.selected {
-        background-color: cyan;
+        background-color: gnro.gnro-theme(gnro-grid-row-selected-background-color);
       }
     }
 
