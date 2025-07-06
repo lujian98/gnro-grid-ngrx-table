@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+import { GnroBackendService } from '@gnro/ui/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { GnroBackendService } from '@gnro/ui/core';
-import { GnroSelectFieldConfig, GnroOptionType, GnroOptionsResponse } from '../models/select-field.model';
 import { GnroFieldConfigResponse } from '../../models/fields.model';
+import { GnroOptionType, GnroOptionsResponse, GnroSelectFieldConfig } from '../models/select-field.model';
 
 @Injectable({
   providedIn: 'root',
@@ -32,7 +32,6 @@ export class GnroSelectFieldService {
     const url = this.backendService.apiUrl;
     return this.http.get<GnroOptionsResponse>(url, { params }).pipe(
       map((response) => {
-        console.log(' sss response=', response);
         return response.options;
       }),
     );
