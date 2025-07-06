@@ -27,6 +27,8 @@ export class GnroGridRowComponent<T> {
     return `${ROW_SELECTION_CELL_WIDTH}px`;
   }
 
+  // [class]="{'class1': condition1, 'class2': condition2}"
+
   getColumnWidth(column: GnroColumnConfig): string {
     const width = this.columnWidths().find((col) => col.name === column.name)?.width;
     return width ? `${width}px` : '';
@@ -71,5 +73,20 @@ export class GnroGridRowComponent<T> {
     } else {
       return 'unset';
     }
+  }
+
+  rowColumnOddSticky(column?: GnroColumnConfig | undefined): boolean {
+    return this.rowIndex() % 2 == 0 && this.columnSticky(column);
+  }
+
+  rowColumnEvenSticky(column?: GnroColumnConfig | undefined): boolean {
+    return this.rowIndex() % 2 == 1 && this.columnSticky(column);
+  }
+
+  private columnSticky(column: GnroColumnConfig | undefined): boolean {
+    if (!column) {
+      return this.gridConfig().columnSticky;
+    }
+    return !!(this.gridConfig().columnSticky && (column.sticky || column.stickyEnd));
   }
 }

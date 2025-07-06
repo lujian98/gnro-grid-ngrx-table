@@ -24,8 +24,8 @@
       z-index: 101;
     }
 
-    .gnro-grid-row:nth-child(odd) {
-      //.gnro-grid-row:nth-child(odd) gnro-grid-cell {
+    .gnro-grid-row:nth-child(odd),
+    .gnro-grid-cell-row-odd-sticky {
       background-color: gnro.gnro-theme(gnro-grid-row-odd-background-color);
       &:focus,
       &:hover {
@@ -33,16 +33,8 @@
       }
     }
 
-    .gnro-grid-row:nth-child(even) {
-      //.gnro-grid-row:nth-child(even) gnro-grid-cell {
-      background-color: gnro.gnro-theme(gnro-grid-row-even-background-color);
-      &:focus,
-      &:hover {
-        background-color: gnro.gnro-theme(gnro-grid-row-hover-background-color);
-      }
-    }
-
-    .gnro-grid-cell-row-sticky {
+    .gnro-grid-row:nth-child(even),
+    .gnro-grid-cell-row-even-sticky {
       background-color: gnro.gnro-theme(gnro-grid-row-even-background-color);
       &:focus,
       &:hover {

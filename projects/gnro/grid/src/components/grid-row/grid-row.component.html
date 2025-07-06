@@ -1,7 +1,10 @@
 @if (gridConfig().rowSelection) {
   <gnro-grid-cell
     class="gnro-grid-cell-row-select"
-    [class.gnro-grid-cell-row-sticky]="gridConfig().columnSticky"
+    [class]="{
+      'gnro-grid-cell-row-odd-sticky': rowColumnOddSticky(),
+      'gnro-grid-cell-row-even-sticky': rowColumnEvenSticky(),
+    }"
     [class.gnro-grid-column-last-sticky]="isLastSticky(-1)"
     [style.height]="gridConfig().rowHeight + 'px'"
     [style.flex]="'0 0 ' + selectColumnWidth"
@@ -14,7 +17,10 @@
 @for (column of columns(); track $index; let index = $index) {
   @if (!column.hidden) {
     <gnro-grid-cell
-      [class.gnro-grid-cell-row-sticky]="gridConfig().columnSticky && (column.sticky || column.stickyEnd)"
+      [class]="{
+        'gnro-grid-cell-row-odd-sticky': rowColumnOddSticky(column),
+        'gnro-grid-cell-row-even-sticky': rowColumnEvenSticky(column),
+      }"
       [class.gnro-grid-column-last-sticky]="isLastSticky(index)"
       [class.gnro-grid-column-first-sticky-end]="isFirstStickyEnd(index)"
       [style.height]="gridConfig().rowHeight + 'px'"
