@@ -30,3 +30,7 @@ export type GnroFormField =
   | GnroUploadFileFieldConfig;
 
 export type GnroFieldConfig = Partial<GnroFormField>;
+
+export interface GnroFieldConfigResponse {
+  fieldConfig: GnroFieldConfig;
+}

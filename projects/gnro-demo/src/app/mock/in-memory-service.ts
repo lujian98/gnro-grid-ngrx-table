@@ -80,6 +80,7 @@ export class InMemoryService extends InMemoryDbService {
     usa_SingleAllAutocompleteRemoteListFieldConfig: any;
     usa_MultiAllAutocompleteRemotes: string[];
     usa_MultiAllAutocompleteRemotesFieldConfig: any;
+
     DCR_formConfig: any;
     DCR_formFields: any[];
     DCR_formData: any;
