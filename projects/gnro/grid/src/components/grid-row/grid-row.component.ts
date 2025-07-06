@@ -27,8 +27,6 @@ export class GnroGridRowComponent<T> {
     return `${ROW_SELECTION_CELL_WIDTH}px`;
   }
 
-  // [class]="{'class1': condition1, 'class2': condition2}"
-
   getColumnWidth(column: GnroColumnConfig): string {
     const width = this.columnWidths().find((col) => col.name === column.name)?.width;
     return width ? `${width}px` : '';
