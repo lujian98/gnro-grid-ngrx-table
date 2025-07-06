@@ -128,7 +128,7 @@ export class GnroAutocompleteDirective<T, G> implements ControlValueAccessor, On
   }
 
   private show(): void {
-    if (!this.overlayRef) {
+    if (!this.overlayRef && this.formField.field()?.enabled) {
       this.showOverlay();
       this.isOverlayOpen.emit(true);
     }
