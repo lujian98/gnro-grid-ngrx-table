@@ -87,6 +87,11 @@ export class GnroLayoutHorizontalComponent<T> implements AfterViewInit {
 
   onResizePanel(resizeInfo: GnroResizeInfo): void {
     if (resizeInfo.isResized) {
+      const el = resizeInfo.element;
+      if (el.localName === 'gnro-layout-left') {
+        const width = resizeInfo.width + resizeInfo.dx;
+        el.style.flex = `0 0 ${width}px`;
+      }
       timer(500)
         .pipe(take(1))
         .subscribe(() => {
