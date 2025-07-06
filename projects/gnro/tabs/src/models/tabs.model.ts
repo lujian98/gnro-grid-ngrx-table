@@ -29,6 +29,10 @@ export interface GnroTabsConfig extends GnroTabGroupConfig {
   remoteTabs: boolean;
 }
 
+export interface GnroTabsConfigResponse {
+  tabsConfig: Partial<GnroTabsConfig>;
+}
+
 export const defaultTabsConfig: GnroTabsConfig = {
   tabReorder: true,
   closeable: true,
