@@ -13,6 +13,9 @@ import { GnroRowSelectComponent } from '../row-select/row-select.component';
   styleUrls: ['./grid-row.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [GnroGridCellComponent, GnroGridCellViewComponent, GnroGridCellEditComponent, GnroRowSelectComponent],
+  host: {
+    '[class.selected]': 'selected()',
+  },
 })
 export class GnroGridRowComponent<T> {
   columns = input.required<GnroColumnConfig[]>();

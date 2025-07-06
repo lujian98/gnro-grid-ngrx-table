@@ -42,6 +42,12 @@
       }
     }
 
+    gnro-grid-row {
+      &.selected {
+        background-color: gnro.gnro-theme(gnro-grid-row-selected-background-color);
+      }
+    }
+
     .gnro-grid-column-last-sticky {
       border-right: 2px solid gnro.gnro-theme(app-border-basic-color);
     }
