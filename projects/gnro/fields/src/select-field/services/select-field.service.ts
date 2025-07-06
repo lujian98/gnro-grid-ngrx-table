@@ -28,7 +28,6 @@ export class GnroSelectFieldService {
   }
 
   getSelectFieldOptions(fieldConfig: GnroSelectFieldConfig): Observable<GnroOptionType[]> {
-    console.log(' sss fieldConfig=', fieldConfig);
     const params = this.backendService.getParams(fieldConfig.urlKey, 'select', fieldConfig.fieldName);
     const url = this.backendService.apiUrl;
     return this.http.get<GnroOptionsResponse>(url, { params }).pipe(

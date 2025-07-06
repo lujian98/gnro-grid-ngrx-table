@@ -37,7 +37,7 @@ export class InMemoryHttpInterceptor implements HttpInterceptor {
       newreq.url = newreq.urlWithParams = baseUrl;
       //console.log( ' newreq.url=', newreq.url)
     }
-    console.log(' newreq.url=', newreq.url);
+    //console.log(' newreq.url=', newreq.url);
     return next.handle(newreq as HttpRequest<any>);
   }
 }

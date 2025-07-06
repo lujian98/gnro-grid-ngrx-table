@@ -82,6 +82,16 @@ export class InMemoryService extends InMemoryDbService {
     usa_MultiAllAutocompleteRemotes: GnroOptionsResponse;
     usa_MultiAllAutocompleteRemotesFieldConfig: any;
 
+    usa_singleSelectionRemote: GnroOptionsResponse;
+    usa_multiSelectionRemote: GnroOptionsResponse;
+    usa_singleAutocompleteRemote: GnroOptionsResponse;
+    usa_multiAutocompleteRemote: GnroOptionsResponse;
+
+    usa_singleRemoteList: GnroOptionsResponse;
+    usa_multiRemoteList: GnroOptionsResponse;
+    usa_singleAutocompleteRemoteList: GnroOptionsResponse;
+    usa_multiAutocompleteRemoteList: GnroOptionsResponse;
+
     DCR_formConfig: any;
     DCR_formFields: any[];
     DCR_formData: any;
@@ -140,6 +150,16 @@ export class InMemoryService extends InMemoryDbService {
       usa_SingleAllAutocompleteRemoteListFieldConfig: SingleAutocompleteLisConfig,
       usa_MultiAllAutocompleteRemotes: { options: [...STATES].map((state) => state.state) },
       usa_MultiAllAutocompleteRemotesFieldConfig: MultiAutocompleteListConfig,
+
+      usa_singleSelectionRemote: { options: STATES },
+      usa_multiSelectionRemote: { options: STATES },
+      usa_singleAutocompleteRemote: { options: STATES },
+      usa_multiAutocompleteRemote: { options: STATES },
+
+      usa_singleRemoteList: { options: [...STATES].map((state) => state.state) },
+      usa_multiRemoteList: { options: [...STATES].map((state) => state.state) },
+      usa_singleAutocompleteRemoteList: { options: [...STATES].map((state) => state.state) },
+      usa_multiAutocompleteRemoteList: { options: [...STATES].map((state) => state.state) },
 
       DCR_formConfig: DCRFormConfig,
       DCR_formFields: DCRFormFields,
