@@ -21,7 +21,7 @@ export class InMemoryHttpInterceptor implements HttpInterceptor {
       newreq.url = `/api/${keyName}_tree`;
       newreq.urlWithParams = req.urlWithParams.replace(req.url, newreq.url);
       //console.log(' tree newreq=', newreq);
-    } else if (keyName && action === 'columnConfig') {
+    } else if (keyName && action === 'columnsConfig') {
       newreq.url = newreq.urlWithParams = `/api/${keyName}_${action}`;
     } else if (keyName && action === 'gridConfig') {
       newreq.url = newreq.urlWithParams = `/api/${keyName}_${action}`;

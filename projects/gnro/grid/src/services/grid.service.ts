@@ -35,7 +35,7 @@ export class GnroGridService {
   }
 
   getGridColumnsConfig(gridConfig: GnroGridConfig): Observable<GnroColumnConfig[]> {
-    const params = this.backendService.getParams(gridConfig.urlKey, 'columnConfig');
+    const params = this.backendService.getParams(gridConfig.urlKey, 'columnsConfig');
     const url = this.backendService.apiUrl;
     return this.http.get<GnroColumnsConfigResponse>(url, { params }).pipe(
       map((res) => {

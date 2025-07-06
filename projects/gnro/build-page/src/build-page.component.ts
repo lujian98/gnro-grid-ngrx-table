@@ -26,7 +26,7 @@ export class GnroBuildPageComponent {
   keyName = input.required<string>();
   pageConfig = input<object>();
   gridConfig = input<object>();
-  columnConfig = input<object>();
+  columnsConfig = input<object>();
 
   buildPage(): void {
     console.log('buildPage');
@@ -38,8 +38,8 @@ export class GnroBuildPageComponent {
       this.buildPageFacade.updateBuildPageConfig(this.keyName(), 'gridConfig', this.gridConfig()!);
     }
 
-    if (this.columnConfig()) {
-      this.buildPageFacade.updateBuildPageConfig(this.keyName(), 'columnConfig', this.columnConfig()!);
+    if (this.columnsConfig()) {
+      this.buildPageFacade.updateBuildPageConfig(this.keyName(), 'columnsConfig', this.columnsConfig()!);
     }
   }
 }

@@ -50,17 +50,17 @@ export class InMemoryService extends InMemoryDbService {
     DCR: any;
     DCR_brand: any[];
     DCR_color: any[];
-    DCR_columnConfig: GnroColumnsConfigResponse;
+    DCR_columnsConfig: GnroColumnsConfigResponse;
     DCR_gridConfig: GnroGridConfigResponse;
     ECR_tree: NestedFoodNode[];
-    ECR_columnConfig: GnroColumnsConfigResponse;
+    ECR_columnsConfig: GnroColumnsConfigResponse;
     ECR_gridConfig: GnroGridConfigResponse;
     NPR_gridConfig: GnroGridConfigResponse;
     NPR_tree: NestedFoodNode[];
     MET_gridConfig: GnroGridConfigResponse;
-    MET_columnConfig: GnroColumnsConfigResponse;
+    MET_columnsConfig: GnroColumnsConfigResponse;
     RND_gridConfig: GnroGridConfigResponse;
-    TST_columnConfig: GnroColumnsConfigResponse;
+    TST_columnsConfig: GnroColumnsConfigResponse;
 
     usa_state: State[];
     usa_statelist: string[];
@@ -108,17 +108,17 @@ export class InMemoryService extends InMemoryDbService {
       DCR: CARSDATA,
       DCR_brand: DCRBrands,
       DCR_color: DCRColors,
-      DCR_columnConfig: DCRColumnConfig,
+      DCR_columnsConfig: DCRColumnConfig,
       DCR_gridConfig: DCRGridConfig,
       ECR_tree: TREE_NESTED_DATA,
-      ECR_columnConfig: ECRColumnConfig,
+      ECR_columnsConfig: ECRColumnConfig,
       ECR_gridConfig: ECRTreeGridConfig,
       NPR_gridConfig: NPRTreeGridConfig,
       NPR_tree: TREE_NESTED_DATA,
       MET_gridConfig: METTreeGridConfig,
-      MET_columnConfig: ECRColumnConfig,
+      MET_columnsConfig: ECRColumnConfig,
       RND_gridConfig: RNDTreeGridConfig,
-      TST_columnConfig: ECRColumnConfig,
+      TST_columnsConfig: ECRColumnConfig,
 
       usa_state: STATES,
       usa_statelist: STATES.map((state) => state.state),
