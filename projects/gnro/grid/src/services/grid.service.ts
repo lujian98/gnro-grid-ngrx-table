@@ -2,7 +2,15 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, of, catchError, map, throwError } from 'rxjs';
 import { GnroBackendService } from '@gnro/ui/core';
-import { GnroColumnConfig, GnroColumnFilter, GnroGridConfig, GnroGridData, GnroSortField } from '../models/grid.model';
+import {
+  GnroColumnConfig,
+  GnroColumnFilter,
+  GnroGridConfig,
+  GnroGridData,
+  GnroSortField,
+  GnroGridConfigResponse,
+  GnroColumnConfigResponse,
+} from '../models/grid.model';
 import { GnroFilterFactory } from './filter/filter-factory';
 import { GnroRansackFilterFactory } from './ransack/filter/filter-factory';
 
@@ -16,11 +24,11 @@ export class GnroGridService {
   getGridConfig(gridConfig: GnroGridConfig): Observable<GnroGridConfig> {
     const params = this.backendService.getParams(gridConfig.urlKey, 'gridConfig');
     const url = this.backendService.apiUrl;
-    return this.http.get<GnroGridConfig>(url, { params }).pipe(
+    return this.http.get<GnroGridConfigResponse>(url, { params }).pipe(
       map((config) => {
         return {
           ...gridConfig,
-          ...config,
+          ...config.gridConfig,
         };
       }),
     );
@@ -29,9 +37,9 @@ export class GnroGridService {
   getGridColumnsConfig(gridConfig: GnroGridConfig): Observable<GnroColumnConfig[]> {
     const params = this.backendService.getParams(gridConfig.urlKey, 'columnConfig');
     const url = this.backendService.apiUrl;
-    return this.http.get<GnroColumnConfig[]>(url, { params }).pipe(
+    return this.http.get<GnroColumnConfigResponse>(url, { params }).pipe(
       map((res) => {
-        return res;
+        return res.columnConfigs;
       }),
     );
   }

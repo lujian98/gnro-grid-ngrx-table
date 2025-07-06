@@ -1,5 +1,5 @@
 import { GnroTreeNode, GnroTreeConfig } from '@gnro/ui/tree';
-import { GnroColumnConfig } from '@gnro/ui/grid';
+import { GnroColumnConfig, GnroGridConfigResponse, GnroColumnConfigResponse } from '@gnro/ui/grid';
 
 export interface NestedFoodNode extends GnroTreeNode<NestedFoodNode> {
   name: string;
@@ -34,7 +34,7 @@ export const TREE_NESTED_DATA: NestedFoodNode[] = [
   },
 ];
 
-export const ECRTreeGridConfig: Partial<GnroTreeConfig> = {
+export const ECRTreeGridConfigData: Partial<GnroTreeConfig> = {
   remoteGridData: true,
   remoteColumnsConfig: true,
   remoteLoadAll: true,
@@ -46,7 +46,11 @@ export const ECRTreeGridConfig: Partial<GnroTreeConfig> = {
   columnHidden: true,
 };
 
-export const ECRColumnConfig: GnroColumnConfig[] = [
+export const ECRTreeGridConfig: GnroGridConfigResponse = {
+  gridConfig: ECRTreeGridConfigData,
+};
+
+export const ECRColumnConfigData: GnroColumnConfig[] = [
   {
     name: 'name',
     width: 150,
@@ -72,7 +76,11 @@ export const ECRColumnConfig: GnroColumnConfig[] = [
   },
 ];
 
-export const NPRTreeGridConfig: Partial<GnroTreeConfig> = {
+export const ECRColumnConfig: GnroColumnConfigResponse = {
+  columnConfigs: ECRColumnConfigData,
+};
+
+export const NPRTreeGridConfigData: Partial<GnroTreeConfig> = {
   remoteGridData: true,
   //remoteColumnsConfig: true,
   remoteLoadAll: true,
@@ -84,12 +92,20 @@ export const NPRTreeGridConfig: Partial<GnroTreeConfig> = {
   columnHidden: true,
 };
 
-export const METTreeGridConfig: Partial<GnroTreeConfig> = {
+export const NPRTreeGridConfig: GnroGridConfigResponse = {
+  gridConfig: NPRTreeGridConfigData,
+};
+
+export const METTreeGridConfigData: Partial<GnroTreeConfig> = {
   remoteGridData: false,
   remoteColumnsConfig: true,
 };
 
-export const RNDTreeGridConfig: Partial<GnroTreeConfig> = {
+export const METTreeGridConfig: GnroGridConfigResponse = {
+  gridConfig: METTreeGridConfigData,
+};
+
+export const RNDTreeGridConfigData: Partial<GnroTreeConfig> = {
   remoteGridData: false,
   remoteColumnsConfig: false,
   columnSort: true,
@@ -98,4 +114,8 @@ export const RNDTreeGridConfig: Partial<GnroTreeConfig> = {
   columnReorder: true,
   columnMenu: true,
   columnHidden: true,
+};
+
+export const RNDTreeGridConfig: GnroGridConfigResponse = {
+  gridConfig: RNDTreeGridConfigData,
 };

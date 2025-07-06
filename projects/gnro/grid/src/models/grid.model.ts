@@ -119,6 +119,14 @@ export interface GnroGridState<T extends object = object> {
   modified: { [key: string]: unknown }[];
 }
 
+export interface GnroGridConfigResponse {
+  gridConfig: Partial<GnroGridConfig>;
+}
+
+export interface GnroColumnConfigResponse {
+  columnConfigs: GnroColumnConfig[];
+}
+
 export interface GnroGridData<T> {
   data: T[];
   totalCounts: number;

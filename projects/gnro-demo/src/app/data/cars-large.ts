@@ -1,5 +1,5 @@
 import { sortByField, GnroObjectType } from '@gnro/ui/core';
-import { GnroColumnConfig, GnroGridConfig } from '@gnro/ui/grid';
+import { GnroColumnConfig, GnroGridConfig, GnroGridConfigResponse, GnroColumnConfigResponse } from '@gnro/ui/grid';
 
 export const DCRBrands = [
   { title: 'Audi', name: 'Audi' },
@@ -35,7 +35,7 @@ export const DCRColorsList = [...DCRColors].map((item) => item.name);
 
 console.log(' DCRColorsList=', DCRColorsList);
 
-export const DCRGridConfig: Partial<GnroGridConfig> = {
+export const DCRGridConfigData: Partial<GnroGridConfig> = {
   columnSort: true,
   columnFilter: true,
   columnResize: true,
@@ -56,6 +56,10 @@ export const DCRGridConfig: Partial<GnroGridConfig> = {
     { name: 'color', value: [{ name: 'Orange', title: 'Orange' }] },
   ],
   rowSelection: true,
+};
+
+export const DCRGridConfig: GnroGridConfigResponse = {
+  gridConfig: DCRGridConfigData,
 };
 
 export const CARSDATA0 = {
@@ -1325,7 +1329,7 @@ export const MakerColorList = sortByField(getUniqueObjects(items, 'name'), 'name
 //console.log(' MakerColorList=', MakerColorList);
 //console.log(' CARSDATA3=', CARSDATA3);
 
-export const DCRColumnConfig: GnroColumnConfig[] = [
+export const DCRColumnConfigData: GnroColumnConfig[] = [
   {
     name: 'ID',
     width: 50,
@@ -1418,3 +1422,7 @@ export const DCRColumnConfig: GnroColumnConfig[] = [
     align: 'center',
   },
 ];
+
+export const DCRColumnConfig: GnroColumnConfigResponse = {
+  columnConfigs: DCRColumnConfigData,
+};
