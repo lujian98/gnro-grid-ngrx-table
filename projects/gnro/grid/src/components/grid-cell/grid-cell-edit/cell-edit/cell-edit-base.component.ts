@@ -63,6 +63,7 @@ export class GnroCellEditBaseComponent<T> {
   set record(data: T) {
     this._record = data;
     this.resetField();
+    this.changeDetectorRef.markForCheck();
   }
   get record(): T {
     return this._record;

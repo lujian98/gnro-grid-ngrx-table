@@ -41,7 +41,7 @@ export class GnroColumnFilterComponent implements OnInit {
       return gridSetting;
     },
   });
-  //TODO possible no need loadComponent if _componentRef exist with use markForCheck??
+
   column = input.required({
     transform: (column: GnroColumnConfig) => {
       if (column && this._componentRef) {
@@ -50,6 +50,7 @@ export class GnroColumnFilterComponent implements OnInit {
       return column;
     },
   });
+
   gridConfig = input.required({
     transform: (gridConfig: GnroGridConfig) => {
       if (gridConfig && this._componentRef) {
