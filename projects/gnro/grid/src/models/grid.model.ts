@@ -123,8 +123,8 @@ export interface GnroGridConfigResponse {
   gridConfig: Partial<GnroGridConfig>;
 }
 
-export interface GnroColumnConfigResponse {
-  columnConfigs: GnroColumnConfig[];
+export interface GnroColumnsConfigResponse {
+  columnsConfig: GnroColumnConfig[];
 }
 
 export interface GnroGridData<T> {

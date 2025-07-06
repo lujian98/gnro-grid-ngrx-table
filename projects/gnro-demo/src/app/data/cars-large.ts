@@ -1,5 +1,5 @@
 import { sortByField, GnroObjectType } from '@gnro/ui/core';
-import { GnroColumnConfig, GnroGridConfig, GnroGridConfigResponse, GnroColumnConfigResponse } from '@gnro/ui/grid';
+import { GnroColumnConfig, GnroGridConfig, GnroGridConfigResponse, GnroColumnsConfigResponse } from '@gnro/ui/grid';
 
 export const DCRBrands = [
   { title: 'Audi', name: 'Audi' },
@@ -1423,6 +1423,6 @@ export const DCRColumnConfigData: GnroColumnConfig[] = [
   },
 ];
 
-export const DCRColumnConfig: GnroColumnConfigResponse = {
-  columnConfigs: DCRColumnConfigData,
+export const DCRColumnConfig: GnroColumnsConfigResponse = {
+  columnsConfig: DCRColumnConfigData,
 };

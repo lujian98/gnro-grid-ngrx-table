@@ -9,7 +9,7 @@ import {
   GnroGridData,
   GnroSortField,
   GnroGridConfigResponse,
-  GnroColumnConfigResponse,
+  GnroColumnsConfigResponse,
 } from '../models/grid.model';
 import { GnroFilterFactory } from './filter/filter-factory';
 import { GnroRansackFilterFactory } from './ransack/filter/filter-factory';
@@ -37,9 +37,9 @@ export class GnroGridService {
   getGridColumnsConfig(gridConfig: GnroGridConfig): Observable<GnroColumnConfig[]> {
     const params = this.backendService.getParams(gridConfig.urlKey, 'columnConfig');
     const url = this.backendService.apiUrl;
-    return this.http.get<GnroColumnConfigResponse>(url, { params }).pipe(
+    return this.http.get<GnroColumnsConfigResponse>(url, { params }).pipe(
       map((res) => {
-        return res.columnConfigs;
+        return res.columnsConfig;
       }),
     );
   }

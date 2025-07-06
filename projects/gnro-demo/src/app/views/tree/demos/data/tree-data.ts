@@ -1,5 +1,5 @@
 import { GnroTreeNode, GnroTreeConfig } from '@gnro/ui/tree';
-import { GnroColumnConfig, GnroGridConfigResponse, GnroColumnConfigResponse } from '@gnro/ui/grid';
+import { GnroColumnConfig, GnroGridConfigResponse, GnroColumnsConfigResponse } from '@gnro/ui/grid';
 
 export interface NestedFoodNode extends GnroTreeNode<NestedFoodNode> {
   name: string;
@@ -76,8 +76,8 @@ export const ECRColumnConfigData: GnroColumnConfig[] = [
   },
 ];
 
-export const ECRColumnConfig: GnroColumnConfigResponse = {
-  columnConfigs: ECRColumnConfigData,
+export const ECRColumnConfig: GnroColumnsConfigResponse = {
+  columnsConfig: ECRColumnConfigData,
 };
 
 export const NPRTreeGridConfigData: Partial<GnroTreeConfig> = {

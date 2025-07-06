@@ -1,6 +1,6 @@
 import { getStatusText, InMemoryDbService, RequestInfo, ResponseOptions, STATUS } from 'angular-in-memory-web-api';
 import { Observable } from 'rxjs';
-import { GnroGridConfig, GnroColumnConfig, GnroGridConfigResponse, GnroColumnConfigResponse } from '@gnro/ui/grid';
+import { GnroGridConfig, GnroColumnConfig, GnroGridConfigResponse, GnroColumnsConfigResponse } from '@gnro/ui/grid';
 import { CARSDATA, DCRBrands, DCRColors, DCRColumnConfig, DCRGridConfig } from '../data/cars-large';
 import { GnroTreeConfig } from '@gnro/ui/tree';
 import {
@@ -50,17 +50,17 @@ export class InMemoryService extends InMemoryDbService {
     DCR: any;
     DCR_brand: any[];
     DCR_color: any[];
-    DCR_columnConfig: GnroColumnConfigResponse;
+    DCR_columnConfig: GnroColumnsConfigResponse;
     DCR_gridConfig: GnroGridConfigResponse;
     ECR_tree: NestedFoodNode[];
-    ECR_columnConfig: GnroColumnConfigResponse;
+    ECR_columnConfig: GnroColumnsConfigResponse;
     ECR_gridConfig: GnroGridConfigResponse;
     NPR_gridConfig: GnroGridConfigResponse;
     NPR_tree: NestedFoodNode[];
     MET_gridConfig: GnroGridConfigResponse;
-    MET_columnConfig: GnroColumnConfigResponse;
+    MET_columnConfig: GnroColumnsConfigResponse;
     RND_gridConfig: GnroGridConfigResponse;
-    TST_columnConfig: GnroColumnConfigResponse;
+    TST_columnConfig: GnroColumnsConfigResponse;
 
     usa_state: State[];
     usa_statelist: string[];
