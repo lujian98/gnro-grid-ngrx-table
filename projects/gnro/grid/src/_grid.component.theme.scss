@@ -32,7 +32,8 @@
       background-color: gnro.gnro-theme(gnro-grid-row-even-background-color);
     }
 
-    gnro-grid-row {
+    gnro-grid-row,
+    gnro-tree-row {
       &:focus,
       &:hover {
         background-color: gnro.gnro-theme(gnro-grid-row-hover-background-color);
