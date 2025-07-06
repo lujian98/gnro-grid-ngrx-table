@@ -1,3 +1,14 @@
+<!--
+    [class]="{
+      'gnro-grid-cell-row-odd-sticky': rowColumnOddSticky(),
+      'gnro-grid-cell-row-even-sticky': rowColumnEvenSticky(),
+    }"
+
+          [class]="{
+        'gnro-grid-cell-row-odd-sticky': rowColumnOddSticky(column),
+        'gnro-grid-cell-row-even-sticky': rowColumnEvenSticky(column),
+      }"
+    -->
 @if (gridConfig().rowSelection) {
   <gnro-grid-cell
     class="gnro-grid-cell-row-select"
@@ -9,6 +20,8 @@
     [style.height]="gridConfig().rowHeight + 'px'"
     [style.flex]="'0 0 ' + selectColumnWidth"
     [style.left]="gridConfig().columnSticky ? '0px' : 'unset'"
+    [sticky]="gridConfig().columnSticky"
+    [selected]="selected()"
   >
     <gnro-row-select [selected]="selected()"> </gnro-row-select>
   </gnro-grid-cell>
@@ -28,6 +41,8 @@
       [style.max-width]="getColumnWidth(column)"
       [style.left]="getStickyLeft(column, index)"
       [style.right]="getStickyRight(column, index)"
+      [sticky]="columnSticky(column)"
+      [selected]="selected()"
     >
       @if (!isCellEditable(column)) {
         <gnro-grid-cell-view [gridConfig]="gridConfig()" [rowIndex]="rowIndex()" [column]="column" [record]="record()">

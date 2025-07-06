@@ -84,7 +84,7 @@ export class GnroGridRowComponent<T> {
     return this.rowIndex() % 2 == 1 && this.columnSticky(column);
   }
 
-  private columnSticky(column: GnroColumnConfig | undefined): boolean {
+  columnSticky(column: GnroColumnConfig | undefined): boolean {
     if (!column) {
       return this.gridConfig().columnSticky;
     }

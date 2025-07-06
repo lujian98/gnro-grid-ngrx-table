@@ -83,6 +83,10 @@
       border-style: solid;
       border-color: gnro.gnro-theme(app-border-basic-color);
       border-width: 0px 0px 1px 1px;
+
+      &.selected {
+        background-color: cyan;
+      }
     }
 
     gnro-grid-cell:last-child {
