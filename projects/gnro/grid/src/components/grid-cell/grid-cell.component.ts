@@ -13,7 +13,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   },
 })
 export class GnroGridCellComponent {
-  sticky = input<boolean>(false);
-  selected = input<boolean>(false);
-  rowIndex = input<number>(0);
+  sticky = input.required<boolean>();
+  selected = input.required<boolean>();
+  rowIndex = input.required<number>();
 }

@@ -18,6 +18,9 @@ import { GnroTreeNodeComponent } from './tree-node/tree-node.component';
   styleUrls: ['./tree-row.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [GnroTreeNodeComponent, GnroGridCellComponent, GnroGridCellViewComponent, GnroRowSelectComponent],
+  host: {
+    '[class.selected]': 'selected()',
+  },
 })
 export class GnroTreeRowComponent<T> {
   columns = input.required<GnroColumnConfig[]>();
