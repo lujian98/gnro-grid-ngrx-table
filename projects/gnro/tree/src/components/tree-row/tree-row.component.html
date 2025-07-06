@@ -7,6 +7,7 @@
     [style.left]="treeConfig().columnSticky ? '0px' : 'unset'"
     [sticky]="treeConfig().columnSticky"
     [selected]="selected()"
+    [rowIndex]="rowIndex()"
   >
     <gnro-row-select [selected]="selected()"> </gnro-row-select>
   </gnro-grid-cell>
@@ -23,6 +24,7 @@
     [style.left]="getStickyLeft(columns()[0], 0)"
     [sticky]="treeConfig().columnSticky"
     [selected]="selected()"
+    [rowIndex]="rowIndex()"
   >
     <gnro-tree-node [gridSetting]="gridSetting()" [treeConfig]="treeConfig()" [node]="record()" [column]="treeColumn">
     </gnro-tree-node>
@@ -42,6 +44,7 @@
       [style.right]="getStickyRight(column, index)"
       [sticky]="!!(treeConfig().columnSticky && (column.sticky || column.stickyEnd))"
       [selected]="selected()"
+      [rowIndex]="rowIndex()"
     >
       <gnro-grid-cell-view [gridConfig]="treeConfig()" [rowIndex]="rowIndex()" [record]="record()" [column]="column">
       </gnro-grid-cell-view>
