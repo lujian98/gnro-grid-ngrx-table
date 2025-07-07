@@ -1,7 +1,6 @@
 @if (gridConfig().rowSelection) {
   <gnro-grid-cell
     class="gnro-grid-cell-row-select"
-    [class.gnro-grid-column-last-sticky]="isLastSticky(-1)"
     [gridConfig]="gridConfig()"
     [selected]="selected()"
     [rowIndex]="rowIndex()"
@@ -16,7 +15,6 @@
 @for (column of columns(); track $index; let index = $index) {
   @if (!column.hidden) {
     <gnro-grid-cell
-      [class.gnro-grid-column-last-sticky]="isLastSticky(index)"
       [class.gnro-grid-column-first-sticky-end]="isFirstStickyEnd(index)"
       [gridConfig]="gridConfig()"
       [selected]="selected()"

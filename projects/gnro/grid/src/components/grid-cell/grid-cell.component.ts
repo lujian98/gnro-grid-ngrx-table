@@ -13,6 +13,7 @@ import { getColumnsWidth } from '../../utils/viewport-width-ratio';
     '[class.row-even-sticky]': 'sticky() && rowIndex() % 2 === 1',
     '[class.row-odd-sticky]': 'sticky() && rowIndex() % 2 === 0',
     '[class.selected]': 'sticky() && selected()',
+    '[class.gnro-grid-column-last-sticky]': 'isLastSticky$()',
 
     '[style.height]': 'height$()',
     '[style.flex]': 'flex$()',
@@ -21,7 +22,7 @@ import { getColumnsWidth } from '../../utils/viewport-width-ratio';
     '[style.right]': 'right$()',
   },
 })
-//      [style.right]="getStickyRight(column, index)"
+//    [class.gnro-grid-column-last-sticky]="isLastSticky(-1)"
 export class GnroGridCellComponent {
   gridConfig = input.required<GnroGridConfig>();
   selected = input.required<boolean>();
@@ -78,4 +79,17 @@ export class GnroGridCellComponent {
     }
     return 'unset';
   });
+
+  isLastSticky$ = computed(() => {
+    if (this.sticky()) {
+      const index = this.isSelectionColumn() ? -1 : this.colIndex();
+      const totSticky = [...this.columns()].filter((col) => col.sticky).length;
+      return index === totSticky - 1;
+    }
+    return false;
+  });
 }
+
+/*
+
+    */

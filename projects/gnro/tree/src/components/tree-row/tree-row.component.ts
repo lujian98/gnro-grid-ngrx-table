@@ -39,15 +39,6 @@ export class GnroTreeRowComponent<T> {
     return (this.record().level! + 1) * 10;
   }
 
-  isLastSticky(index: number): boolean {
-    if (this.treeConfig().columnSticky) {
-      const totSticky = [...this.columns()].filter((col) => col.sticky).length;
-      return index === totSticky - 1;
-    } else {
-      return false;
-    }
-  }
-
   isFirstStickyEnd(index: number): boolean {
     if (this.treeConfig().columnSticky) {
       return index === [...this.columns()].findIndex((col) => col.stickyEnd);

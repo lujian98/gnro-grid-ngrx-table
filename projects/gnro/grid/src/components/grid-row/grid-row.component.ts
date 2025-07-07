@@ -30,15 +30,6 @@ export class GnroGridRowComponent<T> {
     return !!(this.gridSetting().gridEditable && column.cellEditable);
   }
 
-  isLastSticky(index: number): boolean {
-    if (this.gridConfig().columnSticky) {
-      const totSticky = [...this.columns()].filter((col) => col.sticky).length;
-      return index === totSticky - 1;
-    } else {
-      return false;
-    }
-  }
-
   isFirstStickyEnd(index: number): boolean {
     if (this.gridConfig().columnSticky) {
       return index === [...this.columns()].findIndex((col) => col.stickyEnd);
