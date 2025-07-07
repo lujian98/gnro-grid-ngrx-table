@@ -1,11 +1,11 @@
 @if (gridConfig().rowSelection) {
   <gnro-grid-header-item
-    [class.gnro-grid-column-last-sticky]="isLastSticky(-1)"
     [style.flex]="'0 0 ' + rowSelectionCellWidth + 'px'"
     [style.left]="getStickyLeft(gridConfig().columnSticky, false)"
     [gridConfig]="gridConfig()"
     [groupHeader]="true"
     column="selection"
+    [colIndex]="-1"
     [columns]="columns()"
     [columnHeaderPosition]="columnHeaderPosition()"
   ></gnro-grid-header-item>
@@ -13,13 +13,13 @@
 
 @for (header of groupHeaderColumns(); track $index; let index = $index) {
   <gnro-grid-header-item
-    [class.gnro-grid-column-last-sticky]="isLastSticky(index)"
     [class.gnro-grid-column-first-sticky-end]="isFirstStickyEnd(index)"
     [style.flex]="'0 0 ' + getHeaderWidth(header)"
     [style.max-width]="getHeaderWidth(header)"
     [style.left]="getHeaderStickyLeft(header, index)"
     [groupHeader]="true"
     [column]="getColumn(header)"
+    [colIndex]="index"
     [columns]="columns()"
     [columnHeaderPosition]="columnHeaderPosition()"
     [gridConfig]="gridConfig()"

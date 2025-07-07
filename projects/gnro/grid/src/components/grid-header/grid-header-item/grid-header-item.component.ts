@@ -16,12 +16,15 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.gnro-grid-header-sticky]': 'sticky()',
+    '[class.gnro-grid-column-last-sticky]': 'isLastSticky$()',
   },
 })
+//       [class.gnro-grid-column-last-sticky]="isLastSticky(index)"
 export class GnroGridHeaderItemComponent {
   gridConfig = input.required<GnroGridConfig>();
   groupHeader = input<boolean>(false);
   column = input.required<GnroColumnConfig | GnroGroupHeader | string>();
+  colIndex = input.required<number>();
   columns = input.required<GnroColumnConfig[]>();
   columnHeaderPosition = input<number>(0);
   private isSelectionColumn = computed(() => typeof this.column() === 'string' && this.column() === 'selection');
@@ -41,6 +44,27 @@ export class GnroGridHeaderItemComponent {
       } else {
         const item = this.column() as GnroColumnConfig;
         return item.sticky || item.stickyEnd;
+      }
+    }
+    return false;
+  });
+
+  isLastSticky$ = computed(() => {
+    if (this.sticky()) {
+      if (this.groupHeader()) {
+        let newindex = this.colIndex();
+        if (this.colIndex() > -1) {
+          const header = this.groupHeaderColumns()[this.colIndex()];
+          if (header.isGroupHeader) {
+            const group = this.columns().filter((col) => col.groupHeader?.name === header.name);
+            newindex += group.length - 1;
+          }
+        }
+        const totSticky = [...this.columns()].filter((col) => col.sticky).length;
+        return newindex === totSticky - 1;
+      } else {
+        const totSticky = [...this.columns()].filter((col) => col.sticky).length;
+        return this.colIndex() === totSticky - 1;
       }
     }
     return false;
