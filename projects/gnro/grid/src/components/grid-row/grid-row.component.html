@@ -2,9 +2,9 @@
   <gnro-grid-cell
     class="gnro-grid-cell-row-select"
     [class.gnro-grid-column-last-sticky]="isLastSticky(-1)"
-    [style.height]="gridConfig().rowHeight + 'px'"
     [style.flex]="'0 0 ' + selectColumnWidth"
     [style.left]="gridConfig().columnSticky ? '0px' : 'unset'"
+    [gridConfig]="gridConfig()"
     [sticky]="gridConfig().columnSticky"
     [selected]="selected()"
     [rowIndex]="rowIndex()"
@@ -18,11 +18,11 @@
     <gnro-grid-cell
       [class.gnro-grid-column-last-sticky]="isLastSticky(index)"
       [class.gnro-grid-column-first-sticky-end]="isFirstStickyEnd(index)"
-      [style.height]="gridConfig().rowHeight + 'px'"
       [style.flex]="'0 0 ' + getColumnWidth(column)"
       [style.max-width]="getColumnWidth(column)"
       [style.left]="getStickyLeft(column, index)"
       [style.right]="getStickyRight(column, index)"
+      [gridConfig]="gridConfig()"
       [sticky]="!!(this.gridConfig().columnSticky && (column.sticky || column.stickyEnd))"
       [selected]="selected()"
       [rowIndex]="rowIndex()"
