@@ -14,6 +14,14 @@ export interface GnroFormConfig {
   buttons: GnroButtonConfg[];
 }
 
+export interface GnroFormConfigResponse {
+  formConfig: Partial<GnroFormConfig>;
+}
+
+export interface GnroFormFieldsResponse {
+  formFields: GnroFormField[];
+}
+
 export interface GnroFormSetting {
   // for internal setting
   formId: string; // auto generated unique id

@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { ACCEPT_JSON_API_HEADER, GnroBackendService } from '@gnro/ui/core';
 import { GnroFormField } from '@gnro/ui/fields';
 import { Observable, map } from 'rxjs';
-import { GnroFormConfig } from '../models/form.model';
+import { GnroFormConfig, GnroFormConfigResponse, GnroFormFieldsResponse } from '../models/form.model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,11 +15,11 @@ export class GnroFormService {
   getRemoteFormConfig(formConfig: GnroFormConfig): Observable<GnroFormConfig> {
     const params = this.backendService.getParams(formConfig.urlKey, 'formConfig');
     const url = this.backendService.apiUrl;
-    return this.http.get<GnroFormConfig>(url, { params }).pipe(
-      map((res) => {
+    return this.http.get<GnroFormConfigResponse>(url, { params }).pipe(
+      map((config) => {
         return {
           ...formConfig,
-          ...res,
+          ...config.formConfig,
         };
       }),
     );
@@ -28,9 +28,9 @@ export class GnroFormService {
   getFormFieldsConfig(formConfig: GnroFormConfig): Observable<GnroFormField[]> {
     const params = this.backendService.getParams(formConfig.urlKey, 'formFields');
     const url = this.backendService.apiUrl;
-    return this.http.get<GnroFormField[]>(url, { params }).pipe(
-      map((res) => {
-        return [...res];
+    return this.http.get<GnroFormFieldsResponse>(url, { params }).pipe(
+      map((response) => {
+        return [...response.formFields];
       }),
     );
   }

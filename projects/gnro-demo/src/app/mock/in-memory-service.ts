@@ -1,6 +1,7 @@
 import { getStatusText, InMemoryDbService, RequestInfo, ResponseOptions, STATUS } from 'angular-in-memory-web-api';
 import { Observable } from 'rxjs';
 import { GnroGridConfig, GnroColumnConfig, GnroGridConfigResponse, GnroColumnsConfigResponse } from '@gnro/ui/grid';
+import { GnroFormConfigResponse, GnroFormFieldsResponse } from '@gnro/ui/form';
 import { GnroOptionsResponse } from '@gnro/ui/fields';
 import { CARSDATA, DCRBrands, DCRColors, DCRColumnConfig, DCRGridConfig } from '../data/cars-large';
 import { GnroTreeConfig } from '@gnro/ui/tree';
@@ -92,15 +93,15 @@ export class InMemoryService extends InMemoryDbService {
     usa_singleAutocompleteRemoteList: GnroOptionsResponse;
     usa_multiAutocompleteRemoteList: GnroOptionsResponse;
 
-    DCR_formConfig: any;
-    DCR_formFields: any[];
+    DCR_formConfig: GnroFormConfigResponse;
+    DCR_formFields: GnroFormFieldsResponse;
     DCR_formData: any;
 
-    DCR2_formFields: any[];
+    DCR2_formFields: GnroFormFieldsResponse;
     DCR2_formData: any;
 
-    DCR3_formConfig: any;
-    DCR3_formFields: any[];
+    DCR3_formConfig: GnroFormConfigResponse;
+    DCR3_formFields: GnroFormFieldsResponse;
     DCR3_formData: any;
 
     DCR_d3ConfigP1: any;

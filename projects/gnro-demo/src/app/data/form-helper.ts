@@ -1,7 +1,11 @@
-export const DCRFormConfig = {
-  readonly: true,
-  remoteFieldsConfig: true,
-  remoteFormData: true,
+import { GnroFormConfigResponse, GnroFormFieldsResponse } from '@gnro/ui/form';
+
+export const DCRFormConfig: GnroFormConfigResponse = {
+  formConfig: {
+    //readonly: true,
+    remoteFieldsConfig: true,
+    remoteFormData: true,
+  },
 };
 
 export const DCRFormFields0 = [
@@ -17,15 +21,17 @@ export const DCRFormFields0 = [
   },
 ];
 
-export const DCRFormFields = [
-  {
-    fieldType: 'fieldset',
-    fieldName: 'test',
-    legend: 'Remote form fields, and local values',
-    labelWidth: 80,
-    formFields: DCRFormFields0,
-  },
-];
+export const DCRFormFields: GnroFormFieldsResponse = {
+  formFields: [
+    {
+      fieldType: 'fieldset',
+      fieldName: 'test',
+      legend: 'Remote form fields, and local values',
+      labelWidth: 80,
+      formFields: DCRFormFields0,
+    },
+  ],
+};
 
 export const DCRFormData = {
   formConfig: {
@@ -37,15 +43,17 @@ export const DCRFormData = {
   },
 };
 
-export const DCR2FormFields = [
-  {
-    fieldType: 'fieldset',
-    fieldName: 'test',
-    legend: 'Remote form fields and values',
-    labelWidth: 80,
-    formFields: DCRFormFields0,
-  },
-];
+export const DCR2FormFields: GnroFormFieldsResponse = {
+  formFields: [
+    {
+      fieldType: 'fieldset',
+      fieldName: 'test',
+      legend: 'Remote form fields and values',
+      labelWidth: 80,
+      formFields: DCRFormFields0,
+    },
+  ],
+};
 
 export const DCR2FormData = {
   formConfig: {
@@ -57,21 +65,25 @@ export const DCR2FormData = {
   },
 };
 
-export const DCR3FormConfig = {
-  readonly: true,
-  remoteFieldsConfig: true,
-  remoteFormData: true,
+export const DCR3FormConfig: GnroFormConfigResponse = {
+  formConfig: {
+    //readonly: true,
+    remoteFieldsConfig: true,
+    remoteFormData: true,
+  },
 };
 
-export const DCR3FormFields = [
-  {
-    fieldType: 'fieldset',
-    fieldName: 'test',
-    legend: 'All Remotes',
-    labelWidth: 80,
-    formFields: DCRFormFields0,
-  },
-];
+export const DCR3FormFields: GnroFormFieldsResponse = {
+  formFields: [
+    {
+      fieldType: 'fieldset',
+      fieldName: 'test',
+      legend: 'All Remotes',
+      labelWidth: 80,
+      formFields: DCRFormFields0,
+    },
+  ],
+};
 
 export const DCR3FormData = {
   formConfig: {
