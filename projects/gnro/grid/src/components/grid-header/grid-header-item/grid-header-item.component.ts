@@ -27,12 +27,12 @@ export class GnroGridHeaderItemComponent {
   gridConfig = input.required<GnroGridConfig>();
   gridSetting = input.required<GnroGridSetting>();
   groupHeader = input<boolean>(false);
-  column = input.required<GnroColumnConfig | GnroGroupHeader | string>();
+  column = input<GnroColumnConfig | GnroGroupHeader>();
   colIndex = input.required<number>();
   columns = input.required<GnroColumnConfig[]>();
   columnWidths = input.required<GnroColumnWidth[]>();
   columnHeaderPosition = input<number>(0);
-  private isSelectionColumn = computed(() => typeof this.column() === 'string' && this.column() === 'selection');
+  private isSelectionColumn = computed(() => this.colIndex() === -1);
   flex$ = computed(() => `0 0 ${this.width$()}`);
 
   sticky = computed(() => {

@@ -26,7 +26,7 @@ export class GnroGridCellComponent {
   gridConfig = input.required<GnroGridConfig>();
   selected = input.required<boolean>();
   rowIndex = input.required<number>();
-  column = input<GnroColumnConfig | undefined>(undefined);
+  column = input<GnroColumnConfig>();
   colIndex = input.required<number>();
   columns = input.required<GnroColumnConfig[]>();
   columnWidths = input.required<GnroColumnWidth[]>();
