@@ -2,7 +2,6 @@
   <gnro-grid-cell
     class="gnro-tree-cell-row-select"
     [class.gnro-tree-cell-row-sticky]="treeConfig().columnSticky"
-    [style.left]="treeConfig().columnSticky ? '0px' : 'unset'"
     [gridConfig]="treeConfig()"
     [selected]="selected()"
     [rowIndex]="rowIndex()"
@@ -19,7 +18,6 @@
     [class.gnro-tree-cell-row-sticky]="treeConfig().columnSticky"
     [class.gnro-grid-column-last-sticky]="isLastSticky(0)"
     [style.padding-left]="nodePadding + 'px'"
-    [style.max-width]="getColumnWidth(treeColumn)"
     [gridConfig]="treeConfig()"
     [selected]="selected()"
     [rowIndex]="rowIndex()"
@@ -38,7 +36,6 @@
       [class.gnro-tree-cell-row-sticky]="treeConfig().columnSticky && (column.sticky || column.stickyEnd)"
       [class.gnro-grid-column-last-sticky]="isLastSticky(index)"
       [class.gnro-grid-column-first-sticky-end]="isFirstStickyEnd(index)"
-      [style.max-width]="getColumnWidth(column)"
       [style.right]="getStickyRight(column, index)"
       [gridConfig]="treeConfig()"
       [selected]="selected()"

@@ -39,6 +39,7 @@ export class GnroTreeRowComponent<T> {
     return (this.record().level! + 1) * 10;
   }
 
+  /*
   getColumnWidth(column: GnroColumnConfig): string {
     const width = this.columnWidths().find((col) => col.name === column.name)?.width;
     return width ? `${width}px` : '';
@@ -46,7 +47,7 @@ export class GnroTreeRowComponent<T> {
 
   get selectColumnWidth(): string {
     return `${ROW_SELECTION_CELL_WIDTH}px`;
-  }
+  }*/
 
   isLastSticky(index: number): boolean {
     if (this.treeConfig().columnSticky) {
@@ -65,6 +66,7 @@ export class GnroTreeRowComponent<T> {
     }
   }
 
+  /*
   getStickyLeft(column: GnroColumnConfig, index: number): string {
     if (this.treeConfig().columnSticky && column.sticky) {
       const columns = [...this.columnWidths()].filter((_, idx) => idx < index);
@@ -73,7 +75,7 @@ export class GnroTreeRowComponent<T> {
     } else {
       return 'unset';
     }
-  }
+  } */
 
   getStickyRight(column: GnroColumnConfig, index: number): string {
     if (this.treeConfig().columnSticky && column.stickyEnd) {

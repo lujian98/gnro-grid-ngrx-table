@@ -17,9 +17,10 @@ import { getColumnsWidth } from '../../utils/viewport-width-ratio';
     '[style.height]': 'height$()',
     '[style.flex]': 'flex$()',
     '[style.left]': 'left$()',
+    '[style.max-width]': 'width$()',
   },
 })
-//
+//[style.max-width]="getColumnWidth(treeColumn)"
 export class GnroGridCellComponent {
   gridConfig = input.required<GnroGridConfig>();
   selected = input.required<boolean>();
