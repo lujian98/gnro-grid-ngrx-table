@@ -13,7 +13,6 @@
 
 @for (header of groupHeaderColumns(); track $index; let index = $index) {
   <gnro-grid-header-item
-    [class.gnro-grid-column-first-sticky-end]="isFirstStickyEnd(index)"
     [style.flex]="'0 0 ' + getHeaderWidth(header)"
     [style.max-width]="getHeaderWidth(header)"
     [style.left]="getHeaderStickyLeft(header, index)"

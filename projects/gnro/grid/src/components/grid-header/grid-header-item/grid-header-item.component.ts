@@ -17,9 +17,10 @@ import {
   host: {
     '[class.gnro-grid-header-sticky]': 'sticky()',
     '[class.gnro-grid-column-last-sticky]': 'isLastSticky$()',
+    '[class.gnro-grid-column-first-sticky-end]': 'isFirstStickyEnd$()',
   },
 })
-//       [class.gnro-grid-column-last-sticky]="isLastSticky(index)"
+//      [class.gnro-grid-column-first-sticky-end]="isFirstStickyEnd(index)"
 export class GnroGridHeaderItemComponent {
   gridConfig = input.required<GnroGridConfig>();
   groupHeader = input<boolean>(false);
@@ -71,6 +72,25 @@ export class GnroGridHeaderItemComponent {
     return false;
   });
 
+  isFirstStickyEnd$ = computed(() => {
+    if (this.sticky() && this.colIndex() > 0) {
+      if (this.groupHeader()) {
+        const header = this.groupHeaderColumns()[this.colIndex()];
+        if (!header.isGroupHeader) {
+          const find = this.columns().findIndex((col) => col.name === header.field);
+          const idx = [...this.columns()].findIndex((col) => col.stickyEnd);
+          return find === idx;
+        } else {
+          const find = this.columns().findIndex((col) => col.groupHeader?.name === header.name);
+          const idx = [...this.columns()].findIndex((col) => col.stickyEnd);
+          return find === idx;
+        }
+      } else {
+        return this.colIndex() === [...this.columns()].findIndex((col) => col.stickyEnd);
+      }
+    }
+    return false;
+  });
   /*
 
     */

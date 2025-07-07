@@ -92,7 +92,7 @@ export class GnroGridGroupHeaderComponent {
       return false;
     }
   }
-    */
+
 
   isFirstStickyEnd(index: number): boolean {
     if (this.gridConfig().columnSticky) {
@@ -110,6 +110,7 @@ export class GnroGridGroupHeaderComponent {
       return false;
     }
   }
+        */
 
   private getGroupHeader(column: GnroColumnConfig, groupHeaders: GnroGroupHeader[]): GnroGroupHeader[] {
     if (column.groupHeader) {

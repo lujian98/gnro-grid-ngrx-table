@@ -86,7 +86,7 @@ export class GnroGridHeaderComponent<T> {
       return false;
     }
   }
-    */
+
 
   isFirstStickyEnd(index: number): boolean {
     if (this.gridConfig().columnSticky) {
@@ -96,6 +96,7 @@ export class GnroGridHeaderComponent<T> {
     }
   }
 
+      */
   getColumnWidth(column: GnroColumnConfig): string {
     const width = this.columnWidths().find((col) => col.name === column.name)?.width;
     return width ? `${width}px` : '';
