@@ -1,13 +1,11 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import {
-  getColumnsWidth,
   GnroColumnConfig,
   GnroColumnWidth,
   GnroGridCellComponent,
   GnroGridCellViewComponent,
   GnroGridSetting,
   GnroRowSelectComponent,
-  ROW_SELECTION_CELL_WIDTH,
 } from '@gnro/ui/grid';
 import { GnroTreeConfig, GnroTreeNode } from '../../models/tree-grid.model';
 import { GnroTreeNodeComponent } from './tree-node/tree-node.component';
@@ -37,13 +35,5 @@ export class GnroTreeRowComponent<T> {
 
   get nodePadding(): number {
     return (this.record().level! + 1) * 10;
-  }
-
-  isFirstStickyEnd(index: number): boolean {
-    if (this.treeConfig().columnSticky) {
-      return index === [...this.columns()].findIndex((col) => col.stickyEnd);
-    } else {
-      return false;
-    }
   }
 }

@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, input, computed } from '@angular/core';
-import { GnroColumnConfig, GnroColumnWidth, GnroGridConfig, GnroGridSetting } from '../../models/grid.model';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { ROW_SELECTION_CELL_WIDTH } from '../../models/constants';
+import { GnroColumnConfig, GnroColumnWidth, GnroGridConfig } from '../../models/grid.model';
 import { getColumnsWidth } from '../../utils/viewport-width-ratio';
 
 @Component({
@@ -14,7 +14,7 @@ import { getColumnsWidth } from '../../utils/viewport-width-ratio';
     '[class.row-odd-sticky]': 'sticky() && rowIndex() % 2 === 0',
     '[class.selected]': 'sticky() && selected()',
     '[class.gnro-grid-column-last-sticky]': 'isLastSticky$()',
-
+    '[class.gnro-grid-column-first-sticky-end]': 'isFirstStickyEnd$()',
     '[style.height]': 'height$()',
     '[style.flex]': 'flex$()',
     '[style.left]': 'left$()',
@@ -22,7 +22,6 @@ import { getColumnsWidth } from '../../utils/viewport-width-ratio';
     '[style.right]': 'right$()',
   },
 })
-//    [class.gnro-grid-column-last-sticky]="isLastSticky(-1)"
 export class GnroGridCellComponent {
   gridConfig = input.required<GnroGridConfig>();
   selected = input.required<boolean>();
@@ -83,13 +82,16 @@ export class GnroGridCellComponent {
   isLastSticky$ = computed(() => {
     if (this.sticky()) {
       const index = this.isSelectionColumn() ? -1 : this.colIndex();
-      const totSticky = [...this.columns()].filter((col) => col.sticky).length;
-      return index === totSticky - 1;
+      return index === [...this.columns()].filter((col) => col.sticky).length - 1;
+    }
+    return false;
+  });
+
+  isFirstStickyEnd$ = computed(() => {
+    if (this.sticky()) {
+      const index = this.isSelectionColumn() ? -1 : this.colIndex();
+      return index === [...this.columns()].findIndex((col) => col.stickyEnd);
     }
     return false;
   });
 }
-
-/*
-
-    */

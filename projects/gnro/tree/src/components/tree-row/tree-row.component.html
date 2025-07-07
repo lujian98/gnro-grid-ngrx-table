@@ -30,7 +30,6 @@
 @for (column of columns(); track $index; let index = $index) {
   @if (!column.hidden && column.name !== "name") {
     <gnro-grid-cell
-      [class.gnro-grid-column-first-sticky-end]="isFirstStickyEnd(index)"
       [gridConfig]="treeConfig()"
       [selected]="selected()"
       [rowIndex]="rowIndex()"

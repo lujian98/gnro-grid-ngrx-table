@@ -15,7 +15,6 @@
 @for (column of columns(); track $index; let index = $index) {
   @if (!column.hidden) {
     <gnro-grid-cell
-      [class.gnro-grid-column-first-sticky-end]="isFirstStickyEnd(index)"
       [gridConfig]="gridConfig()"
       [selected]="selected()"
       [rowIndex]="rowIndex()"
