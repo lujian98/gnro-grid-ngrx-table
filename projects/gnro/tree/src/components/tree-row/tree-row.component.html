@@ -8,6 +8,9 @@
     [sticky]="treeConfig().columnSticky"
     [selected]="selected()"
     [rowIndex]="rowIndex()"
+    column="selection"
+    [columns]="columns()"
+    [columnWidths]="columnWidths()"
   >
     <gnro-row-select [selected]="selected()"> </gnro-row-select>
   </gnro-grid-cell>
@@ -25,6 +28,9 @@
     [sticky]="treeConfig().columnSticky"
     [selected]="selected()"
     [rowIndex]="rowIndex()"
+    [column]="treeColumn"
+    [columns]="columns()"
+    [columnWidths]="columnWidths()"
   >
     <gnro-tree-node [gridSetting]="gridSetting()" [treeConfig]="treeConfig()" [node]="record()" [column]="treeColumn">
     </gnro-tree-node>
@@ -45,6 +51,9 @@
       [sticky]="!!(treeConfig().columnSticky && (column.sticky || column.stickyEnd))"
       [selected]="selected()"
       [rowIndex]="rowIndex()"
+      [column]="column"
+      [columns]="columns()"
+      [columnWidths]="columnWidths()"
     >
       <gnro-grid-cell-view [gridConfig]="treeConfig()" [rowIndex]="rowIndex()" [record]="record()" [column]="column">
       </gnro-grid-cell-view>

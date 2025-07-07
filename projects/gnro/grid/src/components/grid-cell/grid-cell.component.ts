@@ -20,7 +20,11 @@ export class GnroGridCellComponent {
   sticky = input.required<boolean>();
   selected = input.required<boolean>();
   rowIndex = input.required<number>();
+  //colIndex = input.required<number>();
+  column = input.required<GnroColumnConfig | string>();
+
+  columns = input.required<GnroColumnConfig[]>();
+  columnWidths = input.required<GnroColumnWidth[]>();
 
   height$ = computed(() => `${this.gridConfig().rowHeight}px`);
 }
-//  [style.height]="gridConfig().rowHeight + 'px'"

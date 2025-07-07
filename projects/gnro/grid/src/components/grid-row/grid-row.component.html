@@ -8,6 +8,9 @@
     [sticky]="gridConfig().columnSticky"
     [selected]="selected()"
     [rowIndex]="rowIndex()"
+    column="selection"
+    [columns]="columns()"
+    [columnWidths]="columnWidths()"
   >
     <gnro-row-select [selected]="selected()"> </gnro-row-select>
   </gnro-grid-cell>
@@ -26,6 +29,9 @@
       [sticky]="!!(this.gridConfig().columnSticky && (column.sticky || column.stickyEnd))"
       [selected]="selected()"
       [rowIndex]="rowIndex()"
+      [column]="column"
+      [columns]="columns()"
+      [columnWidths]="columnWidths()"
     >
       @if (!isCellEditable(column)) {
         <gnro-grid-cell-view [gridConfig]="gridConfig()" [rowIndex]="rowIndex()" [column]="column" [record]="record()">
