@@ -78,7 +78,6 @@ export class GnroGridCellComponent {
 
   isLastSticky$ = computed(() => {
     if (this.sticky()) {
-      //const index = this.isSelectionColumn() ? -1 : this.colIndex();
       return this.colIndex() === [...this.columns()].filter((col) => col.sticky).length - 1;
     }
     return false;
@@ -86,7 +85,6 @@ export class GnroGridCellComponent {
 
   isFirstStickyEnd$ = computed(() => {
     if (this.sticky()) {
-      //const index = this.isSelectionColumn() ? -1 : this.colIndex();
       return this.colIndex() === [...this.columns()].findIndex((col) => col.stickyEnd);
     }
     return false;
