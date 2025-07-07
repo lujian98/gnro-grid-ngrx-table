@@ -29,10 +29,12 @@ export class GnroGridCellComponent {
   column = input.required<GnroColumnConfig | string>();
   columns = input.required<GnroColumnConfig[]>();
   columnWidths = input.required<GnroColumnWidth[]>();
-
+  private colIndex = computed(() =>
+    this.columns().findIndex((column) => column.name === (this.column() as GnroColumnConfig).name),
+  );
+  private isSelectionColumn = computed(() => typeof this.column() === 'string' && this.column() === 'selection');
   height$ = computed(() => `${this.gridConfig().rowHeight}px`);
-
-  isSelectionColumn = computed(() => typeof this.column() === 'string' && this.column() === 'selection');
+  flex$ = computed(() => `0 0 ${this.width$()}`);
 
   sticky = computed(() => {
     if (this.gridConfig().columnSticky) {
@@ -54,12 +56,6 @@ export class GnroGridCellComponent {
       return `${width}px`;
     }
   });
-
-  flex$ = computed(() => `0 0 ${this.width$()}`);
-
-  private colIndex = computed(() =>
-    this.columns().findIndex((column) => column.name === (this.column() as GnroColumnConfig).name),
-  );
 
   left$ = computed(() => {
     if (this.sticky()) {
@@ -83,18 +79,3 @@ export class GnroGridCellComponent {
     return 'unset';
   });
 }
-
-/*
-
-  getStickyRight(column: GnroColumnConfig, index: number): string {
-    if (this.gridConfig().columnSticky && column.stickyEnd) {
-      const columns = [...this.columnWidths()].filter((_, idx) => idx > index);
-      const width = getColumnsWidth(columns, false);
-      return `${width}px`;
-    } else {
-      return 'unset';
-    }
-  }
-
-
-    */

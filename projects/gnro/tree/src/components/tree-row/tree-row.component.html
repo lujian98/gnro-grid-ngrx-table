@@ -1,7 +1,6 @@
 @if (treeConfig().rowSelection) {
   <gnro-grid-cell
     class="gnro-tree-cell-row-select"
-    [class.gnro-tree-cell-row-sticky]="treeConfig().columnSticky"
     [gridConfig]="treeConfig()"
     [selected]="selected()"
     [rowIndex]="rowIndex()"
@@ -15,7 +14,6 @@
 
 @if (treeColumn && !treeColumn.hidden) {
   <gnro-grid-cell
-    [class.gnro-tree-cell-row-sticky]="treeConfig().columnSticky"
     [class.gnro-grid-column-last-sticky]="isLastSticky(0)"
     [style.padding-left]="nodePadding + 'px'"
     [gridConfig]="treeConfig()"
@@ -33,7 +31,6 @@
 @for (column of columns(); track $index; let index = $index) {
   @if (!column.hidden && column.name !== "name") {
     <gnro-grid-cell
-      [class.gnro-tree-cell-row-sticky]="treeConfig().columnSticky && (column.sticky || column.stickyEnd)"
       [class.gnro-grid-column-last-sticky]="isLastSticky(index)"
       [class.gnro-grid-column-first-sticky-end]="isFirstStickyEnd(index)"
       [gridConfig]="treeConfig()"
