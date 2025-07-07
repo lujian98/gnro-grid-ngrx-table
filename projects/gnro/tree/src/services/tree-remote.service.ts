@@ -19,7 +19,7 @@ export class GnroTreeRemoteService {
     params = params.append('offset', offset.toString());
     params = params.append('limit', limit.toString());
     const url = this.backendService.apiUrl;
-    return this.http.get<any>(url, { params }).pipe(
+    return this.http.get<GnroTreeDataResponse>(url, { params }).pipe(
       map((response) => {
         return [...response.treeData];
       }),

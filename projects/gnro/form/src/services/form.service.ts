@@ -43,7 +43,6 @@ export class GnroFormService {
   getFormData(formConfig: GnroFormConfig): Observable<{ formConfig: GnroFormConfig; formData: object }> {
     const params = this.backendService.getParams(formConfig.urlKey, 'formData');
     const url = this.backendService.apiUrl;
-    //TODO should change "formData" to "record"??
     return this.http.get<GnroFormRecordResponse>(url, { params }).pipe(
       map((response) => {
         return {
@@ -62,13 +61,13 @@ export class GnroFormService {
 
     let params = this.backendService.getParams(formConfig.urlKey, 'update');
     const url = this.backendService.apiUrl;
-    params = params.append('record', JSON.stringify(formData));
-    return this.http.put<{ record: object }>(url, params, { headers: headers }).pipe(
+    params = params.append('formData', JSON.stringify(formData));
+    return this.http.put<GnroFormRecordResponse>(url, params, { headers: headers }).pipe(
       map((response) => {
         console.log(' res=', response);
         return {
           formConfig: { ...formConfig },
-          formData: { ...response.record },
+          formData: { ...response.formData },
         };
       }),
     );
