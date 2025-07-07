@@ -6,6 +6,7 @@
     column="selection"
     [colIndex]="-1"
     [columns]="columns()"
+    [columnWidths]="columnWidths()"
     [columnHeaderPosition]="columnHeaderPosition()"
   >
     @if (gridConfig().multiRowSelection) {
@@ -37,6 +38,7 @@
       [column]="column"
       [colIndex]="index"
       [columns]="columns()"
+      [columnWidths]="columnWidths()"
       [gridConfig]="gridConfig()"
       [columnHeaderPosition]="columnHeaderPosition()"
       [gridSetting]="gridSetting()"

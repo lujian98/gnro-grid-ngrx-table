@@ -27,6 +27,7 @@ export class GnroGridHeaderItemComponent {
   column = input.required<GnroColumnConfig | GnroGroupHeader | string>();
   colIndex = input.required<number>();
   columns = input.required<GnroColumnConfig[]>();
+  columnWidths = input.required<GnroColumnWidth[]>();
   columnHeaderPosition = input<number>(0);
   private isSelectionColumn = computed(() => typeof this.column() === 'string' && this.column() === 'selection');
 
