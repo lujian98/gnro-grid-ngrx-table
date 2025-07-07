@@ -58,17 +58,21 @@ export class GnroGridHeaderItemComponent {
   isLastSticky$ = computed(() => {
     if (this.sticky()) {
       if (this.groupHeader()) {
-        // TODO bug here
-        let newindex = this.colIndex();
         if (this.colIndex() > -1) {
           const header = this.groupHeaderColumns()[this.colIndex()];
+          const list = [...this.columns()].filter((col) => col.sticky);
+          const item = list[list.length - 1];
+          const lastIndex = this.columns().findIndex((col) => col.name === item.name);
           if (header.isGroupHeader) {
             const group = this.columns().filter((col) => col.groupHeader?.name === header.name);
-            newindex += group.length - 1;
+            const column = group[group.length - 1];
+            const findIndex = this.columns().findIndex((col) => col.name === column.name);
+            return lastIndex === findIndex;
+          } else {
+            const findIndex = this.columns().findIndex((col) => col.name === header.field);
+            return lastIndex === findIndex;
           }
         }
-        const totSticky = [...this.columns()].filter((col) => col.sticky).length;
-        return newindex === totSticky - 1;
       } else {
         const totSticky = [...this.columns()].filter((col) => col.sticky).length;
         return this.colIndex() === totSticky - 1;
