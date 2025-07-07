@@ -52,6 +52,7 @@ export class GnroGridHeaderItemComponent {
   isLastSticky$ = computed(() => {
     if (this.sticky()) {
       if (this.groupHeader()) {
+        // TODO bug here
         let newindex = this.colIndex();
         if (this.colIndex() > -1) {
           const header = this.groupHeaderColumns()[this.colIndex()];

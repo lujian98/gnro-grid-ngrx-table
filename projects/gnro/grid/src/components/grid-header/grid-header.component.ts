@@ -77,6 +77,7 @@ export class GnroGridHeaderComponent<T> {
     return `0px`;
   }
 
+  /*
   isLastSticky(index: number): boolean {
     if (this.gridConfig().columnSticky) {
       const totSticky = [...this.columns()].filter((col) => col.sticky).length;
@@ -85,6 +86,7 @@ export class GnroGridHeaderComponent<T> {
       return false;
     }
   }
+    */
 
   isFirstStickyEnd(index: number): boolean {
     if (this.gridConfig().columnSticky) {

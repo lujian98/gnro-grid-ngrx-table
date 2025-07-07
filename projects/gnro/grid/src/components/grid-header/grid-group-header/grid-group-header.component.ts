@@ -74,7 +74,7 @@ export class GnroGridGroupHeaderComponent {
       const column = this.columns().find((col) => col.groupHeader?.name === header.name);
       return !!column?.sticky || !!column?.stickyEnd;
     }
-  }*/
+  }
 
   isLastSticky(index: number): boolean {
     if (this.gridConfig().columnSticky) {
@@ -92,6 +92,7 @@ export class GnroGridGroupHeaderComponent {
       return false;
     }
   }
+    */
 
   isFirstStickyEnd(index: number): boolean {
     if (this.gridConfig().columnSticky) {
