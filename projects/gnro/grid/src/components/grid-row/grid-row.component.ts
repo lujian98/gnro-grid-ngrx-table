@@ -26,16 +26,6 @@ export class GnroGridRowComponent<T> {
   columnWidths = input.required<GnroColumnWidth[]>();
   record = input.required<T>();
 
-  /*
-  get selectColumnWidth(): string {
-    return `${ROW_SELECTION_CELL_WIDTH}px`;
-  }
-
-  getColumnWidth(column: GnroColumnConfig): string {
-    const width = this.columnWidths().find((col) => col.name === column.name)?.width;
-    return width ? `${width}px` : '';
-  }*/
-
   isCellEditable(column: GnroColumnConfig): boolean {
     return !!(this.gridSetting().gridEditable && column.cellEditable);
   }
@@ -54,27 +44,6 @@ export class GnroGridRowComponent<T> {
       return index === [...this.columns()].findIndex((col) => col.stickyEnd);
     } else {
       return false;
-    }
-  }
-
-  /*
-  getStickyLeft(column: GnroColumnConfig, index: number): string {
-    if (this.gridConfig().columnSticky && column.sticky) {
-      const columns = [...this.columnWidths()].filter((_, idx) => idx < index);
-      const width = getColumnsWidth(columns, this.gridConfig().rowSelection);
-      return `${width}px`;
-    } else {
-      return 'unset';
-    }
-  }*/
-
-  getStickyRight(column: GnroColumnConfig, index: number): string {
-    if (this.gridConfig().columnSticky && column.stickyEnd) {
-      const columns = [...this.columnWidths()].filter((_, idx) => idx > index);
-      const width = getColumnsWidth(columns, false);
-      return `${width}px`;
-    } else {
-      return 'unset';
     }
   }
 }

@@ -18,9 +18,10 @@ import { getColumnsWidth } from '../../utils/viewport-width-ratio';
     '[style.flex]': 'flex$()',
     '[style.left]': 'left$()',
     '[style.max-width]': 'width$()',
+    '[style.right]': 'right$()',
   },
 })
-//[style.max-width]="getColumnWidth(treeColumn)"
+//      [style.right]="getStickyRight(column, index)"
 export class GnroGridCellComponent {
   gridConfig = input.required<GnroGridConfig>();
   selected = input.required<boolean>();
@@ -72,9 +73,28 @@ export class GnroGridCellComponent {
     }
     return 'unset';
   });
+
+  right$ = computed(() => {
+    if (this.sticky() && !this.isSelectionColumn() && (this.column() as GnroColumnConfig).stickyEnd) {
+      const columns = [...this.columnWidths()].filter((_, idx) => idx > this.colIndex());
+      const width = getColumnsWidth(columns, false);
+      return `${width}px`;
+    }
+    return 'unset';
+  });
 }
 
 /*
+
+  getStickyRight(column: GnroColumnConfig, index: number): string {
+    if (this.gridConfig().columnSticky && column.stickyEnd) {
+      const columns = [...this.columnWidths()].filter((_, idx) => idx > index);
+      const width = getColumnsWidth(columns, false);
+      return `${width}px`;
+    } else {
+      return 'unset';
+    }
+  }
 
 
     */

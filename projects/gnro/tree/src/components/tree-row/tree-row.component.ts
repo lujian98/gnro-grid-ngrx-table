@@ -39,16 +39,6 @@ export class GnroTreeRowComponent<T> {
     return (this.record().level! + 1) * 10;
   }
 
-  /*
-  getColumnWidth(column: GnroColumnConfig): string {
-    const width = this.columnWidths().find((col) => col.name === column.name)?.width;
-    return width ? `${width}px` : '';
-  }
-
-  get selectColumnWidth(): string {
-    return `${ROW_SELECTION_CELL_WIDTH}px`;
-  }*/
-
   isLastSticky(index: number): boolean {
     if (this.treeConfig().columnSticky) {
       const totSticky = [...this.columns()].filter((col) => col.sticky).length;
@@ -63,27 +53,6 @@ export class GnroTreeRowComponent<T> {
       return index === [...this.columns()].findIndex((col) => col.stickyEnd);
     } else {
       return false;
-    }
-  }
-
-  /*
-  getStickyLeft(column: GnroColumnConfig, index: number): string {
-    if (this.treeConfig().columnSticky && column.sticky) {
-      const columns = [...this.columnWidths()].filter((_, idx) => idx < index);
-      const width = getColumnsWidth(columns, this.treeConfig().rowSelection);
-      return `${width}px`;
-    } else {
-      return 'unset';
-    }
-  } */
-
-  getStickyRight(column: GnroColumnConfig, index: number): string {
-    if (this.treeConfig().columnSticky && column.stickyEnd) {
-      const columns = [...this.columnWidths()].filter((_, idx) => idx > index);
-      const width = getColumnsWidth(columns, false);
-      return `${width}px`;
-    } else {
-      return 'unset';
     }
   }
 }
