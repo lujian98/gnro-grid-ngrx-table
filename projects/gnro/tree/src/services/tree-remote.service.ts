@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { GnroBackendService } from '@gnro/ui/core';
 import { GnroColumnConfig } from '@gnro/ui/grid';
 import { Observable, catchError, map, throwError } from 'rxjs';
-import { GnroTreeConfig, GnroTreeData } from '../models/tree-grid.model';
+import { GnroTreeConfig, GnroTreeData, GnroTreeDataResponse } from '../models/tree-grid.model';
 
 @Injectable({
   providedIn: 'root',
@@ -19,9 +19,9 @@ export class GnroTreeRemoteService {
     params = params.append('offset', offset.toString());
     params = params.append('limit', limit.toString());
     const url = this.backendService.apiUrl;
-    return this.http.get<GnroTreeData[]>(url, { params }).pipe(
-      map((res) => {
-        return res;
+    return this.http.get<any>(url, { params }).pipe(
+      map((response) => {
+        return [...response.treeData];
       }),
       catchError((error) =>
         throwError(() => {

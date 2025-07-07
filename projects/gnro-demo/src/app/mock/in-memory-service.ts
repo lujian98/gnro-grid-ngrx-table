@@ -2,6 +2,7 @@ import { GnroD3ChartConfigsResponse, GnroD3ConfigResponse, GnroD3DataResponse } 
 import { GnroOptionsResponse } from '@gnro/ui/fields';
 import { GnroFormConfigResponse, GnroFormFieldsResponse } from '@gnro/ui/form';
 import { GnroColumnsConfigResponse, GnroGridConfigResponse } from '@gnro/ui/grid';
+import { GnroTreeDataResponse } from '@gnro/ui/tree';
 import { getStatusText, InMemoryDbService, RequestInfo, ResponseOptions, STATUS } from 'angular-in-memory-web-api';
 import { Observable } from 'rxjs';
 import { CARSDATA, DCRBrands, DCRColors, DCRColumnConfig, DCRGridConfig } from '../data/cars-large';
@@ -54,11 +55,11 @@ export class InMemoryService extends InMemoryDbService {
     DCR_color: GnroOptionsResponse;
     DCR_columnsConfig: GnroColumnsConfigResponse;
     DCR_gridConfig: GnroGridConfigResponse;
-    ECR_tree: NestedFoodNode[];
+    ECR_tree: GnroTreeDataResponse;
     ECR_columnsConfig: GnroColumnsConfigResponse;
     ECR_gridConfig: GnroGridConfigResponse;
     NPR_gridConfig: GnroGridConfigResponse;
-    NPR_tree: NestedFoodNode[];
+    NPR_tree: GnroTreeDataResponse;
     MET_gridConfig: GnroGridConfigResponse;
     MET_columnsConfig: GnroColumnsConfigResponse;
     RND_gridConfig: GnroGridConfigResponse;
@@ -126,11 +127,11 @@ export class InMemoryService extends InMemoryDbService {
       DCR_color: DCRColors,
       DCR_columnsConfig: DCRColumnConfig,
       DCR_gridConfig: DCRGridConfig,
-      ECR_tree: TREE_NESTED_DATA,
+      ECR_tree: { treeData: [...TREE_NESTED_DATA] },
       ECR_columnsConfig: ECRColumnConfig,
       ECR_gridConfig: ECRTreeGridConfig,
       NPR_gridConfig: NPRTreeGridConfig,
-      NPR_tree: TREE_NESTED_DATA,
+      NPR_tree: { treeData: [...TREE_NESTED_DATA] },
       MET_gridConfig: METTreeGridConfig,
       MET_columnsConfig: ECRColumnConfig,
       RND_gridConfig: RNDTreeGridConfig,
@@ -254,8 +255,9 @@ export class InMemoryService extends InMemoryDbService {
 
   private getTreeData(reqInfo: RequestInfo) {
     return reqInfo.utils.createResponse$(() => {
-      const collection = reqInfo.collection.slice();
-      const body = [...collection];
+      //const collection = reqInfo.collection.slice();
+      const collection = reqInfo.collection;
+      const body = collection;
       const options: ResponseOptions = {
         body: body,
         status: STATUS.OK,

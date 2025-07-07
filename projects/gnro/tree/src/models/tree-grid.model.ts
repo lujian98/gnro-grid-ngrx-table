@@ -37,6 +37,10 @@ export interface GnroTreeData {
   //contextMenu?: GnroMenuConfig[];
 }
 
+export interface GnroTreeDataResponse {
+  treeData: GnroTreeData[];
+}
+
 export interface GnroTreeNode<T> extends GnroTreeData {}
 
 export interface TreeState {
