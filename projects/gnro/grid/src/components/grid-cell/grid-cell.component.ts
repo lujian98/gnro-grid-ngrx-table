@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, input, computed } from '@angular/core';
 import { GnroColumnConfig, GnroColumnWidth, GnroGridConfig, GnroGridSetting } from '../../models/grid.model';
+import { ROW_SELECTION_CELL_WIDTH } from '../../models/constants';
 
 @Component({
   selector: 'gnro-grid-cell',
@@ -13,8 +14,10 @@ import { GnroColumnConfig, GnroColumnWidth, GnroGridConfig, GnroGridSetting } fr
     '[class.selected]': 'sticky() && selected()',
 
     '[style.height]': 'height$()',
+    '[style.flex]': 'flex$()',
   },
 })
+//
 export class GnroGridCellComponent {
   gridConfig = input.required<GnroGridConfig>();
   sticky = input.required<boolean>();
@@ -27,4 +30,14 @@ export class GnroGridCellComponent {
   columnWidths = input.required<GnroColumnWidth[]>();
 
   height$ = computed(() => `${this.gridConfig().rowHeight}px`);
+
+  width$ = computed(() => {
+    if (typeof this.column() === 'string') {
+      return `${ROW_SELECTION_CELL_WIDTH}px`;
+    } else {
+      const width = this.columnWidths().find((col) => col.name === (this.column() as GnroColumnConfig).name)!.width;
+      return `${width}px`;
+    }
+  });
+  flex$ = computed(() => `0 0 ${this.width$()}`);
 }
