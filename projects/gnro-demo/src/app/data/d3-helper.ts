@@ -1,146 +1,163 @@
-import { GnroD3ChartConfig, GnroD3Options, GnroD3Component, defaultD3Config } from '@gnro/ui/d3';
+import { GnroD3Options, GnroD3ChartConfigsResponse, GnroD3ConfigResponse } from '@gnro/ui/d3';
 
 const options1: GnroD3Options = {
   margin: { top: 50, right: 80, bottom: 10, left: 10 },
 };
-export const RemoteD3ConfigP1 = {
-  options: options1,
+
+export const RemoteD3ConfigP1: GnroD3ConfigResponse = {
+  d3Config: {
+    options: options1,
+  },
 };
 
 const options2: GnroD3Options = {
   margin: { left: 80 },
 };
-export const RemoteD3ConfigP2 = {
-  options: options2,
+export const RemoteD3ConfigP2: GnroD3ConfigResponse = {
+  d3Config: {
+    options: options2,
+  },
 };
 
-export const RemoteD3ConfigP3 = {
-  options: undefined,
+export const RemoteD3ConfigP3: GnroD3ConfigResponse = {
+  d3Config: {
+    options: undefined,
+  },
 };
 
-export const RemoteD3ConfigP4 = {
-  options: undefined,
+export const RemoteD3ConfigP4: GnroD3ConfigResponse = {
+  d3Config: {
+    options: undefined,
+  },
 };
 
-export const RemoteChartConfigsP1: GnroD3ChartConfig[] = [
-  {
-    chartType: 'lineChart',
-    xScaleType: 'linear',
-    useInteractiveGuideline: true,
-    x0: (d: any) => d.key,
-    y0: (d: any) => d.values,
-    drawColor: (d: any, i: number) => d.key,
-    xAxis: {
-      position: 'top',
-      axisLabelDistance: -30,
-      axisLabel: 'Time (ms)',
-      // rotate: -90
+export const RemoteChartConfigsP1: GnroD3ChartConfigsResponse = {
+  d3ChartConfigs: [
+    {
+      chartType: 'lineChart',
+      xScaleType: 'linear',
+      useInteractiveGuideline: true,
+      x0: (d: any) => d.key,
+      y0: (d: any) => d.values,
+      drawColor: (d: any, i: number) => d.key,
+      xAxis: {
+        position: 'top',
+        axisLabelDistance: -30,
+        axisLabel: 'Time (ms)',
+        // rotate: -90
+      },
+      yAxis: {
+        position: 'right',
+        axisLabelDistance: 50,
+        axisLabel: 'Voltage (v)',
+        rotate: -90,
+      },
+      zoom: {
+        enabled: true,
+        horizontalOff: false,
+        horizontalBrushShow: false,
+        verticalOff: false,
+        verticalBrushShow: false,
+      },
     },
-    yAxis: {
-      position: 'right',
-      axisLabelDistance: 50,
-      axisLabel: 'Voltage (v)',
-      rotate: -90,
+    {
+      chartType: 'areaChart',
     },
-    zoom: {
-      enabled: true,
-      horizontalOff: false,
-      horizontalBrushShow: false,
-      verticalOff: false,
-      verticalBrushShow: false,
-    },
-  },
-  {
-    chartType: 'areaChart',
-  },
-];
+  ],
+};
 
-export const RemoteChartConfigsP2: GnroD3ChartConfig[] = [
-  {
-    chartType: 'lineChart',
-    xScaleType: 'linear',
-    x0: (d: any) => d.key,
-    y0: (d: any) => d.values,
-    drawColor: (d: any, i: number) => d.key,
+export const RemoteChartConfigsP2: GnroD3ChartConfigsResponse = {
+  d3ChartConfigs: [
+    {
+      chartType: 'lineChart',
+      xScaleType: 'linear',
+      x0: (d: any) => d.key,
+      y0: (d: any) => d.values,
+      drawColor: (d: any, i: number) => d.key,
 
-    xAxis: {
-      axisLabel: 'Time (ms)',
-      textAnchor: 'start',
+      xAxis: {
+        axisLabel: 'Time (ms)',
+        textAnchor: 'start',
+      },
+      yAxis: {
+        axisLabel: 'Voltage (v)',
+        textAnchor: 'start',
+      },
+      zoom: {
+        enabled: true,
+        horizontalOff: false,
+        horizontalBrushShow: true,
+        verticalOff: true,
+        verticalBrushShow: false,
+      },
     },
-    yAxis: {
-      axisLabel: 'Voltage (v)',
-      textAnchor: 'start',
+    {
+      chartType: 'areaChart',
     },
-    zoom: {
-      enabled: true,
-      horizontalOff: false,
-      horizontalBrushShow: true,
-      verticalOff: true,
-      verticalBrushShow: false,
-    },
-  },
-  {
-    chartType: 'areaChart',
-  },
-];
+  ],
+};
 
-export const RemoteChartConfigsP3: GnroD3ChartConfig[] = [
-  {
-    chartType: 'lineChart',
-    xScaleType: 'linear',
-    useInteractiveGuideline: true,
-    x0: (d: any) => d.key,
-    y0: (d: any) => d.values,
-    drawColor: (d: any, i: number) => d.key,
-    xAxis: {
-      axisLabel: 'Time (ms)',
-      textAnchor: 'end',
+export const RemoteChartConfigsP3: GnroD3ChartConfigsResponse = {
+  d3ChartConfigs: [
+    {
+      chartType: 'lineChart',
+      xScaleType: 'linear',
+      useInteractiveGuideline: true,
+      x0: (d: any) => d.key,
+      y0: (d: any) => d.values,
+      drawColor: (d: any, i: number) => d.key,
+      xAxis: {
+        axisLabel: 'Time (ms)',
+        textAnchor: 'end',
+      },
+      yAxis: {
+        axisLabel: 'Voltage (v)',
+        textAnchor: 'end',
+        rotate: -90,
+        axisLabelDistance: -40,
+      },
+      zoom: {
+        enabled: true,
+        horizontalOff: true,
+        horizontalBrushShow: false,
+        verticalOff: false,
+        verticalBrushShow: true,
+      },
     },
-    yAxis: {
-      axisLabel: 'Voltage (v)',
-      textAnchor: 'end',
-      rotate: -90,
-      axisLabelDistance: -40,
+    {
+      chartType: 'areaChart',
     },
-    zoom: {
-      enabled: true,
-      horizontalOff: true,
-      horizontalBrushShow: false,
-      verticalOff: false,
-      verticalBrushShow: true,
-    },
-  },
-  {
-    chartType: 'areaChart',
-  },
-];
+  ],
+};
 
-export const RemoteChartConfigsP4: GnroD3ChartConfig[] = [
-  {
-    chartType: 'lineChart',
-    xScaleType: 'linear',
-    useInteractiveGuideline: true,
-    x0: (d: any) => d.key,
-    y0: (d: any) => d.values,
-    drawColor: (d: any, i: number) => d.key,
-    xAxis: {
-      axisLabel: 'Time (ms)',
+export const RemoteChartConfigsP4: GnroD3ChartConfigsResponse = {
+  d3ChartConfigs: [
+    {
+      chartType: 'lineChart',
+      xScaleType: 'linear',
+      useInteractiveGuideline: true,
+      x0: (d: any) => d.key,
+      y0: (d: any) => d.values,
+      drawColor: (d: any, i: number) => d.key,
+      xAxis: {
+        axisLabel: 'Time (ms)',
+      },
+      yAxis: {
+        axisLabel: 'Voltage (v)',
+      },
+      zoom: {
+        enabled: true,
+        horizontalOff: false,
+        horizontalBrushShow: true,
+        verticalOff: false,
+        verticalBrushShow: true,
+      },
     },
-    yAxis: {
-      axisLabel: 'Voltage (v)',
+    {
+      chartType: 'areaChart',
     },
-    zoom: {
-      enabled: true,
-      horizontalOff: false,
-      horizontalBrushShow: true,
-      verticalOff: false,
-      verticalBrushShow: true,
-    },
-  },
-  {
-    chartType: 'areaChart',
-  },
-];
+  ],
+};
 
 export const RemoteD3Data = getData();
 

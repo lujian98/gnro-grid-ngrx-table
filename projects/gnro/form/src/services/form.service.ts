@@ -38,10 +38,11 @@ export class GnroFormService {
   getFormData(formConfig: GnroFormConfig): Observable<{ formConfig: GnroFormConfig; formData: object }> {
     const params = this.backendService.getParams(formConfig.urlKey, 'formData');
     const url = this.backendService.apiUrl;
-    return this.http.get<{ formConfig: GnroFormConfig; formData: object }>(url, { params }).pipe(
+    //TODO should change "formData" to "record"??
+    return this.http.get<{ formData: object }>(url, { params }).pipe(
       map((res) => {
         return {
-          formConfig: { ...formConfig, ...res.formConfig },
+          formConfig: { ...formConfig },
           formData: { ...res.formData },
         };
       }),

@@ -1,8 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, of, map } from 'rxjs';
 import { GnroBackendService } from '@gnro/ui/core';
-import { GnroD3Config, GnroD3ChartConfig } from '../models';
+import { Observable, map } from 'rxjs';
+import {
+  GnroD3ChartConfig,
+  GnroD3ChartConfigsResponse,
+  GnroD3Config,
+  GnroD3ConfigResponse,
+  GnroD3DataResponse,
+} from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -14,11 +20,11 @@ export class GnroD3Service {
   getRemoteD3Config(d3Config: GnroD3Config): Observable<GnroD3Config> {
     const params = this.backendService.getParams(d3Config.urlKey, 'd3Config', d3Config.chartName);
     const url = this.backendService.apiUrl;
-    return this.http.get<any>(url, { params }).pipe(
-      map((res) => {
+    return this.http.get<GnroD3ConfigResponse>(url, { params }).pipe(
+      map((config) => {
         return {
           ...d3Config,
-          ...res,
+          ...config.d3Config,
         };
       }),
     );
@@ -27,9 +33,9 @@ export class GnroD3Service {
   getD3ChartConfigs(d3Config: GnroD3Config): Observable<GnroD3ChartConfig[]> {
     const params = this.backendService.getParams(d3Config.urlKey, 'd3ChartConfigs', d3Config.chartName);
     const url = this.backendService.apiUrl;
-    return this.http.get<GnroD3ChartConfig[]>(url, { params }).pipe(
-      map((res) => {
-        return [...res];
+    return this.http.get<GnroD3ChartConfigsResponse>(url, { params }).pipe(
+      map((response) => {
+        return [...response.d3ChartConfigs];
       }),
     );
   }
@@ -37,9 +43,9 @@ export class GnroD3Service {
   getD3Data(d3Config: GnroD3Config): Observable<any[]> {
     const params = this.backendService.getParams(d3Config.urlKey, 'd3Data', d3Config.chartName);
     const url = this.backendService.apiUrl;
-    return this.http.get<any[]>(url, { params }).pipe(
-      map((res) => {
-        return [...res];
+    return this.http.get<GnroD3DataResponse>(url, { params }).pipe(
+      map((response) => {
+        return [...response.d3Data];
       }),
     );
   }

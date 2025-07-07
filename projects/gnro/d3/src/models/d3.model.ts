@@ -9,6 +9,18 @@ export interface GnroD3Config {
   remoteD3Data: boolean;
 }
 
+export interface GnroD3ConfigResponse {
+  d3Config: Partial<GnroD3Config>;
+}
+
+export interface GnroD3ChartConfigsResponse {
+  d3ChartConfigs: GnroD3ChartConfig[];
+}
+
+export interface GnroD3DataResponse {
+  d3Data: unknown[];
+}
+
 // for internal grid setting
 export interface GnroD3Setting {
   d3Id: string; // auto generated unique id

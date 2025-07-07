@@ -1,51 +1,51 @@
+import { GnroD3ChartConfigsResponse, GnroD3ConfigResponse, GnroD3DataResponse } from '@gnro/ui/d3';
+import { GnroOptionsResponse } from '@gnro/ui/fields';
+import { GnroFormConfigResponse, GnroFormFieldsResponse } from '@gnro/ui/form';
+import { GnroColumnsConfigResponse, GnroGridConfigResponse } from '@gnro/ui/grid';
 import { getStatusText, InMemoryDbService, RequestInfo, ResponseOptions, STATUS } from 'angular-in-memory-web-api';
 import { Observable } from 'rxjs';
-import { GnroGridConfig, GnroColumnConfig, GnroGridConfigResponse, GnroColumnsConfigResponse } from '@gnro/ui/grid';
-import { GnroFormConfigResponse, GnroFormFieldsResponse } from '@gnro/ui/form';
-import { GnroOptionsResponse } from '@gnro/ui/fields';
 import { CARSDATA, DCRBrands, DCRColors, DCRColumnConfig, DCRGridConfig } from '../data/cars-large';
-import { GnroTreeConfig } from '@gnro/ui/tree';
 import {
-  TREE_NESTED_DATA,
-  NestedFoodNode,
-  ECRColumnConfig,
-  ECRTreeGridConfig,
-  NPRTreeGridConfig,
-  METTreeGridConfig,
-  RNDTreeGridConfig,
-} from '../views/tree/demos/data/tree-data';
-import { State, STATES } from '../data/states';
-import {
-  SingleSelectConfig,
-  MultiSelectConfig,
-  SingleAutocompleteConfig,
-  MultiAutocompleteConfig,
-  SingleListConfig,
-  MultiListConfig,
-  SingleAutocompleteLisConfig,
-  MultiAutocompleteListConfig,
-} from '../data/select-field-helpers';
-import {
-  DCRFormConfig,
-  DCRFormFields,
-  DCRFormData,
-  DCR2FormFields,
-  DCR2FormData,
-  DCR3FormConfig,
-  DCR3FormFields,
-  DCR3FormData,
-} from '../data/form-helper';
-import {
-  RemoteD3ConfigP1,
   RemoteChartConfigsP1,
-  RemoteD3ConfigP2,
   RemoteChartConfigsP2,
-  RemoteD3ConfigP3,
   RemoteChartConfigsP3,
-  RemoteD3ConfigP4,
   RemoteChartConfigsP4,
+  RemoteD3ConfigP1,
+  RemoteD3ConfigP2,
+  RemoteD3ConfigP3,
+  RemoteD3ConfigP4,
   RemoteD3Data,
 } from '../data/d3-helper';
+import {
+  DCR2FormData,
+  DCR2FormFields,
+  DCR3FormConfig,
+  DCR3FormData,
+  DCR3FormFields,
+  DCRFormConfig,
+  DCRFormData,
+  DCRFormFields,
+} from '../data/form-helper';
+import {
+  MultiAutocompleteConfig,
+  MultiAutocompleteListConfig,
+  MultiListConfig,
+  MultiSelectConfig,
+  SingleAutocompleteConfig,
+  SingleAutocompleteLisConfig,
+  SingleListConfig,
+  SingleSelectConfig,
+} from '../data/select-field-helpers';
+import { STATES } from '../data/states';
+import {
+  ECRColumnConfig,
+  ECRTreeGridConfig,
+  METTreeGridConfig,
+  NestedFoodNode,
+  NPRTreeGridConfig,
+  RNDTreeGridConfig,
+  TREE_NESTED_DATA,
+} from '../views/tree/demos/data/tree-data';
 
 export class InMemoryService extends InMemoryDbService {
   createDb(): {
@@ -104,18 +104,21 @@ export class InMemoryService extends InMemoryDbService {
     DCR3_formFields: GnroFormFieldsResponse;
     DCR3_formData: any;
 
-    DCR_d3ConfigP1: any;
-    DCR_d3ChartConfigsP1: any[];
-    DCR_d3DataP1: any[];
-    DCR_d3ConfigP2: any;
-    DCR_d3ChartConfigsP2: any[];
-    DCR_d3DataP2: any[];
-    DCR_d3ConfigP3: any;
-    DCR_d3ChartConfigsP3: any[];
-    DCR_d3DataP3: any[];
-    DCR_d3ConfigP4: any;
-    DCR_d3ChartConfigsP4: any[];
-    DCR_d3DataP4: any[];
+    DCR_d3ConfigP1: GnroD3ConfigResponse;
+    DCR_d3ChartConfigsP1: GnroD3ChartConfigsResponse;
+    DCR_d3DataP1: GnroD3DataResponse;
+
+    DCR_d3ConfigP2: GnroD3ConfigResponse;
+    DCR_d3ChartConfigsP2: GnroD3ChartConfigsResponse;
+    DCR_d3DataP2: GnroD3DataResponse;
+
+    DCR_d3ConfigP3: GnroD3ConfigResponse;
+    DCR_d3ChartConfigsP3: GnroD3ChartConfigsResponse;
+    DCR_d3DataP3: GnroD3DataResponse;
+
+    DCR_d3ConfigP4: GnroD3ConfigResponse;
+    DCR_d3ChartConfigsP4: GnroD3ChartConfigsResponse;
+    DCR_d3DataP4: GnroD3DataResponse;
   } {
     return {
       DCR: CARSDATA,
@@ -175,16 +178,16 @@ export class InMemoryService extends InMemoryDbService {
 
       DCR_d3ConfigP1: RemoteD3ConfigP1,
       DCR_d3ChartConfigsP1: RemoteChartConfigsP1,
-      DCR_d3DataP1: [...RemoteD3Data],
+      DCR_d3DataP1: { d3Data: [...RemoteD3Data] },
       DCR_d3ConfigP2: RemoteD3ConfigP2,
       DCR_d3ChartConfigsP2: RemoteChartConfigsP2,
-      DCR_d3DataP2: [...RemoteD3Data],
+      DCR_d3DataP2: { d3Data: [...RemoteD3Data] },
       DCR_d3ConfigP3: RemoteD3ConfigP3,
       DCR_d3ChartConfigsP3: RemoteChartConfigsP3,
-      DCR_d3DataP3: [...RemoteD3Data],
+      DCR_d3DataP3: { d3Data: [...RemoteD3Data] },
       DCR_d3ConfigP4: RemoteD3ConfigP4,
       DCR_d3ChartConfigsP4: RemoteChartConfigsP4,
-      DCR_d3DataP4: [...RemoteD3Data],
+      DCR_d3DataP4: { d3Data: [...RemoteD3Data] },
     };
   }
 
