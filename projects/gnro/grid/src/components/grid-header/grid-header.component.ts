@@ -5,16 +5,15 @@ import { GnroPopoverComponent, GnroPopoverService } from '@gnro/ui/popover';
 import { GnroGridFacade } from '../../+state/grid.facade';
 import { GnroColumnResizeTriggerDirective } from '../../directives/column-resize-trigger.directive';
 import { GnroColumnResizeDirective } from '../../directives/column-resize.directive';
-import { GRID_FILTER_ROW_HEIGHT, ROW_SELECTION_CELL_WIDTH } from '../../models/constants';
+import { GRID_FILTER_ROW_HEIGHT } from '../../models/constants';
 import {
   ColumnMenuClick,
   GnroColumnConfig,
   GnroColumnWidth,
   GnroGridConfig,
-  GnroGridSetting,
   GnroGridRowSelections,
+  GnroGridSetting,
 } from '../../models/grid.model';
-import { getTableWidth } from '../../utils/viewport-width-ratio';
 import { GnroColumnFilterComponent } from '../column-filter/column-filter.component';
 import { GnroRowSelectComponent } from '../row-select/row-select.component';
 import { GnroGridColumnMenuComponent } from './grid-column-menu/grid-column-menu.component';
@@ -52,10 +51,6 @@ export class GnroGridHeaderComponent<T> {
   columnResized = output<GnroColumnWidth[]>();
   rowSelectAll = output<boolean>();
 
-  get selectColumnWidth(): string {
-    return `${ROW_SELECTION_CELL_WIDTH}px`;
-  }
-
   get filterRowHeight(): string {
     return `${GRID_FILTER_ROW_HEIGHT + 1}px`;
   }
@@ -63,45 +58,6 @@ export class GnroGridHeaderComponent<T> {
   get columnResizeHeight(): number {
     return 32 + (this.gridConfig().columnFilter ? 28 : 0);
   }
-
-  getStickyLeft(sticky: boolean | undefined, stickyEnd: boolean | undefined): string {
-    if (this.gridConfig().columnSticky) {
-      if (sticky) {
-        return `${-this.columnHeaderPosition()}px`;
-      } else if (stickyEnd) {
-        const width = getTableWidth(this.columns(), this.gridConfig()) - this.gridSetting().viewportWidth;
-        const postion = -width - this.columnHeaderPosition();
-        return `${postion}px`;
-      }
-    }
-    return `0px`;
-  }
-
-  /*
-  isLastSticky(index: number): boolean {
-    if (this.gridConfig().columnSticky) {
-      const totSticky = [...this.columns()].filter((col) => col.sticky).length;
-      return index === totSticky - 1;
-    } else {
-      return false;
-    }
-  }
-
-
-  isFirstStickyEnd(index: number): boolean {
-    if (this.gridConfig().columnSticky) {
-      return index === [...this.columns()].findIndex((col) => col.stickyEnd);
-    } else {
-      return false;
-    }
-  }
-
-
-  getColumnWidth(column: GnroColumnConfig): string {
-    const width = this.columnWidths().find((col) => col.name === column.name)?.width;
-    return width ? `${width}px` : '';
-  }
-          */
 
   trackByIndex(index: number): number {
     return index;

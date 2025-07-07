@@ -1,14 +1,12 @@
-import { ChangeDetectionStrategy, Component, input, computed } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ROW_SELECTION_CELL_WIDTH } from '../../../models/constants';
 import {
-  ColumnMenuClick,
   GnroColumnConfig,
   GnroColumnWidth,
   GnroGridConfig,
   GnroGridSetting,
-  GnroGridRowSelections,
   GnroGroupHeader,
 } from '../../../models/grid.model';
-import { GRID_FILTER_ROW_HEIGHT, ROW_SELECTION_CELL_WIDTH } from '../../../models/constants';
 import { getTableWidth } from '../../../utils/viewport-width-ratio';
 
 @Component({
@@ -20,13 +18,11 @@ import { getTableWidth } from '../../../utils/viewport-width-ratio';
     '[class.gnro-grid-header-sticky]': 'sticky()',
     '[class.gnro-grid-column-last-sticky]': 'isLastSticky$()',
     '[class.gnro-grid-column-first-sticky-end]': 'isFirstStickyEnd$()',
-
     '[style.flex]': 'flex$()',
     '[style.left]': 'left$()',
     '[style.max-width]': 'width$()',
   },
 })
-//          [style.left]="getStickyLeft(gridConfig().columnSticky, false)"
 export class GnroGridHeaderItemComponent {
   gridConfig = input.required<GnroGridConfig>();
   gridSetting = input.required<GnroGridSetting>();
@@ -159,15 +155,6 @@ export class GnroGridHeaderItemComponent {
     }
   }
 
-  /*
-
-    getColumnWidth(column: GnroColumnConfig): string {
-    const width = this.columnWidths().find((col) => col.name === column.name)?.width;
-    return width ? `${width}px` : '';
-  }
-
-
-    */
   private groupHeaderColumns = computed(() => {
     let groupHeaders: GnroGroupHeader[] = [];
     this.columns().forEach((column) => {
