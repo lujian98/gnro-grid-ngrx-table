@@ -8,6 +8,7 @@ import {
   GnroGridRowSelections,
   GnroGroupHeader,
 } from '../../../models/grid.model';
+import { GRID_FILTER_ROW_HEIGHT, ROW_SELECTION_CELL_WIDTH } from '../../../models/constants';
 
 @Component({
   selector: 'gnro-grid-header-item',
@@ -18,9 +19,12 @@ import {
     '[class.gnro-grid-header-sticky]': 'sticky()',
     '[class.gnro-grid-column-last-sticky]': 'isLastSticky$()',
     '[class.gnro-grid-column-first-sticky-end]': 'isFirstStickyEnd$()',
+
+    '[style.flex]': 'flex$()',
+    '[style.max-width]': 'width$()',
   },
 })
-//      [class.gnro-grid-column-first-sticky-end]="isFirstStickyEnd(index)"
+//         [style.flex]="'0 0 ' + selectColumnWidth"
 export class GnroGridHeaderItemComponent {
   gridConfig = input.required<GnroGridConfig>();
   groupHeader = input<boolean>(false);
@@ -30,6 +34,7 @@ export class GnroGridHeaderItemComponent {
   columnWidths = input.required<GnroColumnWidth[]>();
   columnHeaderPosition = input<number>(0);
   private isSelectionColumn = computed(() => typeof this.column() === 'string' && this.column() === 'selection');
+  flex$ = computed(() => `0 0 ${this.width$()}`);
 
   sticky = computed(() => {
     if (this.gridConfig().columnSticky) {
@@ -92,7 +97,38 @@ export class GnroGridHeaderItemComponent {
     }
     return false;
   });
+
+  width$ = computed(() => {
+    if (this.isSelectionColumn()) {
+      return `${ROW_SELECTION_CELL_WIDTH}px`;
+    } else if (this.groupHeader()) {
+      let width = 0;
+      const header = this.column() as GnroGroupHeader;
+      if (!header.isGroupHeader) {
+        width = this.columnWidths().find((col) => col.name === header.field)!.width;
+      } else {
+        const columns = this.columns().filter((col) => col.groupHeader?.name === header.name);
+        columns.forEach((column) => {
+          const find = this.columnWidths().find((col) => col.name === column.name);
+          if (find) {
+            width += find.width;
+          }
+        });
+      }
+      return width ? `${width}px` : '';
+    } else {
+      const width = this.columnWidths().find((col) => col.name === (this.column() as GnroColumnConfig).name)!.width;
+      return `${width}px`;
+    }
+  });
+
   /*
+
+    getColumnWidth(column: GnroColumnConfig): string {
+    const width = this.columnWidths().find((col) => col.name === column.name)?.width;
+    return width ? `${width}px` : '';
+  }
+
 
     */
   groupHeaderColumns = computed(() => {

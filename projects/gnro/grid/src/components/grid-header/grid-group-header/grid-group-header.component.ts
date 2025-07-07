@@ -134,6 +134,7 @@ export class GnroGridGroupHeaderComponent {
     return groupHeaders;
   }
 
+  /*
   getHeaderWidth(header: GnroGroupHeader): string {
     let width = 0;
     if (!header.isGroupHeader) {
@@ -149,4 +150,5 @@ export class GnroGridGroupHeaderComponent {
     }
     return width ? `${width}px` : '';
   }
+    */
 }

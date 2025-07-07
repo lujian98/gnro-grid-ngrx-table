@@ -1,6 +1,5 @@
 @if (gridConfig().rowSelection) {
   <gnro-grid-header-item
-    [style.flex]="'0 0 ' + rowSelectionCellWidth + 'px'"
     [style.left]="getStickyLeft(gridConfig().columnSticky, false)"
     [gridConfig]="gridConfig()"
     [groupHeader]="true"
@@ -14,11 +13,9 @@
 
 @for (header of groupHeaderColumns(); track $index; let index = $index) {
   <gnro-grid-header-item
-    [style.flex]="'0 0 ' + getHeaderWidth(header)"
-    [style.max-width]="getHeaderWidth(header)"
     [style.left]="getHeaderStickyLeft(header, index)"
     [groupHeader]="true"
-    [column]="getColumn(header)"
+    [column]="header"
     [colIndex]="index"
     [columns]="columns()"
     [columnWidths]="columnWidths()"

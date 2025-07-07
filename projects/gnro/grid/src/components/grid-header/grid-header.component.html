@@ -1,6 +1,5 @@
 @if (gridConfig().rowSelection) {
   <gnro-grid-header-item
-    [style.flex]="'0 0 ' + selectColumnWidth"
     [style.left]="getStickyLeft(gridConfig().columnSticky, false)"
     [gridConfig]="gridConfig()"
     column="selection"
@@ -32,8 +31,6 @@
 @for (column of columns(); track $index; let index = $index) {
   @if (!column.hidden) {
     <gnro-grid-header-item
-      [style.flex]="'0 0 ' + getColumnWidth(column)"
-      [style.max-width]="getColumnWidth(column)"
       [style.left]="getStickyLeft(column.sticky, column.stickyEnd)"
       [column]="column"
       [colIndex]="index"

@@ -96,11 +96,12 @@ export class GnroGridHeaderComponent<T> {
     }
   }
 
-      */
+
   getColumnWidth(column: GnroColumnConfig): string {
     const width = this.columnWidths().find((col) => col.name === column.name)?.width;
     return width ? `${width}px` : '';
   }
+          */
 
   trackByIndex(index: number): number {
     return index;
