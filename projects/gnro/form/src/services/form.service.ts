@@ -3,7 +3,12 @@ import { Injectable, inject } from '@angular/core';
 import { ACCEPT_JSON_API_HEADER, GnroBackendService } from '@gnro/ui/core';
 import { GnroFormField } from '@gnro/ui/fields';
 import { Observable, map } from 'rxjs';
-import { GnroFormConfig, GnroFormConfigResponse, GnroFormFieldsResponse } from '../models/form.model';
+import {
+  GnroFormConfig,
+  GnroFormConfigResponse,
+  GnroFormFieldsResponse,
+  GnroFormRecordResponse,
+} from '../models/form.model';
 
 @Injectable({
   providedIn: 'root',
@@ -39,11 +44,11 @@ export class GnroFormService {
     const params = this.backendService.getParams(formConfig.urlKey, 'formData');
     const url = this.backendService.apiUrl;
     //TODO should change "formData" to "record"??
-    return this.http.get<{ formData: object }>(url, { params }).pipe(
-      map((res) => {
+    return this.http.get<GnroFormRecordResponse>(url, { params }).pipe(
+      map((response) => {
         return {
           formConfig: { ...formConfig },
-          formData: { ...res.formData },
+          formData: { ...response.formData },
         };
       }),
     );
@@ -59,11 +64,11 @@ export class GnroFormService {
     const url = this.backendService.apiUrl;
     params = params.append('record', JSON.stringify(formData));
     return this.http.put<{ record: object }>(url, params, { headers: headers }).pipe(
-      map((res) => {
-        console.log(' res=', res);
+      map((response) => {
+        console.log(' res=', response);
         return {
           formConfig: { ...formConfig },
-          formData: { ...res.record },
+          formData: { ...response.record },
         };
       }),
     );

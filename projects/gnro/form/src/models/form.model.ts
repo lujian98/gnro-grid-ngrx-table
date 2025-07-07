@@ -22,6 +22,10 @@ export interface GnroFormFieldsResponse {
   formFields: GnroFormField[];
 }
 
+export interface GnroFormRecordResponse {
+  formData: object;
+}
+
 export interface GnroFormSetting {
   // for internal setting
   formId: string; // auto generated unique id
