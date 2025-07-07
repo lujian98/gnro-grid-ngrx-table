@@ -1,9 +1,12 @@
 @if (gridConfig().rowSelection) {
   <gnro-grid-header-item
-    [class.gnro-grid-header-sticky]="gridConfig().columnSticky"
     [class.gnro-grid-column-last-sticky]="isLastSticky(-1)"
     [style.flex]="'0 0 ' + selectColumnWidth"
     [style.left]="getStickyLeft(gridConfig().columnSticky, false)"
+    [gridConfig]="gridConfig()"
+    column="selection"
+    [columns]="columns()"
+    [columnHeaderPosition]="columnHeaderPosition()"
   >
     @if (gridConfig().multiRowSelection) {
       <gnro-row-select
@@ -28,7 +31,6 @@
 @for (column of columns(); track $index; let index = $index) {
   @if (!column.hidden) {
     <gnro-grid-header-item
-      [class.gnro-grid-header-sticky]="gridConfig().columnSticky && (column.sticky || column.stickyEnd)"
       [class.gnro-grid-column-last-sticky]="isLastSticky(index)"
       [class.gnro-grid-column-first-sticky-end]="isFirstStickyEnd(index)"
       [style.flex]="'0 0 ' + getColumnWidth(column)"
@@ -37,6 +39,7 @@
       [column]="column"
       [columns]="columns()"
       [gridConfig]="gridConfig()"
+      [columnHeaderPosition]="columnHeaderPosition()"
       [gridSetting]="gridSetting()"
       (columnResizing)="columnResizing.emit($event)"
       (columnResized)="columnResized.emit($event)"

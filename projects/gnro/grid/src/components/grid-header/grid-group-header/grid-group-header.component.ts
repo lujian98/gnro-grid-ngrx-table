@@ -65,6 +65,7 @@ export class GnroGridGroupHeaderComponent {
     }
   }
 
+  /*
   isHeaderSticky(header: GnroGroupHeader): boolean {
     if (!header.isGroupHeader) {
       const column = this.columns().find((col) => col.name === header.field);
@@ -73,7 +74,7 @@ export class GnroGridGroupHeaderComponent {
       const column = this.columns().find((col) => col.groupHeader?.name === header.name);
       return !!column?.sticky || !!column?.stickyEnd;
     }
-  }
+  }*/
 
   isLastSticky(index: number): boolean {
     if (this.gridConfig().columnSticky) {

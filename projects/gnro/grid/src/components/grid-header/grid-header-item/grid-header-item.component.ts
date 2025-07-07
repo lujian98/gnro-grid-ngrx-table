@@ -1,9 +1,83 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, computed } from '@angular/core';
+import {
+  ColumnMenuClick,
+  GnroColumnConfig,
+  GnroColumnWidth,
+  GnroGridConfig,
+  GnroGridSetting,
+  GnroGridRowSelections,
+  GnroGroupHeader,
+} from '../../../models/grid.model';
 
 @Component({
   selector: 'gnro-grid-header-item',
   template: '<ng-content></ng-content>',
   styleUrls: ['./grid-header-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class.gnro-grid-header-sticky]': 'sticky()',
+  },
 })
-export class GnroGridHeaderItemComponent {}
+export class GnroGridHeaderItemComponent {
+  gridConfig = input.required<GnroGridConfig>();
+  groupHeader = input<boolean>(false);
+  column = input.required<GnroColumnConfig | GnroGroupHeader | string>();
+  columns = input.required<GnroColumnConfig[]>();
+  columnHeaderPosition = input<number>(0);
+  private isSelectionColumn = computed(() => typeof this.column() === 'string' && this.column() === 'selection');
+
+  sticky = computed(() => {
+    if (this.gridConfig().columnSticky) {
+      if (this.isSelectionColumn()) {
+        return true;
+      }
+      const column = this.column() as GnroGroupHeader;
+      if (column.isGroupHeader) {
+        const item = this.columns().find((col) => col.groupHeader?.name === column.name);
+        return !!item?.sticky || !!item?.stickyEnd;
+      } else if (column.field) {
+        const item = this.columns().find((col) => col.name === column.field);
+        return !!item?.sticky || !!item?.stickyEnd;
+      } else {
+        const item = this.column() as GnroColumnConfig;
+        return item.sticky || item.stickyEnd;
+      }
+    }
+    return false;
+  });
+
+  /*
+
+    */
+  groupHeaderColumns = computed(() => {
+    let groupHeaders: GnroGroupHeader[] = [];
+    this.columns().forEach((column) => {
+      if (!column.hidden) {
+        groupHeaders = this.getGroupHeader(column, groupHeaders);
+      }
+    });
+    return groupHeaders;
+  });
+
+  private getGroupHeader(column: GnroColumnConfig, groupHeaders: GnroGroupHeader[]): GnroGroupHeader[] {
+    if (column.groupHeader) {
+      const find = groupHeaders.find((item) => item.name === column.groupHeader?.name);
+      if (!find) {
+        const groupHeader = column.groupHeader;
+        groupHeader.isGroupHeader = true;
+        groupHeader.field = column.name;
+        groupHeaders.push(groupHeader);
+      } else {
+        find.field = column.name;
+      }
+    } else {
+      groupHeaders.push({
+        name: `group${column.name}`,
+        title: '',
+        isGroupHeader: false,
+        field: column.name,
+      });
+    }
+    return groupHeaders;
+  }
+}
