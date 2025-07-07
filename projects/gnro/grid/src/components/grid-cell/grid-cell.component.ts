@@ -26,13 +26,11 @@ export class GnroGridCellComponent {
   gridConfig = input.required<GnroGridConfig>();
   selected = input.required<boolean>();
   rowIndex = input.required<number>();
-  column = input.required<GnroColumnConfig | string>();
+  column = input<GnroColumnConfig | undefined>(undefined);
+  colIndex = input.required<number>();
   columns = input.required<GnroColumnConfig[]>();
   columnWidths = input.required<GnroColumnWidth[]>();
-  private colIndex = computed(() =>
-    this.columns().findIndex((column) => column.name === (this.column() as GnroColumnConfig).name),
-  );
-  private isSelectionColumn = computed(() => typeof this.column() === 'string' && this.column() === 'selection');
+  private isSelectionColumn = computed(() => this.colIndex() === -1);
   height$ = computed(() => `${this.gridConfig().rowHeight}px`);
   flex$ = computed(() => `0 0 ${this.width$()}`);
 
@@ -41,8 +39,7 @@ export class GnroGridCellComponent {
       if (this.isSelectionColumn()) {
         return true;
       } else {
-        const column = this.column() as GnroColumnConfig;
-        return column.sticky || column.stickyEnd;
+        return this.column()!.sticky || this.column()!.stickyEnd;
       }
     }
     return false;
@@ -52,7 +49,7 @@ export class GnroGridCellComponent {
     if (this.isSelectionColumn()) {
       return `${ROW_SELECTION_CELL_WIDTH}px`;
     } else {
-      const width = this.columnWidths().find((col) => col.name === (this.column() as GnroColumnConfig).name)!.width;
+      const width = this.columnWidths().find((col) => col.name === this.column()!.name)!.width;
       return `${width}px`;
     }
   });
@@ -61,7 +58,7 @@ export class GnroGridCellComponent {
     if (this.sticky()) {
       if (this.isSelectionColumn()) {
         return `0px`;
-      } else if ((this.column() as GnroColumnConfig).sticky) {
+      } else if (this.column()!.sticky) {
         const columns = [...this.columnWidths()].filter((_, idx) => idx < this.colIndex());
         const width = getColumnsWidth(columns, this.gridConfig().rowSelection);
         return `${width}px`;
@@ -71,7 +68,7 @@ export class GnroGridCellComponent {
   });
 
   right$ = computed(() => {
-    if (this.sticky() && !this.isSelectionColumn() && (this.column() as GnroColumnConfig).stickyEnd) {
+    if (this.sticky() && !this.isSelectionColumn() && this.column()!.stickyEnd) {
       const columns = [...this.columnWidths()].filter((_, idx) => idx > this.colIndex());
       const width = getColumnsWidth(columns, false);
       return `${width}px`;
@@ -81,16 +78,16 @@ export class GnroGridCellComponent {
 
   isLastSticky$ = computed(() => {
     if (this.sticky()) {
-      const index = this.isSelectionColumn() ? -1 : this.colIndex();
-      return index === [...this.columns()].filter((col) => col.sticky).length - 1;
+      //const index = this.isSelectionColumn() ? -1 : this.colIndex();
+      return this.colIndex() === [...this.columns()].filter((col) => col.sticky).length - 1;
     }
     return false;
   });
 
   isFirstStickyEnd$ = computed(() => {
     if (this.sticky()) {
-      const index = this.isSelectionColumn() ? -1 : this.colIndex();
-      return index === [...this.columns()].findIndex((col) => col.stickyEnd);
+      //const index = this.isSelectionColumn() ? -1 : this.colIndex();
+      return this.colIndex() === [...this.columns()].findIndex((col) => col.stickyEnd);
     }
     return false;
   });
