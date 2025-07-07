@@ -9,6 +9,7 @@ import {
   GnroGroupHeader,
 } from '../../../models/grid.model';
 import { GRID_FILTER_ROW_HEIGHT, ROW_SELECTION_CELL_WIDTH } from '../../../models/constants';
+import { getTableWidth } from '../../../utils/viewport-width-ratio';
 
 @Component({
   selector: 'gnro-grid-header-item',
@@ -21,12 +22,14 @@ import { GRID_FILTER_ROW_HEIGHT, ROW_SELECTION_CELL_WIDTH } from '../../../model
     '[class.gnro-grid-column-first-sticky-end]': 'isFirstStickyEnd$()',
 
     '[style.flex]': 'flex$()',
+    '[style.left]': 'left$()',
     '[style.max-width]': 'width$()',
   },
 })
-//         [style.flex]="'0 0 ' + selectColumnWidth"
+//          [style.left]="getStickyLeft(gridConfig().columnSticky, false)"
 export class GnroGridHeaderItemComponent {
   gridConfig = input.required<GnroGridConfig>();
+  gridSetting = input.required<GnroGridSetting>();
   groupHeader = input<boolean>(false);
   column = input.required<GnroColumnConfig | GnroGroupHeader | string>();
   colIndex = input.required<number>();
@@ -122,6 +125,40 @@ export class GnroGridHeaderItemComponent {
     }
   });
 
+  left$ = computed(() => {
+    if (this.isSelectionColumn()) {
+      return this.getStickyLeft(this.gridConfig().columnSticky, false);
+    } else if (this.groupHeader()) {
+      return this.getHeaderStickyLeft(this.column() as GnroGroupHeader);
+    } else {
+      const column = this.column() as GnroColumnConfig;
+      return this.getStickyLeft(column.sticky, column.stickyEnd);
+    }
+  });
+
+  private getStickyLeft(sticky: boolean | undefined, stickyEnd: boolean | undefined): string {
+    if (this.gridConfig().columnSticky) {
+      if (sticky) {
+        return `${-this.columnHeaderPosition()}px`;
+      } else if (stickyEnd) {
+        const width = getTableWidth(this.columns(), this.gridConfig()) - this.gridSetting().viewportWidth;
+        const postion = -width - this.columnHeaderPosition();
+        return `${postion}px`;
+      }
+    }
+    return `0px`;
+  }
+
+  private getHeaderStickyLeft(header: GnroGroupHeader): string {
+    if (!header.isGroupHeader) {
+      const column = this.columns().find((col) => col.name === header.field);
+      return this.getStickyLeft(column?.sticky, column?.stickyEnd);
+    } else {
+      const column = this.columns().find((col) => col.name === header.field);
+      return this.getStickyLeft(column?.sticky, column?.stickyEnd);
+    }
+  }
+
   /*
 
     getColumnWidth(column: GnroColumnConfig): string {
@@ -131,7 +168,7 @@ export class GnroGridHeaderItemComponent {
 
 
     */
-  groupHeaderColumns = computed(() => {
+  private groupHeaderColumns = computed(() => {
     let groupHeaders: GnroGroupHeader[] = [];
     this.columns().forEach((column) => {
       if (!column.hidden) {

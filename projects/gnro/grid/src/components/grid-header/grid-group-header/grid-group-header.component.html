@@ -1,7 +1,7 @@
 @if (gridConfig().rowSelection) {
   <gnro-grid-header-item
-    [style.left]="getStickyLeft(gridConfig().columnSticky, false)"
     [gridConfig]="gridConfig()"
+    [gridSetting]="gridSetting()"
     [groupHeader]="true"
     column="selection"
     [colIndex]="-1"
@@ -13,7 +13,6 @@
 
 @for (header of groupHeaderColumns(); track $index; let index = $index) {
   <gnro-grid-header-item
-    [style.left]="getHeaderStickyLeft(header, index)"
     [groupHeader]="true"
     [column]="header"
     [colIndex]="index"
