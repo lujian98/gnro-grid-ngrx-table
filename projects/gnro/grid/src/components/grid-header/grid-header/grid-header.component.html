@@ -1,0 +1,75 @@
+@if (gridConfig().rowSelection) {
+  <gnro-grid-header-item
+    [gridConfig]="gridConfig()"
+    [gridSetting]="gridSetting()"
+    [colIndex]="-1"
+    [columns]="columns()"
+    [columnWidths]="columnWidths()"
+    [columnHeaderPosition]="columnHeaderPosition()"
+  >
+    @if (gridConfig().multiRowSelection) {
+      <gnro-row-select
+        class="gnro-header-row-select"
+        [style.height]="gridConfig().headerHeight + 'px'"
+        [selected]="rowSelection().allSelected"
+        [indeterminate]="rowSelection().indeterminate"
+        (click)="onToggleSelectAll(rowSelection().allSelected)"
+      >
+      </gnro-row-select>
+    }
+    @if (!gridConfig().multiRowSelection) {
+      <div [style.height]="gridConfig().headerHeight + 'px'"></div>
+    }
+
+    @if (gridConfig().columnFilter) {
+      <div class="gnro-header-no-filter-border" [style.height]="filterRowHeight"></div>
+    }
+  </gnro-grid-header-item>
+}
+
+@for (column of columns(); track $index; let index = $index) {
+  @if (!column.hidden) {
+    <gnro-grid-header-item
+      [column]="column"
+      [colIndex]="index"
+      [columns]="columns()"
+      [columnWidths]="columnWidths()"
+      [gridConfig]="gridConfig()"
+      [columnHeaderPosition]="columnHeaderPosition()"
+      [gridSetting]="gridSetting()"
+      (columnResizing)="columnResizing.emit($event)"
+      (columnResized)="columnResized.emit($event)"
+      cdkDrag
+      [cdkDragDisabled]="dragDisabled(column)"
+      gnroColumnResize
+    >
+      <gnro-grid-header-cell
+        [column]="column"
+        [gridSetting]="gridSetting()"
+        [gridConfig]="gridConfig()"
+        (columnMenuClick)="onColumnMenuClick($event)"
+        cdkDragHandle
+      >
+      </gnro-grid-header-cell>
+
+      @if (gridConfig().columnFilter && column.filterField !== false) {
+        <gnro-column-filter [gridSetting]="gridSetting()" [gridConfig]="gridConfig()" [column]="column">
+        </gnro-column-filter>
+      }
+
+      @if (gridConfig().columnFilter && column.filterField === false) {
+        <div class="gnro-header-no-filter-border" [style.height]="filterRowHeight"></div>
+      }
+
+      <div class="drag-placeholder" *cdkDragPlaceholder></div>
+
+      @if (resizeable(column, index)) {
+        <div
+          class="gnro-grid-column-resize-action"
+          [style.height]="columnResizeHeight + 'px'"
+          gnroColumnResizeTrigger
+        ></div>
+      }
+    </gnro-grid-header-item>
+  }
+}
