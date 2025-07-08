@@ -17,16 +17,16 @@ import { viewportWidthRatio } from '../utils/viewport-width-ratio';
 export class GnroColumnResizeDirective {
   private readonly elementRef = inject(ElementRef);
   private readonly renderer = inject(Renderer2);
-  column = input.required<GnroColumnConfig>();
+  column = input.required<GnroColumnConfig | GnroGroupHeader>();
   columns = input.required<GnroColumnConfig[]>();
   gridConfig = input.required<GnroGridConfig>();
   gridSetting = input.required<GnroGridSetting>();
   groupHeader = input<boolean>(false);
   private column$ = computed(() => {
     if (this.groupHeader()) {
-      return this.columns().find((column) => column.name === (this.column() as GnroGroupHeader).field);
+      return this.columns().find((column) => column.name === (this.column() as GnroGroupHeader).field)!;
     } else {
-      return this.column();
+      return this.column() as GnroColumnConfig;
     }
   });
   columnResizing = output<GnroColumnWidth[]>();
@@ -48,17 +48,17 @@ export class GnroColumnResizeDirective {
 
   get elementWidth(): number {
     const width = this.element.getBoundingClientRect().width;
-    if (this.groupHeader() && this.column$()!.groupHeader) {
+    if (this.groupHeader() && this.column$().groupHeader) {
       const totalWidth = this.columns()
-        .filter((col) => col.groupHeader === this.column$()!.groupHeader)
+        .filter((col) => col.groupHeader === this.column$().groupHeader)
         .reduce((sum, col) => sum + col.width!, 0);
-      return (this.column$()!.width! * width) / totalWidth;
+      return (this.column$().width! * width) / totalWidth;
     }
     return width;
   }
 
   onMouseDown(event: MouseEvent): void {
-    this.currentIndex = this.displayedColumns.findIndex((item) => item.name === this.column$()!.name);
+    this.currentIndex = this.displayedColumns.findIndex((item) => item.name === this.column$().name);
     this.columnWidths = [...this.displayedColumns].map((column) => {
       const resizeable = this.columns().find((col) => col.name === column.name)?.resizeable;
       const ratio = viewportWidthRatio(this.gridConfig(), this.gridSetting(), this.displayedColumns);
