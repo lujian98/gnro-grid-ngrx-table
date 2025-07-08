@@ -58,28 +58,30 @@ export class GnroGridHeaderItemComponent {
   isLastSticky$ = computed(() => {
     if (this.sticky()) {
       if (this.groupHeader()) {
-        if (this.colIndex() > -1) {
-          const header = this.groupHeaderColumns()[this.colIndex()];
-          const list = [...this.columns()].filter((col) => col.sticky);
-          const item = list[list.length - 1];
-          const lastIndex = this.columns().findIndex((col) => col.name === item.name);
-          if (header.isGroupHeader) {
-            const group = this.columns().filter((col) => col.groupHeader?.name === header.name);
-            const column = group[group.length - 1];
-            const findIndex = this.columns().findIndex((col) => col.name === column.name);
-            return lastIndex === findIndex;
-          } else {
-            const findIndex = this.columns().findIndex((col) => col.name === header.field);
-            return lastIndex === findIndex;
-          }
-        }
+        const items = [...this.columns()].filter((col) => col.sticky);
+        const lastIndex =
+          items.length > 0 ? this.columns().findIndex((col) => col.name === items[items.length - 1].name) : -1;
+        return lastIndex === this.findColumnIndex();
       } else {
-        const totSticky = [...this.columns()].filter((col) => col.sticky).length;
-        return this.colIndex() === totSticky - 1;
+        return this.colIndex() === [...this.columns()].filter((col) => col.sticky).length - 1;
       }
     }
     return false;
   });
+
+  private findColumnIndex(): number {
+    if (this.colIndex() === -1) {
+      return this.colIndex();
+    } else {
+      const header = this.groupHeaderColumns()[this.colIndex()];
+      if (header.isGroupHeader) {
+        const items = this.columns().filter((col) => col.groupHeader?.name === header.name);
+        return this.columns().findIndex((col) => col.name === items[items.length - 1].name);
+      } else {
+        return this.columns().findIndex((col) => col.name === header.field);
+      }
+    }
+  }
 
   isFirstStickyEnd$ = computed(() => {
     if (this.sticky() && this.colIndex() > 0) {
