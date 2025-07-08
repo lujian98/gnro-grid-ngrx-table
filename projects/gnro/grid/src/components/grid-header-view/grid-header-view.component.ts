@@ -14,7 +14,7 @@ import {
 import { groupColumnMove } from '../../utils/group-column-move';
 import { getTableWidth, viewportWidthRatio } from '../../utils/viewport-width-ratio';
 import { GnroGridGroupHeaderComponent } from '../grid-header/grid-group-header/grid-group-header.component';
-import { GnroGridHeaderComponent } from '../grid-header/grid-header.component';
+import { GnroGridHeaderComponent } from '../grid-header/grid-header/grid-header.component';
 
 @Component({
   selector: 'gnro-grid-header-view',

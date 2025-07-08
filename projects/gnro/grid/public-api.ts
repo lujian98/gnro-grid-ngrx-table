@@ -5,7 +5,7 @@ export * from './src/+state/grid-state.module';
 export * from './src/+state/grid.facade';
 export * from './src/+state/grid.actions';
 export * from './src/utils/viewport-width-ratio';
-export * from './src/components/grid-header/grid-header.component';
+export * from './src/components/grid-header/grid-header/grid-header.component';
 export * from './src/components/grid-header-view/grid-header-view.component';
 export * from './src/components/grid-row/grid-row.component';
 export * from './src/components/grid-cell/grid-cell-view/grid-cell-view.component';
