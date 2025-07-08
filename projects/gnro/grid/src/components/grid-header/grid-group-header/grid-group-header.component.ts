@@ -9,7 +9,6 @@ import {
   GnroGridSetting,
   GnroGroupHeader,
 } from '../../../models/grid.model';
-import { getTableWidth } from '../../../utils/viewport-width-ratio';
 import { GnroGridHeaderItemComponent } from '../grid-header-item/grid-header-item.component';
 
 @Component({
