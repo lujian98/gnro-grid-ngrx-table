@@ -87,15 +87,11 @@ export class GnroGridHeaderItemComponent {
     if (this.sticky() && this.colIndex() > 0) {
       if (this.groupHeader()) {
         const header = this.groupHeaderColumns()[this.colIndex()];
-        if (!header.isGroupHeader) {
-          const find = this.columns().findIndex((col) => col.name === header.field);
-          const idx = [...this.columns()].findIndex((col) => col.stickyEnd);
-          return find === idx;
-        } else {
-          const find = this.columns().findIndex((col) => col.groupHeader?.name === header.name);
-          const idx = [...this.columns()].findIndex((col) => col.stickyEnd);
-          return find === idx;
-        }
+        const firstIndex = [...this.columns()].findIndex((col) => col.stickyEnd);
+        const findIndex = header.isGroupHeader
+          ? this.columns().findIndex((col) => col.groupHeader?.name === header.name)
+          : this.columns().findIndex((col) => col.name === header.field);
+        return findIndex === firstIndex;
       } else {
         return this.colIndex() === [...this.columns()].findIndex((col) => col.stickyEnd);
       }
