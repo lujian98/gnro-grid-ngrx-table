@@ -1,5 +1,5 @@
 import { CdkDragHandle, DragDropModule } from '@angular/cdk/drag-drop';
-import { ChangeDetectionStrategy, Component, ElementRef, inject, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, ElementRef, inject, input, output } from '@angular/core';
 import { DEFAULT_OVERLAY_SERVICE_CONFIG, GnroOverlayServiceConfig, GnroPosition, GnroTrigger } from '@gnro/ui/overlay';
 import { GnroPopoverComponent, GnroPopoverService } from '@gnro/ui/popover';
 import { GnroGridFacade } from '../../+state/grid.facade';
@@ -36,6 +36,9 @@ import { GnroGridHeaderItemComponent } from './grid-header-item/grid-header-item
     GnroRowSelectComponent,
   ],
   providers: [GnroPopoverService],
+  host: {
+    '[style.left]': 'left$()',
+  },
 })
 export class GnroGridHeaderComponent<T> {
   private readonly gridFacade = inject(GnroGridFacade);
@@ -47,6 +50,7 @@ export class GnroGridHeaderComponent<T> {
   columnWidths = input.required<GnroColumnWidth[]>();
   columnHeaderPosition = input<number>(0);
   rowSelection = input.required<GnroGridRowSelections<object>>();
+  left$ = computed(() => `${this.columnHeaderPosition()}px`);
   columnResizing = output<GnroColumnWidth[]>();
   columnResized = output<GnroColumnWidth[]>();
   rowSelectAll = output<boolean>();
