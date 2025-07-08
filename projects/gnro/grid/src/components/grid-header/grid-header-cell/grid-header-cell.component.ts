@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
 import { GnroIconModule } from '@gnro/ui/icon';
 import { TranslatePipe } from '@ngx-translate/core';
 import { GnroGridFacade } from '../../../+state/grid.facade';
@@ -16,6 +16,7 @@ import {
   styleUrls: ['./grid-header-cell.component.scss'],
   host: {
     '[class.draggable]': 'draggable',
+    '[style.height]': 'height$()',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslatePipe, GnroIconModule],
@@ -26,6 +27,7 @@ export class GnroGridHeaderCellComponent {
   column = input.required<GnroColumnConfig>();
   gridSetting = input.required<GnroGridSetting>();
   gridConfig = input.required<GnroGridConfig>();
+  height$ = computed(() => `${this.gridConfig().headerHeight}px`);
   columnMenuClick = output<ColumnMenuClick>();
 
   get title(): string {
