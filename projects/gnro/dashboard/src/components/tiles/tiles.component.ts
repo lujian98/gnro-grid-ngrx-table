@@ -81,6 +81,7 @@ export class GnroTilesComponent implements OnInit {
       const tileInfo = tileResizeInfo(resizeInfo, tile, this.config(), this.setting().gridMap);
       Object.assign(tile, tileInfo);
       this.setupTilesLayout(this.tiles());
+      window.dispatchEvent(new Event('resize'));
     }
   }
 
