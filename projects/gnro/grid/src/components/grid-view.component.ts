@@ -25,7 +25,7 @@ import {
 } from '../models/grid.model';
 import { GnroRowGroup } from '../utils/row-group/row-group';
 import { GnroRowGroups } from '../utils/row-group/row-groups';
-import { GnroGridHeaderViewComponent } from './grid-header-view/grid-header-view.component';
+import { GnroGridHeaderViewComponent } from './grid-header/grid-header-view.component';
 import { GnroGridRowGroupComponent } from './grid-row/grid-row-group.component';
 import { GnroGridRowComponent } from './grid-row/grid-row.component';
 
