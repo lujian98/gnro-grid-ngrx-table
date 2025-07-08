@@ -25,7 +25,6 @@ import {
 } from '../models/grid.model';
 import { GnroRowGroup } from '../utils/row-group/row-group';
 import { GnroRowGroups } from '../utils/row-group/row-groups';
-import { getTableWidth } from '../utils/viewport-width-ratio';
 import { GnroGridHeaderViewComponent } from './grid-header-view/grid-header-view.component';
 import { GnroGridRowGroupComponent } from './grid-row/grid-row-group.component';
 import { GnroGridRowComponent } from './grid-row/grid-row.component';
@@ -65,12 +64,6 @@ export class GnroGridViewComponent<T> implements AfterViewInit {
       return gridData;
     },
   });
-
-  get tableWidth(): number {
-    return this.gridConfig().horizontalScroll
-      ? getTableWidth(this.columns(), this.gridConfig())
-      : this.gridSetting().viewportWidth;
-  }
 
   gridColumnWidthsEvent(values: GnroColumnWidth[]): void {
     this.columnWidths = values;

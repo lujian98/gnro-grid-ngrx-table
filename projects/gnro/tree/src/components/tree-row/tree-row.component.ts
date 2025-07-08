@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import {
   GnroColumnConfig,
   GnroColumnWidth,
@@ -6,6 +6,7 @@ import {
   GnroGridCellViewComponent,
   GnroGridSetting,
   GnroRowSelectComponent,
+  getTableWidth,
 } from '@gnro/ui/grid';
 import { GnroTreeConfig, GnroTreeNode } from '../../models/tree-grid.model';
 import { GnroTreeNodeComponent } from './tree-node/tree-node.component';
@@ -18,6 +19,7 @@ import { GnroTreeNodeComponent } from './tree-node/tree-node.component';
   imports: [GnroTreeNodeComponent, GnroGridCellComponent, GnroGridCellViewComponent, GnroRowSelectComponent],
   host: {
     '[class.selected]': 'selected()',
+    '[style.width]': 'width$()',
   },
 })
 export class GnroTreeRowComponent<T> {
@@ -28,6 +30,13 @@ export class GnroTreeRowComponent<T> {
   selected = input.required<boolean>();
   columnWidths = input.required<GnroColumnWidth[]>();
   rowIndex = input.required<number>();
+
+  width$ = computed(() => {
+    const tableWidth = this.treeConfig().horizontalScroll
+      ? getTableWidth(this.columns(), this.treeConfig())
+      : this.gridSetting().viewportWidth;
+    return `${tableWidth}px`;
+  });
 
   get treeColumn(): GnroColumnConfig | undefined {
     return this.columns().find((col) => col.name === 'name');
