@@ -1,4 +1,4 @@
-import { Directive, ElementRef, inject, input, output, Renderer2, computed } from '@angular/core';
+import { computed, Directive, ElementRef, inject, input, output, Renderer2 } from '@angular/core';
 import { MIN_GRID_COLUMN_WIDTH } from '../models/constants';
 import { EventTargetTypes } from '../models/event-target-types';
 import { EventTypes } from '../models/event-types';
