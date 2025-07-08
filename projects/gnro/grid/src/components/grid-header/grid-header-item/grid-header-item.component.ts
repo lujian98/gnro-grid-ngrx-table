@@ -127,7 +127,8 @@ export class GnroGridHeaderItemComponent {
     if (this.isSelectionColumn()) {
       return this.getStickyLeft(this.gridConfig().columnSticky, false);
     } else if (this.groupHeader()) {
-      return this.getHeaderStickyLeft(this.column() as GnroGroupHeader);
+      const column = this.columns().find((col) => col.name === (this.column() as GnroGroupHeader).field);
+      return this.getStickyLeft(column?.sticky, column?.stickyEnd);
     } else {
       const column = this.column() as GnroColumnConfig;
       return this.getStickyLeft(column.sticky, column.stickyEnd);
@@ -145,16 +146,6 @@ export class GnroGridHeaderItemComponent {
       }
     }
     return `0px`;
-  }
-
-  private getHeaderStickyLeft(header: GnroGroupHeader): string {
-    if (!header.isGroupHeader) {
-      const column = this.columns().find((col) => col.name === header.field);
-      return this.getStickyLeft(column?.sticky, column?.stickyEnd);
-    } else {
-      const column = this.columns().find((col) => col.name === header.field);
-      return this.getStickyLeft(column?.sticky, column?.stickyEnd);
-    }
   }
 
   private groupHeaderColumns = computed(() => {
