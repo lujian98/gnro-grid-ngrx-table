@@ -32,6 +32,7 @@ export class GnroGridHeaderItemComponent {
   columns = input.required<GnroColumnConfig[]>();
   columnWidths = input.required<GnroColumnWidth[]>();
   columnHeaderPosition = input<number>(0);
+  groupHeaderColumns = input<GnroGroupHeader[]>([]);
   private isSelectionColumn = computed(() => this.colIndex() === -1);
   flex$ = computed(() => `0 0 ${this.width$()}`);
 
@@ -146,37 +147,5 @@ export class GnroGridHeaderItemComponent {
       }
     }
     return `0px`;
-  }
-
-  private groupHeaderColumns = computed(() => {
-    let groupHeaders: GnroGroupHeader[] = [];
-    this.columns().forEach((column) => {
-      if (!column.hidden) {
-        groupHeaders = this.getGroupHeader(column, groupHeaders);
-      }
-    });
-    return groupHeaders;
-  });
-
-  private getGroupHeader(column: GnroColumnConfig, groupHeaders: GnroGroupHeader[]): GnroGroupHeader[] {
-    if (column.groupHeader) {
-      const find = groupHeaders.find((item) => item.name === column.groupHeader?.name);
-      if (!find) {
-        const groupHeader = column.groupHeader;
-        groupHeader.isGroupHeader = true;
-        groupHeader.field = column.name;
-        groupHeaders.push(groupHeader);
-      } else {
-        find.field = column.name;
-      }
-    } else {
-      groupHeaders.push({
-        name: `group${column.name}`,
-        title: '',
-        isGroupHeader: false,
-        field: column.name,
-      });
-    }
-    return groupHeaders;
   }
 }

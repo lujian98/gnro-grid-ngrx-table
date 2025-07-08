@@ -43,10 +43,6 @@ export class GnroGridGroupHeaderComponent {
   columnResizing = output<GnroColumnWidth[]>();
   columnResized = output<GnroColumnWidth[]>();
 
-  getColumn(header: GnroGroupHeader): GnroColumnConfig {
-    return this.columns().find((col) => col.name === header.field)!;
-  }
-
   private getGroupHeader(column: GnroColumnConfig, groupHeaders: GnroGroupHeader[]): GnroGroupHeader[] {
     if (column.groupHeader) {
       const find = groupHeaders.find((item) => item.name === column.groupHeader?.name);
