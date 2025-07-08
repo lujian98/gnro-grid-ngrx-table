@@ -17,6 +17,10 @@ import { GnroGridHeaderItemComponent } from '../grid-header-item/grid-header-ite
   styleUrls: ['./grid-group-header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [GnroGridHeaderItemComponent, GnroColumnResizeTriggerDirective, GnroColumnResizeDirective],
+  host: {
+    '[style.left]': 'left$()',
+    '[style.height]': 'height$()',
+  },
 })
 export class GnroGridGroupHeaderComponent {
   rowSelectionCellWidth = ROW_SELECTION_CELL_WIDTH;
@@ -25,6 +29,8 @@ export class GnroGridGroupHeaderComponent {
   gridConfig = input.required<GnroGridConfig>();
   columnWidths = input<GnroColumnWidth[]>([]);
   columnHeaderPosition = input<number>(0);
+  left$ = computed(() => `${this.columnHeaderPosition()}px`);
+  height$ = computed(() => `${this.gridConfig().headerHeight}px`);
   groupHeaderColumns = computed(() => {
     let groupHeaders: GnroGroupHeader[] = [];
     this.columns().forEach((column) => {

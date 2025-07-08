@@ -1,8 +1,6 @@
 <div class="grid-header-container" [style.flex]="'0 0 ' + tableWidth + 'px'">
   @if (gridConfig().groupHeader) {
     <gnro-grid-group-header
-      [style.left]="columnHeaderPosition() + 'px'"
-      [style.height]="gridConfig().headerHeight + 'px'"
       [gridSetting]="gridSetting()"
       [gridConfig]="gridConfig()"
       [columns]="columns()"
