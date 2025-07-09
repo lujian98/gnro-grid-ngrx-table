@@ -5,7 +5,7 @@ import { AppDialogTestDemoComponent } from './dialog-test.component';
 //import { AppRadioButton } from '../../../../radio/radio';
 //import { AppRadioGroup } from '../../../../radio/radio-group';
 //import { MatRadioModule } from '@angular/material/radio'/
-import { AppRadioButton, AppRadioGroup } from '@gnro/ui/radio-group';
+import { GnroRadioComponent, GnroRadioGroupDirective } from '@gnro/ui/radio-group';
 import { FormBuilder } from '@angular/forms';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -14,7 +14,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
   templateUrl: './simple-window.component.html',
   styleUrls: ['./simple-window.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, AppRadioButton, AppRadioGroup, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, GnroRadioComponent, GnroRadioGroupDirective, FormsModule, ReactiveFormsModule],
 })
 export class AppSimpleWindowComponent {
   private dialogService = inject(GnroDialogService);

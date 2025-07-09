@@ -1,12 +1,12 @@
 <div (click)="openDialog($event)">Click to Open window</div>
 
 <form [formGroup]="myForm">
-  <app-radio-group formControlName="radioSelection">
-    <app-radio-button [value]="'option1'" [disabled]="shouldDisableOption1()"> Option 1 </app-radio-button>
-    <app-radio-button [value]="'option2'" [disabled]="shouldDisableOption2()"> Option 2 </app-radio-button>
+  <gnro-radio-group formControlName="radioSelection">
+    <gnro-radio [value]="'option1'" [disabled]="shouldDisableOption1()"> Option 1 </gnro-radio>
+    <gnro-radio [value]="'option2'" [disabled]="shouldDisableOption2()"> Option 2 </gnro-radio>
 
-    <app-radio-button [value]="'option3'"> Option 3 </app-radio-button>
-  </app-radio-group>
+    <gnro-radio [value]="'option3'"> Option 3 </gnro-radio>
+  </gnro-radio-group>
 </form>
 
 <!--

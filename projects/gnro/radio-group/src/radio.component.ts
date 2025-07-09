@@ -23,19 +23,19 @@ import {
   inject,
   numberAttribute,
 } from '@angular/core';
-import { AppRadioGroup, MAT_RADIO_GROUP } from './radio-group';
-import { AppRadioDefaultOptions, MAT_RADIO_DEFAULT_OPTIONS } from './radio.model';
+import { GnroRadioGroupDirective, GNRO_RADIO_GROUP } from './radio-group.directive';
+import { GnroRadioDefaultOptions, GNRO_RADIO_DEFAULT_OPTIONS } from './radio.model';
 
-export class AppRadioChange {
+export class GnroRadioChange {
   constructor(
-    public source: AppRadioButton,
+    public source: GnroRadioComponent,
     public value: any,
   ) {}
 }
 
 @Component({
-  selector: 'app-radio-button',
-  templateUrl: 'radio.html',
+  selector: 'gnro-radio',
+  templateUrl: './radio.component.html',
   // styleUrl: 'radio.css',
   host: {
     class: 'mat-mdc-radio-button',
@@ -47,16 +47,16 @@ export class AppRadioChange {
     '[attr.tabindex]': 'null',
     '(focus)': '_inputElement.nativeElement.focus()',
   },
-  exportAs: 'appRadioButton',
+  exportAs: 'gnroRadio',
   //encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppRadioButton implements OnInit, AfterViewInit, DoCheck, OnDestroy {
+export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDestroy {
   protected _elementRef = inject(ElementRef);
   private _changeDetector = inject(ChangeDetectorRef);
   private _focusMonitor = inject(FocusMonitor);
   private _radioDispatcher = inject(UniqueSelectionDispatcher);
-  private _defaultOptions = inject<AppRadioDefaultOptions>(MAT_RADIO_DEFAULT_OPTIONS, {
+  private _defaultOptions = inject<GnroRadioDefaultOptions>(GNRO_RADIO_DEFAULT_OPTIONS, {
     optional: true,
   });
 
@@ -145,9 +145,9 @@ export class AppRadioButton implements OnInit, AfterViewInit, DoCheck, OnDestroy
   }
   private _disabledInteractive: boolean;
 
-  @Output() readonly change: EventEmitter<AppRadioChange> = new EventEmitter<AppRadioChange>();
+  @Output() readonly change: EventEmitter<GnroRadioChange> = new EventEmitter<GnroRadioChange>();
 
-  radioGroup: AppRadioGroup;
+  radioGroup: GnroRadioGroupDirective;
 
   get inputId(): string {
     return `${this.id || this._uniqueId}-input`;
@@ -168,7 +168,7 @@ export class AppRadioButton implements OnInit, AfterViewInit, DoCheck, OnDestroy
   //constructor(...args: unknown[]);
 
   constructor() {
-    const radioGroup = inject<AppRadioGroup>(MAT_RADIO_GROUP, { optional: true })!;
+    const radioGroup = inject<GnroRadioGroupDirective>(GNRO_RADIO_GROUP, { optional: true })!;
     const animationMode = inject(ANIMATION_MODULE_TYPE, { optional: true });
     const tabIndex = inject(new HostAttributeToken('tabindex'), { optional: true });
     this.radioGroup = radioGroup;
@@ -233,7 +233,7 @@ export class AppRadioButton implements OnInit, AfterViewInit, DoCheck, OnDestroy
   }
 
   private _emitChangeEvent(): void {
-    this.change.emit(new AppRadioChange(this, this._value));
+    this.change.emit(new GnroRadioChange(this, this._value));
   }
 
   _onInputInteraction(event: Event) {

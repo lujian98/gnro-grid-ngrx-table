@@ -16,30 +16,33 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { AppRadioButton, AppRadioChange } from './radio';
+import { GnroRadioComponent, GnroRadioChange } from './radio.component';
 
-export const MAT_RADIO_GROUP_CONTROL_VALUE_ACCESSOR: any = {
+export const GNRO_RADIO_GROUP_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => AppRadioGroup),
+  useExisting: forwardRef(() => GnroRadioGroupDirective),
   multi: true,
 };
 
-export const MAT_RADIO_GROUP = new InjectionToken<AppRadioGroup>('AppRadioGroup');
+export const GNRO_RADIO_GROUP = new InjectionToken<GnroRadioGroupDirective>('GnroRadioGroup');
 
 @Directive({
-  selector: 'app-radio-group',
-  exportAs: 'appRadioGroup',
-  providers: [MAT_RADIO_GROUP_CONTROL_VALUE_ACCESSOR, { provide: MAT_RADIO_GROUP, useExisting: AppRadioGroup }],
+  selector: 'gnro-radio-group',
+  exportAs: 'gnroRadioGroup',
+  providers: [
+    GNRO_RADIO_GROUP_CONTROL_VALUE_ACCESSOR,
+    { provide: GNRO_RADIO_GROUP, useExisting: GnroRadioGroupDirective },
+  ],
   host: {
     role: 'radiogroup',
     class: 'mat-mdc-radio-group',
   },
 })
-export class AppRadioGroup implements AfterContentInit, OnDestroy, ControlValueAccessor {
+export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, ControlValueAccessor {
   private _changeDetector = inject(ChangeDetectorRef);
   private _value: any = null;
   private _name: string = inject(_IdGenerator).getId('mat-radio-group-');
-  private _selected: AppRadioButton | null = null;
+  private _selected: GnroRadioComponent | null = null;
   private _isInitialized: boolean = false;
   private _labelPosition: 'before' | 'after' = 'after';
   private _disabled: boolean = false;
@@ -47,9 +50,9 @@ export class AppRadioGroup implements AfterContentInit, OnDestroy, ControlValueA
   private _buttonChanges!: Subscription;
   _controlValueAccessorChangeFn: (value: any) => void = () => {};
   onTouched: () => any = () => {};
-  @Output() readonly change: EventEmitter<AppRadioChange> = new EventEmitter<AppRadioChange>();
-  @ContentChildren(forwardRef(() => AppRadioButton), { descendants: true })
-  _radios!: QueryList<AppRadioButton>;
+  @Output() readonly change: EventEmitter<GnroRadioChange> = new EventEmitter<GnroRadioChange>();
+  @ContentChildren(forwardRef(() => GnroRadioComponent), { descendants: true })
+  _radios!: QueryList<GnroRadioComponent>;
 
   @Input()
   get name(): string {
@@ -90,7 +93,7 @@ export class AppRadioGroup implements AfterContentInit, OnDestroy, ControlValueA
   get selected() {
     return this._selected;
   }
-  set selected(selected: AppRadioButton | null) {
+  set selected(selected: GnroRadioComponent | null) {
     this._selected = selected;
     this.value = selected ? selected.value : null;
     this._checkSelectedRadioButton();
@@ -168,7 +171,7 @@ export class AppRadioGroup implements AfterContentInit, OnDestroy, ControlValueA
 
   _emitChangeEvent(): void {
     if (this._isInitialized) {
-      this.change.emit(new AppRadioChange(this._selected!, this._value));
+      this.change.emit(new GnroRadioChange(this._selected!, this._value));
     }
   }
 
