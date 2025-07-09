@@ -23,8 +23,9 @@ import {
   inject,
   numberAttribute,
 } from '@angular/core';
-import { GnroRadioGroupDirective, GNRO_RADIO_GROUP } from './radio-group.directive';
-import { GnroRadioDefaultOptions, GNRO_RADIO_DEFAULT_OPTIONS } from './radio.model';
+import { GnroRadioGroupDirective } from './radio-group.directive';
+import { GNRO_RADIO_GROUP } from './radio-group.model';
+import { GNRO_RADIO_DEFAULT_OPTIONS, GnroRadioDefaultOptions } from './radio.model';
 
 export class GnroRadioChange {
   constructor(

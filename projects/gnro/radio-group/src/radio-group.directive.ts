@@ -5,7 +5,6 @@ import {
   ContentChildren,
   Directive,
   EventEmitter,
-  InjectionToken,
   Input,
   OnDestroy,
   Output,
@@ -14,17 +13,10 @@ import {
   forwardRef,
   inject,
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { GnroRadioComponent, GnroRadioChange } from './radio.component';
-
-export const GNRO_RADIO_GROUP_CONTROL_VALUE_ACCESSOR: any = {
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => GnroRadioGroupDirective),
-  multi: true,
-};
-
-export const GNRO_RADIO_GROUP = new InjectionToken<GnroRadioGroupDirective>('GnroRadioGroup');
+import { GNRO_RADIO_GROUP, GNRO_RADIO_GROUP_CONTROL_VALUE_ACCESSOR } from './radio-group.model';
+import { GnroRadioChange, GnroRadioComponent } from './radio.component';
 
 @Directive({
   selector: 'gnro-radio-group',
