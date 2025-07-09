@@ -54,7 +54,7 @@ export class GnroRadioChange {
 })
 export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDestroy {
   protected _elementRef = inject(ElementRef);
-  private _changeDetector = inject(ChangeDetectorRef);
+  private changeDetectorRef = inject(ChangeDetectorRef);
   private _focusMonitor = inject(FocusMonitor);
   private _radioDispatcher = inject(UniqueSelectionDispatcher);
   private _defaultOptions = inject<GnroRadioDefaultOptions>(GNRO_RADIO_DEFAULT_OPTIONS, {
@@ -90,7 +90,7 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
       if (value) {
         this._radioDispatcher.notify(this.id, this.name);
       }
-      this._changeDetector.markForCheck();
+      this.changeDetectorRef.markForCheck();
     }
   }
 
@@ -166,8 +166,6 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
 
   private _injector = inject(Injector);
 
-  //constructor(...args: unknown[]);
-
   constructor() {
     const radioGroup = inject<GnroRadioGroupDirective>(GNRO_RADIO_GROUP, { optional: true })!;
     const animationMode = inject(ANIMATION_MODULE_TYPE, { optional: true });
@@ -189,11 +187,11 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
     }
   }
 
-  _markForCheck() {
-    this._changeDetector.markForCheck();
+  _markForCheck(): void {
+    this.changeDetectorRef.markForCheck();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (this.radioGroup) {
       this.checked = this.radioGroup.value === this._value;
 
@@ -214,7 +212,7 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
     this._updateTabIndex();
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this._updateTabIndex();
     this._focusMonitor.monitor(this._elementRef, true).subscribe((focusOrigin) => {
       if (!focusOrigin && this.radioGroup) {
@@ -227,7 +225,7 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this._cleanupClick?.();
     this._focusMonitor.stopMonitoring(this._elementRef);
     this._removeUniqueSelectionListener();
@@ -237,7 +235,7 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
     this.change.emit(new GnroRadioChange(this, this._value));
   }
 
-  _onInputInteraction(event: Event) {
+  _onInputInteraction(event: Event): void {
     event.stopPropagation();
 
     if (!this.checked && !this.disabled) {
@@ -254,17 +252,17 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
     }
   }
 
-  _onTouchTargetClick(event: Event) {
+  _onTouchTargetClick(event: Event): void {
     this._onInputInteraction(event);
     if (!this.disabled || this.disabledInteractive) {
       this._inputElement?.nativeElement.focus();
     }
   }
 
-  protected _setDisabled(value: boolean) {
+  protected _setDisabled(value: boolean): void {
     if (this._disabled !== value) {
       this._disabled = value;
-      this._changeDetector.markForCheck();
+      this.changeDetectorRef.markForCheck();
     }
   }
 
@@ -274,7 +272,7 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
     }
   };
 
-  private _updateTabIndex() {
+  private _updateTabIndex(): void {
     const group = this.radioGroup;
     let value: number;
     if (!group || !group.selected || this.disabled) {

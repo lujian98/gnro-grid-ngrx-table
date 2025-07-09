@@ -32,7 +32,8 @@ import { GnroRadioChange, GnroRadioComponent } from './radio.component';
   },
 })
 export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, ControlValueAccessor {
-  private _changeDetector = inject(ChangeDetectorRef);
+  private changeDetectorRef = inject(ChangeDetectorRef);
+
   private _value: any = null;
   private _selected: GnroRadioComponent | null = null;
   private _isInitialized: boolean = false;
@@ -115,7 +116,7 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
   }
   private _disabledInteractive = false;
 
-  ngAfterContentInit() {
+  ngAfterContentInit(): void {
     this._isInitialized = true;
     this._buttonChanges = this._radios.changes.subscribe(() => {
       if (this.selected && !this._radios.find((radio) => radio === this.selected)) {
@@ -124,11 +125,11 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this._buttonChanges?.unsubscribe();
   }
 
-  _touch() {
+  _touch(): void {
     if (this.onTouched) {
       this.onTouched();
     }
@@ -163,27 +164,27 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
     }
   }
 
-  _markRadiosForCheck() {
+  _markRadiosForCheck(): void {
     if (this._radios) {
       this._radios.forEach((radio) => radio._markForCheck());
     }
   }
 
-  writeValue(value: any) {
+  writeValue(value: any): void {
     this.value = value;
-    this._changeDetector.markForCheck();
+    this.changeDetectorRef.markForCheck();
   }
 
   registerOnChange(fn: (value: any) => void) {
     this._controlValueAccessorChangeFn = fn;
   }
 
-  registerOnTouched(fn: any) {
+  registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
 
-  setDisabledState(isDisabled: boolean) {
+  setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
-    this._changeDetector.markForCheck();
+    this.changeDetectorRef.markForCheck();
   }
 }
