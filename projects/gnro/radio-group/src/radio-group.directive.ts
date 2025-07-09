@@ -36,7 +36,6 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
   private _value: any = null;
   private _selected: GnroRadioComponent | null = null;
   private _isInitialized: boolean = false;
-  private _labelPosition: 'before' | 'after' = 'after';
   private _disabled: boolean = false;
   private _required: boolean = false;
   private _buttonChanges!: Subscription;
@@ -52,15 +51,13 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
       return name;
     },
   });
+  labelPosition = input('after', {
+    transform: (labelPosition: 'before' | 'after') => {
+      this._markRadiosForCheck();
+      return labelPosition;
+    },
+  });
 
-  @Input()
-  get labelPosition(): 'before' | 'after' {
-    return this._labelPosition;
-  }
-  set labelPosition(v) {
-    this._labelPosition = v === 'before' ? 'before' : 'after';
-    this._markRadiosForCheck();
-  }
   @Input()
   get value(): any {
     return this._value;

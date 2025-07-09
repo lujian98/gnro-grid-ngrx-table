@@ -114,7 +114,7 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
 
   @Input()
   get labelPosition(): 'before' | 'after' {
-    return this._labelPosition || (this.radioGroup && this.radioGroup.labelPosition) || 'after';
+    return this._labelPosition || (this.radioGroup && this.radioGroup.labelPosition()) || 'after';
   }
   set labelPosition(value) {
     this._labelPosition = value;
