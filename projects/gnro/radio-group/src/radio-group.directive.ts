@@ -12,6 +12,7 @@ import {
   booleanAttribute,
   forwardRef,
   inject,
+  input,
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -33,7 +34,6 @@ import { GnroRadioChange, GnroRadioComponent } from './radio.component';
 export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, ControlValueAccessor {
   private _changeDetector = inject(ChangeDetectorRef);
   private _value: any = null;
-  private _name: string = inject(_IdGenerator).getId('mat-radio-group-');
   private _selected: GnroRadioComponent | null = null;
   private _isInitialized: boolean = false;
   private _labelPosition: 'before' | 'after' = 'after';
@@ -46,14 +46,13 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
   @ContentChildren(forwardRef(() => GnroRadioComponent), { descendants: true })
   _radios!: QueryList<GnroRadioComponent>;
 
-  @Input()
-  get name(): string {
-    return this._name;
-  }
-  set name(value: string) {
-    this._name = value;
-    this._updateRadioButtonNames();
-  }
+  name = input(inject(_IdGenerator).getId('gnro-radio-group-'), {
+    transform: (name: string) => {
+      this._updateRadioButtonNames();
+      return name;
+    },
+  });
+
   @Input()
   get labelPosition(): 'before' | 'after' {
     return this._labelPosition;
@@ -141,7 +140,7 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
   private _updateRadioButtonNames(): void {
     if (this._radios) {
       this._radios.forEach((radio) => {
-        radio.name = this.name;
+        radio.name = this.name();
         radio._markForCheck();
       });
     }

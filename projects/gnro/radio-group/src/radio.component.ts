@@ -200,7 +200,7 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
       if (this.checked) {
         this.radioGroup.selected = this;
       }
-      this.name = this.radioGroup.name;
+      this.name = this.radioGroup.name();
     }
 
     this._removeUniqueSelectionListener = this._radioDispatcher.listen((id, name) => {
