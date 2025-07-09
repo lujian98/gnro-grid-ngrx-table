@@ -193,7 +193,7 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
 
   ngOnInit(): void {
     if (this.radioGroup) {
-      this.checked = this.radioGroup.value === this._value;
+      this.checked = this.radioGroup.value$() === this._value;
 
       if (this.checked) {
         this.radioGroup.selected = this;
@@ -239,7 +239,7 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
     event.stopPropagation();
 
     if (!this.checked && !this.disabled) {
-      const groupValueChanged = this.radioGroup && this.value !== this.radioGroup.value;
+      const groupValueChanged = this.radioGroup && this.value !== this.radioGroup.value$();
       this.checked = true;
       this._emitChangeEvent();
 

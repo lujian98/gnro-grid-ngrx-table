@@ -57,7 +57,6 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
       return labelPosition;
     },
   });
-
   value$ = signal<any>(null);
   value = input(null, {
     transform: (value: any) => {
