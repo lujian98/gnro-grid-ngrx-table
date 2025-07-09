@@ -32,6 +32,7 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { AppRadioDefaultOptions, MAT_RADIO_DEFAULT_OPTIONS } from './radio.model';
+import { AppRadioGroup, MAT_RADIO_GROUP } from './radio-group';
 
 export class AppRadioChange {
   constructor(
@@ -40,6 +41,7 @@ export class AppRadioChange {
   ) {}
 }
 
+/*
 export const MAT_RADIO_GROUP_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => AppRadioGroup),
@@ -222,7 +224,7 @@ export class AppRadioGroup implements AfterContentInit, OnDestroy, ControlValueA
     this._changeDetector.markForCheck();
   }
 }
-
+*/
 @Component({
   selector: 'app-radio-button',
   templateUrl: 'radio.html',
@@ -240,6 +242,7 @@ export class AppRadioGroup implements AfterContentInit, OnDestroy, ControlValueA
   exportAs: 'appRadioButton',
   //encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [{ provide: AppRadioGroup, useExisting: forwardRef(() => AppRadioGroup) }],
 })
 export class AppRadioButton implements OnInit, AfterViewInit, DoCheck, OnDestroy {
   protected _elementRef = inject(ElementRef);

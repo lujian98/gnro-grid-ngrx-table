@@ -2,7 +2,8 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { GnroDialogService } from '@gnro/ui/overlay';
 import { AppDialogTestDemoComponent } from './dialog-test.component';
-import { AppRadioButton, AppRadioGroup } from '../../../../radio/radio';
+import { AppRadioButton } from '../../../../radio/radio';
+import { AppRadioGroup } from '../../../../radio/radio-group';
 //import { MatRadioModule } from '@angular/material/radio'/
 
 import { FormBuilder } from '@angular/forms';
