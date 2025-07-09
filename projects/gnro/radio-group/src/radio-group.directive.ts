@@ -13,6 +13,7 @@ import {
   forwardRef,
   inject,
   input,
+  signal,
 } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -33,8 +34,6 @@ import { GnroRadioChange, GnroRadioComponent } from './radio.component';
 })
 export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, ControlValueAccessor {
   private changeDetectorRef = inject(ChangeDetectorRef);
-
-  private _value: any = null;
   private _selected: GnroRadioComponent | null = null;
   private _isInitialized: boolean = false;
   private _disabled: boolean = false;
@@ -59,20 +58,17 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
     },
   });
 
-  @Input()
-  get value(): any {
-    return this._value;
-  }
-  set value(newValue: any) {
-    if (this._value !== newValue) {
-      this._value = newValue;
-
+  value$ = signal<any>(null);
+  value = input(null, {
+    transform: (value: any) => {
+      this.value$.set(value);
       this._updateSelectedRadioFromValue();
       this._checkSelectedRadioButton();
-    }
-  }
+      return value;
+    },
+  });
 
-  _checkSelectedRadioButton() {
+  private _checkSelectedRadioButton(): void {
     if (this._selected && !this._selected.checked) {
       this._selected.checked = true;
     }
@@ -84,7 +80,8 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
   }
   set selected(selected: GnroRadioComponent | null) {
     this._selected = selected;
-    this.value = selected ? selected.value : null;
+    //this.value = selected ? selected.value : null;
+    this.value$.set(selected ? selected.value : null);
     this._checkSelectedRadioButton();
   }
 
@@ -145,12 +142,12 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
   }
 
   private _updateSelectedRadioFromValue(): void {
-    const isAlreadySelected = this._selected !== null && this._selected.value === this._value;
+    const isAlreadySelected = this._selected !== null && this._selected.value === this.value$();
 
     if (this._radios && !isAlreadySelected) {
       this._selected = null;
       this._radios.forEach((radio) => {
-        radio.checked = this.value === radio.value;
+        radio.checked = this.value$() === radio.value;
         if (radio.checked) {
           this._selected = radio;
         }
@@ -160,7 +157,7 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
 
   _emitChangeEvent(): void {
     if (this._isInitialized) {
-      this.change.emit(new GnroRadioChange(this._selected!, this._value));
+      this.change.emit(new GnroRadioChange(this._selected!, this.value$()));
     }
   }
 
@@ -171,7 +168,8 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
   }
 
   writeValue(value: any): void {
-    this.value = value;
+    //this.value = value;
+    this.value$.set(value);
     this.changeDetectorRef.markForCheck();
   }
 
