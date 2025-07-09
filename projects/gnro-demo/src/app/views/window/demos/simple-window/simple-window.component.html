@@ -1,12 +1,12 @@
 <div (click)="openDialog($event)">Click to Open window</div>
 
 <form [formGroup]="myForm">
-  <mat-radio-group formControlName="radioSelection">
-    <mat-radio-button [value]="'option1'" [disabled]="shouldDisableOption1()"> Option 1 </mat-radio-button>
-    <mat-radio-button [value]="'option2'" [disabled]="shouldDisableOption2()"> Option 2 </mat-radio-button>
+  <app-radio-group formControlName="radioSelection">
+    <app-radio-button [value]="'option1'" [disabled]="shouldDisableOption1()"> Option 1 </app-radio-button>
+    <app-radio-button [value]="'option2'" [disabled]="shouldDisableOption2()"> Option 2 </app-radio-button>
 
-    <mat-radio-button [value]="'option3'"> Option 3 </mat-radio-button>
-  </mat-radio-group>
+    <app-radio-button [value]="'option3'"> Option 3 </app-radio-button>
+  </app-radio-group>
 </form>
 
 <!--
