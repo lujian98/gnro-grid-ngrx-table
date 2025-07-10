@@ -4,9 +4,8 @@ import {
   ChangeDetectorRef,
   ContentChildren,
   Directive,
-  EventEmitter,
   OnDestroy,
-  Output,
+  output,
   QueryList,
   forwardRef,
   inject,
@@ -36,7 +35,7 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
   private _buttonChanges!: Subscription;
   _controlValueAccessorChangeFn: (value: any) => void = () => {};
   onTouched: () => any = () => {};
-  @Output() readonly change: EventEmitter<GnroRadioChange> = new EventEmitter<GnroRadioChange>();
+
   @ContentChildren(forwardRef(() => GnroRadioComponent), { descendants: true })
   private _radios!: QueryList<GnroRadioComponent>;
 
@@ -90,6 +89,7 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
       return disabledInteractive;
     },
   });
+  readonly change = output<GnroRadioChange>();
 
   ngAfterContentInit(): void {
     this._isInitialized = true;
