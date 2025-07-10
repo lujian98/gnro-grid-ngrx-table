@@ -11,7 +11,6 @@ import {
   EventEmitter,
   HostAttributeToken,
   Injector,
-  Input,
   NgZone,
   OnDestroy,
   OnInit,
@@ -19,13 +18,12 @@ import {
   Renderer2,
   ViewChild,
   afterNextRender,
-  booleanAttribute,
+  computed,
   inject,
   input,
-  computed,
-  signal,
   model,
   numberAttribute,
+  signal,
 } from '@angular/core';
 import { GnroRadioGroupDirective } from './radio-group.directive';
 import { GNRO_RADIO_GROUP } from './radio-group.model';
@@ -47,7 +45,7 @@ export class GnroRadioChange {
     '[attr.id]': 'id',
     '[class.mat-mdc-radio-checked]': 'checked$()',
     '[class.mat-mdc-radio-disabled]': 'disabled$()',
-    '[class.mat-mdc-radio-disabled-interactive]': 'disabledInteractive',
+    '[class.mat-mdc-radio-disabled-interactive]': 'disabledInteractive$()',
     '[class._mat-animation-noopable]': '_noopAnimations',
     '[attr.tabindex]': 'null',
     '(focus)': '_inputElement.nativeElement.focus()',
@@ -65,9 +63,10 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
   private _uniqueId = inject(_IdGenerator).getId('mat-radio-');
   private _focusMonitor = inject(FocusMonitor);
   private _radioDispatcher = inject(UniqueSelectionDispatcher);
-  private _defaultOptions = inject<GnroRadioDefaultOptions>(GNRO_RADIO_DEFAULT_OPTIONS, {
-    optional: true,
-  });
+  private _defaultOptions = inject<GnroRadioDefaultOptions>(GNRO_RADIO_DEFAULT_OPTIONS, { optional: true });
+  private _removeUniqueSelectionListener: () => void = () => {};
+  private _previousTabIndex: number | undefined;
+  private radioGroup: GnroRadioGroupDirective;
 
   id = input<string>(this._uniqueId);
   inputId = computed(() => `${this.id() || this._uniqueId}-input`);
@@ -129,22 +128,15 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
       return required || this.radioGroup?.required();
     },
   });
-
-  @Input({ transform: booleanAttribute })
-  get disabledInteractive(): boolean {
-    return this._disabledInteractive || (this.radioGroup !== null && this.radioGroup.disabledInteractive());
-  }
-  set disabledInteractive(value: boolean) {
-    this._disabledInteractive = value;
-  }
-  private _disabledInteractive: boolean;
-
+  disabledInteractive$ = signal<boolean>(false);
+  disabledInteractive = input(false, {
+    transform: (value: boolean) => {
+      const disabledInteractive = value || this.radioGroup?.disabledInteractive();
+      this.disabledInteractive$.set(disabledInteractive);
+      return disabledInteractive;
+    },
+  });
   @Output() readonly change: EventEmitter<GnroRadioChange> = new EventEmitter<GnroRadioChange>();
-
-  radioGroup: GnroRadioGroupDirective;
-
-  private _removeUniqueSelectionListener: () => void = () => {};
-  private _previousTabIndex: number | undefined;
   @ViewChild('input') _inputElement!: ElementRef<HTMLInputElement>;
 
   _noopAnimations: boolean;
@@ -152,11 +144,10 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
   constructor() {
     const radioGroup = inject<GnroRadioGroupDirective>(GNRO_RADIO_GROUP, { optional: true })!;
     const animationMode = inject(ANIMATION_MODULE_TYPE, { optional: true });
-    const tabIndex = inject(new HostAttributeToken('tabindex'), { optional: true });
     this.radioGroup = radioGroup;
     this._noopAnimations = animationMode === 'NoopAnimations';
-    this._disabledInteractive = this._defaultOptions?.disabledInteractive ?? false;
-
+    this.disabledInteractive$.set(this._defaultOptions?.disabledInteractive ?? false);
+    const tabIndex = inject(new HostAttributeToken('tabindex'), { optional: true });
     if (tabIndex) {
       this.tabIndex$.set(numberAttribute(tabIndex, 0));
     }
@@ -237,7 +228,7 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
 
   _onTouchTargetClick(event: Event): void {
     this._onInputInteraction(event);
-    if (!this.disabled$() || this.disabledInteractive) {
+    if (!this.disabled$() || this.disabledInteractive$()) {
       this._inputElement?.nativeElement.focus();
     }
   }
@@ -252,7 +243,7 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
   }
 
   private _onInputClick = (event: Event) => {
-    if (this.disabled$() && this.disabledInteractive) {
+    if (this.disabled$() && this.disabledInteractive$()) {
       event.preventDefault();
     }
   };

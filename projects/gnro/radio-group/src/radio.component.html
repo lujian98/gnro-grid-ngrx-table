@@ -7,7 +7,7 @@
     type="radio"
     [id]="inputId()"
     [checked]="checked$()"
-    [disabled]="disabled$() && !disabledInteractive"
+    [disabled]="disabled$() && !disabledInteractive$()"
     [attr.name]="name()"
     [attr.value]="value()"
     [required]="required()"
