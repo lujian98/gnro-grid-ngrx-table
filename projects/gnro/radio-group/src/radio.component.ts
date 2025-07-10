@@ -98,7 +98,6 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
       return checked;
     },
   });
-
   value = input(undefined, {
     transform: (value: any) => {
       if (this.radioGroup !== null) {
@@ -112,34 +111,11 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
       return value;
     },
   });
-
-  /*
-  @Input()
-  get value(): any {
-    return this._value;
-  }
-  set value(value: any) {
-    if (this._value !== value) {
-      this._value = value;
-      if (this.radioGroup !== null) {
-        if (!this.checked$()) {
-          this.checked$.set(this.radioGroup.value$() === value);
-        }
-        if (this.checked$()) {
-          this.radioGroup.selected$.set(this);
-        }
-      }
-    }
-  }*/
-
-  @Input()
-  get labelPosition(): 'before' | 'after' {
-    return this._labelPosition || (this.radioGroup && this.radioGroup.labelPosition()) || 'after';
-  }
-  set labelPosition(value) {
-    this._labelPosition = value;
-  }
-  private _labelPosition!: 'before' | 'after';
+  labelPosition = input('after', {
+    transform: (labelPosition: 'before' | 'after') => {
+      return labelPosition || this.radioGroup?.labelPosition() || 'after';
+    },
+  });
 
   @Input({ transform: booleanAttribute })
   get disabled(): boolean {
@@ -172,7 +148,6 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
 
   private _disabled!: boolean;
   private _required!: boolean;
-  //private _value: any = null;
   private _removeUniqueSelectionListener: () => void = () => {};
   private _previousTabIndex: number | undefined;
   @ViewChild('input') _inputElement!: ElementRef<HTMLInputElement>;
