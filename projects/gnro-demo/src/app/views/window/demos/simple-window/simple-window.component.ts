@@ -25,7 +25,7 @@ export class AppSimpleWindowComponent {
 
   ngOnInit(): void {
     this.myForm = this.fb.group({
-      radioSelection: [''],
+      radioSelection: ['option3'],
     });
   }
 
