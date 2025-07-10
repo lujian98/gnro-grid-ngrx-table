@@ -1,7 +1,6 @@
 import { FocusMonitor, FocusOrigin, _IdGenerator } from '@angular/cdk/a11y';
 import { UniqueSelectionDispatcher } from '@angular/cdk/collections';
 import {
-  ANIMATION_MODULE_TYPE,
   AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -46,7 +45,6 @@ export class GnroRadioChange {
     '[class.mat-mdc-radio-checked]': 'checked$()',
     '[class.mat-mdc-radio-disabled]': 'disabled$()',
     '[class.mat-mdc-radio-disabled-interactive]': 'disabledInteractive$()',
-    '[class._mat-animation-noopable]': '_noopAnimations',
     '[attr.tabindex]': 'null',
     '(focus)': '_inputElement.nativeElement.focus()',
   },
@@ -139,13 +137,8 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
   @Output() readonly change: EventEmitter<GnroRadioChange> = new EventEmitter<GnroRadioChange>();
   @ViewChild('input') _inputElement!: ElementRef<HTMLInputElement>;
 
-  _noopAnimations: boolean;
-
   constructor() {
-    const radioGroup = inject<GnroRadioGroupDirective>(GNRO_RADIO_GROUP, { optional: true })!;
-    const animationMode = inject(ANIMATION_MODULE_TYPE, { optional: true });
-    this.radioGroup = radioGroup;
-    this._noopAnimations = animationMode === 'NoopAnimations';
+    this.radioGroup = inject<GnroRadioGroupDirective>(GNRO_RADIO_GROUP, { optional: true })!;
     this.disabledInteractive$.set(this._defaultOptions?.disabledInteractive ?? false);
     const tabIndex = inject(new HostAttributeToken('tabindex'), { optional: true });
     if (tabIndex) {
@@ -168,13 +161,11 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
   ngOnInit(): void {
     if (this.radioGroup) {
       this.checked$.set(this.radioGroup.value$() === this.value());
-
       if (this.checked$()) {
         this.radioGroup.selected$.set(this);
       }
       this.name.set(this.radioGroup.name());
     }
-
     this._removeUniqueSelectionListener = this._radioDispatcher.listen((id, name) => {
       if (id !== this.id() && name === this.name()) {
         this.checked$.set(false);
@@ -193,7 +184,6 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
         this.radioGroup._touch();
       }
     });
-
     this._ngZone.runOutsideAngular(() => {
       this._cleanupClick = this._renderer.listen(this._inputElement.nativeElement, 'click', this._onInputClick);
     });
@@ -216,7 +206,6 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
       const groupValueChanged = this.radioGroup && this.value() !== this.radioGroup.value$();
       this.checked$.set(true);
       this._emitChangeEvent();
-
       if (this.radioGroup) {
         this.radioGroup._controlValueAccessorChangeFn(this.value());
         if (groupValueChanged) {
@@ -256,10 +245,8 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
     } else {
       value = group.selected$() === this ? this.tabIndex$() : -1;
     }
-
     if (value !== this._previousTabIndex) {
       const input: HTMLInputElement | undefined = this._inputElement?.nativeElement;
-
       if (input) {
         input.setAttribute('tabindex', value + '');
         this._previousTabIndex = value;
