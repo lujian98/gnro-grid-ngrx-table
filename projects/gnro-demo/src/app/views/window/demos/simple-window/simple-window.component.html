@@ -1,9 +1,9 @@
 <div (click)="openDialog($event)">Click to Open window</div>
 
 <form [formGroup]="myForm">
-  <gnro-radio-group formControlName="radioSelection">
+  <gnro-radio-group formControlName="radioSelection" [name]="radioName">
     <gnro-radio [value]="'option1'" [disabled]="shouldDisableOption1()"> Option 1 </gnro-radio>
-    <gnro-radio [value]="'option2'" [disabled]="shouldDisableOption2()"> Option 2 </gnro-radio>
+    <gnro-radio [value]="'option2'" [disabled]="shouldDisableOption2()" name="radio88"> Option 2 </gnro-radio>
 
     <gnro-radio [value]="'option3'"> Option 3 </gnro-radio>
   </gnro-radio-group>

@@ -20,6 +20,7 @@ export class AppSimpleWindowComponent {
   private dialogService = inject(GnroDialogService);
   myForm!: FormGroup;
 
+  radioName = 'testradio11';
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {

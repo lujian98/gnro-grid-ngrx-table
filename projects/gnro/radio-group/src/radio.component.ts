@@ -24,6 +24,7 @@ import {
   input,
   computed,
   signal,
+  model,
   numberAttribute,
 } from '@angular/core';
 import { GnroRadioGroupDirective } from './radio-group.directive';
@@ -70,13 +71,7 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
 
   id = input<string>(this._uniqueId);
   inputId = computed(() => `${this.id() || this._uniqueId}-input`);
-  name$ = signal<string>('');
-  name = input('', {
-    transform: (name: string) => {
-      this.name$.set(name);
-      return name;
-    },
-  });
+  name = model<string>('');
 
   @Input({
     transform: (value: unknown) => (value == null ? 0 : numberAttribute(value)),
@@ -97,7 +92,7 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
       }
 
       if (value) {
-        this._radioDispatcher.notify(this.id(), this.name$());
+        this._radioDispatcher.notify(this.id(), this.name());
       }
       this.changeDetectorRef.markForCheck();
     }
@@ -201,11 +196,11 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
       if (this.checked) {
         this.radioGroup.selected$.set(this);
       }
-      this.name$.set(this.radioGroup.name());
+      this.name.set(this.radioGroup.name());
     }
 
     this._removeUniqueSelectionListener = this._radioDispatcher.listen((id, name) => {
-      if (id !== this.id() && name === this.name$()) {
+      if (id !== this.id() && name === this.name()) {
         this.checked = false;
       }
     });
