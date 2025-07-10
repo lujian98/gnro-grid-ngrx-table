@@ -35,7 +35,7 @@ import { GnroRadioChange, GnroRadioComponent } from './radio.component';
 export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, ControlValueAccessor {
   private changeDetectorRef = inject(ChangeDetectorRef);
   private _isInitialized: boolean = false;
-  private _disabled: boolean = false;
+  //private _disabled: boolean = false;
   private _required: boolean = false;
   private _buttonChanges!: Subscription;
   _controlValueAccessorChangeFn: (value: any) => void = () => {};
@@ -74,15 +74,14 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
       return selected;
     },
   });
-
-  @Input({ transform: booleanAttribute })
-  get disabled(): boolean {
-    return this._disabled;
-  }
-  set disabled(value: boolean) {
-    this._disabled = value;
-    this._markRadiosForCheck();
-  }
+  disabled$ = signal<boolean>(false);
+  disabled = input(false, {
+    transform: (disabled: boolean) => {
+      this.disabled$.set(disabled);
+      this._markRadiosForCheck();
+      return disabled;
+    },
+  });
 
   @Input({ transform: booleanAttribute })
   get required(): boolean {
@@ -176,7 +175,7 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
   }
 
   setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
+    this.disabled$.set(isDisabled);
     this.changeDetectorRef.markForCheck();
   }
 }
