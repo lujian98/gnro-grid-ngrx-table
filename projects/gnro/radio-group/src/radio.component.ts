@@ -72,11 +72,21 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
   id = input<string>(this._uniqueId);
   inputId = computed(() => `${this.id() || this._uniqueId}-input`);
   name = model<string>('');
+  tabIndex$ = signal<number>(0);
+  tabIndex = input(0, {
+    transform: (value: number) => {
+      const tabIndex = value == null ? 0 : numberAttribute(value);
+      this.tabIndex$.set(tabIndex);
+      return tabIndex;
+    },
+  });
 
+  /*
   @Input({
     transform: (value: unknown) => (value == null ? 0 : numberAttribute(value)),
   })
   tabIndex: number = 0;
+  */
 
   @Input({ transform: booleanAttribute })
   get checked(): boolean {
@@ -173,7 +183,8 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
     this._disabledInteractive = this._defaultOptions?.disabledInteractive ?? false;
 
     if (tabIndex) {
-      this.tabIndex = numberAttribute(tabIndex, 0);
+      this.tabIndex$.set(numberAttribute(tabIndex, 0));
+      //this.tabIndex = numberAttribute(tabIndex, 0);
     }
   }
 
@@ -276,9 +287,9 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
     const group = this.radioGroup;
     let value: number;
     if (!group || !group.selected$() || this.disabled) {
-      value = this.tabIndex;
+      value = this.tabIndex$();
     } else {
-      value = group.selected$() === this ? this.tabIndex : -1;
+      value = group.selected$() === this ? this.tabIndex$() : -1;
     }
 
     if (value !== this._previousTabIndex) {

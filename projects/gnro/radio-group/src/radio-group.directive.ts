@@ -38,7 +38,6 @@ export class GnroRadioGroupDirective implements AfterContentInit, ControlValueAc
 
   name = input(inject(_IdGenerator).getId('gnro-radio-group-'), {
     transform: (name: string) => {
-      console.log(' kkkk name =', name);
       this._updateRadioButtonNames(name);
       return name;
     },
