@@ -131,7 +131,7 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
 
   @Input({ transform: booleanAttribute })
   get required(): boolean {
-    return this._required || (this.radioGroup && this.radioGroup.required);
+    return this._required || (this.radioGroup && this.radioGroup.required());
   }
   set required(value: boolean) {
     this._required = value;
