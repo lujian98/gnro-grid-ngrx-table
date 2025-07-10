@@ -34,7 +34,7 @@ import { GnroRadioChange, GnroRadioComponent } from './radio.component';
 })
 export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, ControlValueAccessor {
   private changeDetectorRef = inject(ChangeDetectorRef);
-  private _selected: GnroRadioComponent | null = null;
+  //private _selected: GnroRadioComponent | null = null;
   private _isInitialized: boolean = false;
   private _disabled: boolean = false;
   private _required: boolean = false;
@@ -67,12 +67,17 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
     },
   });
 
-  private _checkSelectedRadioButton(): void {
-    if (this._selected && !this._selected.checked) {
-      this._selected.checked = true;
-    }
-  }
+  selected$ = signal<GnroRadioComponent | null>(null);
+  selected = input(null, {
+    transform: (selected: GnroRadioComponent | null) => {
+      this.selected$.set(selected);
+      this.value$.set(selected ? selected.value : null);
+      this._checkSelectedRadioButton();
+      return selected;
+    },
+  });
 
+  /*
   @Input()
   get selected() {
     return this._selected;
@@ -82,6 +87,13 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
     //this.value = selected ? selected.value : null;
     this.value$.set(selected ? selected.value : null);
     this._checkSelectedRadioButton();
+  }
+    */
+
+  private _checkSelectedRadioButton(): void {
+    if (this.selected$() && !this.selected$()?.checked) {
+      this.selected$()!.checked = true;
+    }
   }
 
   @Input({ transform: booleanAttribute })
@@ -115,8 +127,9 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
   ngAfterContentInit(): void {
     this._isInitialized = true;
     this._buttonChanges = this._radios.changes.subscribe(() => {
-      if (this.selected && !this._radios.find((radio) => radio === this.selected)) {
-        this._selected = null;
+      if (this.selected$() && !this._radios.find((radio) => radio === this.selected$())) {
+        this.selected$.set(null);
+        //this._selected = null;
       }
     });
   }
@@ -141,14 +154,16 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
   }
 
   private _updateSelectedRadioFromValue(): void {
-    const isAlreadySelected = this._selected !== null && this._selected.value === this.value$();
+    const isAlreadySelected = this.selected$() !== null && this.selected$()!.value === this.value$();
 
     if (this._radios && !isAlreadySelected) {
-      this._selected = null;
+      //this._selected = null;
+      this.selected$.set(null);
       this._radios.forEach((radio) => {
         radio.checked = this.value$() === radio.value;
         if (radio.checked) {
-          this._selected = radio;
+          //this._selected = radio;
+          this.selected$.set(radio);
         }
       });
     }
@@ -156,7 +171,7 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
 
   _emitChangeEvent(): void {
     if (this._isInitialized) {
-      this.change.emit(new GnroRadioChange(this._selected!, this.value$()));
+      this.change.emit(new GnroRadioChange(this.selected$()!, this.value$()));
     }
   }
 

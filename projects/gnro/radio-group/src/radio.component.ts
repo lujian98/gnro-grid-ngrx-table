@@ -82,9 +82,9 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
     if (this._checked !== value) {
       this._checked = value;
       if (value && this.radioGroup && this.radioGroup.value$() !== this.value) {
-        this.radioGroup.selected = this;
+        this.radioGroup.selected$.set(this);
       } else if (!value && this.radioGroup && this.radioGroup.value$() === this.value) {
-        this.radioGroup.selected = null;
+        this.radioGroup.selected$.set(null);
       }
 
       if (value) {
@@ -106,7 +106,7 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
           this.checked = this.radioGroup.value$() === value;
         }
         if (this.checked) {
-          this.radioGroup.selected = this;
+          this.radioGroup.selected$.set(this);
         }
       }
     }
@@ -196,7 +196,7 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
       this.checked = this.radioGroup.value$() === this._value;
 
       if (this.checked) {
-        this.radioGroup.selected = this;
+        this.radioGroup.selected$.set(this);
       }
       this.name = this.radioGroup.name();
     }
@@ -275,10 +275,10 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
   private _updateTabIndex(): void {
     const group = this.radioGroup;
     let value: number;
-    if (!group || !group.selected || this.disabled) {
+    if (!group || !group.selected$() || this.disabled) {
       value = this.tabIndex;
     } else {
-      value = group.selected === this ? this.tabIndex : -1;
+      value = group.selected$() === this ? this.tabIndex : -1;
     }
 
     if (value !== this._previousTabIndex) {
@@ -290,8 +290,8 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
         afterNextRender(
           () => {
             queueMicrotask(() => {
-              if (group && group.selected && group.selected !== this && document.activeElement === input) {
-                group.selected?._inputElement.nativeElement.focus();
+              if (group && group.selected$() && group.selected$() !== this && document.activeElement === input) {
+                group.selected$()?._inputElement.nativeElement.focus();
                 if (document.activeElement === input) {
                   this._inputElement.nativeElement.blur();
                 }
