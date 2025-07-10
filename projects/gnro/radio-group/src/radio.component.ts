@@ -38,7 +38,7 @@ export class GnroRadioChange {
 @Component({
   selector: 'gnro-radio',
   templateUrl: './radio.component.html',
-  // styleUrl: 'radio.css',
+  styleUrls: ['./radio.component.scss'],
   host: {
     class: 'mat-mdc-radio-button',
     '[attr.id]': 'id',
@@ -201,7 +201,6 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
 
   _onInputInteraction(event: Event): void {
     event.stopPropagation();
-
     if (!this.checked$() && !this.disabled$()) {
       const groupValueChanged = this.radioGroup && this.value() !== this.radioGroup.value$();
       this.checked$.set(true);
@@ -212,13 +211,6 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
           this.radioGroup._emitChangeEvent();
         }
       }
-    }
-  }
-
-  _onTouchTargetClick(event: Event): void {
-    this._onInputInteraction(event);
-    if (!this.disabled$() || this.disabledInteractive$()) {
-      this._inputElement?.nativeElement.focus();
     }
   }
 

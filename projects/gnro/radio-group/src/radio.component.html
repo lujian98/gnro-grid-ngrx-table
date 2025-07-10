@@ -1,8 +1,30 @@
+<label class="gnro-radio-label" [for]="inputId()">
+  <input
+    #input
+    class="cdk-visually-hidden"
+    type="radio"
+    [id]="inputId()"
+    [checked]="checked$()"
+    [disabled]="disabled$() && !disabledInteractive$()"
+    [attr.name]="name()"
+    [attr.value]="value()"
+    [required]="required()"
+    (change)="_onInputInteraction($event)"
+  />
+  <span class="gnro-radio-outer-circle"></span>
+  <span class="gnro-radio-inner-circle"></span>
+  <span class="gnro-radio-label-content">
+    <ng-content></ng-content>
+  </span>
+</label>
+
+<!--
+
 <div class="mdc-radio" [class.mdc-radio--disabled]="disabled$()">
-  <!-- Render this element first so the input is on top. -->
   <div class="mat-mdc-radio-touch-target" (click)="_onTouchTargetClick($event)"></div>
   <input
     #input
+    class="cdk-visually-hidden"
     class="mdc-radio__native-control"
     type="radio"
     [id]="inputId()"
@@ -13,6 +35,8 @@
     [required]="required()"
     (change)="_onInputInteraction($event)"
   />
+  <span class="gnro-radio-outer-circle"></span>
+  <span class="gnro-radio-inner-circle"></span>
   <div class="mdc-radio__background">
     <div class="mdc-radio__outer-circle"></div>
     <div class="mdc-radio__inner-circle"></div>
@@ -21,3 +45,4 @@
 <label class="mdc-label" [for]="inputId()">
   <ng-content></ng-content>
 </label>
+-->
