@@ -9,7 +9,7 @@
     [checked]="checked$()"
     [disabled]="disabled && !disabledInteractive"
     [attr.name]="name()"
-    [attr.value]="value"
+    [attr.value]="value()"
     [required]="required"
     (change)="_onInputInteraction($event)"
   />

@@ -85,9 +85,9 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
     transform: (checked: boolean) => {
       if (this.checked$() !== checked) {
         this.checked$.set(checked);
-        if (checked && this.radioGroup && this.radioGroup.value$() !== this.value) {
+        if (checked && this.radioGroup && this.radioGroup.value$() !== this.value()) {
           this.radioGroup.selected$.set(this);
-        } else if (!checked && this.radioGroup && this.radioGroup.value$() === this.value) {
+        } else if (!checked && this.radioGroup && this.radioGroup.value$() === this.value()) {
           this.radioGroup.selected$.set(null);
         }
         if (checked) {
@@ -99,28 +99,21 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
     },
   });
 
+  value = input(undefined, {
+    transform: (value: any) => {
+      if (this.radioGroup !== null) {
+        if (!this.checked$()) {
+          this.checked$.set(this.radioGroup.value$() === value);
+        }
+        if (this.checked$()) {
+          this.radioGroup.selected$.set(this);
+        }
+      }
+      return value;
+    },
+  });
+
   /*
-  @Input({ transform: booleanAttribute })
-  get checked(): boolean {
-    return this._checked;
-  }
-  set checked(value: boolean) {
-    if (this._checked !== value) {
-      this._checked = value;
-      if (value && this.radioGroup && this.radioGroup.value$() !== this.value) {
-        this.radioGroup.selected$.set(this);
-      } else if (!value && this.radioGroup && this.radioGroup.value$() === this.value) {
-        this.radioGroup.selected$.set(null);
-      }
-
-      if (value) {
-        this._radioDispatcher.notify(this.id(), this.name());
-      }
-      this.changeDetectorRef.markForCheck();
-    }
-  }
-    */
-
   @Input()
   get value(): any {
     return this._value;
@@ -137,7 +130,7 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
         }
       }
     }
-  }
+  }*/
 
   @Input()
   get labelPosition(): 'before' | 'after' {
@@ -177,10 +170,9 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
 
   radioGroup: GnroRadioGroupDirective;
 
-  //private _checked: boolean = false;
   private _disabled!: boolean;
   private _required!: boolean;
-  private _value: any = null;
+  //private _value: any = null;
   private _removeUniqueSelectionListener: () => void = () => {};
   private _previousTabIndex: number | undefined;
   @ViewChild('input') _inputElement!: ElementRef<HTMLInputElement>;
@@ -214,7 +206,7 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
 
   ngOnInit(): void {
     if (this.radioGroup) {
-      this.checked$.set(this.radioGroup.value$() === this._value);
+      this.checked$.set(this.radioGroup.value$() === this.value());
 
       if (this.checked$()) {
         this.radioGroup.selected$.set(this);
@@ -253,19 +245,19 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
   }
 
   private _emitChangeEvent(): void {
-    this.change.emit(new GnroRadioChange(this, this._value));
+    this.change.emit(new GnroRadioChange(this, this.value()));
   }
 
   _onInputInteraction(event: Event): void {
     event.stopPropagation();
 
     if (!this.checked$() && !this.disabled) {
-      const groupValueChanged = this.radioGroup && this.value !== this.radioGroup.value$();
+      const groupValueChanged = this.radioGroup && this.value() !== this.radioGroup.value$();
       this.checked$.set(true);
       this._emitChangeEvent();
 
       if (this.radioGroup) {
-        this.radioGroup._controlValueAccessorChangeFn(this.value);
+        this.radioGroup._controlValueAccessorChangeFn(this.value());
         if (groupValueChanged) {
           this.radioGroup._emitChangeEvent();
         }

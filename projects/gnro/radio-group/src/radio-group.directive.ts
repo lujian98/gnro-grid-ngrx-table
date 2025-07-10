@@ -61,7 +61,7 @@ export class GnroRadioGroupDirective implements AfterContentInit, ControlValueAc
   selected = input(null, {
     transform: (selected: GnroRadioComponent | null) => {
       this.selected$.set(selected);
-      this.value$.set(selected ? selected.value : null);
+      this.value$.set(selected ? selected.value() : null);
       this._checkSelectedRadioButton();
       return selected;
     },
@@ -121,11 +121,11 @@ export class GnroRadioGroupDirective implements AfterContentInit, ControlValueAc
   }
 
   private _updateSelectedRadioFromValue(): void {
-    const isAlreadySelected = this.selected$() !== null && this.selected$()!.value === this.value$();
+    const isAlreadySelected = this.selected$() !== null && this.selected$()!.value() === this.value$();
     if (this._radios && !isAlreadySelected) {
       this.selected$.set(null);
       this._radios.forEach((radio) => {
-        radio.checked$.set(this.value$() === radio.value);
+        radio.checked$.set(this.value$() === radio.value());
         if (radio.checked$()) {
           this.selected$.set(radio);
         }
