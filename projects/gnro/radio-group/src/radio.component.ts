@@ -21,6 +21,9 @@ import {
   afterNextRender,
   booleanAttribute,
   inject,
+  input,
+  computed,
+  signal,
   numberAttribute,
 } from '@angular/core';
 import { GnroRadioGroupDirective } from './radio-group.directive';
@@ -53,21 +56,29 @@ export class GnroRadioChange {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDestroy {
-  protected _elementRef = inject(ElementRef);
-  private changeDetectorRef = inject(ChangeDetectorRef);
+  protected readonly elementRef = inject(ElementRef);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private _ngZone = inject(NgZone);
+  private _renderer = inject(Renderer2);
+  private _injector = inject(Injector);
+  private _uniqueId = inject(_IdGenerator).getId('mat-radio-');
   private _focusMonitor = inject(FocusMonitor);
   private _radioDispatcher = inject(UniqueSelectionDispatcher);
   private _defaultOptions = inject<GnroRadioDefaultOptions>(GNRO_RADIO_DEFAULT_OPTIONS, {
     optional: true,
   });
 
-  private _ngZone = inject(NgZone);
-  private _renderer = inject(Renderer2);
-  private _uniqueId = inject(_IdGenerator).getId('mat-radio-');
-  private _cleanupClick: (() => void) | undefined;
+  id = input<string>(this._uniqueId);
+  inputId = computed(() => `${this.id() || this._uniqueId}-input`);
 
-  @Input() id: string = this._uniqueId;
-  @Input() name!: string;
+  name$ = signal<string>('');
+  name = input('', {
+    transform: (name: string) => {
+      this.name$.set(name);
+      return name;
+    },
+  });
+  //@Input() name!: string;
 
   @Input({
     transform: (value: unknown) => (value == null ? 0 : numberAttribute(value)),
@@ -88,7 +99,7 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
       }
 
       if (value) {
-        this._radioDispatcher.notify(this.id, this.name);
+        this._radioDispatcher.notify(this.id(), this.name$());
       }
       this.changeDetectorRef.markForCheck();
     }
@@ -150,10 +161,6 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
 
   radioGroup: GnroRadioGroupDirective;
 
-  get inputId(): string {
-    return `${this.id || this._uniqueId}-input`;
-  }
-
   private _checked: boolean = false;
   private _disabled!: boolean;
   private _required!: boolean;
@@ -163,8 +170,6 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
   @ViewChild('input') _inputElement!: ElementRef<HTMLInputElement>;
 
   _noopAnimations: boolean;
-
-  private _injector = inject(Injector);
 
   constructor() {
     const radioGroup = inject<GnroRadioGroupDirective>(GNRO_RADIO_GROUP, { optional: true })!;
@@ -198,11 +203,11 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
       if (this.checked) {
         this.radioGroup.selected$.set(this);
       }
-      this.name = this.radioGroup.name();
+      this.name$.set(this.radioGroup.name());
     }
 
     this._removeUniqueSelectionListener = this._radioDispatcher.listen((id, name) => {
-      if (id !== this.id && name === this.name) {
+      if (id !== this.id() && name === this.name$()) {
         this.checked = false;
       }
     });
@@ -214,7 +219,7 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
 
   ngAfterViewInit(): void {
     this._updateTabIndex();
-    this._focusMonitor.monitor(this._elementRef, true).subscribe((focusOrigin) => {
+    this._focusMonitor.monitor(this.elementRef, true).subscribe((focusOrigin) => {
       if (!focusOrigin && this.radioGroup) {
         this.radioGroup._touch();
       }
@@ -227,7 +232,7 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
 
   ngOnDestroy(): void {
     this._cleanupClick?.();
-    this._focusMonitor.stopMonitoring(this._elementRef);
+    this._focusMonitor.stopMonitoring(this.elementRef);
     this._removeUniqueSelectionListener();
   }
 
@@ -258,6 +263,8 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
       this._inputElement?.nativeElement.focus();
     }
   }
+
+  private _cleanupClick: (() => void) | undefined;
 
   protected _setDisabled(value: boolean): void {
     if (this._disabled !== value) {

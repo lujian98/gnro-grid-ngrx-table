@@ -5,10 +5,10 @@
     #input
     class="mdc-radio__native-control"
     type="radio"
-    [id]="inputId"
+    [id]="inputId()"
     [checked]="checked"
     [disabled]="disabled && !disabledInteractive"
-    [attr.name]="name"
+    [attr.name]="name$()"
     [attr.value]="value"
     [required]="required"
     (change)="_onInputInteraction($event)"
@@ -18,6 +18,6 @@
     <div class="mdc-radio__inner-circle"></div>
   </div>
 </div>
-<label class="mdc-label" [for]="inputId">
+<label class="mdc-label" [for]="inputId()">
   <ng-content></ng-content>
 </label>

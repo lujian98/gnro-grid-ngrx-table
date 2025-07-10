@@ -38,7 +38,7 @@ export class GnroRadioGroupDirective implements AfterContentInit, ControlValueAc
 
   name = input(inject(_IdGenerator).getId('gnro-radio-group-'), {
     transform: (name: string) => {
-      this._updateRadioButtonNames();
+      this._updateRadioButtonNames(name);
       return name;
     },
   });
@@ -111,10 +111,10 @@ export class GnroRadioGroupDirective implements AfterContentInit, ControlValueAc
     }
   }
 
-  private _updateRadioButtonNames(): void {
+  private _updateRadioButtonNames(name: string): void {
     if (this._radios) {
       this._radios.forEach((radio) => {
-        radio.name = this.name();
+        radio.name$.set(name);
         radio._markForCheck();
       });
     }
