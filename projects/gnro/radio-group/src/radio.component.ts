@@ -139,7 +139,7 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
 
   @Input({ transform: booleanAttribute })
   get disabledInteractive(): boolean {
-    return this._disabledInteractive || (this.radioGroup !== null && this.radioGroup.disabledInteractive);
+    return this._disabledInteractive || (this.radioGroup !== null && this.radioGroup.disabledInteractive());
   }
   set disabledInteractive(value: boolean) {
     this._disabledInteractive = value;

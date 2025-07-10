@@ -40,7 +40,7 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
   onTouched: () => any = () => {};
   @Output() readonly change: EventEmitter<GnroRadioChange> = new EventEmitter<GnroRadioChange>();
   @ContentChildren(forwardRef(() => GnroRadioComponent), { descendants: true })
-  _radios!: QueryList<GnroRadioComponent>;
+  private _radios!: QueryList<GnroRadioComponent>;
 
   name = input(inject(_IdGenerator).getId('gnro-radio-group-'), {
     transform: (name: string) => {
@@ -86,16 +86,12 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
       return required;
     },
   });
-
-  @Input({ transform: booleanAttribute })
-  get disabledInteractive(): boolean {
-    return this._disabledInteractive;
-  }
-  set disabledInteractive(value: boolean) {
-    this._disabledInteractive = value;
-    this._markRadiosForCheck();
-  }
-  private _disabledInteractive = false;
+  disabledInteractive = input(false, {
+    transform: (disabledInteractive: boolean) => {
+      this._markRadiosForCheck();
+      return disabledInteractive;
+    },
+  });
 
   ngAfterContentInit(): void {
     this._isInitialized = true;
