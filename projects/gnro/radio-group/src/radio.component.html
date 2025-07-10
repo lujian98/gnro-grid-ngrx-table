@@ -10,7 +10,7 @@
     [disabled]="disabled$() && !disabledInteractive"
     [attr.name]="name()"
     [attr.value]="value()"
-    [required]="required"
+    [required]="required()"
     (change)="_onInputInteraction($event)"
   />
   <div class="mdc-radio__background">

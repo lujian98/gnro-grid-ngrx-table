@@ -124,14 +124,11 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
       return disabled;
     },
   });
-
-  @Input({ transform: booleanAttribute })
-  get required(): boolean {
-    return this._required || (this.radioGroup && this.radioGroup.required());
-  }
-  set required(value: boolean) {
-    this._required = value;
-  }
+  required = input(false, {
+    transform: (required: boolean) => {
+      return required || this.radioGroup?.required();
+    },
+  });
 
   @Input({ transform: booleanAttribute })
   get disabledInteractive(): boolean {
@@ -146,7 +143,6 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
 
   radioGroup: GnroRadioGroupDirective;
 
-  private _required!: boolean;
   private _removeUniqueSelectionListener: () => void = () => {};
   private _previousTabIndex: number | undefined;
   @ViewChild('input') _inputElement!: ElementRef<HTMLInputElement>;
