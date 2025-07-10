@@ -70,7 +70,6 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
 
   id = input<string>(this._uniqueId);
   inputId = computed(() => `${this.id() || this._uniqueId}-input`);
-
   name$ = signal<string>('');
   name = input('', {
     transform: (name: string) => {
@@ -78,7 +77,6 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
       return name;
     },
   });
-  //@Input() name!: string;
 
   @Input({
     transform: (value: unknown) => (value == null ? 0 : numberAttribute(value)),
