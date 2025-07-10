@@ -3,17 +3,17 @@ import {
   AfterContentInit,
   ChangeDetectorRef,
   ContentChildren,
+  DestroyRef,
   Directive,
-  OnDestroy,
-  output,
-  QueryList,
   forwardRef,
   inject,
   input,
+  output,
+  QueryList,
   signal,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ControlValueAccessor } from '@angular/forms';
-import { Subscription } from 'rxjs';
 import { GNRO_RADIO_GROUP, GNRO_RADIO_GROUP_CONTROL_VALUE_ACCESSOR } from './radio-group.model';
 import { GnroRadioChange, GnroRadioComponent } from './radio.component';
 
@@ -29,15 +29,12 @@ import { GnroRadioChange, GnroRadioComponent } from './radio.component';
     class: 'mat-mdc-radio-group',
   },
 })
-export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, ControlValueAccessor {
-  private changeDetectorRef = inject(ChangeDetectorRef);
+export class GnroRadioGroupDirective implements AfterContentInit, ControlValueAccessor {
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly destroyRef = inject(DestroyRef);
   private _isInitialized: boolean = false;
-  private _buttonChanges!: Subscription;
   _controlValueAccessorChangeFn: (value: any) => void = () => {};
   onTouched: () => any = () => {};
-
-  @ContentChildren(forwardRef(() => GnroRadioComponent), { descendants: true })
-  private _radios!: QueryList<GnroRadioComponent>;
 
   name = input(inject(_IdGenerator).getId('gnro-radio-group-'), {
     transform: (name: string) => {
@@ -90,18 +87,16 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
     },
   });
   readonly change = output<GnroRadioChange>();
+  @ContentChildren(forwardRef(() => GnroRadioComponent), { descendants: true })
+  private _radios!: QueryList<GnroRadioComponent>;
 
   ngAfterContentInit(): void {
     this._isInitialized = true;
-    this._buttonChanges = this._radios.changes.subscribe(() => {
+    this._radios.changes.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       if (this.selected$() && !this._radios.find((radio) => radio === this.selected$())) {
         this.selected$.set(null);
       }
     });
-  }
-
-  ngOnDestroy(): void {
-    this._buttonChanges?.unsubscribe();
   }
 
   _touch(): void {
