@@ -9,7 +9,6 @@ import {
   forwardRef,
   inject,
   InjectionToken,
-  Input,
   input,
   model,
   output,
@@ -43,26 +42,19 @@ export const GNRO_RADIO_GROUP = new InjectionToken<GnroRadioGroupDirective>('Gnr
 export class GnroRadioGroupDirective implements AfterContentInit, ControlValueAccessor {
   private changeDetectorRef = inject(ChangeDetectorRef);
   private readonly destroyRef = inject(DestroyRef);
-  private _value: any = null;
   private _isInitialized: boolean = false;
   _controlValueAccessorChangeFn: (value: any) => void = () => {};
   onTouched: () => any = () => {};
 
   name = input<string>(inject(_IdGenerator).getId('gnro-radio-group-'));
   labelPosition = input<'before' | 'after'>('after');
-
-  @Input()
-  get value(): any {
-    return this._value;
-  }
-  set value(newValue: any) {
-    if (this._value !== newValue) {
-      this._value = newValue;
-      this._updateSelectedRadioFromValue();
-      this._checkSelectedRadioButton();
-    }
-  }
-
+  value$ = signal<any>(null);
+  value = input(null, {
+    transform: (value: any) => {
+      this.setValue(value);
+      return value;
+    },
+  });
   selected$ = signal<GnroRadioComponent | null>(null);
   selected = input(null, {
     transform: (selected: GnroRadioComponent | null) => {
@@ -70,24 +62,10 @@ export class GnroRadioGroupDirective implements AfterContentInit, ControlValueAc
       return selected;
     },
   });
-  setSelected(selected: GnroRadioComponent | null, check = true): void {
-    this.selected$.set(selected);
-    if (check) {
-      this.value = selected ? selected.value : null;
-      this._checkSelectedRadioButton();
-    }
-  }
-  private _checkSelectedRadioButton() {
-    if (this.selected$() && !this.selected$()!.checked) {
-      this.selected$()!.checked = true;
-    }
-  }
-
   disabled = model(false);
   disabled$ = computed(() => this.disabled());
   required = input(false);
   disabledInteractive = input(false);
-
   readonly change = output<GnroRadioChange>();
   @ContentChildren(forwardRef(() => GnroRadioComponent), { descendants: true })
   private radios!: QueryList<GnroRadioComponent>;
@@ -107,22 +85,17 @@ export class GnroRadioGroupDirective implements AfterContentInit, ControlValueAc
     }
   }
 
-  private _updateSelectedRadioFromValue(): void {
-    const isAlreadySelected = this.selected !== null && this.selected$()?.value === this._value;
-    if (this.radios && !isAlreadySelected) {
-      this.setSelected(null, false);
-      this.radios.forEach((radio) => {
-        radio.checked = this.value === radio.value;
-        if (radio.checked) {
-          this.setSelected(radio, false);
-        }
-      });
+  setSelected(selected: GnroRadioComponent | null, check = true): void {
+    this.selected$.set(selected);
+    if (check) {
+      this.setValue(selected ? selected.value : null);
+      this._checkSelectedRadioButton();
     }
   }
 
   _emitChangeEvent(): void {
     if (this._isInitialized) {
-      this.change.emit(new GnroRadioChange(this.selected$()!, this._value));
+      this.change.emit(new GnroRadioChange(this.selected$()!, this.value$()));
     }
   }
 
@@ -133,7 +106,7 @@ export class GnroRadioGroupDirective implements AfterContentInit, ControlValueAc
   }
 
   writeValue(value: any): void {
-    this.value = value;
+    this.setValue(value);
     this.changeDetectorRef.markForCheck();
   }
 
@@ -148,5 +121,30 @@ export class GnroRadioGroupDirective implements AfterContentInit, ControlValueAc
   setDisabledState(isDisabled: boolean) {
     this.disabled.set(isDisabled);
     this.changeDetectorRef.markForCheck();
+  }
+
+  private setValue(value: any): void {
+    this.value$.set(value);
+    this._updateSelectedRadioFromValue();
+    this._checkSelectedRadioButton();
+  }
+
+  private _updateSelectedRadioFromValue(): void {
+    const isAlreadySelected = this.selected !== null && this.selected$()?.value === this.value$();
+    if (this.radios && !isAlreadySelected) {
+      this.setSelected(null, false);
+      this.radios.forEach((radio) => {
+        radio.checked = this.value$() === radio.value;
+        if (radio.checked) {
+          this.setSelected(radio, false);
+        }
+      });
+    }
+  }
+
+  private _checkSelectedRadioButton() {
+    if (this.selected$() && !this.selected$()!.checked) {
+      this.selected$()!.checked = true;
+    }
   }
 }

@@ -79,9 +79,9 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
   set checked(value: boolean) {
     if (this._checked !== value) {
       this._checked = value;
-      if (value && this.radioGroup && this.radioGroup.value !== this.value) {
+      if (value && this.radioGroup && this.radioGroup.value$() !== this.value) {
         this.radioGroup.setSelected(this);
-      } else if (!value && this.radioGroup && this.radioGroup.value === this.value) {
+      } else if (!value && this.radioGroup && this.radioGroup.value$() === this.value) {
         this.radioGroup.setSelected(null);
       }
 
@@ -100,7 +100,7 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
       this._value = value;
       if (this.radioGroup !== null) {
         if (!this.checked) {
-          this.checked = this.radioGroup.value === value;
+          this.checked = this.radioGroup.value$() === value;
         }
         if (this.checked) {
           this.radioGroup.setSelected(this);
@@ -138,7 +138,7 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
 
   ngOnInit() {
     if (this.radioGroup) {
-      this.checked = this.radioGroup.value === this.value;
+      this.checked = this.radioGroup.value$() === this.value;
       if (this.checked) {
         this.radioGroup.setSelected(this);
       }
@@ -173,7 +173,7 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
   _onInputInteraction(event: Event): void {
     event.stopPropagation();
     if (!this.checked && !this.disabled$()) {
-      const groupValueChanged = this.radioGroup && this.value !== this.radioGroup.value;
+      const groupValueChanged = this.radioGroup && this.value !== this.radioGroup.value$();
       this.checked = true;
       this._emitChangeEvent();
       if (this.radioGroup) {
