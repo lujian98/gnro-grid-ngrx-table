@@ -1,7 +1,6 @@
 import { FocusMonitor, FocusOrigin, _IdGenerator } from '@angular/cdk/a11y';
 import { UniqueSelectionDispatcher } from '@angular/cdk/collections';
 import {
-  ANIMATION_MODULE_TYPE,
   AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -26,7 +25,6 @@ import {
   model,
 } from '@angular/core';
 import { GNRO_RADIO_GROUP, GnroRadioGroupDirective } from './radio-group.directive';
-import { GNRO_RADIO_DEFAULT_OPTIONS, GnroRadioDefaultOptions } from './radio.model';
 
 export class GnroRadioChange {
   constructor(
@@ -46,7 +44,7 @@ export class GnroRadioChange {
     '[class.mat-mdc-radio-disabled]': 'disabled$()',
     '[class.mat-mdc-radio-disabled-interactive]': 'disabledInteractive$()',
     '[attr.tabindex]': 'null',
-    '(focus)': '_inputElement.nativeElement.focus()',
+    '(focus)': 'inputElement.nativeElement.focus()',
   },
   exportAs: 'gnroRadioButton',
   //encapsulation: ViewEncapsulation.None,
@@ -54,22 +52,26 @@ export class GnroRadioChange {
   providers: [{ provide: GnroRadioGroupDirective, useExisting: forwardRef(() => GnroRadioGroupDirective) }],
 })
 export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDestroy {
-  protected _elementRef = inject(ElementRef);
-  private _changeDetector = inject(ChangeDetectorRef);
-  private _injector = inject(Injector);
+  protected elementRef = inject(ElementRef);
+  private changeDetectorRef = inject(ChangeDetectorRef);
+  private injector = inject(Injector);
   private _focusMonitor = inject(FocusMonitor);
   private _radioDispatcher = inject(UniqueSelectionDispatcher);
   private _ngZone = inject(NgZone);
   private _renderer = inject(Renderer2);
   private _uniqueId = inject(_IdGenerator).getId('gnro-radio-');
   private _cleanupClick: (() => void) | undefined;
+  private _removeUniqueSelectionListener: () => void = () => {};
   private radioGroup: GnroRadioGroupDirective;
+  private previousTabIndex: number | undefined;
 
   id = input<string>(this._uniqueId);
   inputId = computed(() => `${this.id() || this._uniqueId}-input`);
   name$ = computed(() => this.radioGroup.name()); // name must be same within group
   tabIndex = input<number>(0);
 
+  private _checked: boolean = false;
+  private _value: any = null;
   @Input({ transform: booleanAttribute })
   get checked(): boolean {
     return this._checked;
@@ -86,10 +88,9 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
       if (value) {
         this._radioDispatcher.notify(this.id(), this.name$());
       }
-      this._changeDetector.markForCheck();
+      this.changeDetectorRef.markForCheck();
     }
   }
-
   @Input()
   get value(): any {
     return this._value;
@@ -117,12 +118,7 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
   disabledInteractive$ = computed(() => this.disabledInteractive() || this.radioGroup?.disabledInteractive());
 
   @Output() readonly change: EventEmitter<GnroRadioChange> = new EventEmitter<GnroRadioChange>();
-
-  private _checked: boolean = false;
-  private _value: any = null;
-  private _removeUniqueSelectionListener: () => void = () => {};
-  private _previousTabIndex: number | undefined;
-  @ViewChild('input') _inputElement!: ElementRef<HTMLInputElement>;
+  @ViewChild('input') inputElement!: ElementRef<HTMLInputElement>;
 
   constructor() {
     this.radioGroup = inject<GnroRadioGroupDirective>(GNRO_RADIO_GROUP, { optional: true })!;
@@ -130,14 +126,14 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
 
   focus(options?: FocusOptions, origin?: FocusOrigin): void {
     if (origin) {
-      this._focusMonitor.focusVia(this._inputElement, origin, options);
+      this._focusMonitor.focusVia(this.inputElement, origin, options);
     } else {
-      this._inputElement.nativeElement.focus(options);
+      this.inputElement.nativeElement.focus(options);
     }
   }
 
   _markForCheck() {
-    this._changeDetector.markForCheck();
+    this.changeDetectorRef.markForCheck();
   }
 
   ngOnInit() {
@@ -147,7 +143,6 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
         this.radioGroup.selected = this;
       }
     }
-
     this._removeUniqueSelectionListener = this._radioDispatcher.listen((id, name) => {
       if (id !== this.id() && name === this.name$()) {
         this.checked = false;
@@ -159,22 +154,21 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
     this._updateTabIndex();
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this._updateTabIndex();
-    this._focusMonitor.monitor(this._elementRef, true).subscribe((focusOrigin) => {
+    this._focusMonitor.monitor(this.elementRef, true).subscribe((focusOrigin) => {
       if (!focusOrigin && this.radioGroup) {
         this.radioGroup._touch();
       }
     });
-
     this._ngZone.runOutsideAngular(() => {
-      this._cleanupClick = this._renderer.listen(this._inputElement.nativeElement, 'click', this._onInputClick);
+      this._cleanupClick = this._renderer.listen(this.inputElement.nativeElement, 'click', this._onInputClick);
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this._cleanupClick?.();
-    this._focusMonitor.stopMonitoring(this._elementRef);
+    this._focusMonitor.stopMonitoring(this.elementRef);
     this._removeUniqueSelectionListener();
   }
 
@@ -182,14 +176,12 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
     this.change.emit(new GnroRadioChange(this, this.value));
   }
 
-  _onInputInteraction(event: Event) {
+  _onInputInteraction(event: Event): void {
     event.stopPropagation();
-
     if (!this.checked && !this.disabled$()) {
       const groupValueChanged = this.radioGroup && this.value !== this.radioGroup.value;
       this.checked = true;
       this._emitChangeEvent();
-
       if (this.radioGroup) {
         this.radioGroup._controlValueAccessorChangeFn(this.value);
         if (groupValueChanged) {
@@ -199,17 +191,17 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
     }
   }
 
-  _onTouchTargetClick(event: Event) {
+  _onTouchTargetClick(event: Event): void {
     this._onInputInteraction(event);
     if (!this.disabled$() || this.disabledInteractive$()) {
-      this._inputElement?.nativeElement.focus();
+      this.inputElement?.nativeElement.focus();
     }
   }
 
-  protected _setDisabled(value: boolean) {
+  protected _setDisabled(value: boolean): void {
     if (this.disabled$() !== value) {
       this.disabled.set(value);
-      this._changeDetector.markForCheck();
+      this.changeDetectorRef.markForCheck();
     }
   }
 
@@ -219,7 +211,7 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
     }
   };
 
-  private _updateTabIndex() {
+  private _updateTabIndex(): void {
     const group = this.radioGroup;
     let value: number;
     if (!group || !group.selected || this.disabled$()) {
@@ -227,25 +219,23 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
     } else {
       value = group.selected === this ? this.tabIndex() : -1;
     }
-
-    if (value !== this._previousTabIndex) {
-      const input: HTMLInputElement | undefined = this._inputElement?.nativeElement;
-
+    if (value !== this.previousTabIndex) {
+      const input: HTMLInputElement | undefined = this.inputElement?.nativeElement;
       if (input) {
         input.setAttribute('tabindex', value + '');
-        this._previousTabIndex = value;
+        this.previousTabIndex = value;
         afterNextRender(
           () => {
             queueMicrotask(() => {
               if (group && group.selected && group.selected !== this && document.activeElement === input) {
-                group.selected?._inputElement.nativeElement.focus();
+                group.selected?.inputElement.nativeElement.focus();
                 if (document.activeElement === input) {
-                  this._inputElement.nativeElement.blur();
+                  this.inputElement.nativeElement.blur();
                 }
               }
             });
           },
-          { injector: this._injector },
+          { injector: this.injector },
         );
       }
     }
