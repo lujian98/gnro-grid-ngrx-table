@@ -9,7 +9,6 @@ import {
   ElementRef,
   EventEmitter,
   Injector,
-  Input,
   NgZone,
   OnDestroy,
   OnInit,
@@ -77,24 +76,23 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
     },
   });
 
-  private _value: any = null;
-  @Input()
-  get value(): any {
-    return this._value;
-  }
-  set value(value: any) {
-    if (this._value !== value) {
-      this._value = value;
-      if (this.radioGroup !== null) {
-        if (!this.checked$()) {
-          this.setChecked(this.radioGroup.value$() === value);
-        }
-        if (this.checked$()) {
-          this.radioGroup.setSelected(this);
+  value$ = signal<any>(null);
+  value = input(null, {
+    transform: (value: any) => {
+      if (this.value$() !== value) {
+        this.value$.set(value);
+        if (this.radioGroup !== null) {
+          if (!this.checked$()) {
+            this.setChecked(this.radioGroup.value$() === this.value$());
+          }
+          if (this.checked$()) {
+            this.radioGroup.setSelected(this);
+          }
         }
       }
-    }
-  }
+      return value;
+    },
+  });
   labelPosition = input<'before' | 'after'>('after');
   labelPosition$ = computed(() => this.labelPosition() || this.radioGroup?.labelPosition());
   disabled = model(false);
@@ -124,7 +122,7 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
 
   ngOnInit() {
     if (this.radioGroup) {
-      this.setChecked(this.radioGroup.value$() === this.value);
+      this.setChecked(this.radioGroup.value$() === this.value$());
       if (this.checked$()) {
         this.radioGroup.setSelected(this);
       }
@@ -153,17 +151,17 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
   }
 
   private _emitChangeEvent(): void {
-    this.change.emit(new GnroRadioChange(this, this.value));
+    this.change.emit(new GnroRadioChange(this, this.value$()));
   }
 
   _onInputInteraction(event: Event): void {
     event.stopPropagation();
     if (!this.checked$() && !this.disabled$()) {
-      const groupValueChanged = this.radioGroup && this.value !== this.radioGroup.value$();
+      const groupValueChanged = this.radioGroup && this.value$() !== this.radioGroup.value$();
       this.setChecked(true);
       this._emitChangeEvent();
       if (this.radioGroup) {
-        this.radioGroup._controlValueAccessorChangeFn(this.value);
+        this.radioGroup._controlValueAccessorChangeFn(this.value$());
         if (groupValueChanged) {
           this.radioGroup._emitChangeEvent();
         }
@@ -174,9 +172,9 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
   setChecked(checked: boolean): void {
     if (this.checked$() !== checked) {
       this.checked$.set(checked);
-      if (checked && this.radioGroup?.value$() !== this.value) {
+      if (checked && this.radioGroup?.value$() !== this.value$()) {
         this.radioGroup.setSelected(this);
-      } else if (!checked && this.radioGroup?.value$() === this.value) {
+      } else if (!checked && this.radioGroup?.value$() === this.value$()) {
         this.radioGroup.setSelected(null);
       }
       if (checked) {
