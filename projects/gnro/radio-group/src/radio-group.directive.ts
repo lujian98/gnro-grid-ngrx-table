@@ -47,8 +47,6 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
   private _value: any = null;
   private _selected: GnroRadioComponent | null = null;
   private _isInitialized: boolean = false;
-  private _disabled: boolean = false;
-  private _required: boolean = false;
   private _buttonChanges!: Subscription;
   _controlValueAccessorChangeFn: (value: any) => void = () => {};
   onTouched: () => any = () => {};
@@ -96,23 +94,13 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
     this.value = selected ? selected.value : null;
     this._checkSelectedRadioButton();
   }
+
   disabled = model(false);
   disabled$ = computed(() => this.disabled());
   required = input(false);
   disabledInteractive = input(false);
-  /*
-  @Input({ transform: booleanAttribute })
-  get disabledInteractive(): boolean {
-    return this._disabledInteractive;
-  }
-  set disabledInteractive(value: boolean) {
-    this._disabledInteractive = value;
-    this._markRadiosForCheck();
-  }
-  private _disabledInteractive = false;
-*/
 
-  ngAfterContentInit() {
+  ngAfterContentInit(): void {
     this._isInitialized = true;
     this._buttonChanges = this._radios.changes.subscribe(() => {
       if (this.selected && !this._radios.find((radio) => radio === this.selected)) {
@@ -121,11 +109,11 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this._buttonChanges?.unsubscribe();
   }
 
-  _touch() {
+  _touch(): void {
     if (this.onTouched) {
       this.onTouched();
     }
@@ -160,22 +148,22 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
     }
   }
 
-  _markRadiosForCheck() {
+  _markRadiosForCheck(): void {
     if (this._radios) {
       this._radios.forEach((radio) => radio._markForCheck());
     }
   }
 
-  writeValue(value: any) {
+  writeValue(value: any): void {
     this.value = value;
     this._changeDetector.markForCheck();
   }
 
-  registerOnChange(fn: (value: any) => void) {
+  registerOnChange(fn: (value: any) => void): void {
     this._controlValueAccessorChangeFn = fn;
   }
 
-  registerOnTouched(fn: any) {
+  registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
 
