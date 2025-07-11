@@ -72,8 +72,8 @@ export class GnroRadioGroupDirective implements AfterContentInit, ControlValueAc
     this._checkSelectedRadioButton();
   }
   private _checkSelectedRadioButton() {
-    if (this._selected && !this._selected.checked) {
-      this._selected.checked = true;
+    if (this.selected && !this.selected.checked) {
+      this.selected.checked = true;
     }
   }
 
@@ -102,7 +102,7 @@ export class GnroRadioGroupDirective implements AfterContentInit, ControlValueAc
   }
 
   private _updateSelectedRadioFromValue(): void {
-    const isAlreadySelected = this._selected !== null && this._selected.value === this._value;
+    const isAlreadySelected = this.selected !== null && this.selected.value === this._value;
 
     if (this.radios && !isAlreadySelected) {
       this._selected = null;
@@ -117,7 +117,7 @@ export class GnroRadioGroupDirective implements AfterContentInit, ControlValueAc
 
   _emitChangeEvent(): void {
     if (this._isInitialized) {
-      this.change.emit(new GnroRadioChange(this._selected!, this._value));
+      this.change.emit(new GnroRadioChange(this.selected!, this._value));
     }
   }
 
