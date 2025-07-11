@@ -36,7 +36,7 @@ export const GNRO_RADIO_GROUP = new InjectionToken<GnroRadioGroupDirective>('Gnr
   ],
   host: {
     role: 'radiogroup',
-    class: 'gnro-mdc-radio-group',
+    class: 'gnro-radio-group',
   },
 })
 export class GnroRadioGroupDirective implements AfterContentInit, ControlValueAccessor {

@@ -12,9 +12,9 @@
     }
 
     <gnro-radio-group [formControlName]="fieldConfig().fieldName!" [name]="fieldConfig().fieldName!">
-      @for (group of groups; track $index; let index = $index) {
-        <gnro-radio [value]="group.name" [tabIndex]="index">
-          {{ group.title }}
+      @for (radio of groups; track $index; let index = $index) {
+        <gnro-radio [value]="radio.name" [tabIndex]="index">
+          {{ radio.title }}
         </gnro-radio>
       }
     </gnro-radio-group>
@@ -24,32 +24,3 @@
     }
   </gnro-form-field>
 }
-
-<!--
-
-    <gnro-radio-group [formControlName]="fieldConfig().fieldName!">
-      @for (group of groups; track $index; let index = $index) {
-        <gnro-radio
-          [value]="group.name"
-          [name]="fieldConfig().fieldName!"
-        >
-          {{ group.title }}
-        </gnro-radio>
-      }
-    </gnro-radio-group>
-<gnro-radio-group formControlName="radioSelection" [name]="radioName">
-
-
-      @for (group of groups; track $index; let index = $index) {
-      <gnro-radio
-        [value]="group.name"
-        [name]="fieldConfig().fieldName!"
-        [field]="field"
-        [fieldName]="fieldConfig().fieldName!"
-        [checked]="getChecked(group.name)"
-      >
-        {{ group.title }}
-      </gnro-radio>
-    }
-
--->
