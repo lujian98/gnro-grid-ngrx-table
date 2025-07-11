@@ -15,6 +15,8 @@ import {
   forwardRef,
   inject,
   signal,
+  model,
+  computed,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -94,7 +96,9 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
     this.value = selected ? selected.value : null;
     this._checkSelectedRadioButton();
   }
-
+  disabled = model(false);
+  disabled$ = computed(() => this.disabled());
+  /*
   @Input({ transform: booleanAttribute })
   get disabled(): boolean {
     return this._disabled;
@@ -102,7 +106,7 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
   set disabled(value: boolean) {
     this._disabled = value;
     this._markRadiosForCheck();
-  }
+  }*/
 
   @Input({ transform: booleanAttribute })
   get required(): boolean {
@@ -122,10 +126,6 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
     this._markRadiosForCheck();
   }
   private _disabledInteractive = false;
-
-  //constructor(...args: unknown[]);
-
-  //constructor() {}
 
   ngAfterContentInit() {
     this._isInitialized = true;
@@ -195,7 +195,7 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
   }
 
   setDisabledState(isDisabled: boolean) {
-    this.disabled = isDisabled;
+    this.disabled.set(isDisabled);
     this._changeDetector.markForCheck();
   }
 }

@@ -124,7 +124,7 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
 
   @Input({ transform: booleanAttribute })
   get disabled(): boolean {
-    return this._disabled || (this.radioGroup !== null && this.radioGroup.disabled);
+    return this._disabled || (this.radioGroup !== null && this.radioGroup.disabled());
   }
   set disabled(value: boolean) {
     this._setDisabled(value);
