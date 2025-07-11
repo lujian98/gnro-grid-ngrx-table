@@ -166,12 +166,6 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
     });
   }
 
-  ngOnDestroy(): void {
-    this._cleanupClick?.();
-    this._focusMonitor.stopMonitoring(this.elementRef);
-    this._removeUniqueSelectionListener();
-  }
-
   private _emitChangeEvent(): void {
     this.change.emit(new GnroRadioChange(this, this.value));
   }
@@ -239,5 +233,11 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
         );
       }
     }
+  }
+
+  ngOnDestroy(): void {
+    this._cleanupClick?.();
+    this._focusMonitor.stopMonitoring(this.elementRef);
+    this._removeUniqueSelectionListener();
   }
 }

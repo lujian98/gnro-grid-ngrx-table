@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   computed,
   ContentChildren,
+  DestroyRef,
   Directive,
   forwardRef,
   inject,
@@ -11,12 +12,11 @@ import {
   Input,
   input,
   model,
-  OnDestroy,
   output,
   QueryList,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Subscription } from 'rxjs';
 import { GnroRadioChange, GnroRadioComponent } from './radio.component';
 
 export const GNRO_RADIO_GROUP_CONTROL_VALUE_ACCESSOR: any = {
@@ -39,22 +39,17 @@ export const GNRO_RADIO_GROUP = new InjectionToken<GnroRadioGroupDirective>('Gnr
     class: 'gnro-mdc-radio-group',
   },
 })
-export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, ControlValueAccessor {
+export class GnroRadioGroupDirective implements AfterContentInit, ControlValueAccessor {
   private changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly destroyRef = inject(DestroyRef);
   private _value: any = null;
   private _selected: GnroRadioComponent | null = null;
   private _isInitialized: boolean = false;
-  private _buttonChanges!: Subscription;
   _controlValueAccessorChangeFn: (value: any) => void = () => {};
   onTouched: () => any = () => {};
 
   name = input<string>(inject(_IdGenerator).getId('gnro-radio-group-'));
-  labelPosition = input('after', {
-    transform: (labelPosition: 'before' | 'after') => {
-      this._markRadiosForCheck();
-      return labelPosition;
-    },
-  });
+  labelPosition = input<'before' | 'after'>('after');
 
   @Input()
   get value(): any {
@@ -67,13 +62,6 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
       this._checkSelectedRadioButton();
     }
   }
-
-  _checkSelectedRadioButton() {
-    if (this._selected && !this._selected.checked) {
-      this._selected.checked = true;
-    }
-  }
-
   @Input()
   get selected() {
     return this._selected;
@@ -82,6 +70,11 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
     this._selected = selected;
     this.value = selected ? selected.value : null;
     this._checkSelectedRadioButton();
+  }
+  private _checkSelectedRadioButton() {
+    if (this._selected && !this._selected.checked) {
+      this._selected.checked = true;
+    }
   }
 
   disabled = model(false);
@@ -95,15 +88,11 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
 
   ngAfterContentInit(): void {
     this._isInitialized = true;
-    this._buttonChanges = this.radios.changes.subscribe(() => {
+    this.radios.changes.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       if (this.selected && !this.radios.find((radio) => radio === this.selected)) {
         this._selected = null;
       }
     });
-  }
-
-  ngOnDestroy(): void {
-    this._buttonChanges?.unsubscribe();
   }
 
   _touch(): void {
