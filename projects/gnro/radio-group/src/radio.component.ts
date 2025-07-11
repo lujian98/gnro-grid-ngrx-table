@@ -79,9 +79,9 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
   set checked(checked: boolean) {
     if (this._checked !== checked) {
       this._checked = checked;
-      if (checked && this.radioGroup && this.radioGroup.value$() !== this.value) {
+      if (checked && this.radioGroup?.value$() !== this.value) {
         this.radioGroup.setSelected(this);
-      } else if (!checked && this.radioGroup && this.radioGroup.value$() === this.value) {
+      } else if (!checked && this.radioGroup?.value$() === this.value) {
         this.radioGroup.setSelected(null);
       }
       if (checked) {
@@ -204,12 +204,12 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
   };
 
   private _updateTabIndex(): void {
-    const group = this.radioGroup;
+    const radioGroup = this.radioGroup;
     let value: number;
-    if (!group || !group.selected$() || this.disabled$()) {
+    if (!radioGroup || !radioGroup.selected$() || this.disabled$()) {
       value = this.tabIndex();
     } else {
-      value = group.selected$() === this ? this.tabIndex() : -1;
+      value = radioGroup.selected$() === this ? this.tabIndex() : -1;
     }
     if (value !== this.previousTabIndex) {
       const input: HTMLInputElement | undefined = this.inputElement?.nativeElement;
@@ -219,8 +219,8 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
         afterNextRender(
           () => {
             queueMicrotask(() => {
-              if (group && group.selected$() && group.selected$() !== this && document.activeElement === input) {
-                group.selected$()?.inputElement.nativeElement.focus();
+              if (radioGroup?.selected$() !== this && document.activeElement === input) {
+                radioGroup.selected$()?.inputElement.nativeElement.focus();
                 if (document.activeElement === input) {
                   this.inputElement.nativeElement.blur();
                 }
