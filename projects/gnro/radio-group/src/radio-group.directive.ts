@@ -98,25 +98,9 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
   }
   disabled = model(false);
   disabled$ = computed(() => this.disabled());
+  required = input(false);
+  disabledInteractive = input(false);
   /*
-  @Input({ transform: booleanAttribute })
-  get disabled(): boolean {
-    return this._disabled;
-  }
-  set disabled(value: boolean) {
-    this._disabled = value;
-    this._markRadiosForCheck();
-  }*/
-
-  @Input({ transform: booleanAttribute })
-  get required(): boolean {
-    return this._required;
-  }
-  set required(value: boolean) {
-    this._required = value;
-    this._markRadiosForCheck();
-  }
-
   @Input({ transform: booleanAttribute })
   get disabledInteractive(): boolean {
     return this._disabledInteractive;
@@ -126,6 +110,7 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
     this._markRadiosForCheck();
   }
   private _disabledInteractive = false;
+*/
 
   ngAfterContentInit() {
     this._isInitialized = true;
