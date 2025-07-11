@@ -1,6 +1,5 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ComponentRef,
   inject,
@@ -45,7 +44,11 @@ export class GnroColumnFilterComponent implements OnInit {
   column = input.required({
     transform: (column: GnroColumnConfig) => {
       if (column && this._componentRef) {
-        this.loadComponent(column);
+        if (this.instance.column.name === column.name) {
+          this.instance.column = { ...this.instance.column, ...column };
+        } else {
+          this.loadComponent(column);
+        }
       }
       return column;
     },
