@@ -2,21 +2,18 @@ import { _IdGenerator } from '@angular/cdk/a11y';
 import {
   AfterContentInit,
   ChangeDetectorRef,
+  computed,
   ContentChildren,
   Directive,
-  EventEmitter,
+  forwardRef,
+  inject,
   InjectionToken,
   Input,
   input,
-  OnDestroy,
-  Output,
-  QueryList,
-  booleanAttribute,
-  forwardRef,
-  inject,
-  signal,
   model,
-  computed,
+  OnDestroy,
+  output,
+  QueryList,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -43,23 +40,15 @@ export const GNRO_RADIO_GROUP = new InjectionToken<GnroRadioGroupDirective>('Gnr
   },
 })
 export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, ControlValueAccessor {
-  private _changeDetector = inject(ChangeDetectorRef);
+  private changeDetectorRef = inject(ChangeDetectorRef);
   private _value: any = null;
   private _selected: GnroRadioComponent | null = null;
   private _isInitialized: boolean = false;
   private _buttonChanges!: Subscription;
   _controlValueAccessorChangeFn: (value: any) => void = () => {};
   onTouched: () => any = () => {};
-  @Output() readonly change: EventEmitter<GnroRadioChange> = new EventEmitter<GnroRadioChange>();
-  @ContentChildren(forwardRef(() => GnroRadioComponent), { descendants: true })
-  _radios!: QueryList<GnroRadioComponent>;
 
-  name = input(inject(_IdGenerator).getId('gnro-radio-group-'), {
-    transform: (name: string) => {
-      this._updateRadioButtonNames(name);
-      return name;
-    },
-  });
+  name = input<string>(inject(_IdGenerator).getId('gnro-radio-group-'));
   labelPosition = input('after', {
     transform: (labelPosition: 'before' | 'after') => {
       this._markRadiosForCheck();
@@ -100,10 +89,14 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
   required = input(false);
   disabledInteractive = input(false);
 
+  readonly change = output<GnroRadioChange>();
+  @ContentChildren(forwardRef(() => GnroRadioComponent), { descendants: true })
+  private radios!: QueryList<GnroRadioComponent>;
+
   ngAfterContentInit(): void {
     this._isInitialized = true;
-    this._buttonChanges = this._radios.changes.subscribe(() => {
-      if (this.selected && !this._radios.find((radio) => radio === this.selected)) {
+    this._buttonChanges = this.radios.changes.subscribe(() => {
+      if (this.selected && !this.radios.find((radio) => radio === this.selected)) {
         this._selected = null;
       }
     });
@@ -119,21 +112,12 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
     }
   }
 
-  private _updateRadioButtonNames(name: string): void {
-    if (this._radios) {
-      this._radios.forEach((radio) => {
-        radio.name = name;
-        radio._markForCheck();
-      });
-    }
-  }
-
   private _updateSelectedRadioFromValue(): void {
     const isAlreadySelected = this._selected !== null && this._selected.value === this._value;
 
-    if (this._radios && !isAlreadySelected) {
+    if (this.radios && !isAlreadySelected) {
       this._selected = null;
-      this._radios.forEach((radio) => {
+      this.radios.forEach((radio) => {
         radio.checked = this.value === radio.value;
         if (radio.checked) {
           this._selected = radio;
@@ -149,14 +133,14 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
   }
 
   _markRadiosForCheck(): void {
-    if (this._radios) {
-      this._radios.forEach((radio) => radio._markForCheck());
+    if (this.radios) {
+      this.radios.forEach((radio) => radio._markForCheck());
     }
   }
 
   writeValue(value: any): void {
     this.value = value;
-    this._changeDetector.markForCheck();
+    this.changeDetectorRef.markForCheck();
   }
 
   registerOnChange(fn: (value: any) => void): void {
@@ -169,6 +153,6 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
 
   setDisabledState(isDisabled: boolean) {
     this.disabled.set(isDisabled);
-    this._changeDetector.markForCheck();
+    this.changeDetectorRef.markForCheck();
   }
 }

@@ -1,13 +1,13 @@
-<label class="gnro-radio-label" [for]="inputId">
+<label class="gnro-radio-label" [for]="inputId()">
   <div class="mat-mdc-radio-touch-target" (click)="_onTouchTargetClick($event)"></div>
   <input
     #input
     class="cdk-visually-hidden"
     type="radio"
-    [id]="inputId"
+    [id]="inputId()"
     [checked]="checked"
     [disabled]="disabled && !disabledInteractive"
-    [attr.name]="name"
+    [attr.name]="name$()"
     [attr.value]="value"
     [required]="required"
     (change)="_onInputInteraction($event)"

@@ -23,6 +23,9 @@ import {
   numberAttribute,
   HostAttributeToken,
   Renderer2,
+  input,
+  computed,
+  model,
 } from '@angular/core';
 import { GnroRadioDefaultOptions, GNRO_RADIO_DEFAULT_OPTIONS } from './radio.model';
 import { GnroRadioGroupDirective, GNRO_RADIO_GROUP } from './radio-group.directive';
@@ -67,8 +70,9 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
   private _uniqueId = inject(_IdGenerator).getId('gnro-radio-');
   private _cleanupClick: (() => void) | undefined;
 
-  @Input() id: string = this._uniqueId;
-  @Input() name!: string;
+  id = input<string>(this._uniqueId);
+  inputId = computed(() => `${this.id() || this._uniqueId}-input`);
+  name$ = computed(() => this.radioGroup.name()); // name must be same within group
 
   @Input({
     transform: (value: unknown) => (value == null ? 0 : numberAttribute(value)),
@@ -89,7 +93,7 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
       }
 
       if (value) {
-        this._radioDispatcher.notify(this.id, this.name);
+        this._radioDispatcher.notify(this.id(), this.name$());
       }
       this._changeDetector.markForCheck();
     }
@@ -151,9 +155,10 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
 
   radioGroup: GnroRadioGroupDirective;
 
+  /*
   get inputId(): string {
     return `${this.id || this._uniqueId}-input`;
-  }
+  }*/
 
   private _checked: boolean = false;
   private _disabled!: boolean;
@@ -201,11 +206,11 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
       if (this.checked) {
         this.radioGroup.selected = this;
       }
-      this.name = this.radioGroup.name();
+      //this.name.set(this.radioGroup.name());
     }
 
     this._removeUniqueSelectionListener = this._radioDispatcher.listen((id, name) => {
-      if (id !== this.id && name === this.name) {
+      if (id !== this.id() && name === this.name$()) {
         this.checked = false;
       }
     });

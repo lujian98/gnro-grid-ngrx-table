@@ -11,9 +11,9 @@
       <gnro-label>{{ fieldConfig().fieldLabel! | translate }}</gnro-label>
     }
 
-    <gnro-radio-group [formControlName]="fieldConfig().fieldName!">
+    <gnro-radio-group [formControlName]="fieldConfig().fieldName!" [name]="fieldConfig().fieldName!">
       @for (group of groups; track $index; let index = $index) {
-        <gnro-radio [value]="group.name" [name]="fieldConfig().fieldName!">
+        <gnro-radio [value]="group.name">
           {{ group.title }}
         </gnro-radio>
       }
