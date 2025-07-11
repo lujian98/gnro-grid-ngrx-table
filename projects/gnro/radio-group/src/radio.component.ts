@@ -76,16 +76,15 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
   get checked(): boolean {
     return this._checked;
   }
-  set checked(value: boolean) {
-    if (this._checked !== value) {
-      this._checked = value;
-      if (value && this.radioGroup && this.radioGroup.value$() !== this.value) {
+  set checked(checked: boolean) {
+    if (this._checked !== checked) {
+      this._checked = checked;
+      if (checked && this.radioGroup && this.radioGroup.value$() !== this.value) {
         this.radioGroup.setSelected(this);
-      } else if (!value && this.radioGroup && this.radioGroup.value$() === this.value) {
+      } else if (!checked && this.radioGroup && this.radioGroup.value$() === this.value) {
         this.radioGroup.setSelected(null);
       }
-
-      if (value) {
+      if (checked) {
         this._radioDispatcher.notify(this.id(), this.name$());
       }
       this.changeDetectorRef.markForCheck();
@@ -116,7 +115,6 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
   required$ = computed(() => this.required() || this.radioGroup?.required());
   disabledInteractive = input(false);
   disabledInteractive$ = computed(() => this.disabledInteractive() || this.radioGroup?.disabledInteractive());
-
   @Output() readonly change: EventEmitter<GnroRadioChange> = new EventEmitter<GnroRadioChange>();
   @ViewChild('input') inputElement!: ElementRef<HTMLInputElement>;
 
