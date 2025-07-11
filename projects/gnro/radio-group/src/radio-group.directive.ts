@@ -99,12 +99,6 @@ export class GnroRadioGroupDirective implements AfterContentInit, ControlValueAc
     }
   }
 
-  _markRadiosForCheck(): void {
-    if (this.radios) {
-      this.radios.forEach((radio) => radio._markForCheck());
-    }
-  }
-
   writeValue(value: any): void {
     this.setValue(value);
     this.changeDetectorRef.markForCheck();
