@@ -10,7 +10,37 @@
     @if (fieldConfig().fieldLabel !== undefined) {
       <gnro-label>{{ fieldConfig().fieldLabel! | translate }}</gnro-label>
     }
-    @for (group of groups; track $index; let index = $index) {
+
+    <gnro-radio-group [formControlName]="fieldConfig().fieldName!">
+      @for (group of groups; track $index; let index = $index) {
+        <gnro-radio [value]="group.name" [name]="fieldConfig().fieldName!">
+          {{ group.title }}
+        </gnro-radio>
+      }
+    </gnro-radio-group>
+
+    @if (field && (field.touched || field.dirty) && field.errors) {
+      <gnro-form-field-errors><gnro-field-errors [errors]="field!.errors!"></gnro-field-errors></gnro-form-field-errors>
+    }
+  </gnro-form-field>
+}
+
+<!--
+
+    <gnro-radio-group [formControlName]="fieldConfig().fieldName!">
+      @for (group of groups; track $index; let index = $index) {
+        <gnro-radio
+          [value]="group.name"
+          [name]="fieldConfig().fieldName!"
+        >
+          {{ group.title }}
+        </gnro-radio>
+      }
+    </gnro-radio-group>
+<gnro-radio-group formControlName="radioSelection" [name]="radioName">
+
+
+      @for (group of groups; track $index; let index = $index) {
       <gnro-radio
         [value]="group.name"
         [name]="fieldConfig().fieldName!"
@@ -21,8 +51,5 @@
         {{ group.title }}
       </gnro-radio>
     }
-    @if (field && (field.touched || field.dirty) && field.errors) {
-      <gnro-form-field-errors><gnro-field-errors [errors]="field!.errors!"></gnro-field-errors></gnro-form-field-errors>
-    }
-  </gnro-form-field>
-}
+
+-->

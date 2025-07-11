@@ -3,19 +3,28 @@ import {
   AfterContentInit,
   ChangeDetectorRef,
   ContentChildren,
-  DestroyRef,
   Directive,
+  EventEmitter,
+  InjectionToken,
+  Input,
+  OnDestroy,
+  Output,
+  QueryList,
+  booleanAttribute,
   forwardRef,
   inject,
-  input,
-  output,
-  QueryList,
-  signal,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ControlValueAccessor } from '@angular/forms';
-import { GNRO_RADIO_GROUP, GNRO_RADIO_GROUP_CONTROL_VALUE_ACCESSOR } from './radio-group.model';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { GnroRadioChange, GnroRadioComponent } from './radio.component';
+
+export const GNRO_RADIO_GROUP_CONTROL_VALUE_ACCESSOR: any = {
+  provide: NG_VALUE_ACCESSOR,
+  useExisting: forwardRef(() => GnroRadioGroupDirective),
+  multi: true,
+};
+
+export const GNRO_RADIO_GROUP = new InjectionToken<GnroRadioGroupDirective>('GnroRadioGroup');
 
 @Directive({
   selector: 'gnro-radio-group',
@@ -26,108 +35,139 @@ import { GnroRadioChange, GnroRadioComponent } from './radio.component';
   ],
   host: {
     role: 'radiogroup',
-    class: 'mat-mdc-radio-group',
+    class: 'gnro-mdc-radio-group',
   },
 })
-export class GnroRadioGroupDirective implements AfterContentInit, ControlValueAccessor {
-  private readonly changeDetectorRef = inject(ChangeDetectorRef);
-  private readonly destroyRef = inject(DestroyRef);
+export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, ControlValueAccessor {
+  private _changeDetector = inject(ChangeDetectorRef);
+  private _value: any = null;
+  private _name: string = inject(_IdGenerator).getId('gnro-radio-group-');
+  private _selected: GnroRadioComponent | null = null;
   private _isInitialized: boolean = false;
+  private _labelPosition: 'before' | 'after' = 'after';
+  private _disabled: boolean = false;
+  private _required: boolean = false;
+  private _buttonChanges!: Subscription;
   _controlValueAccessorChangeFn: (value: any) => void = () => {};
   onTouched: () => any = () => {};
+  @Output() readonly change: EventEmitter<GnroRadioChange> = new EventEmitter<GnroRadioChange>();
+  @ContentChildren(forwardRef(() => GnroRadioComponent), { descendants: true })
+  _radios!: QueryList<GnroRadioComponent>;
 
-  name = input(inject(_IdGenerator).getId('gnro-radio-group-'), {
-    transform: (name: string) => {
-      this._updateRadioButtonNames(name);
-      return name;
-    },
-  });
-  labelPosition = input('after', {
-    transform: (labelPosition: 'before' | 'after') => {
-      this._markRadiosForCheck();
-      return labelPosition;
-    },
-  });
-  value$ = signal<any>(null);
-  value = input(null, {
-    transform: (value: any) => {
-      this.value$.set(value);
+  @Input()
+  get name(): string {
+    return this._name;
+  }
+  set name(value: string) {
+    this._name = value;
+    this._updateRadioButtonNames();
+  }
+  @Input()
+  get labelPosition(): 'before' | 'after' {
+    return this._labelPosition;
+  }
+  set labelPosition(v) {
+    this._labelPosition = v === 'before' ? 'before' : 'after';
+    this._markRadiosForCheck();
+  }
+  @Input()
+  get value(): any {
+    return this._value;
+  }
+  set value(newValue: any) {
+    if (this._value !== newValue) {
+      this._value = newValue;
+
       this._updateSelectedRadioFromValue();
       this._checkSelectedRadioButton();
-      return value;
-    },
-  });
-  selected$ = signal<GnroRadioComponent | null>(null);
-  selected = input(null, {
-    transform: (selected: GnroRadioComponent | null) => {
-      this.selected$.set(selected);
-      this.value$.set(selected ? selected.value() : null);
-      this._checkSelectedRadioButton();
-      return selected;
-    },
-  });
-  disabled$ = signal<boolean>(false);
-  disabled = input(false, {
-    transform: (disabled: boolean) => {
-      this.disabled$.set(disabled);
-      this._markRadiosForCheck();
-      return disabled;
-    },
-  });
-  required = input(false, {
-    transform: (required: boolean) => {
-      this._markRadiosForCheck();
-      return required;
-    },
-  });
-  disabledInteractive = input(false, {
-    transform: (disabledInteractive: boolean) => {
-      this._markRadiosForCheck();
-      return disabledInteractive;
-    },
-  });
-  readonly change = output<GnroRadioChange>();
-  @ContentChildren(forwardRef(() => GnroRadioComponent), { descendants: true })
-  private _radios!: QueryList<GnroRadioComponent>;
+    }
+  }
 
-  ngAfterContentInit(): void {
+  _checkSelectedRadioButton() {
+    if (this._selected && !this._selected.checked) {
+      this._selected.checked = true;
+    }
+  }
+
+  @Input()
+  get selected() {
+    return this._selected;
+  }
+  set selected(selected: GnroRadioComponent | null) {
+    this._selected = selected;
+    this.value = selected ? selected.value : null;
+    this._checkSelectedRadioButton();
+  }
+
+  @Input({ transform: booleanAttribute })
+  get disabled(): boolean {
+    return this._disabled;
+  }
+  set disabled(value: boolean) {
+    this._disabled = value;
+    this._markRadiosForCheck();
+  }
+
+  @Input({ transform: booleanAttribute })
+  get required(): boolean {
+    return this._required;
+  }
+  set required(value: boolean) {
+    this._required = value;
+    this._markRadiosForCheck();
+  }
+
+  @Input({ transform: booleanAttribute })
+  get disabledInteractive(): boolean {
+    return this._disabledInteractive;
+  }
+  set disabledInteractive(value: boolean) {
+    this._disabledInteractive = value;
+    this._markRadiosForCheck();
+  }
+  private _disabledInteractive = false;
+
+  //constructor(...args: unknown[]);
+
+  //constructor() {}
+
+  ngAfterContentInit() {
     this._isInitialized = true;
-    this._radios.changes.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
-      if (this.selected$() && !this._radios.find((radio) => radio === this.selected$())) {
-        this.selected$.set(null);
+    this._buttonChanges = this._radios.changes.subscribe(() => {
+      if (this.selected && !this._radios.find((radio) => radio === this.selected)) {
+        this._selected = null;
       }
     });
   }
 
-  _touch(): void {
+  ngOnDestroy() {
+    this._buttonChanges?.unsubscribe();
+  }
+
+  _touch() {
     if (this.onTouched) {
       this.onTouched();
     }
   }
 
-  private _checkSelectedRadioButton(): void {
-    if (this.selected$() && !this.selected$()?.checked$()) {
-      this.selected$()!.checked$.set(true);
-    }
-  }
-
-  private _updateRadioButtonNames(name: string): void {
+  private _updateRadioButtonNames(): void {
     if (this._radios) {
       this._radios.forEach((radio) => {
-        radio.name.set(name);
+        radio.name = this.name;
         radio._markForCheck();
       });
     }
   }
 
   private _updateSelectedRadioFromValue(): void {
-    const isAlreadySelected = this.selected$() !== null && this.selected$()!.value() === this.value$();
+    const isAlreadySelected = this._selected !== null && this._selected.value === this._value;
+
     if (this._radios && !isAlreadySelected) {
-      this.selected$.set(null);
+      this._selected = null;
       this._radios.forEach((radio) => {
-        radio.checked$.set(this.value$() === radio.value());
-        if (radio.checked$()) {
-          this.selected$.set(radio);
+        radio.checked = this.value === radio.value;
+        if (radio.checked) {
+          this._selected = radio;
         }
       });
     }
@@ -135,31 +175,31 @@ export class GnroRadioGroupDirective implements AfterContentInit, ControlValueAc
 
   _emitChangeEvent(): void {
     if (this._isInitialized) {
-      this.change.emit(new GnroRadioChange(this.selected$()!, this.value$()));
+      this.change.emit(new GnroRadioChange(this._selected!, this._value));
     }
   }
 
-  _markRadiosForCheck(): void {
+  _markRadiosForCheck() {
     if (this._radios) {
       this._radios.forEach((radio) => radio._markForCheck());
     }
   }
 
-  writeValue(value: any): void {
-    this.value$.set(value);
-    this.changeDetectorRef.markForCheck();
+  writeValue(value: any) {
+    this.value = value;
+    this._changeDetector.markForCheck();
   }
 
   registerOnChange(fn: (value: any) => void) {
     this._controlValueAccessorChangeFn = fn;
   }
 
-  registerOnTouched(fn: any): void {
+  registerOnTouched(fn: any) {
     this.onTouched = fn;
   }
 
-  setDisabledState(isDisabled: boolean): void {
-    this.disabled$.set(isDisabled);
-    this.changeDetectorRef.markForCheck();
+  setDisabledState(isDisabled: boolean) {
+    this.disabled = isDisabled;
+    this._changeDetector.markForCheck();
   }
 }
