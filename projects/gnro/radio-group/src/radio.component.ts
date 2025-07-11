@@ -1,4 +1,4 @@
-import { _IdGenerator, FocusMonitor, FocusOrigin } from '@angular/cdk/a11y';
+import { FocusMonitor, FocusOrigin, _IdGenerator } from '@angular/cdk/a11y';
 import { UniqueSelectionDispatcher } from '@angular/cdk/collections';
 import {
   ANIMATION_MODULE_TYPE,
@@ -15,20 +15,17 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  Renderer2,
   ViewChild,
   afterNextRender,
   booleanAttribute,
+  computed,
   forwardRef,
   inject,
-  numberAttribute,
-  HostAttributeToken,
-  Renderer2,
   input,
-  computed,
-  model,
 } from '@angular/core';
-import { GnroRadioDefaultOptions, GNRO_RADIO_DEFAULT_OPTIONS } from './radio.model';
-import { GnroRadioGroupDirective, GNRO_RADIO_GROUP } from './radio-group.directive';
+import { GNRO_RADIO_GROUP, GnroRadioGroupDirective } from './radio-group.directive';
+import { GNRO_RADIO_DEFAULT_OPTIONS, GnroRadioDefaultOptions } from './radio.model';
 
 export class GnroRadioChange {
   constructor(
@@ -73,11 +70,7 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
   id = input<string>(this._uniqueId);
   inputId = computed(() => `${this.id() || this._uniqueId}-input`);
   name$ = computed(() => this.radioGroup.name()); // name must be same within group
-
-  @Input({
-    transform: (value: unknown) => (value == null ? 0 : numberAttribute(value)),
-  })
-  tabIndex: number = 0;
+  tabIndex = input<number>(0);
 
   @Input({ transform: booleanAttribute })
   get checked(): boolean {
@@ -155,11 +148,6 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
 
   radioGroup: GnroRadioGroupDirective;
 
-  /*
-  get inputId(): string {
-    return `${this.id || this._uniqueId}-input`;
-  }*/
-
   private _checked: boolean = false;
   private _disabled!: boolean;
   private _required!: boolean;
@@ -172,19 +160,12 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
 
   private _injector = inject(Injector);
 
-  //constructor(...args: unknown[]);
-
   constructor() {
     const radioGroup = inject<GnroRadioGroupDirective>(GNRO_RADIO_GROUP, { optional: true })!;
     const animationMode = inject(ANIMATION_MODULE_TYPE, { optional: true });
-    const tabIndex = inject(new HostAttributeToken('tabindex'), { optional: true });
     this.radioGroup = radioGroup;
     this._noopAnimations = animationMode === 'NoopAnimations';
     this._disabledInteractive = this._defaultOptions?.disabledInteractive ?? false;
-
-    if (tabIndex) {
-      this.tabIndex = numberAttribute(tabIndex, 0);
-    }
   }
 
   focus(options?: FocusOptions, origin?: FocusOrigin): void {
@@ -202,11 +183,9 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
   ngOnInit() {
     if (this.radioGroup) {
       this.checked = this.radioGroup.value === this._value;
-
       if (this.checked) {
         this.radioGroup.selected = this;
       }
-      //this.name.set(this.radioGroup.name());
     }
 
     this._removeUniqueSelectionListener = this._radioDispatcher.listen((id, name) => {
@@ -284,9 +263,9 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
     const group = this.radioGroup;
     let value: number;
     if (!group || !group.selected || this.disabled) {
-      value = this.tabIndex;
+      value = this.tabIndex();
     } else {
-      value = group.selected === this ? this.tabIndex : -1;
+      value = group.selected === this ? this.tabIndex() : -1;
     }
 
     if (value !== this._previousTabIndex) {

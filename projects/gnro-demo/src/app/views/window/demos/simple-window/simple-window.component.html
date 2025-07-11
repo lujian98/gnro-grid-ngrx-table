@@ -4,7 +4,7 @@
 <form [formGroup]="myForm">
   <gnro-radio-group [formControlName]="fieldName">
     @for (group of groups; track $index; let index = $index) {
-      <gnro-radio [value]="group.value" [disabled]="group.disabled">
+      <gnro-radio [value]="group.value" [disabled]="group.disabled" [tabIndex]="index">
         {{ group.value }}
       </gnro-radio>
     }
