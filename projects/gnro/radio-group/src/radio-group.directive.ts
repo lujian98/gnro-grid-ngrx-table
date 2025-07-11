@@ -19,7 +19,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { GnroRadioChange, GnroRadioComponent } from './radio.component';
 
-export const GNRO_RADIO_GROUP_CONTROL_VALUE_ACCESSOR: any = {
+export const GNRO_RADIO_GROUP_CONTROL_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => GnroRadioGroupDirective),
   multi: true,
@@ -42,15 +42,15 @@ export const GNRO_RADIO_GROUP = new InjectionToken<GnroRadioGroupDirective>('Gnr
 export class GnroRadioGroupDirective implements AfterContentInit, ControlValueAccessor {
   private changeDetectorRef = inject(ChangeDetectorRef);
   private readonly destroyRef = inject(DestroyRef);
-  private _isInitialized: boolean = false;
-  _controlValueAccessorChangeFn: (value: any) => void = () => {};
-  onTouched: () => any = () => {};
+  private isInitialized: boolean = false;
+  controlValueAccessorChangeFn: (value: unknown) => void = () => {};
+  onTouched: () => unknown = () => {};
 
   name = input<string>(inject(_IdGenerator).getId('gnro-radio-group-'));
   labelPosition = input<'before' | 'after'>('after');
-  value$ = signal<any>(null);
+  value$ = signal<unknown>(null);
   value = input(null, {
-    transform: (value: any) => {
+    transform: (value: unknown) => {
       this.setValue(value);
       return value;
     },
@@ -71,7 +71,7 @@ export class GnroRadioGroupDirective implements AfterContentInit, ControlValueAc
   private radios!: QueryList<GnroRadioComponent>;
 
   ngAfterContentInit(): void {
-    this._isInitialized = true;
+    this.isInitialized = true;
     this.radios.changes.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       if (this.selected$() && !this.radios.find((radio) => radio === this.selected$())) {
         this.setSelected(null, false);
@@ -79,7 +79,7 @@ export class GnroRadioGroupDirective implements AfterContentInit, ControlValueAc
     });
   }
 
-  _touch(): void {
+  touch(): void {
     if (this.onTouched) {
       this.onTouched();
     }
@@ -89,26 +89,26 @@ export class GnroRadioGroupDirective implements AfterContentInit, ControlValueAc
     this.selected$.set(selected);
     if (check) {
       this.setValue(selected ? selected.value$() : null);
-      this._checkSelectedRadioButton();
+      this.checkSelectedRadioButton();
     }
   }
 
-  _emitChangeEvent(): void {
-    if (this._isInitialized) {
+  emitChangeEvent(): void {
+    if (this.isInitialized) {
       this.change.emit(new GnroRadioChange(this.selected$()!, this.value$()));
     }
   }
 
-  writeValue(value: any): void {
+  writeValue(value: unknown): void {
     this.setValue(value);
     this.changeDetectorRef.markForCheck();
   }
 
-  registerOnChange(fn: (value: any) => void): void {
-    this._controlValueAccessorChangeFn = fn;
+  registerOnChange(fn: (value: unknown) => void): void {
+    this.controlValueAccessorChangeFn = fn;
   }
 
-  registerOnTouched(fn: any): void {
+  registerOnTouched(fn: () => unknown): void {
     this.onTouched = fn;
   }
 
@@ -117,13 +117,13 @@ export class GnroRadioGroupDirective implements AfterContentInit, ControlValueAc
     this.changeDetectorRef.markForCheck();
   }
 
-  private setValue(value: any): void {
+  private setValue(value: unknown): void {
     this.value$.set(value);
-    this._updateSelectedRadioFromValue();
-    this._checkSelectedRadioButton();
+    this.updateSelectedRadioFromValue();
+    this.checkSelectedRadioButton();
   }
 
-  private _updateSelectedRadioFromValue(): void {
+  private updateSelectedRadioFromValue(): void {
     const isAlreadySelected = this.selected !== null && this.selected$()?.value === this.value$();
     if (this.radios && !isAlreadySelected) {
       this.setSelected(null, false);
@@ -136,7 +136,7 @@ export class GnroRadioGroupDirective implements AfterContentInit, ControlValueAc
     }
   }
 
-  private _checkSelectedRadioButton() {
+  private checkSelectedRadioButton(): void {
     if (this.selected$() && !this.selected$()!.checked) {
       this.selected$()!.setChecked(true);
     }

@@ -1,5 +1,5 @@
 <label class="gnro-radio-label" [for]="inputId()">
-  <div class="gnro-radio-touch-target" (click)="_onTouchTargetClick($event)"></div>
+  <div class="gnro-radio-touch-target" (click)="onTouchTargetClick($event)"></div>
   <input
     #input
     class="cdk-visually-hidden"
@@ -10,7 +10,7 @@
     [attr.name]="name$()"
     [attr.value]="value$()"
     [required]="required$()"
-    (change)="_onInputInteraction($event)"
+    (change)="onInputInteraction($event)"
   />
   <span class="gnro-radio-outer-circle"></span>
   <span class="gnro-radio-inner-circle"></span>
