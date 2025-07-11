@@ -1,5 +1,5 @@
 <label class="gnro-radio-label" [for]="inputId()">
-  <div class="mat-mdc-radio-touch-target" (click)="_onTouchTargetClick($event)"></div>
+  <div class="gnro-radio-touch-target" (click)="_onTouchTargetClick($event)"></div>
   <input
     #input
     class="cdk-visually-hidden"
@@ -18,29 +18,3 @@
     <ng-content></ng-content>
   </span>
 </label>
-
-<!--
-
-<div class="mdc-radio" [class.mdc-radio--disabled]="disabled">
-  <div class="mat-mdc-radio-touch-target" (click)="_onTouchTargetClick($event)"></div>
-  <input
-    #input
-    class="mdc-radio__native-control"
-    type="radio"
-    [id]="inputId"
-    [checked]="checked"
-    [disabled]="disabled && !disabledInteractive"
-    [attr.name]="name"
-    [attr.value]="value"
-    [required]="required"
-    (change)="_onInputInteraction($event)"
-  />
-  <div class="mdc-radio__background">
-    <div class="mdc-radio__outer-circle"></div>
-    <div class="mdc-radio__inner-circle"></div>
-  </div>
-</div>
-<label class="mdc-label" [for]="inputId">
-  <ng-content></ng-content>
-</label>
--->

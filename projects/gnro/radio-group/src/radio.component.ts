@@ -37,16 +37,14 @@ export class GnroRadioChange {
   templateUrl: 'radio.component.html',
   styleUrls: ['./radio.component.scss'],
   host: {
-    class: 'gnro-mdc-radio-button',
     '[attr.id]': 'id',
-    '[class.mat-mdc-radio-checked]': 'checked$()',
-    '[class.mat-mdc-radio-disabled]': 'disabled$()',
-    '[class.mat-mdc-radio-disabled-interactive]': 'disabledInteractive$()',
+    '[class.gnro-radio-checked]': 'checked$()',
+    '[class.gnro-radio-disabled]': 'disabled$()',
+    '[class.gnro-radio-disabled-interactive]': 'disabledInteractive$()',
     '[attr.tabindex]': 'null',
     '(focus)': 'inputElement.nativeElement.focus()',
   },
-  exportAs: 'gnroRadioButton',
-  //encapsulation: ViewEncapsulation.None,
+  exportAs: 'gnroRadio',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{ provide: GnroRadioGroupDirective, useExisting: forwardRef(() => GnroRadioGroupDirective) }],
 })
@@ -75,7 +73,6 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
       return checked;
     },
   });
-
   value$ = signal<any>(null);
   value = input(null, {
     transform: (value: any) => {
