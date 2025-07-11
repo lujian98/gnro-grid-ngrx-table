@@ -28,7 +28,6 @@ import {
   GnroLabelDirective,
   GnroLabelWidthDirective,
 } from '@gnro/ui/form-field';
-// import { GnroRadioComponent } from '@gnro/ui/radio';
 import { GnroRadioComponent, GnroRadioGroupDirective } from '@gnro/ui/radio-group';
 import { TranslatePipe } from '@ngx-translate/core';
 import { GnroFieldsErrorsComponent } from '../field-errors/field-errors.component';
