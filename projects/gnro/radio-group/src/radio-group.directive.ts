@@ -7,12 +7,14 @@ import {
   EventEmitter,
   InjectionToken,
   Input,
+  input,
   OnDestroy,
   Output,
   QueryList,
   booleanAttribute,
   forwardRef,
   inject,
+  signal,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -41,10 +43,8 @@ export const GNRO_RADIO_GROUP = new InjectionToken<GnroRadioGroupDirective>('Gnr
 export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, ControlValueAccessor {
   private _changeDetector = inject(ChangeDetectorRef);
   private _value: any = null;
-  private _name: string = inject(_IdGenerator).getId('gnro-radio-group-');
   private _selected: GnroRadioComponent | null = null;
   private _isInitialized: boolean = false;
-  private _labelPosition: 'before' | 'after' = 'after';
   private _disabled: boolean = false;
   private _required: boolean = false;
   private _buttonChanges!: Subscription;
@@ -54,22 +54,19 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
   @ContentChildren(forwardRef(() => GnroRadioComponent), { descendants: true })
   _radios!: QueryList<GnroRadioComponent>;
 
-  @Input()
-  get name(): string {
-    return this._name;
-  }
-  set name(value: string) {
-    this._name = value;
-    this._updateRadioButtonNames();
-  }
-  @Input()
-  get labelPosition(): 'before' | 'after' {
-    return this._labelPosition;
-  }
-  set labelPosition(v) {
-    this._labelPosition = v === 'before' ? 'before' : 'after';
-    this._markRadiosForCheck();
-  }
+  name = input(inject(_IdGenerator).getId('gnro-radio-group-'), {
+    transform: (name: string) => {
+      this._updateRadioButtonNames(name);
+      return name;
+    },
+  });
+  labelPosition = input('after', {
+    transform: (labelPosition: 'before' | 'after') => {
+      this._markRadiosForCheck();
+      return labelPosition;
+    },
+  });
+
   @Input()
   get value(): any {
     return this._value;
@@ -77,7 +74,6 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
   set value(newValue: any) {
     if (this._value !== newValue) {
       this._value = newValue;
-
       this._updateSelectedRadioFromValue();
       this._checkSelectedRadioButton();
     }
@@ -150,10 +146,10 @@ export class GnroRadioGroupDirective implements AfterContentInit, OnDestroy, Con
     }
   }
 
-  private _updateRadioButtonNames(): void {
+  private _updateRadioButtonNames(name: string): void {
     if (this._radios) {
       this._radios.forEach((radio) => {
-        radio.name = this.name;
+        radio.name = name;
         radio._markForCheck();
       });
     }
