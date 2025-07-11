@@ -5,7 +5,7 @@
     class="cdk-visually-hidden"
     type="radio"
     [id]="inputId()"
-    [checked]="checked"
+    [checked]="checked$()"
     [disabled]="disabled$() && !disabledInteractive$()"
     [attr.name]="name$()"
     [attr.value]="value"

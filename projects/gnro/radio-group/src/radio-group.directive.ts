@@ -128,8 +128,8 @@ export class GnroRadioGroupDirective implements AfterContentInit, ControlValueAc
     if (this.radios && !isAlreadySelected) {
       this.setSelected(null, false);
       this.radios.forEach((radio) => {
-        radio.checked = this.value$() === radio.value;
-        if (radio.checked) {
+        radio.setChecked(this.value$() === radio.value);
+        if (radio.checked$()) {
           this.setSelected(radio, false);
         }
       });
@@ -138,7 +138,7 @@ export class GnroRadioGroupDirective implements AfterContentInit, ControlValueAc
 
   private _checkSelectedRadioButton() {
     if (this.selected$() && !this.selected$()!.checked) {
-      this.selected$()!.checked = true;
+      this.selected$()!.setChecked(true);
     }
   }
 }
