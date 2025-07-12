@@ -90,7 +90,7 @@ export const gnroGridFeature = createFeature({
           gridSetting: {
             ...state[key].gridSetting,
             viewportReady: true,
-            columnUpdating: true,
+            columnUpdating: true, //TODO not used remove??
           },
           columnsConfig,
           selection: getSelection(gridConfig, selection, state[key].data),

@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { isEqual } from '@gnro/ui/core';
 import {
   defaultSelectFieldConfig,
   GnroOptionType,
@@ -18,7 +17,6 @@ import { GnroFieldFilterComponent } from '../field-filter.component';
 export class GnroSelectFilterComponent extends GnroFieldFilterComponent {
   override fieldConfig!: Partial<GnroSelectFieldConfig>;
   options: GnroOptionType[] = [];
-  private prevFilter: string[] | object[] = [];
 
   override checkField(): void {
     const fieldConfig = {
@@ -55,7 +53,6 @@ export class GnroSelectFilterComponent extends GnroFieldFilterComponent {
       value = [];
     }
     const filter = Array.isArray(value) ? [...value] : [value];
-    this.prevFilter = [...filter];
     this.applyFilter(filter);
   }
 }

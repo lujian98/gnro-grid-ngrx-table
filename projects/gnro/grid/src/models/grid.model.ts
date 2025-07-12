@@ -86,7 +86,7 @@ export interface GnroGridSetting {
   gridId: string;
   isTreeGrid: boolean;
   loading: boolean;
-  columnUpdating: boolean; // prevent filter fetch data when column changes
+  columnUpdating: boolean; // prevent filter fetch data when column changes not sure still needed?
   viewportWidth: number;
   lastUpdateTime?: Date;
   gridEditable: boolean;

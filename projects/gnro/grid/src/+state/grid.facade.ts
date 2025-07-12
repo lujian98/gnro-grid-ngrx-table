@@ -102,9 +102,9 @@ export class GnroGridFacade {
     const gridId = gridSetting.gridId;
     const isTreeGrid = gridSetting.isTreeGrid;
     this.store.dispatch(gridActions.setGridColumnFilters({ gridId, gridConfig, isTreeGrid, columnFilters }));
-    if (!gridSetting.columnUpdating) {
-      this.getGridData(gridId, gridSetting);
-    }
+    //if (!gridSetting.columnUpdating) {
+    this.getGridData(gridId, gridSetting);
+    //}
   }
 
   setGridColumnConfig(gridId: string, columnsConfig: GnroColumnConfig): void {
