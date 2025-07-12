@@ -64,7 +64,7 @@ export class GnroFieldFilterComponent implements AfterViewInit {
     this.filterChanged$
       .pipe(
         skip(1),
-        debounceTime(1500),
+        debounceTime(500),
         //distinctUntilChanged(), //WARNING not need distinct change here
         switchMap((filterValue) => of(filterValue).pipe(takeUntil(this.filterChanged$.pipe(skip(1))))),
         takeUntilDestroyed(this.destroyRef),
