@@ -29,7 +29,6 @@ export class GnroSystemPageConfigComponent {
   columnsConfig = input<object>();
 
   systemPageConfig(): void {
-    console.log('systemPageConfig');
     if (this.pageConfig()) {
       this.systemPageConfigFacade.updateSystemPageConfigConfig(this.keyName(), 'pageConfig', this.pageConfig()!);
     }
