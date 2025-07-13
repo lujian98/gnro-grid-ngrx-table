@@ -22,7 +22,8 @@ export class GnroGridService {
   private readonly backendService = inject(GnroBackendService);
 
   getGridConfig(gridConfig: GnroGridConfig): Observable<GnroGridConfig> {
-    const params = this.backendService.getParams(gridConfig.urlKey, 'gridConfig');
+    let params = this.backendService.getParams(gridConfig.urlKey, 'gridConfig');
+    params = params.append('useDefaultConfig', !gridConfig.saveGridConfig);
     const url = this.backendService.apiUrl;
     return this.http.get<GnroGridConfigResponse>(url, { params }).pipe(
       map((config) => {
@@ -35,7 +36,8 @@ export class GnroGridService {
   }
 
   getGridColumnsConfig(gridConfig: GnroGridConfig): Observable<GnroColumnConfig[]> {
-    const params = this.backendService.getParams(gridConfig.urlKey, 'columnsConfig');
+    let params = this.backendService.getParams(gridConfig.urlKey, 'columnsConfig');
+    params = params.append('useDefaultConfig', !gridConfig.saveColumnsConfig);
     const url = this.backendService.apiUrl;
     return this.http.get<GnroColumnsConfigResponse>(url, { params }).pipe(
       map((res) => {
@@ -71,17 +73,17 @@ export class GnroGridService {
   saveGridConfigs(gridConfig: GnroGridConfig, columnsConfig: GnroColumnConfig[]): Observable<Object> {
     const headers = new HttpHeaders(ACCEPT_JSON_API_HEADER);
     const url = this.backendService.apiUrl;
-    if (gridConfig.remoteGridConfig && gridConfig.remoteColumnsConfig) {
+    if (gridConfig.saveGridConfig && gridConfig.saveColumnsConfig) {
       const gridConfigParams = this.getPageConfigParams(gridConfig.urlKey, 'gridConfig', gridConfig);
       const columnsConfigParams = this.getPageConfigParams(gridConfig.urlKey, 'columnsConfig', columnsConfig);
       return forkJoin([
         this.http.put(url, gridConfigParams, { headers: headers }),
         this.http.put(url, columnsConfigParams, { headers: headers }),
       ]);
-    } else if (gridConfig.remoteGridConfig) {
+    } else if (gridConfig.saveGridConfig) {
       const gridConfigParams = this.getPageConfigParams(gridConfig.urlKey, 'gridConfig', gridConfig);
       return this.http.put(url, gridConfigParams, { headers: headers });
-    } else if (gridConfig.remoteColumnsConfig) {
+    } else if (gridConfig.saveColumnsConfig) {
       const columnsConfigParams = this.getPageConfigParams(gridConfig.urlKey, 'columnsConfig', columnsConfig);
       return this.http.put(url, columnsConfigParams, { headers: headers });
     } else {

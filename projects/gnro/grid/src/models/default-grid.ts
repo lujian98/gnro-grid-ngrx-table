@@ -11,7 +11,9 @@ export const defaultGridConfig: GnroGridConfig = {
   recordKey: 'id', // used for cell edit
   columnHidden: false,
   remoteGridConfig: false,
+  saveGridConfig: false,
   remoteColumnsConfig: false,
+  saveColumnsConfig: false,
   rowSelection: false,
   multiRowSelection: false,
   rowGroup: false,
