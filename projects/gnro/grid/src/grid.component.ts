@@ -159,8 +159,6 @@ export class GnroGridComponent<T> implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log(' config=', this.gridFacade.getGridConfig(this.gridId)());
-    console.log(' columns=', this.gridFacade.getColumnsConfig(this.gridId)());
     this.gridFacade.clearGridDataStore(this.gridId);
     this.tasksService.removeTask(this.gridId);
   }
