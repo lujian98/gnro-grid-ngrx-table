@@ -10,6 +10,7 @@ import {
   output,
   signal,
   ViewChild,
+  effect,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -144,6 +145,14 @@ export class GnroSelectFieldComponent<T, G> implements OnDestroy, ControlValueAc
     },
   });
   valueChange = output<T | T[]>();
+
+  constructor() {
+    effect(() => {
+      if (this.selectOptions$() && this.field && this.value$()) {
+        this.field.setValue(this.value$());
+      }
+    });
+  }
 
   getForm(): FormGroup {
     if (this.fieldSetting$()?.viewportReady && !this.field) {
