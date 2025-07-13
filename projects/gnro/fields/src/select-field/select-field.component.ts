@@ -131,6 +131,7 @@ export class GnroSelectFieldComponent<T, G> implements OnDestroy, ControlValueAc
         this.field.setValue(value);
       }
       this.value$.set(value);
+      this.prevSelected = Array.isArray(value) ? value : [value];
       return value;
     },
   });

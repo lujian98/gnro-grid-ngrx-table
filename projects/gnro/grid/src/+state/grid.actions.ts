@@ -141,4 +141,7 @@ export const setLoadTreeDataLoading = createAction(
 );
 
 export const clearGridDataStore = createAction('[Grid] Clear Grid Data Store', props<{ gridId: string }>());
+
+export const saveGridConfigsSuccess = createAction('[Grid] Save Config Success', props<{ gridId: string }>());
+
 export const removeGridDataStore = createAction('[Grid] Remove Grid Data Store', props<{ gridId: string }>());

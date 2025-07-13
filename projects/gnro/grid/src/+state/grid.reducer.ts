@@ -555,6 +555,7 @@ export const gnroGridFeature = createFeature({
       const key = action.gridId;
       const newState: GridState = { ...state };
       if (state[key]) {
+        console.log(' removeGridDataStore key=', key);
         delete newState[key];
       }
       return { ...newState };
