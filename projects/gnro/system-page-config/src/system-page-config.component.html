@@ -1,0 +1,24 @@
+<gnro-layout>
+  <gnro-layout-header [title]="keyName()">
+    <button gnro-button [ghost]="true" (click)="systemPageConfig()">
+      <gnro-icon icon="window-restore"></gnro-icon>
+      System Page Config
+    </button>
+  </gnro-layout-header>
+
+  <div class="system-page-config-contents">
+    <div>
+      Page Config:
+      <pre>{{ pageConfig() | json }}</pre>
+    </div>
+    <div>
+      Grid Config:
+      <pre>{{ gridConfig() | json }}</pre>
+    </div>
+
+    <div>
+      Columns Config:
+      <pre>{{ columnsConfig() | json }}</pre>
+    </div>
+  </div>
+</gnro-layout>
