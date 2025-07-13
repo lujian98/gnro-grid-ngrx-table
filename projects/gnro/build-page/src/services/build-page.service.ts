@@ -14,7 +14,7 @@ export class GnroBuildPageService {
     const headers = new HttpHeaders(ACCEPT_JSON_API_HEADER);
     const url = this.backendService.apiUrl;
 
-    let params = this.backendService.getParams(keyName, 'buildPage');
+    let params = this.backendService.getParams(keyName, 'SystemPageConfig');
     params = params.append('configType', configType);
     params = params.append('configData', JSON.stringify(configData));
     return this.http.put(url, params, { headers: headers }).pipe(
