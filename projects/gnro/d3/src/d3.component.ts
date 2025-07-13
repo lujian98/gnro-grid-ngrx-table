@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, inject, input } from '@angular/core';
 import { GnroD3StateModule } from './+state/d3-state.module';
+import { uniqueId } from '@gnro/ui/core';
 import { GnroD3Facade } from './+state/d3.facade';
 import { GnroD3ViewComponent } from './components/d3-view.component';
 import { GnroD3ChartConfig } from './models';
@@ -14,7 +15,7 @@ import { GnroD3Config, defaultD3Config } from './models/d3.model';
 })
 export class GnroD3Component<T> implements OnDestroy {
   private readonly d3Facade = inject(GnroD3Facade);
-  private d3Id = `d3-${crypto.randomUUID()}`;
+  private d3Id = `d3-${uniqueId()}`;
   d3Config$ = this.d3Facade.getD3Config(this.d3Id);
   d3Setting$ = this.d3Facade.getSetting(this.d3Id);
   chartConfigs$ = this.d3Facade.getD3ChartConfigs(this.d3Id);

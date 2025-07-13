@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, OnDestroy, OnInit, output } from '@angular/core';
-import { GnroButtonConfg, GnroBUTTONS, GnroButtonType, GnroTasksService } from '@gnro/ui/core';
+import { GnroButtonConfg, GnroBUTTONS, GnroButtonType, GnroTasksService, uniqueId } from '@gnro/ui/core';
 import { GnroFormWindowConfig } from '@gnro/ui/form-window';
 import { GnroIconModule } from '@gnro/ui/icon';
 import { GnroLayoutComponent, GnroLayoutHeaderComponent } from '@gnro/ui/layout';
@@ -35,7 +35,7 @@ export interface GnroButtonClick {
 export class GnroGridComponent<T> implements OnInit, OnDestroy {
   private readonly gridFacade = inject(GnroGridFacade);
   private readonly tasksService = inject(GnroTasksService);
-  private gridId = `grid-${crypto.randomUUID()}`;
+  private gridId = `grid-${uniqueId()}`;
   gridConfig$ = this.gridFacade.getGridConfig(this.gridId);
   gridSetting$ = this.gridFacade.getSetting(this.gridId);
   columnsConfig$ = this.gridFacade.getColumnsConfig(this.gridId);

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, input, OnDestroy } from '@angular/core';
-import { GnroButtonConfg, GnroBUTTONS, GnroButtonType } from '@gnro/ui/core';
+import { GnroButtonConfg, GnroBUTTONS, GnroButtonType, uniqueId } from '@gnro/ui/core';
 import { GnroColumnConfig, GnroGridFacade, GnroGridStateModule } from '@gnro/ui/grid';
 import { GnroIconModule } from '@gnro/ui/icon';
 import { GnroLayoutComponent, GnroLayoutHeaderComponent } from '@gnro/ui/layout';
@@ -27,7 +27,7 @@ import { defaultTreeConfig, defaultTreeSetting, GnroTreeConfig, GnroTreeNode } f
 export class GnroTreeComponent<T> implements OnDestroy {
   private readonly treeFacade = inject(GnroTreeFacade);
   private readonly gridFacade = inject(GnroGridFacade);
-  private treeId = `tree-${crypto.randomUUID()}`;
+  private treeId = `tree-${uniqueId()}`;
   treeConfig$ = this.gridFacade.getGridConfig(this.treeId);
   gridSetting$ = this.gridFacade.getSetting(this.treeId); // Only support gridSetting for now
   columnsConfig$ = this.gridFacade.getColumnsConfig(this.treeId);

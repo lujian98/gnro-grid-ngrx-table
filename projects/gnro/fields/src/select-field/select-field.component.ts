@@ -93,7 +93,7 @@ export class GnroSelectFieldComponent<T, G> implements OnDestroy, ControlValueAc
   onChanged: Function = () => {};
   onTouched: Function = () => {};
   private selectFieldFacade = inject(GnroSelectFieldFacade);
-  private fieldId = `select-${crypto.randomUUID()}`;
+  private fieldId = `select-${uniqueId()}`;
   private firstTimeLoad = true;
   private prevSelected: string[] | object[] = [];
   setSelected: boolean = false;

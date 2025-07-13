@@ -1,6 +1,7 @@
 import { CdkDragDrop, CdkDropList, DragDropModule } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, inject, input, OnDestroy } from '@angular/core';
 import { GnroIconModule } from '@gnro/ui/icon';
+import { uniqueId } from '@gnro/ui/core';
 import { GnroPosition } from '@gnro/ui/overlay';
 import { GnroPortalComponent } from '@gnro/ui/portal';
 import { GnroTabComponent, GnroTabGroupComponent, GnroTabLabelDirective } from '@gnro/ui/tab-group';
@@ -34,7 +35,7 @@ import {
 })
 export class GnroTabsComponent implements OnDestroy {
   private readonly tabsFacade = inject(GnroTabsFacade);
-  private readonly tabsId = `tab-${crypto.randomUUID()}`;
+  private readonly tabsId = `tab-${uniqueId()}`;
   tabsConfig$ = this.tabsFacade.getTabsConfig(this.tabsId);
   tabsSetting$ = this.tabsFacade.getSetting(this.tabsId);
   tabsTabs$ = this.tabsFacade.getTabsTabs(this.tabsId);

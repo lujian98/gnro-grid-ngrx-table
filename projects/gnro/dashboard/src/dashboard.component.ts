@@ -9,7 +9,7 @@ import {
   input,
   OnDestroy,
 } from '@angular/core';
-import { GnroButtonConfg, GnroBUTTONS } from '@gnro/ui/core';
+import { GnroButtonConfg, GnroBUTTONS, uniqueId } from '@gnro/ui/core';
 import { GnroLayoutComponent, GnroLayoutHeaderComponent } from '@gnro/ui/layout';
 import { GnroDashboardStateModule } from './+state/dashboard-state.module';
 import { GnroDashboardFacade } from './+state/dashboard.facade';
@@ -38,7 +38,7 @@ import {
 export class GnroDashboardComponent<T> implements AfterViewInit, OnDestroy {
   private readonly elementRef = inject(ElementRef);
   private readonly dashboardFacade = inject(GnroDashboardFacade);
-  private readonly dashboardId = `dashbard-${crypto.randomUUID()}`;
+  private readonly dashboardId = `dashbard-${uniqueId()}`;
   config$ = this.dashboardFacade.getDashboardConfig(this.dashboardId);
   setting$ = this.dashboardFacade.getSetting(this.dashboardId);
   tiles$ = this.dashboardFacade.getDashboardTiles(this.dashboardId);

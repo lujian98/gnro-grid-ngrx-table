@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, input, OnDestroy, output } from '@angular/core';
 import { GnroFormField } from '@gnro/ui/fields';
 import { GnroLayoutComponent } from '@gnro/ui/layout';
+import { uniqueId } from '@gnro/ui/core';
 import { GnroFormStateModule } from './+state/form-state.module';
 import { GnroFormFacade } from './+state/form.facade';
 import { GnroFormViewComponent } from './components/form-view.component';
@@ -19,7 +20,7 @@ import { GnroFormButtonClick, GnroFormConfig } from './models/form.model';
 })
 export class GnroFormComponent implements OnDestroy {
   private readonly formFacade = inject(GnroFormFacade);
-  private formId = `form-${crypto.randomUUID()}`;
+  private formId = `form-${uniqueId()}`;
   formConfig$ = this.formFacade.getFormConfig(this.formId);
   formSetting$ = this.formFacade.getSetting(this.formId);
   formFieldsConfig$ = this.formFacade.getFormFieldsConfig(this.formId);
