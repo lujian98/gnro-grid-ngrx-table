@@ -70,32 +70,30 @@ export class GnroGridService {
 
   saveGridConfigs(gridConfig: GnroGridConfig, columnsConfig: GnroColumnConfig[]): Observable<Object> {
     const headers = new HttpHeaders(ACCEPT_JSON_API_HEADER);
-    let params = this.backendService.getParams(gridConfig.urlKey, 'pageConfig');
-
     const url = this.backendService.apiUrl;
     if (gridConfig.remoteGridConfig && gridConfig.remoteColumnsConfig) {
-      params = params.append('configType', 'gridConfig');
-      params = params.append('configData', JSON.stringify(gridConfig));
-
-      let params2 = this.backendService.getParams(gridConfig.urlKey, 'pageConfig');
-      params2 = params2.append('configType', 'columnsConfig');
-      params2 = params2.append('configData', JSON.stringify(columnsConfig));
-
+      const gridConfigParams = this.getPageConfigParams(gridConfig.urlKey, 'gridConfig', gridConfig);
+      const columnsConfigParams = this.getPageConfigParams(gridConfig.urlKey, 'columnsConfig', columnsConfig);
       return forkJoin([
-        this.http.put(url, params, { headers: headers }),
-        this.http.put(url, params2, { headers: headers }),
+        this.http.put(url, gridConfigParams, { headers: headers }),
+        this.http.put(url, columnsConfigParams, { headers: headers }),
       ]);
     } else if (gridConfig.remoteGridConfig) {
-      params = params.append('configType', 'gridConfig');
-      params = params.append('configData', JSON.stringify(gridConfig));
-      return this.http.put(url, params, { headers: headers });
+      const gridConfigParams = this.getPageConfigParams(gridConfig.urlKey, 'gridConfig', gridConfig);
+      return this.http.put(url, gridConfigParams, { headers: headers });
     } else if (gridConfig.remoteColumnsConfig) {
-      params = params.append('configType', 'columnsConfig');
-      params = params.append('configData', JSON.stringify(columnsConfig));
-      return this.http.put(url, params, { headers: headers });
+      const columnsConfigParams = this.getPageConfigParams(gridConfig.urlKey, 'columnsConfig', columnsConfig);
+      return this.http.put(url, columnsConfigParams, { headers: headers });
     } else {
       return of(gridConfig);
     }
+  }
+
+  private getPageConfigParams(urlKey: string, configType: string, configData: object): HttpParams {
+    let params = this.backendService.getParams(urlKey, 'updatePageConfig');
+    params = params.append('configType', configType);
+    params = params.append('configData', JSON.stringify(configData));
+    return params;
   }
 
   getGridData<T>(gridConfig: GnroGridConfig, columns: GnroColumnConfig[]): Observable<GnroGridData<object>> {

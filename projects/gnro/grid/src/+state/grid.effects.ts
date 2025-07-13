@@ -154,12 +154,9 @@ export class GnroGridEffects {
         const gridId = action.gridId;
         const gridConfig = this.gridFacade.getGridConfig(gridId)();
         const columnsConfig = this.gridFacade.getColumnsConfig(gridId)();
-        return this.gridService.saveGridConfigs(gridConfig, columnsConfig).pipe(
-          map(() => {
-            console.log(' saveGridConfigs');
-            return gridActions.getGridData({ gridId: action.gridId });
-          }),
-        );
+        return this.gridService
+          .saveGridConfigs(gridConfig, columnsConfig)
+          .pipe(map(() => gridActions.getGridData({ gridId: action.gridId })));
       }),
       delay(250), // wait 250 after destory the component to clear data store
       mergeMap(({ gridId }) => of(gridId).pipe(map((gridId) => gridActions.removeGridDataStore({ gridId })))),
