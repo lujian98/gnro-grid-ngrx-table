@@ -5,6 +5,7 @@ export interface GnroMenuConfig {
   name: string;
   title?: string;
   selected?: boolean;
+  height?: number;
   hidden?: boolean;
   disabled?: boolean;
   icon?: string | GnroIconConfig;

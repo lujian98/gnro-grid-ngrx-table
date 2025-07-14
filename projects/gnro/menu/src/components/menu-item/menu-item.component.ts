@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostListener, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, HostListener, input, output } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { defaultCheckboxFieldConfig, GnroCheckboxFieldComponent, GnroCheckboxFieldConfig } from '@gnro/ui/fields';
@@ -15,6 +15,7 @@ import { GnroMenuConfig } from '../../models/menu-item.model';
     '[class.menu-item-separator]': 'menuItem().separator',
     '[class.selected]': 'menuItem().selected',
     '[class.disabled]': 'disabled()',
+    '[style.height]': 'height()',
   },
   imports: [RouterModule, FormsModule, ReactiveFormsModule, GnroCheckboxFieldComponent, TranslatePipe, GnroIconModule],
 })
@@ -34,6 +35,7 @@ export class GnroMenuItemComponent {
     },
   });
   disabled = input<boolean>(false);
+  height = computed(() => (this.menuItem().height ? `${this.menuItem().height}px` : `28px`));
   gnroMenuItemClick = output<GnroMenuConfig>();
 
   get separator() {
