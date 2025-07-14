@@ -14,7 +14,6 @@
   &:focus {
     text-decoration: none;
     font-weight: bold;
-    //border: 1px solid orangered;
   }
 
   &[disabled] {
@@ -22,7 +21,6 @@
     opacity: 0.5;
   }
 
-  //padding: 0 10px;
   border: 1px solid transparent;
 
   &.status-default {

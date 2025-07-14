@@ -60,7 +60,7 @@ export class GnroGridHeaderComponent<T> {
   }
 
   get columnResizeHeight(): number {
-    return 32 + (this.gridConfig().columnFilter ? 28 : 0);
+    return 32 + (this.gridConfig().columnFilter ? 28 : 0); // TODO
   }
 
   trackByIndex(index: number): number {

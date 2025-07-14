@@ -11,6 +11,7 @@ export type GnroButtonStatus = 'default' | 'primary' | 'danger';
     '[class.status-primary]': 'status() === "primary"',
     '[class.status-danger]': 'status() === "danger"',
     '[class.appearance-ghost]': 'appearance() === "ghost"',
+    '[style.height]': 'height() + "px"',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -23,4 +24,5 @@ export class GnroButtonComponent {
     },
   });
   appearance = signal<string>('');
+  height = input<number>(28);
 }
