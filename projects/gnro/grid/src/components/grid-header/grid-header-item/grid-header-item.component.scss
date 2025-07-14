@@ -6,4 +6,22 @@
   align-items: center;
   justify-content: flex-start;
   position: relative;
+
+  ::ng-deep gnro-text-filter gnro-text-field,
+  ::ng-deep gnro-number-filter gnro-text-field,
+  ::ng-deep gnro-select-filter gnro-select-field,
+  ::ng-deep gnro-date-range-filter gnro-date-range-field {
+    width: 100%;
+    ::ng-deep {
+      .gnro-form-field {
+        padding-bottom: 0px;
+      }
+      .gnro-form-field-container {
+        border-bottom: none;
+      }
+      input {
+        width: 100%;
+      }
+    }
+  }
 }
