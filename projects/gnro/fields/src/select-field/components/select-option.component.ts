@@ -158,10 +158,25 @@ export class GnroSelectOptionComponent<T, G> {
         const val = values[0] as string | number;
         const idx = this.selectOptions().findIndex((option) => option === val);
         this.viewport.scrollToIndex(idx);
+        this.checkScrollOffset(idx);
       } else {
         const index = this.selectOptions().findIndex((option) => isEqual(option, values[0] as { [key: string]: T }));
         this.viewport.scrollToIndex(index);
+        this.checkScrollOffset(index);
       }
+    }
+  }
+
+  //fix firefox scroll issue
+  private checkScrollOffset(index: number): void {
+    const scrollOffset = this.viewport.measureScrollOffset();
+    if (scrollOffset < index * 28) {
+      timer(10)
+        .pipe(take(1))
+        .subscribe(() => {
+          this.viewport.scrollToIndex(index);
+          this.checkScrollOffset(index);
+        });
     }
   }
 
