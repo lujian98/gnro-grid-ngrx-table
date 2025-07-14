@@ -35,7 +35,7 @@ export class GnroFormFieldComponent implements AfterViewInit {
   private readonly changeDetectorRef = inject(ChangeDetectorRef);
   private readonly destroyRef = inject(DestroyRef);
   private _fieldIndicator: string = '';
-  height = '24px';
+  height = '28px';
   public readonly elementRef = inject(ElementRef); // autocomplete.directive need this public
   focused: boolean = false;
   fieldWidth: string = '100%';
