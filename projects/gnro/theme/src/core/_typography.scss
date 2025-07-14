@@ -54,3 +54,19 @@ legend {
 mark {
   background-color: #e1e61e;
 }
+
+//fix fireforx a href style
+a:link {
+  color: unset;
+  text-decoration: none;
+}
+a:visited {
+  color: unset;
+}
+a:hover {
+  color: unset;
+  text-decoration: unset;
+}
+a:active {
+  color: unset;
+}
