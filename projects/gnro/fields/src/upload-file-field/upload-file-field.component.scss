@@ -2,7 +2,7 @@
   width: 100%;
 
   .upload-file-input {
-    line-height: 1.75rem;
+    line-height: 1.75rem; //TODO common height for all form field??
     width: 100%;
     &::file-selector-button {
       display: none;
