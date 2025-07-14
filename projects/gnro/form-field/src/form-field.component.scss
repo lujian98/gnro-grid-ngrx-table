@@ -1,6 +1,6 @@
 :host {
   .gnro-form-field {
-    line-height: 1.75rem; // TODO form field height variable
+    //line-height: 1.75rem; // TODO form field height variable
     position: relative;
 
     ::ng-deep input {
@@ -61,7 +61,7 @@
   }
 
   .gnro-form-field-label {
-    line-height: 1.75rem; // TODO form field height variable
+    //line-height: 1.75rem; // TODO form field height variable
     font-size: 0.6875rem;
     font-weight: 500;
     white-space: nowrap;
@@ -74,7 +74,7 @@
   .gnro-form-field-suffix {
     display: flex;
     align-items: center;
-    height: 1.75rem; // TODO form field height variable
+    //height: 1.75rem; // TODO form field height variable
     font-size: 0.6875rem;
 
     ::ng-deep gnro-icon {
@@ -97,7 +97,7 @@
   .gnro-form-field-error {
     display: flex;
     flex-direction: column;
-    line-height: 1rem;
+    //line-height: 1rem;
     justify-content: flex-start;
 
     ::ng-deep {
