@@ -8,6 +8,7 @@ import { ChangeDetectionStrategy, Component, ElementRef, inject, input, output }
   host: {
     role: 'option',
     '[class.selected]': 'selected',
+    '[style.height]': 'height() + "px"',
   },
 })
 export class GnroOptionComponent<T> {
@@ -15,6 +16,7 @@ export class GnroOptionComponent<T> {
   selected: boolean = false;
 
   value = input<T>();
+  height = input.required<number>();
   change = output<GnroOptionComponent<T>>();
 
   get content() {

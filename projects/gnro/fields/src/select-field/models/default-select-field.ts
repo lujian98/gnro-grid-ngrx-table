@@ -17,6 +17,7 @@ export const defaultSelectFieldConfig: GnroSelectFieldConfig = {
   notEmpty: false,
   optionLabel: 'title',
   optionKey: 'name',
+  optionHeight: 28,
   ...defaultBaseField,
 };
 

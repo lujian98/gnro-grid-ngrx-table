@@ -15,6 +15,7 @@ export interface GnroSelectFieldConfig extends GnroBaseField {
   notEmpty: boolean;
   optionLabel: string;
   optionKey: string;
+  optionHeight: number; //px
   options?: GnroOptionType[]; // only used for local initial input
   displayWith?: (value: string | object | object[]) => string;
 }

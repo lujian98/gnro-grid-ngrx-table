@@ -1,24 +1,34 @@
 @if (hasHeader(fieldConfig())) {
   <div class="gnro-select-field-sticky-header">
     @if (fieldConfig().multiSelection && fieldConfig().checkAll) {
-      <gnro-option (click)="checkAll(selectOptions())">
+      <gnro-option [height]="fieldConfig().optionHeight" (click)="checkAll(selectOptions())">
         <gnro-checkbox [checked]="isAllChecked">{{ "GNRO.UI.ACTIONS.CHECK_ALL" | translate }}</gnro-checkbox>
       </gnro-option>
     }
     @if (fieldConfig().multiSelection && fieldConfig().uncheckAll) {
-      <gnro-option (click)="checkAll([])">
+      <gnro-option [height]="fieldConfig().optionHeight" (click)="checkAll([])">
         <gnro-checkbox [checked]="!hasValue">{{ "GNRO.UI.ACTIONS.UNCHECK_ALL" | translate }}</gnro-checkbox>
       </gnro-option>
     }
     @if (fieldConfig().isEmpty) {
-      <gnro-option #refIsEmpty [value]="isEmptyValue" (click)="headerOptionClick(refIsEmpty)">
+      <gnro-option
+        #refIsEmpty
+        [value]="isEmptyValue"
+        [height]="fieldConfig().optionHeight"
+        (click)="headerOptionClick(refIsEmpty)"
+      >
         <gnro-checkbox [checked]="refIsEmpty.selected">
           {{ "GNRO.UI.ACTIONS.IS_EMPTY" | translate }}
         </gnro-checkbox>
       </gnro-option>
     }
     @if (fieldConfig().notEmpty) {
-      <gnro-option #refIsNotEmpty [value]="notEmptyValue" (click)="headerOptionClick(refIsNotEmpty)">
+      <gnro-option
+        #refIsNotEmpty
+        [value]="notEmptyValue"
+        [height]="fieldConfig().optionHeight"
+        (click)="headerOptionClick(refIsNotEmpty)"
+      >
         <gnro-checkbox [checked]="refIsNotEmpty.selected">
           {{ "GNRO.UI.ACTIONS.NOT_EMPTY" | translate }}
         </gnro-checkbox>
@@ -32,13 +42,14 @@
 ) {
   <cdk-virtual-scroll-viewport
     class="gnro-select-virtual-scroll"
-    [itemSize]="28"
+    [itemSize]="fieldConfig().optionHeight"
     (scrolledIndexChange)="onScrolledIndexChange($event)"
   >
     <gnro-option
       class="gnro-select-field-option"
       *cdkVirtualFor="let option of result"
       [value]="option"
+      [height]="fieldConfig().optionHeight"
       #ref
       (click)="clickOption(ref)"
     >
@@ -53,7 +64,9 @@
       }
     </gnro-option>
     @if (!result.length) {
-      <gnro-option class="no-result">{{ "GNRO.UI.LIST.NO_RESULT" | translate }}</gnro-option>
+      <gnro-option class="no-result" [height]="fieldConfig().optionHeight">{{
+        "GNRO.UI.LIST.NO_RESULT" | translate
+      }}</gnro-option>
     }
   </cdk-virtual-scroll-viewport>
 }

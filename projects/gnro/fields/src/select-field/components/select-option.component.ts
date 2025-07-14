@@ -170,7 +170,7 @@ export class GnroSelectOptionComponent<T, G> {
   //fix firefox scroll issue
   private checkScrollOffset(index: number): void {
     const scrollOffset = this.viewport.measureScrollOffset();
-    if (scrollOffset < index * 28) {
+    if (scrollOffset < index * this.fieldConfig().optionHeight) {
       timer(10)
         .pipe(take(1))
         .subscribe(() => {
