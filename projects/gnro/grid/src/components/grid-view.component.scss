@@ -2,12 +2,13 @@
   display: flex;
   position: relative;
   flex-direction: column;
-  height: -webkit-fill-available;
+  height: 100%;
+  //height: -webkit-fill-available;
 
   cdk-virtual-scroll-viewport {
     display: flex;
     flex: 1;
-    min-height: 100px;
+    min-height: 50px;
 
     ::ng-deep .cdk-virtual-scroll-content-wrapper {
       contain: unset;

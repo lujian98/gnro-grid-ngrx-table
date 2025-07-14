@@ -11,14 +11,16 @@
       position: relative;
       z-index: 1;
       min-width: 20px;
-      height: -webkit-fill-available;
+      height: 100%;
+      //height: -webkit-fill-available;
     }
 
     gnro-layout-center {
       display: flex;
       flex: 1 1 auto;
       min-width: 50px;
-      height: -webkit-fill-available;
+      height: 100%;
+      //height: -webkit-fill-available;
     }
 
     gnro-layout-right {
@@ -27,7 +29,8 @@
       position: relative;
       z-index: 1;
       min-width: 20px;
-      height: -webkit-fill-available;
+      height: 100%;
+      //height: -webkit-fill-available;
     }
   }
 }

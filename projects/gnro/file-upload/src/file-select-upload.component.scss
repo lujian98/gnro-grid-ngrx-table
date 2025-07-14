@@ -1,6 +1,7 @@
 :host {
   display: flex;
-  height: -webkit-fill-available;
+  height: 100%;
+  //height: -webkit-fill-available;
 
   .gnro-file-select-files {
     padding: 10px 0px;

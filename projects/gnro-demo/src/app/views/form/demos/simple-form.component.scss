@@ -4,29 +4,9 @@
   flex-direction: row;
   div {
     width: 100%;
-    height: -webkit-fill-available;
+    height: 100%;
     display: flex;
     flex-direction: column;
     padding: 20px;
   }
 }
-
-/*
-:host {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-
-  div {
-    width: 100%;
-    height: -webkit-fill-available;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-
-    gnro-form {
-      padding-bottom: 15px;
-    }
-  }
-}
-  */
