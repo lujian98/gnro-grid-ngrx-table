@@ -204,7 +204,11 @@ export class GnroSelectFieldComponent<T, G> implements OnDestroy, ControlValueAc
   onSelectOptionValueChange(value: T | T[]): void {
     this.field.setValue(value);
     const val = value as string | object | string[] | object[];
-    this.valueChangeEmit(val);
+    if (this.fieldConfig$().multiSelection) {
+      this.valueChange.emit(value);
+    } else {
+      this.valueChangeEmit(val);
+    }
     this.value$.set(val);
   }
 
@@ -284,7 +288,7 @@ export class GnroSelectFieldComponent<T, G> implements OnDestroy, ControlValueAc
     let newValue = value ? value : [];
     newValue = Array.isArray(newValue) ? [...newValue] : [value];
     if (!isEqual(newValue, this.prevSelected) && Array.isArray(newValue)) {
-      this.prevSelected = [...newValue];
+      this.prevSelected = [...(newValue as [])];
       this.valueChange.emit(value as T | T[]);
     }
   }
