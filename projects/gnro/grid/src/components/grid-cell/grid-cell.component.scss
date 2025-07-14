@@ -7,4 +7,27 @@
     position: sticky;
     z-index: 101;
   }
+
+  ::ng-deep gnro-cell-edit-text gnro-text-field,
+  ::ng-deep gnro-cell-edit-number gnro-number-field,
+  ::ng-deep gnro-cell-edit-select gnro-select-field,
+  ::ng-deep gnro-cell-edit-date gnro-date-field {
+    width: 100%;
+    ::ng-deep {
+      .gnro-form-field {
+        padding: 0px;
+        line-height: 20px !important;
+      }
+      .gnro-form-field-suffix {
+        height: 20px !important;
+      }
+      .gnro-form-field-container {
+        border-bottom: none;
+        padding-right: 0px;
+      }
+      input {
+        width: 100%;
+      }
+    }
+  }
 }
