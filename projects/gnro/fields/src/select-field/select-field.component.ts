@@ -148,7 +148,8 @@ export class GnroSelectFieldComponent<T, G> implements OnDestroy, ControlValueAc
 
   constructor() {
     effect(() => {
-      if (this.selectOptions$() && this.field && this.value$() && !this.field.getRawValue()) {
+      //if remote option is loaded after set field need set value again
+      if (this.selectOptions$() && isEqual(this.field?.getRawValue(), this.value$())) {
         this.field.setValue(this.value$());
       }
     });
@@ -164,6 +165,7 @@ export class GnroSelectFieldComponent<T, G> implements OnDestroy, ControlValueAc
 
   private setFormvalue(): void {
     this.field?.setValue(this.value());
+    this.changeDetectorRef.markForCheck();
   }
 
   get field(): FormControl {
