@@ -148,7 +148,7 @@ export class GnroSelectFieldComponent<T, G> implements OnDestroy, ControlValueAc
 
   constructor() {
     effect(() => {
-      if (this.selectOptions$() && this.field && this.value$()) {
+      if (this.selectOptions$() && this.field && this.value$() && !this.field.getRawValue()) {
         this.field.setValue(this.value$());
       }
     });
