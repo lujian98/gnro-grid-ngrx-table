@@ -35,10 +35,10 @@ export class AppSimpleSelectComponent {
   singleListState2 = 'Louisiana';
 
   singleObjectState = [STATES[32]];
-  multiObjectStates = [STATES[2], STATES[32], STATES[36]];
+  multiObjectStates = [STATES[32], STATES[33], STATES[36]];
   multiObjectStates2 = [STATES[8], STATES[32], STATES[36]];
 
-  multiObjectStates3 = [STATES[8], STATES[32], STATES[36]];
+  multiObjectStates3 = [STATES[31], STATES[32], STATES[36]];
   multiObjectStates4 = [STATES[8], STATES[32], STATES[36]];
 
   multiObjectStates5 = [STATES[8], STATES[32], STATES[36]];
@@ -46,7 +46,7 @@ export class AppSimpleSelectComponent {
 
   singleListState = 'Louisiana';
   multiListStates7 = ['Louisiana', 'Nevada'];
-  multiListStates8 = ['Louisiana', 'Nevada'];
+  multiListStates8 = ['New York', 'Ohio'];
   multiListStates9 = ['Louisiana', 'Nevada'];
   multiListStates10 = ['Louisiana', 'Nevada'];
   multiListStates11 = ['Louisiana', 'Nevada'];
