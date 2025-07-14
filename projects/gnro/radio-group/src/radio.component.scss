@@ -3,10 +3,7 @@
   padding-left: 5px;
 
   label {
-    display: inline-flex;
-    flex-direction: column;
     position: relative;
-    padding: 0.28125rem 0;
     cursor: pointer;
   }
 
@@ -25,9 +22,11 @@
     top: 50%;
     left: 0;
     transform: translateY(-50%);
+    transform: translateY(-5px);
   }
 
   .gnro-radio-inner-circle {
-    transform: translateY(-50%) scale(0.5);
+    transform: translateY(-50%);
+    transform: translateY(-5px) scale(0.5);
   }
 }

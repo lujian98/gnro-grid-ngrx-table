@@ -1,6 +1,10 @@
 @use "../../theme/src/gnro";
 
 @mixin gnro-radio-theme() {
+  gnro-radio-group {
+    display: flex;
+  }
+
   gnro-radio {
     .gnro-radio-outer-circle,
     .gnro-radio-inner-circle {
