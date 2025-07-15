@@ -29,9 +29,12 @@ export class AppMessageComponent {
             showCancelButton: true,
             message: 'This is message to exit',
             position: GnroPositionType.TOP_MIDDLE,
+            autoClose: true,
+            duration: 8000,
           },
         },
-        closeOnBackdropClick: true,
+        hasBackdrop: false,
+        closeOnBackdropClick: false,
       })
       .onClose.subscribe((res) => {
         console.log(' on close res=', res);
@@ -58,6 +61,12 @@ export class AppMessageComponent {
         console.log(' on close res=', res);
       });
   }
+
+  /*
+    hasBackdrop = true;
+  backdropClass = 'cdk-overlay-dark-backdrop';
+  closeOnBackdropClick = true;
+  */
 
   openMessageWindow(event: MouseEvent): void {
     this.dialogService

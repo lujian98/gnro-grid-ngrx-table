@@ -3,6 +3,7 @@ import { GnroButtonComponent } from '@gnro/ui/button';
 import { GnroLayoutComponent, GnroLayoutFooterComponent, GnroLayoutHorizontalComponent } from '@gnro/ui/layout';
 import { GnroDialogRef } from '@gnro/ui/overlay';
 import { TranslatePipe } from '@ngx-translate/core';
+import { take, timer } from 'rxjs';
 import { defaultMessageConfig, GnroMessageConfig } from '../../models/message.model';
 import { GnroWindowComponent } from '../../window.component';
 
@@ -28,6 +29,9 @@ export class GnroMessageComponent {
   set messageConfig(val: GnroMessageConfig) {
     this._messageConfig = { ...defaultMessageConfig, ...val };
     this.changeDetectorRef.markForCheck();
+    if (this.messageConfig.autoClose) {
+      this.autoCloseWindow();
+    }
   }
   get messageConfig(): GnroMessageConfig {
     return this._messageConfig;
@@ -43,5 +47,13 @@ export class GnroMessageComponent {
 
   close(): void {
     this.dialogRef.close();
+  }
+
+  private autoCloseWindow(): void {
+    timer(this.messageConfig.duration)
+      .pipe(take(1))
+      .subscribe(() => {
+        this.dialogRef.close(false);
+      });
   }
 }

@@ -9,6 +9,8 @@ export interface GnroMessageConfig extends GnroWindowConfig {
   showCloseButton: boolean;
   close: string;
   message: string;
+  autoClose: boolean;
+  duration: number;
 }
 
 export const defaultMessageConfig: GnroMessageConfig = {
@@ -22,5 +24,7 @@ export const defaultMessageConfig: GnroMessageConfig = {
   showCloseButton: false,
   close: 'GNRO.UI.ACTIONS.CLOSE',
   message: '',
+  autoClose: false,
+  duration: 3000,
   width: '400px',
 };
