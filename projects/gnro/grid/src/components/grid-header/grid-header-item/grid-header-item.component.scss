@@ -12,7 +12,7 @@
   ::ng-deep gnro-select-filter gnro-select-field,
   ::ng-deep gnro-date-range-filter gnro-date-range-field {
     width: 100%;
-    ::ng-deep {
+    ::ng-deep gnro-form-field {
       .gnro-form-field {
         padding-bottom: 0px;
       }

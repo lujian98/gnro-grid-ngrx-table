@@ -13,7 +13,7 @@
   ::ng-deep gnro-cell-edit-select gnro-select-field,
   ::ng-deep gnro-cell-edit-date gnro-date-field {
     width: 100%;
-    ::ng-deep {
+    ::ng-deep gnro-form-field {
       .gnro-form-field {
         padding: 0px;
       }
