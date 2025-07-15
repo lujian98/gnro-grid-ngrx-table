@@ -19,6 +19,7 @@ export class GnroNumberFilterComponent extends GnroFieldFilterComponent implemen
   override checkField(): void {
     const filterI18n = this.translateService.instant('GNRO.UI.GRID.FILTER');
     this.fieldConfig = {
+      ...this.baseFieldConfig,
       fieldName: this.column.name,
       clearValue: true,
       placeholder: `${filterI18n} > < <= >= = null !null`,

@@ -21,6 +21,7 @@ export class GnroSelectFilterComponent extends GnroFieldFilterComponent {
   override checkField(): void {
     const fieldConfig = {
       ...defaultSelectFieldConfig,
+      ...this.baseFieldConfig,
       fieldName: this.column.name,
       clearValue: true,
       urlKey: this.gridConfig.urlKey,

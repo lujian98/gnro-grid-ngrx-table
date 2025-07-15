@@ -28,6 +28,7 @@ export class GnroFieldFilterComponent implements AfterViewInit {
   private _gridSetting!: GnroGridSetting;
   column!: GnroColumnConfig;
   fieldConfig!: Partial<GnroFormField>;
+  baseFieldConfig: Partial<GnroFormField> = { lineHeight: 28 };
 
   set gridSetting(gridSetting: GnroGridSetting) {
     this._gridSetting = gridSetting;

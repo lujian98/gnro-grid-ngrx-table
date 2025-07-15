@@ -14,6 +14,7 @@ export class GnroTextFilterComponent extends GnroFieldFilterComponent {
 
   override checkField(): void {
     this.fieldConfig = {
+      ...this.baseFieldConfig,
       fieldName: this.column.name,
       clearValue: true,
       placeholder: `GNRO.UI.GRID.FILTER`,

@@ -21,7 +21,7 @@ export interface GnroBaseField {
 }
 
 export const defaultBaseField: Partial<GnroBaseField> = {
-  lineHeight: 28,
+  lineHeight: 25,
   placeholder: '',
   clearValue: false,
   editable: true,

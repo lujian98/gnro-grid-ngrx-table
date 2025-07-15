@@ -21,6 +21,7 @@ export class GnroDateRangeFilterComponent extends GnroFieldFilterComponent {
     const today = new Date();
     this.fieldConfig = {
       ...defaultDateRangeFieldConfig,
+      ...this.baseFieldConfig,
       fieldName: this.column.name,
       clearValue: true,
       placeholder: `GNRO.UI.GRID.FILTER`,
