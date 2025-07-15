@@ -5,12 +5,12 @@ import {
   Component,
   ContentChild,
   DestroyRef,
-  computed,
   ElementRef,
   inject,
   input,
   Optional,
   ViewChild,
+  computed,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, Validators } from '@angular/forms';
@@ -36,13 +36,14 @@ export class GnroFormFieldComponent implements AfterViewInit {
   private readonly changeDetectorRef = inject(ChangeDetectorRef);
   private readonly destroyRef = inject(DestroyRef);
   private _fieldIndicator: string = '';
+  //height = '24px';
+  lineheight$ = computed(() => (this.gnroLineHeight() ? `${this.gnroLineHeight()}px` : '28px'));
+  gnroLineHeight = input<number | undefined>(25);
   public readonly elementRef = inject(ElementRef); // autocomplete.directive need this public
   focused: boolean = false;
   fieldWidth: string = '100%';
   invalid: boolean = false;
   showFieldEditIndicator = input<boolean>(false);
-  gnroLineHeight = input<number | undefined>(25);
-  lineheight$ = computed(() => (this.gnroLineHeight() ? `${this.gnroLineHeight()}px` : '28px'));
   field = input(undefined, {
     alias: 'gnroFormFieldControl',
     transform: (field: FormControl) => {
