@@ -5,6 +5,7 @@
     [gnroLabelWidth]="fieldConfig().labelWidth"
     [gnroFieldWidth]="fieldConfig().fieldWidth"
     [gnroFormFieldControl]="field"
+    [gnroLineHeight]="fieldConfig().lineHeight"
     [showFieldEditIndicator]="showFieldEditIndicator()"
     [editable]="editable$()"
   >
@@ -23,7 +24,14 @@
       [required]="required"
       readonly
     />
-    <button gnroSuffix gnro-button [ghost]="true" [disabled]="field.disabled" (click)="openCalendar()">
+    <button
+      gnroSuffix
+      gnro-button
+      [style.height]="'unset'"
+      [ghost]="true"
+      [disabled]="field.disabled"
+      (click)="openCalendar()"
+    >
       <gnro-icon icon="calendar"></gnro-icon>
     </button>
     @if (fieldConfig().clearValue && hasValue) {

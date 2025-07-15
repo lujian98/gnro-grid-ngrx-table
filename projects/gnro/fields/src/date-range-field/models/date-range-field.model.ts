@@ -1,5 +1,6 @@
 import { GnroObjectType } from '@gnro/ui/core';
 import { GnroDateFieldConfig } from '../../date-field/models/date-field.model';
+import { defaultBaseField } from '../../models/base-field.model';
 
 export interface GnroDateRange {
   fromDate?: Date | null;
@@ -14,6 +15,7 @@ export interface GnroDateRangeFieldConfig extends GnroDateFieldConfig {
 }
 
 export const defaultDateRangeFieldConfig: GnroDateRangeFieldConfig = {
+  ...defaultBaseField,
   fieldType: GnroObjectType.DateRange,
   fieldName: 'daterangefield',
   placeholder: 'GNRO.UI.DATE.PICKER.SELECT_DATE_RANGE',

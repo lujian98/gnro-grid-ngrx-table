@@ -1,5 +1,5 @@
 import { GnroObjectType } from '@gnro/ui/core';
-import { GnroBaseField } from '../../models/base-field.model';
+import { GnroBaseField, defaultBaseField } from '../../models/base-field.model';
 
 export interface GnroDateFieldConfig extends GnroBaseField {
   selectedLabel?: string;
@@ -10,6 +10,7 @@ export interface GnroDateFieldConfig extends GnroBaseField {
 }
 
 export const defaultDateFieldConfig: GnroDateFieldConfig = {
+  ...defaultBaseField,
   fieldType: GnroObjectType.Date,
   fieldName: 'datefield',
   placeholder: 'GNRO.UI.DATE.PICKER.SELECT_DATE',

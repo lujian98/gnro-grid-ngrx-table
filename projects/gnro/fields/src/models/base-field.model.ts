@@ -3,6 +3,7 @@ import { ValidatorFn } from '@angular/forms';
 export interface GnroBaseField {
   fieldType: string;
   fieldName: string;
+  lineHeight?: number;
   fieldLabel?: string;
   placeholder?: string;
   clearValue?: boolean;
@@ -20,6 +21,7 @@ export interface GnroBaseField {
 }
 
 export const defaultBaseField: Partial<GnroBaseField> = {
+  lineHeight: 28,
   placeholder: '',
   clearValue: false,
   editable: true,

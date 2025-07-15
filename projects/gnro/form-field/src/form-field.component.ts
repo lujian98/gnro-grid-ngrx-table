@@ -5,6 +5,7 @@ import {
   Component,
   ContentChild,
   DestroyRef,
+  computed,
   ElementRef,
   inject,
   input,
@@ -35,12 +36,13 @@ export class GnroFormFieldComponent implements AfterViewInit {
   private readonly changeDetectorRef = inject(ChangeDetectorRef);
   private readonly destroyRef = inject(DestroyRef);
   private _fieldIndicator: string = '';
-  height = '28px';
   public readonly elementRef = inject(ElementRef); // autocomplete.directive need this public
   focused: boolean = false;
   fieldWidth: string = '100%';
   invalid: boolean = false;
   showFieldEditIndicator = input<boolean>(false);
+  gnroLineHeight = input<number | undefined>(25);
+  lineheight$ = computed(() => (this.gnroLineHeight() ? `${this.gnroLineHeight()}px` : '28px'));
   field = input(undefined, {
     alias: 'gnroFormFieldControl',
     transform: (field: FormControl) => {

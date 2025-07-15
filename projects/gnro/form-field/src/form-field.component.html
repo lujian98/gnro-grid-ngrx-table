@@ -1,4 +1,4 @@
-<div class="gnro-form-field" [style.line-height]="height">
+<div class="gnro-form-field" [style.line-height]="lineheight$()">
   <div class="gnro-form-field-flex">
     <label class="gnro-form-field-label" #label>
       @if (required) {
@@ -16,7 +16,7 @@
         </div>
       </div>
 
-      <div class="gnro-form-field-error" [style.line-height]="height">
+      <div class="gnro-form-field-error" [style.line-height]="lineheight$()">
         <ng-content select="gnro-form-field-errors"></ng-content>
       </div>
       <div class="gnro-form-field-hint">
