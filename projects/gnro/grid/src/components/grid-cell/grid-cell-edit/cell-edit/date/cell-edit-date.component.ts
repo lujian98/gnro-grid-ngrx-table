@@ -17,6 +17,7 @@ export class GnroCellEditDateComponent extends GnroCellEditBaseComponent<Date> {
     this.fieldConfig = {
       ...defaultDateFieldConfig,
       ...config,
+      ...this.baseFieldConfig,
       fieldName: this.column.name,
       clearValue: false,
       editable: true,

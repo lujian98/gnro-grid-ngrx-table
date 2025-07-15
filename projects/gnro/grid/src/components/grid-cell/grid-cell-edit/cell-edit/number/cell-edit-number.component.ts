@@ -17,6 +17,7 @@ export class GnroCellEditNumberComponent extends GnroCellEditBaseComponent<numbe
     this.fieldConfig = {
       ...defaultNumberFieldConfig,
       ...config,
+      ...this.baseFieldConfig,
       fieldName: this.column.name,
       clearValue: false,
       editable: true,

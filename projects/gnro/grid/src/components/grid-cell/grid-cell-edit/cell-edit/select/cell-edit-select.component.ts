@@ -17,6 +17,7 @@ export class GnroCellEditSelectComponent<T> extends GnroCellEditBaseComponent<T>
     this.fieldConfig = {
       ...defaultSelectFieldConfig,
       ...config,
+      ...this.baseFieldConfig,
       fieldName: this.column.name,
       clearValue: false,
       editable: true,

@@ -21,6 +21,7 @@ export class GnroCellEditBaseComponent<T> {
   form!: FormGroup;
 
   fieldConfig!: Partial<GnroFormField>;
+  baseFieldConfig: Partial<GnroFormField> = { lineHeight: 20 };
 
   rowIndex!: number;
 
