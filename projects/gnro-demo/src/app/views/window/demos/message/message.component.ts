@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { GnroDialogService } from '@gnro/ui/overlay';
-import { GnroMessageComponent, defaultMessageConfig } from '@gnro/ui/window';
+import { GnroMessageComponent, defaultMessageConfig, GnroPositionType } from '@gnro/ui/window';
 
 @Component({
   selector: 'app-message',
@@ -28,6 +28,7 @@ export class AppMessageComponent {
             showOkButton: true,
             showCancelButton: true,
             message: 'This is message to exit',
+            position: GnroPositionType.TOP_MIDDLE,
           },
         },
         closeOnBackdropClick: true,

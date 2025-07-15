@@ -1,10 +1,10 @@
 export enum GnroPositionType {
   DEFAULT = 'default',
-  BOTTOMMIDDLE = 'bottomMiddle',
-  BOTTOMRIGHT = 'bottomRight',
-  CENTERMIDDLE = 'centerMiddle',
-  TOPMIDDLE = 'topMiddle',
-  TOPRIGHT = 'topRight',
+  BOTTOM_MIDDLE = 'bottomMiddle',
+  BOTTOM_RIGHT = 'bottomRight',
+  CENTER_MIDDLE = 'centerMiddle',
+  TOP_MIDDLE = 'topMiddle',
+  TOP_RIGHT = 'topRight',
 }
 
 export interface GnroWindowConfig {
@@ -36,4 +36,9 @@ export interface GnroWindowInfo {
   width: number;
   height: number;
   isMaxWindowSize: boolean;
+}
+
+export interface GnroTopLeft {
+  top: number;
+  left: number;
 }

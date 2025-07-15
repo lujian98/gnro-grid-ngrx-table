@@ -8,7 +8,13 @@ import { GnroDialogRef } from '@gnro/ui/overlay';
 import { GnroResizeDirective, GnroResizeInfo, GnroResizeType } from '@gnro/ui/resize';
 import { GNRO_DOCUMENT } from '@gnro/ui/theme';
 import { take, timer } from 'rxjs';
-import { defaultWindowConfig, GnroWindowConfig, GnroWindowInfo } from './models/window.model';
+import {
+  defaultWindowConfig,
+  GnroWindowConfig,
+  GnroWindowInfo,
+  GnroPositionType,
+  GnroTopLeft,
+} from './models/window.model';
 
 @Component({
   selector: 'gnro-window',
@@ -35,7 +41,7 @@ export class GnroWindowComponent<T> {
   windowConfig = input.required({
     transform: (val: GnroWindowConfig) => {
       const windowConfig = { ...defaultWindowConfig, ...val };
-      this.setWindow(windowConfig);
+      this.initWindow(windowConfig);
       return windowConfig;
     },
   });
@@ -58,7 +64,7 @@ export class GnroWindowComponent<T> {
     );
   }
 
-  private setWindow(windowConfig: GnroWindowConfig): void {
+  private initWindow(windowConfig: GnroWindowConfig): void {
     const height = windowConfig.height;
     if (height) {
       this.setHeight(parseFloat(height));
@@ -68,7 +74,7 @@ export class GnroWindowComponent<T> {
     }
     timer(10)
       .pipe(take(1))
-      .subscribe(() => this.initWindow());
+      .subscribe(() => this.initWindowPosition(windowConfig));
   }
 
   dragEnded(event: CdkDragEnd): void {
@@ -114,6 +120,7 @@ export class GnroWindowComponent<T> {
     }
   }
 
+  /*
   private initWindow(): void {
     const width = this.overlay.clientWidth;
     const height = this.overlay.clientHeight;
@@ -123,6 +130,38 @@ export class GnroWindowComponent<T> {
     const left = width < w ? 0 : (width - w) / 2;
     const top = height < h ? 0 : topAdjust;
     this.setWindowInfo(left, top);
+  }
+    */
+
+  private initWindowPosition(windowConfig: GnroWindowConfig): void {
+    const topLeft = this.getWindowPosition(windowConfig.position!);
+    this.setWindowInfo(topLeft.left, topLeft.top);
+  }
+
+  private getWindowPosition(position: GnroPositionType): GnroTopLeft {
+    const width = this.overlay.clientWidth;
+    const height = this.overlay.clientHeight;
+    const w = this.element.clientWidth;
+    const h = this.element.clientHeight;
+    const topAdjust = h < height / 2 ? (height - h) / 4 : 70;
+    const left = width < w ? 0 : (width - w) / 2;
+    const top = height < h ? 0 : topAdjust;
+    switch (position) {
+      case GnroPositionType.TOP_MIDDLE:
+        return { top: 0, left };
+      case GnroPositionType.TOP_RIGHT:
+        return { top: 0, left: width < w ? 0 : width - w };
+      case GnroPositionType.CENTER_MIDDLE:
+        const ym = height < h ? 0 : (height - h) / 2;
+        return { top: ym, left };
+      case GnroPositionType.BOTTOM_MIDDLE:
+        return { top: height < h ? 0 : height - h, left };
+      case GnroPositionType.BOTTOM_RIGHT:
+        return { top: height < h ? 0 : height - h, left: width < w ? 0 : width - w };
+      case GnroPositionType.DEFAULT:
+      default:
+        return { top, left };
+    }
   }
 
   private setWindowPosition(resizeInfo: GnroResizeInfo): void {
