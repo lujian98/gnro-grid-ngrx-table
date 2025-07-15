@@ -30,7 +30,6 @@ export class AppMessageComponent {
             message: 'This is message to exit',
             position: GnroPositionType.TOP_MIDDLE,
             autoClose: true,
-            duration: 8000,
           },
         },
         hasBackdrop: false,
