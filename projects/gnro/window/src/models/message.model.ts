@@ -1,6 +1,6 @@
 import { defaultWindowConfig, GnroWindowConfig } from './window.model';
 
-export interface GnroConfirmationConfig extends GnroWindowConfig {
+export interface GnroMessageConfig extends GnroWindowConfig {
   showFooter: boolean;
   showOkButton: boolean;
   ok: string;
@@ -11,10 +11,10 @@ export interface GnroConfirmationConfig extends GnroWindowConfig {
   message: string;
 }
 
-export const defaultConfirmationConfig: GnroConfirmationConfig = {
+export const defaultMessageConfig: GnroMessageConfig = {
   ...defaultWindowConfig,
   showFooter: true,
-  title: 'Confirmation',
+  title: 'Message',
   showOkButton: false,
   ok: 'GNRO.UI.ACTIONS.OK',
   showCancelButton: false,

@@ -3,13 +3,13 @@ import { GnroButtonComponent } from '@gnro/ui/button';
 import { GnroLayoutComponent, GnroLayoutFooterComponent, GnroLayoutHorizontalComponent } from '@gnro/ui/layout';
 import { GnroDialogRef } from '@gnro/ui/overlay';
 import { TranslatePipe } from '@ngx-translate/core';
-import { defaultConfirmationConfig, GnroConfirmationConfig } from '../../models/confirmation.model';
+import { defaultMessageConfig, GnroMessageConfig } from '../../models/message.model';
 import { GnroWindowComponent } from '../../window.component';
 
 @Component({
-  selector: 'gnro-confirmation',
-  templateUrl: './confirmation.component.html',
-  styleUrls: ['./confirmation.component.scss'],
+  selector: 'gnro-message',
+  templateUrl: './message.component.html',
+  styleUrls: ['./message.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     TranslatePipe,
@@ -20,17 +20,17 @@ import { GnroWindowComponent } from '../../window.component';
     GnroWindowComponent,
   ],
 })
-export class GnroConfirmationComponent {
-  private dialogRef = inject(GnroDialogRef<GnroConfirmationComponent>);
+export class GnroMessageComponent {
+  private dialogRef = inject(GnroDialogRef<GnroMessageComponent>);
   private changeDetectorRef = inject(ChangeDetectorRef);
-  private _confirmationConfig: GnroConfirmationConfig = defaultConfirmationConfig;
+  private _messageConfig: GnroMessageConfig = defaultMessageConfig;
 
-  set confirmationConfig(val: GnroConfirmationConfig) {
-    this._confirmationConfig = { ...defaultConfirmationConfig, ...val };
+  set messageConfig(val: GnroMessageConfig) {
+    this._messageConfig = { ...defaultMessageConfig, ...val };
     this.changeDetectorRef.markForCheck();
   }
-  get confirmationConfig(): GnroConfirmationConfig {
-    return this._confirmationConfig;
+  get messageConfig(): GnroMessageConfig {
+    return this._messageConfig;
   }
 
   ok(): void {

@@ -30,7 +30,7 @@ export class AppWindowComponent {
       name: 'Window & Dialog',
       items: [
         { name: 'Simple Window', link: 'simple-window' },
-        { name: 'Confirmation', link: 'confirmation' },
+        { name: 'Message', link: 'message' },
       ],
     },
   ];

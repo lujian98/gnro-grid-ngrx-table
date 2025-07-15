@@ -1,0 +1,19 @@
+<gnro-window [windowConfig]="messageConfig">
+  <gnro-layout [resizeable]="false">
+    <gnro-layout-horizontal [resizeable]="false">{{ messageConfig.message }}</gnro-layout-horizontal>
+
+    @if (messageConfig.showFooter) {
+      <gnro-layout-footer>
+        @if (messageConfig.showOkButton) {
+          <button gnro-button (click)="ok()">{{ messageConfig.ok | translate }}</button>
+        }
+        @if (messageConfig.showCancelButton) {
+          <button gnro-button (click)="cancel()">{{ messageConfig.cancel | translate }}</button>
+        }
+        @if (messageConfig.showCloseButton) {
+          <button gnro-button (click)="close()">{{ messageConfig.close | translate }}</button>
+        }
+      </gnro-layout-footer>
+    }
+  </gnro-layout>
+</gnro-window>

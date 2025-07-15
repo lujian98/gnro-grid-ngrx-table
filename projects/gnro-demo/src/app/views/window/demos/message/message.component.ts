@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { GnroDialogService } from '@gnro/ui/overlay';
-import { GnroConfirmationComponent, defaultConfirmationConfig } from '@gnro/ui/window';
+import { GnroMessageComponent, defaultMessageConfig } from '@gnro/ui/window';
 
 @Component({
-  selector: 'app-confirmation',
+  selector: 'app-message',
   template: `
-    <div (click)="openConfirmationWindow($event)">Click to Open Confirmation Window</div>
-    <div (click)="openYesNoConfirmationWindow($event)">Click to Open Confirmation Yes/No Window</div>
+    <div (click)="openComfirmationWindow($event)">Click to Open Message Window</div>
+    <div (click)="openYesNoMessageWindow($event)">Click to Open Message Yes/No Window</div>
     <div (click)="openMessageWindow($event)">Click to Open Message Window</div>
     <div (click)="openSimpleWindow($event)">Click to Open Simple Window</div>
     <div (click)="openWindowOnly($event)">Click to Open Window Only</div>
@@ -15,19 +15,19 @@ import { GnroConfirmationComponent, defaultConfirmationConfig } from '@gnro/ui/w
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
 })
-export class AppConfirmationComponent {
+export class AppMessageComponent {
   private dialogService = inject(GnroDialogService);
 
-  openConfirmationWindow(event: MouseEvent): void {
+  openComfirmationWindow(event: MouseEvent): void {
     let dialogRef = this.dialogService
-      .open(GnroConfirmationComponent, {
+      .open(GnroMessageComponent, {
         context: {
-          confirmationConfig: {
-            ...defaultConfirmationConfig,
-            title: 'Test Confirmation',
+          messageConfig: {
+            ...defaultMessageConfig,
+            title: 'Test Message',
             showOkButton: true,
             showCancelButton: true,
-            message: 'This is confirmation to exit',
+            message: 'This is message to exit',
           },
         },
         closeOnBackdropClick: true,
@@ -37,18 +37,18 @@ export class AppConfirmationComponent {
       });
   }
 
-  openYesNoConfirmationWindow(event: MouseEvent): void {
+  openYesNoMessageWindow(event: MouseEvent): void {
     this.dialogService
-      .open(GnroConfirmationComponent, {
+      .open(GnroMessageComponent, {
         context: {
-          confirmationConfig: {
-            ...defaultConfirmationConfig,
-            title: 'Test Yes/No Confirmation',
+          messageConfig: {
+            ...defaultMessageConfig,
+            title: 'Test Yes/No Message',
             showOkButton: true,
             ok: 'Yes',
             showCancelButton: true,
             cancel: 'No',
-            message: 'This is Yes/No confirmation to close',
+            message: 'This is Yes/No message to close',
           },
         },
         closeOnBackdropClick: true,
@@ -60,10 +60,10 @@ export class AppConfirmationComponent {
 
   openMessageWindow(event: MouseEvent): void {
     this.dialogService
-      .open(GnroConfirmationComponent, {
+      .open(GnroMessageComponent, {
         context: {
-          confirmationConfig: {
-            ...defaultConfirmationConfig,
+          messageConfig: {
+            ...defaultMessageConfig,
             title: 'Test Message Window Close',
             showOkButton: true,
             message: 'This is Message Window to close',
@@ -78,10 +78,10 @@ export class AppConfirmationComponent {
 
   openSimpleWindow(event: MouseEvent): void {
     this.dialogService
-      .open(GnroConfirmationComponent, {
+      .open(GnroMessageComponent, {
         context: {
-          confirmationConfig: {
-            ...defaultConfirmationConfig,
+          messageConfig: {
+            ...defaultMessageConfig,
             showHeader: false,
             showCloseButton: true,
           },
@@ -95,10 +95,10 @@ export class AppConfirmationComponent {
 
   openWindowOnly(event: MouseEvent): void {
     this.dialogService
-      .open(GnroConfirmationComponent, {
+      .open(GnroMessageComponent, {
         context: {
-          confirmationConfig: {
-            ...defaultConfirmationConfig,
+          messageConfig: {
+            ...defaultMessageConfig,
             showHeader: false,
             showFooter: false,
             height: '300px',
