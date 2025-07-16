@@ -56,6 +56,7 @@ export class AppGridCellEditTextComponent {
 
   buttons: GnroButtonConfg[] = [
     { title: 'Reload', name: 'Reload' },
+    GnroBUTTONS.Add,
     GnroBUTTONS.Open,
     GnroBUTTONS.Edit,
     GnroBUTTONS.Save,

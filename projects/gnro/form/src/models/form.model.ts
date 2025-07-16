@@ -12,6 +12,7 @@ export interface GnroFormConfig {
   validators?: ValidatorFn | ValidatorFn[];
   autoFitHeight: boolean;
   buttons: GnroButtonConfg[];
+  editing: boolean;
 }
 
 export interface GnroFormConfigResponse {

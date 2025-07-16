@@ -41,7 +41,7 @@ export class GnroGridComponent<T> implements OnInit, OnDestroy {
   columnsConfig$ = this.gridFacade.getColumnsConfig(this.gridId);
   rowSelection$ = this.gridFacade.getRowSelection(this.gridId);
   gridData$ = this.gridFacade.getGridSignalData(this.gridId);
-  buttons = input<GnroButtonConfg[]>([GnroBUTTONS.Add, GnroBUTTONS.Refresh, GnroBUTTONS.ClearAllFilters]);
+  buttons = input<GnroButtonConfg[]>([GnroBUTTONS.Refresh, GnroBUTTONS.ClearAllFilters]);
   gridConfig = input(defaultGridConfig, {
     transform: (value: Partial<GnroGridConfig>) => {
       const config = { ...defaultGridConfig, ...value };
@@ -136,6 +136,11 @@ export class GnroGridComponent<T> implements OnInit, OnDestroy {
         break;
       case GnroButtonType.ClearAllFilters:
         this.gridFacade.setGridColumnFilters(this.gridConfig$(), this.gridSetting$(), []);
+        break;
+      case GnroButtonType.Add:
+        if (this.gridConfig().hasDetailView) {
+          this.gridFacade.addNewGridRecord(this.gridId);
+        }
         break;
       case GnroButtonType.Edit:
         this.gridFacade.setGridEditable(this.gridId, true);

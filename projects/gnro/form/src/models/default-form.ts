@@ -16,6 +16,7 @@ export const defaultFormConfig: GnroFormConfig = {
   remoteFormData: false,
   autoFitHeight: true,
   buttons: buttons,
+  editing: false,
 };
 
 export const defaultFormSetting: GnroFormSetting = {

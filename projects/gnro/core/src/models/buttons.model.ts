@@ -38,7 +38,7 @@ export const GnroBUTTONS = {
     name: GnroButtonType.Add,
     title: 'GNRO.UI.ACTIONS.ADD',
     icon: 'plus',
-    remoteAction: GnroButtonActionType.NEW,
+    //remoteAction: GnroButtonActionType.NEW,
   },
   ClearAllFilters: {
     name: GnroButtonType.ClearAllFilters,

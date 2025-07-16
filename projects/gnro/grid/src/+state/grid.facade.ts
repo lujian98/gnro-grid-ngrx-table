@@ -275,13 +275,36 @@ export class GnroGridFacade {
     this.openGridFormWindow(gridId, record);
   }
 
+  addNewGridRecord(gridId: string): void {
+    const record = this.getSelectedRecord(gridId);
+    this.openGridFormWindow(gridId, record);
+  }
+
+  private getSelectedRecord(gridId: string): object {
+    const selected = this.getRowSelection(gridId)()?.selection.selected;
+    if (selected && selected.length > 0) {
+      const record = selected[0];
+      const gridConfig = this.getGridConfig(gridId)();
+      return {
+        ...record,
+        [gridConfig.recordKey]: undefined,
+      };
+    }
+    return {};
+  }
   private openGridFormWindow(formWindowId: string, values: object): void {
-    const formConfig = this.getFormWindowConfig(formWindowId)();
-    if (formConfig) {
+    const config = this.getFormWindowConfig(formWindowId)();
+    console.log('1111 formConfig=', config);
+    if (config) {
       const formWindowConfig = {
-        ...formConfig,
+        ...config,
+        formConfig: {
+          ...config.formConfig,
+          editing: true,
+        },
         values,
       };
+      console.log('formWindowConfig=', formWindowConfig);
       this.store.dispatch(openFormWindowDialog({ formWindowId, formWindowConfig }));
     }
   }

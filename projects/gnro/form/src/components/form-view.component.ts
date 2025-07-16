@@ -11,7 +11,14 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { GnroButtonComponent } from '@gnro/ui/button';
-import { GnroButtonConfg, GnroButtonType, GnroObjectType, GnroUploadFileService, isEqual } from '@gnro/ui/core';
+import {
+  GnroButtonConfg,
+  GnroButtonType,
+  GnroObjectType,
+  GnroBUTTONS,
+  GnroUploadFileService,
+  isEqual,
+} from '@gnro/ui/core';
 import {
   GnroFieldsComponent,
   GnroFieldsetComponent,
@@ -68,8 +75,12 @@ export class GnroFormViewComponent implements OnInit {
   values = input(undefined, {
     transform: (values: object) => {
       if (this.form && values) {
+        console.log(' values=', values);
         this.form.patchValue({ ...values });
         this.form.markAsPristine();
+      }
+      if (this.formConfig().editing) {
+        this.formFacade.setFormEditable(this.formSetting().formId, GnroBUTTONS.Edit);
       }
       return values;
     },
