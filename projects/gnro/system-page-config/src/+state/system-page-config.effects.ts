@@ -16,7 +16,7 @@ export class GnroSystemPageConfigEffects {
       concatMap(({ keyName, configType, configData }) => {
         return this.systemPageConfigService.systemPageConfig(keyName, configType, configData).pipe(
           map(() => {
-            return updateToastMessageAction({ keyName, configType });
+            return updateToastMessageAction({ action: 'Update', keyName, configType });
           }),
         );
       }),

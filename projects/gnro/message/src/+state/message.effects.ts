@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { GnroDialogService } from '@gnro/ui/overlay';
 import { GnroPositionType } from '@gnro/ui/window';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { debounceTime, map, of, switchMap } from 'rxjs';
+import { concatMap, map, of } from 'rxjs';
 import { GnroMessageComponent } from '../message.component';
 import { defaultMessageConfig } from '../models/message.model';
 import { sendToastMessageAction, updateToastMessageAction } from './message.actions';
@@ -15,16 +15,13 @@ export class GnroMessageEffects {
   updateToastMessage$ = createEffect(() =>
     this.actions$.pipe(
       ofType(updateToastMessageAction),
-      debounceTime(100),
-      switchMap((action) => {
+      concatMap(({ action, keyName, configType }) => {
         this.dialogService.open(GnroMessageComponent, {
           context: {
             messageConfig: {
               ...defaultMessageConfig,
-              title: 'Test Message',
-              showOkButton: true,
-              showCancelButton: true,
-              message: 'This is message to exit',
+              title: action,
+              message: `${action}: ${keyName} ${configType} Sucessfully.`,
               position: GnroPositionType.TOP_MIDDLE,
               autoClose: true,
             },
