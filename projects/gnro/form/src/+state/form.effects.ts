@@ -73,6 +73,12 @@ export class GnroFormEffects {
           }),
         );
       }),
+    ),
+  );
+
+  saveFormDataSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(formActions.saveFormDataSuccess),
       concatMap(({ formConfig, formData }) =>
         of(formData).pipe(
           map(() => updateToastMessageAction({ action: 'Update', keyName: 'formData', configType: formConfig.urlKey })),
