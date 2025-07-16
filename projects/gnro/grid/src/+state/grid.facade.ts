@@ -266,18 +266,18 @@ export class GnroGridFacade {
   openButtonClick(gridId: string): void {
     const selected = this.getRowSelection(gridId)()?.selection.selected;
     if (selected && selected.length > 0) {
-      this.openGridFormWindow(gridId, selected[0]);
+      this.openGridFormWindow(gridId, selected[0], false);
     }
   }
 
   rowDblClick(gridId: string, record: object): void {
     this.store.dispatch(gridActions.setSelectRow({ gridId, record }));
-    this.openGridFormWindow(gridId, record);
+    this.openGridFormWindow(gridId, record, false);
   }
 
   addNewGridRecord(gridId: string): void {
     const record = this.getSelectedRecord(gridId);
-    this.openGridFormWindow(gridId, record);
+    this.openGridFormWindow(gridId, record, true);
   }
 
   private getSelectedRecord(gridId: string): object {
@@ -292,19 +292,17 @@ export class GnroGridFacade {
     }
     return {};
   }
-  private openGridFormWindow(formWindowId: string, values: object): void {
+  private openGridFormWindow(formWindowId: string, values: object, editing: boolean): void {
     const config = this.getFormWindowConfig(formWindowId)();
-    console.log('1111 formConfig=', config);
     if (config) {
       const formWindowConfig = {
         ...config,
         formConfig: {
           ...config.formConfig,
-          editing: true,
+          editing: editing,
         },
         values,
       };
-      console.log('formWindowConfig=', formWindowConfig);
       this.store.dispatch(openFormWindowDialog({ formWindowId, formWindowConfig }));
     }
   }
