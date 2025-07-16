@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { GnroUploadFileService } from '@gnro/ui/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { updateToastMessageAction } from '@gnro/ui/message';
 import { Store } from '@ngrx/store';
 import { concatMap, delay, map, mergeMap, of } from 'rxjs';
 import { GnroFormService } from '../services/form.service';
@@ -72,6 +73,11 @@ export class GnroFormEffects {
           }),
         );
       }),
+      concatMap(({ formConfig, formData }) =>
+        of(formData).pipe(
+          map(() => updateToastMessageAction({ action: 'Update', keyName: 'formData', configType: formConfig.urlKey })),
+        ),
+      ),
     ),
   );
 

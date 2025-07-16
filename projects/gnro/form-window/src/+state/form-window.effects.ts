@@ -28,6 +28,7 @@ export class GnroFormWindowEffects {
         if (values === undefined) {
           return formWindowActions.closeFormWindowDialog();
         }
+        // current is use Save button save record, not use this apply action.
         return formWindowActions.applyFormWindowDialogChanges({ values: values as object });
       }),
     ),
