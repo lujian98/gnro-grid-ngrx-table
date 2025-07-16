@@ -24,6 +24,7 @@ export class GnroMessageEffects {
               message: `${action}: ${keyName} ${configType} Sucessfully.`,
               position: GnroPositionType.TOP_MIDDLE,
               autoClose: true,
+              showCloseButton: true,
             },
           },
           hasBackdrop: false,
