@@ -14,6 +14,7 @@ export class GnroButtonEffects {
     this.actions$.pipe(
       ofType(buttonRemoteAction),
       concatMap(({ button, keyName, configType, formData }) => {
+        console.log(' remote button action =', button);
         return this.buttonService.buttonRemoteAction(button, keyName, configType, formData).pipe(
           map(({ keyName, configType }) => {
             return updateToastMessageAction({ action: button.remoteAction!, keyName, configType });

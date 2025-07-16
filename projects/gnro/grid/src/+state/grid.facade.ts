@@ -1,5 +1,7 @@
 import { inject, Injectable, Signal } from '@angular/core';
 import { GnroFormWindowConfig, openFormWindowDialog } from '@gnro/ui/form-window';
+import { GnroButtonConfg, GnroBUTTONS, GnroButtonType, GnroTasksService, uniqueId } from '@gnro/ui/core';
+import { buttonRemoteAction } from '@gnro/ui/remote';
 import { Store } from '@ngrx/store';
 import {
   GnroCellEdit,
@@ -290,5 +292,10 @@ export class GnroGridFacade {
 
   runTask(setting: GnroGridSetting): void {
     this.store.dispatch(gridActions.getConcatGridData({ gridId: setting.gridId }));
+  }
+
+  buttonRemoteAction(gridId: string, button: GnroButtonConfg): void {
+    console.log(' button=', button);
+    this.store.dispatch(buttonRemoteAction({ button, keyName: 'DCR', configType: 'record', formData: {} }));
   }
 }
