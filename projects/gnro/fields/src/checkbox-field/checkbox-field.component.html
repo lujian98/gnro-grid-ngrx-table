@@ -5,7 +5,7 @@
     [gnroLabelWidth]="fieldConfig().labelWidth"
     [gnroFieldWidth]="fieldConfig().fieldWidth"
     [gnroFormFieldControl]="field"
-    [gnroLineHeight]="fieldConfig().lineHeight"
+    [gnroLineHeight]="fieldConfig().lineHeight! + 1"
     [showFieldEditIndicator]="showFieldEditIndicator()"
     [editable]="editable$()"
   >
