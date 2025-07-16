@@ -13,6 +13,16 @@ export enum GnroButtonType {
   UploadFile = 'UploadFile',
 }
 
+export enum GnroButtonActionType {
+  DELETE = 'Delete',
+  DOWNLOAD = 'Download',
+  EXPORT = 'Export',
+  GET = 'Get',
+  NEW = 'New',
+  UPDATE = 'Update',
+  UPLOADFILE = 'Uploadfile',
+}
+
 export interface GnroButtonConfg {
   name: string;
   title?: string;
@@ -20,6 +30,7 @@ export interface GnroButtonConfg {
   disabled?: boolean;
   hidden?: boolean;
   link?: string;
+  remoteAction?: GnroButtonActionType;
 }
 
 export const GnroBUTTONS = {
@@ -27,6 +38,7 @@ export const GnroBUTTONS = {
     name: GnroButtonType.Add,
     title: 'GNRO.UI.ACTIONS.ADD',
     icon: 'plus',
+    remoteAction: GnroButtonActionType.NEW,
   },
   ClearAllFilters: {
     name: GnroButtonType.ClearAllFilters,
