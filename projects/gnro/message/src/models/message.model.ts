@@ -1,4 +1,4 @@
-import { defaultWindowConfig, GnroWindowConfig } from './window.model';
+import { defaultWindowConfig, GnroWindowConfig } from '@gnro/ui/window';
 
 export interface GnroMessageConfig extends GnroWindowConfig {
   showFooter: boolean;

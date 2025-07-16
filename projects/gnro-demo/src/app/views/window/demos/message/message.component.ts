@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { GnroDialogService } from '@gnro/ui/overlay';
-import { GnroMessageComponent, defaultMessageConfig, GnroPositionType } from '@gnro/ui/window';
+import { GnroPositionType } from '@gnro/ui/window';
+import { GnroMessageComponent, defaultMessageConfig } from '@gnro/ui/message';
 
 @Component({
   selector: 'app-message',

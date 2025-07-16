@@ -4,8 +4,8 @@ import { GnroLayoutComponent, GnroLayoutFooterComponent, GnroLayoutHorizontalCom
 import { GnroDialogRef } from '@gnro/ui/overlay';
 import { TranslatePipe } from '@ngx-translate/core';
 import { take, timer } from 'rxjs';
-import { defaultMessageConfig, GnroMessageConfig } from '../../models/message.model';
-import { GnroWindowComponent } from '../../window.component';
+import { defaultMessageConfig, GnroMessageConfig } from './models/message.model';
+import { GnroWindowComponent } from '@gnro/ui/window';
 
 @Component({
   selector: 'gnro-message',

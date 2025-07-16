@@ -1,8 +1,9 @@
 import { Injectable, inject } from '@angular/core';
+import { updateToastMessageAction } from '@gnro/ui/message';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatMap, map } from 'rxjs';
 import { GnroSystemPageConfigService } from '../services/system-page-config.service';
-import * as systemPageConfigActions from './system-page-config.actions';
+import { updateSystemPageConfigConfigAction } from './system-page-config.actions';
 
 @Injectable()
 export class GnroSystemPageConfigEffects {
@@ -11,11 +12,11 @@ export class GnroSystemPageConfigEffects {
 
   updateSystemPageConfigConfig$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(systemPageConfigActions.updateSystemPageConfigConfig),
+      ofType(updateSystemPageConfigConfigAction),
       concatMap(({ keyName, configType, configData }) => {
         return this.systemPageConfigService.systemPageConfig(keyName, configType, configData).pipe(
           map(() => {
-            return systemPageConfigActions.updateSystemPageConfigConfigSucessful();
+            return updateToastMessageAction({ keyName, configType });
           }),
         );
       }),
