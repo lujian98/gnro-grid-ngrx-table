@@ -74,9 +74,10 @@ export class GnroFormViewComponent implements OnInit {
   });
   values = input(undefined, {
     transform: (values: object) => {
-      if (this.form && values) {
-        //console.log(' values=', values);
-        this.form.patchValue({ ...values });
+      if (this.form) {
+        if (values) {
+          this.form.patchValue({ ...values });
+        }
         this.form.markAsPristine();
       }
       if (this.formConfig().editing) {
@@ -166,7 +167,7 @@ export class GnroFormViewComponent implements OnInit {
   }
 
   private checkFormValueChanged(values: object): void {
-    if (this.values()) {
+    if (this.values() && Object.keys(this.values()!).length > 0) {
       isEqual(values, this.values()) ? this.form.markAsPristine() : this.form.markAsDirty();
       this.setFieldDirty(values, this.values()!);
       this.changeDetectorRef.markForCheck();
