@@ -1,2 +1,2 @@
-export * from './src/+state/button-state.module';
-export * from './src/+state/button.actions';
+export * from './src/+state/remote-state.module';
+export * from './src/+state/remote.actions';

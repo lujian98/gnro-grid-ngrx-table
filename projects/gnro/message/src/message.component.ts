@@ -21,10 +21,11 @@ import { GnroWindowComponent } from '@gnro/ui/window';
     GnroWindowComponent,
   ],
 })
-export class GnroMessageComponent {
-  private dialogRef = inject(GnroDialogRef<GnroMessageComponent>);
+export class GnroMessageComponent<T> {
+  private dialogRef = inject(GnroDialogRef<GnroMessageComponent<T>>);
   private changeDetectorRef = inject(ChangeDetectorRef);
   private _messageConfig: GnroMessageConfig = defaultMessageConfig;
+  data!: T;
 
   set messageConfig(val: GnroMessageConfig) {
     this._messageConfig = { ...defaultMessageConfig, ...val };
@@ -38,11 +39,11 @@ export class GnroMessageComponent {
   }
 
   ok(): void {
-    this.dialogRef.close(true);
+    this.dialogRef.close(this.data!);
   }
 
   cancel(): void {
-    this.dialogRef.close(false);
+    this.dialogRef.close();
   }
 
   close(): void {
@@ -53,7 +54,7 @@ export class GnroMessageComponent {
     timer(this.messageConfig.duration)
       .pipe(take(1))
       .subscribe(() => {
-        this.dialogRef.close(false);
+        this.dialogRef.close();
       });
   }
 }

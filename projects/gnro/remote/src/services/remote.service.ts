@@ -6,11 +6,11 @@ import { Observable, map, of } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class GnroButtonService {
+export class GnroRemoteService {
   private readonly http = inject(HttpClient);
   private readonly backendService = inject(GnroBackendService);
 
-  buttonRemoteAction(
+  remoteAction(
     button: GnroButtonConfg,
     keyName: string,
     configType: string,

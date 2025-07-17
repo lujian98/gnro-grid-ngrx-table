@@ -28,6 +28,7 @@ import {
   selectRowGroups,
   selectRowSelection,
 } from './grid.selectors';
+import { openDeleteConfirmationAction } from '@gnro/ui/remote';
 
 @Injectable({ providedIn: 'root' })
 export class GnroGridFacade {
@@ -283,8 +284,9 @@ export class GnroGridFacade {
   deleteGridRecords(gridId: string): void {
     const selected = this.getRowSelection(gridId)()?.selection.selected;
     if (selected && selected.length > 0) {
-      console.log(' delete grid records=', selected);
+      console.log(' delete grid records=', selected); // openDeleteConfirmationAction
       //this.openGridFormWindow(gridId, record, true);
+      this.store.dispatch(openDeleteConfirmationAction({ stateId: gridId, selected }));
     }
   }
 
