@@ -62,6 +62,7 @@ export class AppGridCellEditTextComponent {
     GnroBUTTONS.Save,
     GnroBUTTONS.Reset,
     GnroBUTTONS.View,
+    GnroBUTTONS.Delete,
     GnroBUTTONS.Refresh,
     GnroBUTTONS.ClearAllFilters,
   ];

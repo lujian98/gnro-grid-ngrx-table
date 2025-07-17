@@ -280,6 +280,14 @@ export class GnroGridFacade {
     this.openGridFormWindow(gridId, record, true);
   }
 
+  deleteGridRecords(gridId: string): void {
+    const selected = this.getRowSelection(gridId)()?.selection.selected;
+    if (selected && selected.length > 0) {
+      console.log(' delete grid records=', selected);
+      //this.openGridFormWindow(gridId, record, true);
+    }
+  }
+
   private getSelectedRecord(gridId: string): object {
     const selected = this.getRowSelection(gridId)()?.selection.selected;
     if (selected && selected.length > 0) {

@@ -2,6 +2,7 @@ export enum GnroButtonType {
   Add = 'Add',
   ClearAllFilters = 'ClearAllFilters',
   CollapseAll = 'CollapseAll',
+  Delete = 'Delete',
   Edit = 'Edit',
   ExpandAll = 'ExpandAll',
   Open = 'Open',
@@ -49,6 +50,11 @@ export const GnroBUTTONS = {
     name: GnroButtonType.CollapseAll,
     title: 'Collapse All',
     icon: 'plus',
+  },
+  Delete: {
+    name: GnroButtonType.Delete,
+    title: 'GNRO.UI.ACTIONS.DELETE',
+    icon: 'minus',
   },
   Edit: {
     name: GnroButtonType.Edit,

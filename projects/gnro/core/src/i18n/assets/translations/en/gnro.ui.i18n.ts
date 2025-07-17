@@ -9,6 +9,7 @@ export const GNRO = {
       CLEAR_ALL_FILTERS: 'Clear All Filters',
       CLOSE: 'Close',
       CONFIGURE: 'Configure',
+      DELETE: 'Delete',
       EDIT: 'Edit',
       ENABLED: 'Enabled',
       IS_EMPTY: 'Is Empty',

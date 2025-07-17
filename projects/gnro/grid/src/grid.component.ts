@@ -104,6 +104,8 @@ export class GnroGridComponent<T> implements OnInit, OnDestroy {
         return !this.gridSetting$().recordModified;
       case GnroButtonType.Open:
         return !(this.gridConfig().hasDetailView && this.rowSelection$()?.selected === 1);
+      case GnroButtonType.Delete:
+        return !(this.gridConfig().hasDetailView && this.rowSelection$()?.selected! > 0);
       default:
         return false;
     }
@@ -111,8 +113,10 @@ export class GnroGridComponent<T> implements OnInit, OnDestroy {
 
   private getHidden(button: GnroButtonConfg): boolean {
     switch (button.name) {
+      case GnroButtonType.Add:
       case GnroButtonType.Edit:
       case GnroButtonType.Open:
+      case GnroButtonType.Delete:
       case GnroButtonType.Refresh:
       case GnroButtonType.ClearAllFilters:
         return this.gridSetting$().gridEditable;
@@ -141,6 +145,9 @@ export class GnroGridComponent<T> implements OnInit, OnDestroy {
         if (this.gridConfig().hasDetailView) {
           this.gridFacade.addNewGridRecord(this.gridId);
         }
+        break;
+      case GnroButtonType.Delete:
+        this.gridFacade.deleteGridRecords(this.gridId);
         break;
       case GnroButtonType.Edit:
         this.gridFacade.setGridEditable(this.gridId, true);
