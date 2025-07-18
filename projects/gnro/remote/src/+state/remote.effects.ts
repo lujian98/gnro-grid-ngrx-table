@@ -54,8 +54,9 @@ export class GnroButtonEffects {
       ofType(applyDeleteConfirmationAction),
       mergeMap(({ stateId, keyName, selected }) => {
         return this.remoteService.delete(stateId, keyName, selected).pipe(
-          map(({ stateId, keyName }) => {
-            console.log(' deleted stateId=', stateId);
+          map((res: any[]) => {
+            console.log(' deleted stateId=', res);
+            const { stateId, keyName } = res[0];
             return deleteSelectedSucessfulAction({ stateId, keyName });
           }),
         );
