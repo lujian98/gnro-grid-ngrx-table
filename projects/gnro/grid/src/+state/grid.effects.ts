@@ -8,6 +8,7 @@ import { GnroGridService } from '../services/grid.service';
 import * as gridActions from './grid.actions';
 import { GnroGridFacade } from './grid.facade';
 import { savedFormWindowData } from '@gnro/ui/form-window';
+import { deleteSelectedSucessfulAction } from '@gnro/ui/remote';
 
 @Injectable()
 export class GnroGridEffects {
@@ -143,6 +144,15 @@ export class GnroGridEffects {
       ofType(savedFormWindowData),
       map(({ formWindowId }) => {
         return gridActions.getGridData({ gridId: formWindowId });
+      }),
+    ),
+  );
+
+  deleteSelectedSucessfulAction$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(deleteSelectedSucessfulAction),
+      map(({ stateId }) => {
+        return gridActions.getGridData({ gridId: stateId });
       }),
     ),
   );

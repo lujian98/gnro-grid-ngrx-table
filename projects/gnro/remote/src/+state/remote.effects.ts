@@ -39,12 +39,11 @@ export class GnroButtonEffects {
         });
         return dialogRef.onClose;
       }),
-      map((data: any) => {
+      map((data) => {
         if (data === undefined) {
           return closeDeleteConfirmationAction();
         }
-        console.log('stateId, selected=', data);
-        return applyDeleteConfirmationAction(data);
+        return applyDeleteConfirmationAction(data as { stateId: string; keyName: string; selected: unknown[] });
       }),
     ),
   );
@@ -55,7 +54,6 @@ export class GnroButtonEffects {
       mergeMap(({ stateId, keyName, selected }) => {
         return this.remoteService.delete(stateId, keyName, selected).pipe(
           map((res: any[]) => {
-            console.log(' deleted stateId=', res);
             const { stateId, keyName } = res[0];
             return deleteSelectedSucessfulAction({ stateId, keyName });
           }),

@@ -282,11 +282,12 @@ export class GnroGridFacade {
   }
 
   deleteGridRecords(gridId: string): void {
-    const selected = this.getRowSelection(gridId)()?.selection.selected;
-    if (selected && selected.length > 0) {
+    const data = this.getRowSelection(gridId)()?.selection.selected;
+    if (data && data.length > 0) {
       const gridConfig = this.getGridConfig(gridId)();
-      console.log(' delete grid records=', selected, 'gridConfig=', gridConfig);
       const keyName = gridConfig.urlKey;
+      const recordKey = gridConfig.recordKey;
+      const selected = data.map((item: any) => ({ [recordKey]: item[recordKey] }));
       this.store.dispatch(openDeleteConfirmationAction({ stateId: gridId, keyName, selected }));
     }
   }
