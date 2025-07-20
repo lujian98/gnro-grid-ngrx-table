@@ -28,34 +28,34 @@ export class GnroTabsTabComponent {
 
   tabsConfig = input.required<GnroTabsConfig>();
   tabsSetting = input.required<GnroTabsSetting>();
-  tab = input.required<GnroTabConfig>();
-  tabs = input.required<GnroTabConfig[]>();
+  tab = input.required<GnroTabConfig<unknown>>();
+  tabs = input.required<GnroTabConfig<unknown>[]>();
   index = input.required<number>();
 
   get contextMenuTrigger(): GnroTrigger {
     return this.tabsConfig().enableContextMenu ? GnroTrigger.CONTEXTMENU : GnroTrigger.NOOP;
   }
 
-  dragDisabled(tab: GnroTabConfig): boolean {
+  dragDisabled(tab: GnroTabConfig<unknown>): boolean {
     return !this.tabsConfig().tabReorder;
   }
 
-  closeable(tab: GnroTabConfig): boolean {
+  closeable(tab: GnroTabConfig<unknown>): boolean {
     return this.tabsConfig().closeable && !!tab.closeable;
   }
 
-  getTabLabel(tab: GnroTabConfig): string {
+  getTabLabel(tab: GnroTabConfig<unknown>): string {
     return tab.title || tab.name;
   }
 
-  getDisabled(tab: GnroTabConfig): GnroDisabled[] {
+  getDisabled(tab: GnroTabConfig<unknown>): GnroDisabled[] {
     return [...defaultContextMenu].map((menu) => ({
       name: menu.name,
       disabled: this.menuItemDisabled(menu.name, tab, this.index()),
     }));
   }
 
-  private menuItemDisabled(name: GnroContextMenuType, tab: GnroTabConfig, index: number): boolean {
+  private menuItemDisabled(name: GnroContextMenuType, tab: GnroTabConfig<unknown>, index: number): boolean {
     switch (name) {
       case GnroContextMenuType.CLOSE:
         return !tab.closeable;
@@ -72,11 +72,11 @@ export class GnroTabsTabComponent {
     }
   }
 
-  onContextMenuClicked(menuItem: GnroMenuConfig, tab: GnroTabConfig): void {
+  onContextMenuClicked(menuItem: GnroMenuConfig, tab: GnroTabConfig<unknown>): void {
     this.tabsFacade.setContextMenuClicked(this.tabsSetting().tabsId, menuItem, tab, this.index());
   }
 
-  closeTab(event: MouseEvent, tab: GnroTabConfig): void {
+  closeTab(event: MouseEvent, tab: GnroTabConfig<unknown>): void {
     event.stopPropagation();
     this.tabsFacade.setCloseTab(this.tabsSetting().tabsId, tab);
   }

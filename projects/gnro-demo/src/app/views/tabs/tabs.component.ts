@@ -38,7 +38,7 @@ export class AppTabsComponent {
     skills: [12, 13, 14, 15, 16],
   };
 
-  tabMenus: GnroTabConfig[] = [
+  tabMenus: GnroTabConfig<unknown>[] = [
     {
       name: 'grid-selection1',
       portalName: 'grid-multi-row-selection',
@@ -114,14 +114,14 @@ export class AppTabsComponent {
     },
   ];
 
-  tabs: GnroTabConfig[] = this.options.map((option) => {
+  tabs: GnroTabConfig<unknown>[] = this.options.map((option) => {
     const find = this.tabMenus.find((item) => item.portalName === option.name);
     return { ...option, ...find };
   });
 
   @ViewChild(GnroTabsComponent, { static: false }) tabsPanel!: GnroTabsComponent;
 
-  onMenuItemClick(item: GnroTabConfig | GnroMenuConfig): void {
+  onMenuItemClick(item: GnroTabConfig<unknown> | GnroMenuConfig): void {
     if ((item as GnroMenuConfig).link) {
       this.useRouterLink = true;
     } else {

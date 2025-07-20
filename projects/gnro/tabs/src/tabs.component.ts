@@ -56,7 +56,7 @@ export class GnroTabsComponent implements OnDestroy {
     },
   });
   tabs = input([], {
-    transform: (tabs: GnroTabConfig[]) => {
+    transform: (tabs: GnroTabConfig<unknown>[]) => {
       if (this.tabsConfig() && !this.tabsConfig().remoteTabs) {
         this.tabsFacade.setTabsTabs(this.tabsId, tabs);
       }
@@ -72,12 +72,12 @@ export class GnroTabsComponent implements OnDestroy {
     this.tabsFacade.setSelectedIndex(this.tabsId, index);
   }
 
-  drop(event: CdkDragDrop<GnroTabConfig>): void {
+  drop(event: CdkDragDrop<GnroTabConfig<unknown>>): void {
     this.tabsFacade.setDragDropTab(this.tabsId, event.previousIndex, event.currentIndex);
   }
 
   // add tab from left side menu
-  addTab(tabItem: GnroTabConfig): void {
+  addTab(tabItem: GnroTabConfig<unknown>): void {
     this.tabsFacade.setAddTab(this.tabsId, tabItem);
   }
 

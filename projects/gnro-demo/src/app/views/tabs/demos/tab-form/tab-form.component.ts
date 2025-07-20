@@ -46,7 +46,7 @@ export class AppTabFormComponent {
   };
 
   options = [];
-  tabs: GnroTabConfig[] = [
+  tabs: GnroTabConfig<unknown>[] = [
     {
       name: 'tab1',
       title: 'Form Panel 1',

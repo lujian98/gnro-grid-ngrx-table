@@ -20,7 +20,7 @@ export class GnroTabsFacade {
     this.store.dispatch(tabsActions.loadTabsConfigSuccess({ tabsId, tabsConfig }));
   }
 
-  setTabsTabs(tabsId: string, tabs: GnroTabConfig[]): void {
+  setTabsTabs(tabsId: string, tabs: GnroTabConfig<unknown>[]): void {
     this.store.dispatch(tabsActions.loadTabsTabsSuccess({ tabsId, tabs }));
   }
 
@@ -32,7 +32,7 @@ export class GnroTabsFacade {
     this.store.dispatch(tabsActions.setSelectedIndex({ tabsId, index }));
   }
 
-  setAddTab(tabsId: string, tab: GnroTabConfig): void {
+  setAddTab(tabsId: string, tab: GnroTabConfig<unknown>): void {
     this.store.dispatch(tabsActions.setAddTab({ tabsId, tab }));
   }
 
@@ -40,11 +40,11 @@ export class GnroTabsFacade {
     this.store.dispatch(tabsActions.setDragDropTab({ tabsId, previousIndex, currentIndex }));
   }
 
-  setContextMenuClicked(tabsId: string, menuItem: GnroMenuConfig, tab: GnroTabConfig, index: number): void {
+  setContextMenuClicked(tabsId: string, menuItem: GnroMenuConfig, tab: GnroTabConfig<unknown>, index: number): void {
     this.store.dispatch(tabsActions.setContextMenuClicked({ tabsId, menuItem, tab, index }));
   }
 
-  setCloseTab(tabsId: string, tab: GnroTabConfig): void {
+  setCloseTab(tabsId: string, tab: GnroTabConfig<unknown>): void {
     this.store.dispatch(tabsActions.setCloseTab({ tabsId, tab }));
   }
 
@@ -60,11 +60,11 @@ export class GnroTabsFacade {
     return this.store.selectSignal(selectTabsConfig(tabsId));
   }
 
-  getTabsTabs(tabsId: string): Signal<GnroTabConfig[]> {
+  getTabsTabs(tabsId: string): Signal<GnroTabConfig<unknown>[]> {
     return this.store.selectSignal(selectTabsTabs(tabsId));
   }
 
-  getTabsOptions(tabsId: string): Signal<GnroTabConfig[]> {
+  getTabsOptions(tabsId: string): Signal<GnroTabConfig<unknown>[]> {
     return this.store.selectSignal(selectTabsOptions(tabsId));
   }
 }

@@ -3,10 +3,10 @@ import { GnroContextMenuType, GnroTabConfig } from '../models/tabs.model';
 
 export function contextClickedTabs(
   menu: GnroMenuConfig,
-  tabs: GnroTabConfig[],
-  tab: GnroTabConfig,
+  tabs: GnroTabConfig<unknown>[],
+  tab: GnroTabConfig<unknown>,
   index: number,
-): GnroTabConfig[] {
+): GnroTabConfig<unknown>[] {
   switch (menu.name) {
     case GnroContextMenuType.CLOSE:
       return [...tabs].filter((item) => item.name !== tab.name || !item.closeable);

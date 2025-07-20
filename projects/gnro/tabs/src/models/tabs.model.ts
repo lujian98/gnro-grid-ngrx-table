@@ -1,10 +1,10 @@
 import { GnroPortalContent } from '@gnro/ui/portal';
 import { GnroTabGroupConfig } from '@gnro/ui/tab-group';
 
-export interface GnroTabConfig {
+export interface GnroTabConfig<T> {
   name: string;
   title?: string;
-  content?: GnroPortalContent<any>;
+  content?: GnroPortalContent<T>;
   context?: {};
   closeable?: boolean;
   disabled?: boolean;
@@ -58,7 +58,7 @@ export interface TabsState {
 export interface GnroTabsState {
   tabsConfig: GnroTabsConfig;
   tabsSetting: GnroTabsSetting;
-  tabs: GnroTabConfig[];
+  tabs: GnroTabConfig<unknown>[];
   options: GnroTabOption<unknown>[]; // options are input to tabs mapped using portalName to portal component
 }
 

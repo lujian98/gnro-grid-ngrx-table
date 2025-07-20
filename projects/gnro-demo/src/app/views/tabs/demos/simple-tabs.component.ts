@@ -27,7 +27,7 @@ export class AppSimpleTabsComponent {
     skills: [12, 13, 14, 15, 16],
   };
 
-  tabs: GnroTabConfig[] = [
+  tabs: GnroTabConfig<unknown>[] = [
     {
       name: 'one',
       content: AppGridMultiRowSelectionComponent,

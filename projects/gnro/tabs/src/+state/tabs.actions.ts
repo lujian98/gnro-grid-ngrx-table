@@ -24,7 +24,7 @@ export const loadTabsTabs = createAction(
 
 export const loadTabsTabsSuccess = createAction(
   '[Tabs] Load Tabs Tabs Success',
-  props<{ tabsId: string; tabs: GnroTabConfig[] }>(),
+  props<{ tabsId: string; tabs: GnroTabConfig<unknown>[] }>(),
 );
 
 export const loadTabsOptions = createAction(
@@ -32,7 +32,7 @@ export const loadTabsOptions = createAction(
   props<{ tabsId: string; options: GnroTabOption<unknown>[] }>(),
 );
 
-export const setAddTab = createAction('[Tabs] Set Add Tab', props<{ tabsId: string; tab: GnroTabConfig }>());
+export const setAddTab = createAction('[Tabs] Set Add Tab', props<{ tabsId: string; tab: GnroTabConfig<unknown> }>());
 
 export const setDragDropTab = createAction(
   '[Tabs] Set Drag Drop Tab',
@@ -43,10 +43,13 @@ export const setSelectedIndex = createAction('[Tabs] Set Selected Index', props<
 
 export const setContextMenuClicked = createAction(
   '[Tabs] Set Context Menu Clicked',
-  props<{ tabsId: string; menuItem: GnroMenuConfig; tab: GnroTabConfig; index: number }>(),
+  props<{ tabsId: string; menuItem: GnroMenuConfig; tab: GnroTabConfig<unknown>; index: number }>(),
 );
 
-export const setCloseTab = createAction('[Tabs] Set Close Tab', props<{ tabsId: string; tab: GnroTabConfig }>());
+export const setCloseTab = createAction(
+  '[Tabs] Set Close Tab',
+  props<{ tabsId: string; tab: GnroTabConfig<unknown> }>(),
+);
 
 export const clearTabsStore = createAction('[Tabs]] Clear Tabs Store', props<{ tabsId: string }>());
 export const removeTabsStore = createAction('[Tabs]] Remove Tabs Store', props<{ tabsId: string }>());
