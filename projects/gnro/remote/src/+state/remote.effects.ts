@@ -18,6 +18,7 @@ export class GnroButtonEffects {
   private readonly dialogService = inject(GnroDialogService);
   private readonly remoteService = inject(GnroRemoteService);
 
+  //TODO i18n
   openDeleteConfirmationWindow$ = createEffect(() =>
     this.actions$.pipe(
       ofType(openDeleteConfirmationAction),
