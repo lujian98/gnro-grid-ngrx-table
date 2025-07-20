@@ -127,7 +127,7 @@ export const gnroFormFeature = createFeature({
       }
       return { ...newState };
     }),
-    on(formActions.saveFormDataSuccess, (state, action) => {
+    on(formActions.saveFormDataSuccessAction, (state, action) => {
       const key = action.formId;
       const newState: FormState = { ...state };
       if (state[key]) {

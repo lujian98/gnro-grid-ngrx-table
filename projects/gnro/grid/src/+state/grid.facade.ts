@@ -1,5 +1,5 @@
 import { inject, Injectable, Signal } from '@angular/core';
-import { GnroFormWindowConfig, openFormWindowDialog } from '@gnro/ui/form-window';
+import { GnroFormWindowConfig, openFormWindowDialogAction } from '@gnro/ui/form-window';
 import { GnroButtonConfg, GnroBUTTONS, GnroButtonType, GnroTasksService, uniqueId } from '@gnro/ui/core';
 import { buttonRemoteAction } from '@gnro/ui/remote';
 import { Store } from '@ngrx/store';
@@ -316,7 +316,7 @@ export class GnroGridFacade {
         values,
       };
       console.log(' formWindowConfig=', formWindowConfig);
-      this.store.dispatch(openFormWindowDialog({ stateId, formWindowConfig }));
+      this.store.dispatch(openFormWindowDialogAction({ stateId, formWindowConfig }));
     }
   }
 

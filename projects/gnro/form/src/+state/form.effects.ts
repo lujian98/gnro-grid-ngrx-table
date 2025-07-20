@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { GnroUploadFileService } from '@gnro/ui/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { updateToastMessageAction } from '@gnro/ui/message';
+import { openToastMessageAction } from '@gnro/ui/message';
 import { Store } from '@ngrx/store';
 import { concatMap, delay, map, mergeMap, of } from 'rxjs';
 import { GnroFormService } from '../services/form.service';
@@ -69,7 +69,7 @@ export class GnroFormEffects {
       concatMap(({ formId, formConfig, formData }) => {
         return this.formService.saveFormData(formConfig, formData).pipe(
           map(({ formConfig, formData }) => {
-            return formActions.saveFormDataSuccess({ formId, formConfig, formData });
+            return formActions.saveFormDataSuccessAction({ formId, formConfig, formData });
           }),
         );
       }),
@@ -78,10 +78,10 @@ export class GnroFormEffects {
 
   saveFormDataSuccess$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(formActions.saveFormDataSuccess),
+      ofType(formActions.saveFormDataSuccessAction),
       concatMap(({ formConfig, formData }) =>
         of(formData).pipe(
-          map(() => updateToastMessageAction({ action: 'Update', keyName: 'formData', configType: formConfig.urlKey })),
+          map(() => openToastMessageAction({ action: 'Update', keyName: 'formData', configType: formConfig.urlKey })),
         ),
       ),
     ),

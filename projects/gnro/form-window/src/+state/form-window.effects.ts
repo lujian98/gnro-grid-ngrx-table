@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { saveFormDataSuccess } from '@gnro/ui/form';
+import { saveFormDataSuccessAction } from '@gnro/ui/form';
 import { GnroDialogService } from '@gnro/ui/overlay';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -16,7 +16,7 @@ export class GnroFormWindowEffects {
 
   openGridFormWindow$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(formWindowActions.openFormWindowDialog),
+      ofType(formWindowActions.openFormWindowDialogAction),
       exhaustMap(({ formWindowConfig }) => {
         const dialogRef = this.dialogService.open(GnroFormWindowComponent, {
           context: formWindowConfig,
@@ -26,23 +26,23 @@ export class GnroFormWindowEffects {
       }),
       map((values) => {
         if (values === undefined) {
-          return formWindowActions.closeFormWindowDialog();
+          return formWindowActions.closeFormWindowDialogAction();
         }
         // current is use Save button save record, not use this apply action.
-        return formWindowActions.applyFormWindowDialogChanges({ values: values as object });
+        return formWindowActions.applyFormWindowDialogChangesAction({ values: values as object });
       }),
     ),
   );
 
   saveFormDataSuccess$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(saveFormDataSuccess),
+      ofType(saveFormDataSuccessAction),
       concatMap(({ formConfig }) =>
         of({ formConfig }).pipe(
           map(({ formConfig }) => {
             const keyName = formConfig.urlKey;
             const stateId = this.store.selectSignal(selectStateId)();
-            return formWindowActions.savedFormWindowData({ stateId, keyName });
+            return formWindowActions.savedFormWindowDataAction({ stateId, keyName });
           }),
         ),
       ),

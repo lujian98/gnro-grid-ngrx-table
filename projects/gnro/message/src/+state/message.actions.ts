@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 
-export const updateToastMessageAction = createAction(
-  '[Message] Update Toast Message',
+export const openToastMessageAction = createAction(
+  '[Message] Open Toast Message',
   props<{ action: string; keyName: string; configType: string }>(),
 );
 

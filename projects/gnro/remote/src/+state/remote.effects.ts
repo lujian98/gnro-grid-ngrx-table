@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { GnroMessageComponent, defaultMessageConfig, updateToastMessageAction } from '@gnro/ui/message';
+import { GnroMessageComponent, defaultMessageConfig, openToastMessageAction } from '@gnro/ui/message';
 import { GnroDialogService } from '@gnro/ui/overlay';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatMap, exhaustMap, map, mergeMap, of } from 'rxjs';
@@ -65,12 +65,13 @@ export class GnroButtonEffects {
     ),
   );
 
+  //TODO i18n
   deleteSelectedSucessfulAction$ = createEffect(() =>
     this.actions$.pipe(
       ofType(deleteSelectedSucessfulAction),
       concatMap(({ stateId, keyName }) =>
         of({ stateId, keyName }).pipe(
-          map(() => updateToastMessageAction({ action: 'Delete', keyName: keyName, configType: '' })),
+          map(() => openToastMessageAction({ action: 'Delete', keyName: keyName, configType: '' })),
         ),
       ),
     ),
@@ -83,7 +84,7 @@ export class GnroButtonEffects {
         console.log(' remote button action =', button);
         return this.remoteService.remoteAction(button, keyName, configType, formData).pipe(
           map(({ keyName, configType }) => {
-            return updateToastMessageAction({ action: button.remoteAction!, keyName, configType });
+            return openToastMessageAction({ action: button.remoteAction!, keyName, configType });
           }),
         );
       }),

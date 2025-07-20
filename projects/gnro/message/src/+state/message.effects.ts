@@ -5,7 +5,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatMap, map, of } from 'rxjs';
 import { GnroMessageComponent } from '../message.component';
 import { defaultMessageConfig } from '../models/message.model';
-import { sendToastMessageAction, updateToastMessageAction } from './message.actions';
+import { sendToastMessageAction, openToastMessageAction } from './message.actions';
 
 @Injectable()
 export class GnroMessageEffects {
@@ -14,7 +14,7 @@ export class GnroMessageEffects {
 
   updateToastMessage$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(updateToastMessageAction),
+      ofType(openToastMessageAction),
       concatMap(({ action, keyName, configType }) => {
         this.dialogService.open(GnroMessageComponent, {
           context: {

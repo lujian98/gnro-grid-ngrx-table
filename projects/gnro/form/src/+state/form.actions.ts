@@ -48,7 +48,7 @@ export const saveFormData = createAction(
   props<{ formId: string; formConfig: GnroFormConfig; formData: object }>(),
 );
 
-export const saveFormDataSuccess = createAction(
+export const saveFormDataSuccessAction = createAction(
   '[Form] Save Form Data Success',
   props<{ formId: string; formConfig: GnroFormConfig; formData: object }>(),
 );

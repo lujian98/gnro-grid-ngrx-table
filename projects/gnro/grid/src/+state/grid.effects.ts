@@ -7,7 +7,7 @@ import { GnroGridinMemoryService } from '../services/grid-in-memory.service';
 import { GnroGridService } from '../services/grid.service';
 import * as gridActions from './grid.actions';
 import { GnroGridFacade } from './grid.facade';
-import { savedFormWindowData } from '@gnro/ui/form-window';
+import { savedFormWindowDataAction } from '@gnro/ui/form-window';
 import { deleteSelectedSucessfulAction } from '@gnro/ui/remote';
 
 @Injectable()
@@ -139,9 +139,10 @@ export class GnroGridEffects {
     ),
   );
 
+  //TODO merge two actions
   savedFormWindowData$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(savedFormWindowData),
+      ofType(savedFormWindowDataAction),
       map(({ stateId }) => {
         return gridActions.getGridData({ gridId: stateId });
       }),
