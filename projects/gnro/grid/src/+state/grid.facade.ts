@@ -287,8 +287,7 @@ export class GnroGridFacade {
       const gridConfig = this.getGridConfig(gridId)();
       const keyName = gridConfig.urlKey;
       const recordKey = gridConfig.recordKey;
-      const selected = data.map((item: any) => ({ [recordKey]: item[recordKey] }));
-      console.log(' selected=', selected);
+      const selected = data.map((item: object) => ({ [recordKey]: item[recordKey as keyof typeof item] }));
       this.store.dispatch(openDeleteConfirmationAction({ stateId: gridId, keyName, selected }));
     }
   }

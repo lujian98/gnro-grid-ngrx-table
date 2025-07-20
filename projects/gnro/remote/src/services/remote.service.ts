@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { ACCEPT_JSON_API_HEADER, GnroBackendService, GnroButtonConfg } from '@gnro/ui/core';
 import { Observable, forkJoin, map, of } from 'rxjs';
+import { GnroRemoteResponse } from '../models/delete.model';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,7 @@ export class GnroRemoteService {
   private readonly http = inject(HttpClient);
   private readonly backendService = inject(GnroBackendService);
 
-  delete(stateId: string, keyName: string, selected: unknown[]): Observable<{ stateId: string; keyName: string }[]> {
+  delete(stateId: string, keyName: string, selected: unknown[]): Observable<GnroRemoteResponse[]> {
     let params = this.backendService.getParams(keyName, 'delete');
     const url = this.backendService.apiUrl;
 

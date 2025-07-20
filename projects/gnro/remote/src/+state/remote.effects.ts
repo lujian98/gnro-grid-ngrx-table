@@ -3,6 +3,7 @@ import { GnroMessageComponent, defaultMessageConfig, updateToastMessageAction } 
 import { GnroDialogService } from '@gnro/ui/overlay';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatMap, exhaustMap, map, mergeMap, of } from 'rxjs';
+import { GnroRemoteResponse } from '../models/delete.model';
 import { GnroRemoteService } from '../services/remote.service';
 import {
   applyDeleteConfirmationAction,
@@ -54,7 +55,7 @@ export class GnroButtonEffects {
       ofType(applyDeleteConfirmationAction),
       mergeMap(({ stateId, keyName, selected }) => {
         return this.remoteService.delete(stateId, keyName, selected).pipe(
-          map((res: any[]) => {
+          map((res: GnroRemoteResponse[]) => {
             const { stateId, keyName } = res[0];
             return deleteSelectedSucessfulAction({ stateId, keyName });
           }),

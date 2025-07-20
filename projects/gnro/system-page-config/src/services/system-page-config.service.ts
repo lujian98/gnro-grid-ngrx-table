@@ -10,7 +10,7 @@ export class GnroSystemPageConfigService {
   private readonly http = inject(HttpClient);
   private readonly backendService = inject(GnroBackendService);
 
-  systemPageConfig(keyName: string, configType: string, configData: object): Observable<any> {
+  systemPageConfig(keyName: string, configType: string, configData: object): Observable<unknown> {
     const headers = new HttpHeaders(ACCEPT_JSON_API_HEADER);
     const url = this.backendService.apiUrl;
 
