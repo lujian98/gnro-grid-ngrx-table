@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { ACCEPT_JSON_API_HEADER, GnroBackendService, GnroButtonConfg } from '@gnro/ui/core';
 import { Observable, forkJoin, map, of } from 'rxjs';
-import { GnroRemoteResponse } from '../models/delete.model';
+import { GnroRemoteResponse } from '../models/remote.model';
 
 @Injectable({
   providedIn: 'root',

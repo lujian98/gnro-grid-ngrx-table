@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { concatMap, exhaustMap, map, of } from 'rxjs';
 import { GnroFormWindowComponent } from '../form-window.component';
 import * as formWindowActions from './form-window.actions';
-import { selectFormWindowId } from './form-window.selectors';
+import { selectStateId } from './form-window.selectors';
 
 @Injectable()
 export class GnroFormWindowEffects {
@@ -37,11 +37,13 @@ export class GnroFormWindowEffects {
   saveFormDataSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(saveFormDataSuccess),
-      concatMap(({ formData }) =>
+      concatMap(({ formConfig, formData }) =>
         of({ formData }).pipe(
           map(({ formData }) => {
-            const formWindowId = this.store.selectSignal(selectFormWindowId)();
-            return formWindowActions.savedFormWindowData({ formWindowId, formData });
+            const keyName = formConfig.urlKey;
+            console.log(' keyName=', keyName);
+            const stateId = this.store.selectSignal(selectStateId)();
+            return formWindowActions.savedFormWindowData({ stateId, formData });
           }),
         ),
       ),

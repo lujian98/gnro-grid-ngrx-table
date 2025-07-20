@@ -1,12 +1,13 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import * as formWindowActions from './form-window.actions';
 
+//only support one open dialog window at a time
 export interface FormWindowState {
-  formWindowId: string;
+  stateId: string;
 }
 
 export const initialState: FormWindowState = {
-  formWindowId: '',
+  stateId: '',
 };
 
 export const gnroFormWindowFeature = createFeature({
@@ -16,7 +17,7 @@ export const gnroFormWindowFeature = createFeature({
     on(formWindowActions.openFormWindowDialog, (state, action) => {
       return {
         ...state,
-        formWindowId: action.formWindowId,
+        stateId: action.stateId,
       };
     }),
   ),

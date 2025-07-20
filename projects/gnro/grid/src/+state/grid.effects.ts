@@ -142,8 +142,8 @@ export class GnroGridEffects {
   savedFormWindowData$ = createEffect(() =>
     this.actions$.pipe(
       ofType(savedFormWindowData),
-      map(({ formWindowId }) => {
-        return gridActions.getGridData({ gridId: formWindowId });
+      map(({ stateId }) => {
+        return gridActions.getGridData({ gridId: stateId });
       }),
     ),
   );

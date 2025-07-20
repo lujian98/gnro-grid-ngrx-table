@@ -304,8 +304,8 @@ export class GnroGridFacade {
     }
     return {};
   }
-  private openGridFormWindow(formWindowId: string, values: object, editing: boolean): void {
-    const config = this.getFormWindowConfig(formWindowId)();
+  private openGridFormWindow(stateId: string, values: object, editing: boolean): void {
+    const config = this.getFormWindowConfig(stateId)();
     if (config) {
       const formWindowConfig = {
         ...config,
@@ -315,7 +315,8 @@ export class GnroGridFacade {
         },
         values,
       };
-      this.store.dispatch(openFormWindowDialog({ formWindowId, formWindowConfig }));
+      console.log(' formWindowConfig=', formWindowConfig);
+      this.store.dispatch(openFormWindowDialog({ stateId, formWindowConfig }));
     }
   }
 

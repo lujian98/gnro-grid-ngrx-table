@@ -284,7 +284,7 @@ export const gnroGridFeature = createFeature({
       return { ...newState };
     }),
     on(savedFormWindowData, (state, action) => {
-      const key = action.formWindowId;
+      const key = action.stateId;
       const newState: GridState = { ...state };
       if (state[key]) {
         const oldState = state[key];
