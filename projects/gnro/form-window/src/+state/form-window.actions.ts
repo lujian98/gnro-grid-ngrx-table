@@ -15,5 +15,5 @@ export const applyFormWindowDialogChanges = createAction(
 
 export const savedFormWindowData = createAction(
   '[Form Window] Remote Saved Form Window Data',
-  props<{ stateId: string; formData: object }>(),
+  props<{ stateId: string; keyName: string }>(),
 );

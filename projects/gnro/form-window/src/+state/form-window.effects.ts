@@ -37,13 +37,12 @@ export class GnroFormWindowEffects {
   saveFormDataSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(saveFormDataSuccess),
-      concatMap(({ formConfig, formData }) =>
-        of({ formData }).pipe(
-          map(({ formData }) => {
+      concatMap(({ formConfig }) =>
+        of({ formConfig }).pipe(
+          map(({ formConfig }) => {
             const keyName = formConfig.urlKey;
-            console.log(' keyName=', keyName);
             const stateId = this.store.selectSignal(selectStateId)();
-            return formWindowActions.savedFormWindowData({ stateId, formData });
+            return formWindowActions.savedFormWindowData({ stateId, keyName });
           }),
         ),
       ),
