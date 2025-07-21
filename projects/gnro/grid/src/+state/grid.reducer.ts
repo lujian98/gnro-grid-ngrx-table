@@ -30,6 +30,7 @@ export const gnroGridFeature = createFeature({
         gridConfig: {
           ...gridConfig,
           pageSize: !gridConfig.virtualScroll ? gridConfig.pageSize : VIRTUAL_SCROLL_PAGE_SIZE,
+          columnSticky: gridConfig.horizontalScroll ? gridConfig.columnSticky : false,
         },
         gridSetting: {
           ...defaultState.gridSetting,
@@ -50,7 +51,10 @@ export const gnroGridFeature = createFeature({
       if (state[key]) {
         newState[key] = {
           ...state[key],
-          gridConfig,
+          gridConfig: {
+            ...gridConfig,
+            columnSticky: gridConfig.horizontalScroll ? gridConfig.columnSticky : false,
+          },
           gridSetting: {
             ...state[key].gridSetting,
             viewportReady: !action.gridConfig.remoteColumnsConfig,
