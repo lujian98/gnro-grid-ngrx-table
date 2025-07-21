@@ -325,6 +325,7 @@ export class GnroGridFacade {
   }
 
   runTask(setting: GnroGridSetting): void {
+    console.log(' runTask=', setting);
     this.store.dispatch(gridActions.getConcatGridData({ gridId: setting.gridId }));
   }
 

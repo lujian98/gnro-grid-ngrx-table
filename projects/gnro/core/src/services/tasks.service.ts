@@ -27,6 +27,7 @@ export class GnroTasksService {
       parent: this.injector,
       providers: [provide],
     });
+
     const task = {
       key: key,
       service: injector.get(provide),
@@ -42,6 +43,18 @@ export class GnroTasksService {
   }
 
   private runTasks(task: GnroTask): void {
+    const setting: GnroTaskSetting = task.service?.getSetting(task.key)();
+    console.log('setting=', setting);
+    if (setting) {
+      const dt = Math.ceil((new Date().getTime() - setting.lastUpdateTime.getTime()) / 1000) + 2.5;
+      if (dt > task.config.refreshRate) {
+        task.service?.runTask(setting);
+      }
+    }
+    /*
+     */
+
+    /*
     task.service
       ?.selectSetting(task.key)
       .pipe(take(1))
@@ -51,6 +64,7 @@ export class GnroTasksService {
           task.service?.runTask(setting);
         }
       });
+      */
   }
 
   private findTask(key: string): GnroTask | undefined {
