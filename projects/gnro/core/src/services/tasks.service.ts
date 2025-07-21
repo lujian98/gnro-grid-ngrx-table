@@ -1,5 +1,10 @@
-import { ClassProvider, Injectable, Injector, inject } from '@angular/core';
-import { interval, take, takeWhile } from 'rxjs';
+import { Injectable, Signal } from '@angular/core';
+import { interval, takeWhile } from 'rxjs';
+
+export interface GnroTaskService {
+  getSetting(stateId: string): Signal<GnroTaskSetting>;
+  runTask(setting: GnroTaskSetting): void;
+}
 
 export interface GnroTaskConfig {
   refreshRate: number;
@@ -11,7 +16,7 @@ export interface GnroTaskSetting {
 
 export interface GnroTask {
   key: string;
-  service?: any;
+  service: GnroTaskService;
   config: GnroTaskConfig;
 }
 
@@ -19,18 +24,12 @@ export interface GnroTask {
   providedIn: 'root',
 })
 export class GnroTasksService {
-  private readonly injector = inject(Injector);
   private tasks: GnroTask[] = [];
 
-  loadTaskService(key: string, provide: any, config: GnroTaskConfig): void {
-    const injector = Injector.create({
-      parent: this.injector,
-      providers: [provide],
-    });
-
+  loadTaskService(key: string, taskService: GnroTaskService, config: GnroTaskConfig): void {
     const task = {
       key: key,
-      service: injector.get(provide),
+      service: taskService,
       config: config,
     };
     this.tasks.push(task);
@@ -44,27 +43,12 @@ export class GnroTasksService {
 
   private runTasks(task: GnroTask): void {
     const setting: GnroTaskSetting = task.service?.getSetting(task.key)();
-    console.log('setting=', setting);
     if (setting) {
       const dt = Math.ceil((new Date().getTime() - setting.lastUpdateTime.getTime()) / 1000) + 2.5;
       if (dt > task.config.refreshRate) {
         task.service?.runTask(setting);
       }
     }
-    /*
-     */
-
-    /*
-    task.service
-      ?.selectSetting(task.key)
-      .pipe(take(1))
-      .subscribe((setting: GnroTaskSetting) => {
-        const dt = Math.ceil((new Date().getTime() - setting.lastUpdateTime.getTime()) / 1000) + 2.5;
-        if (dt > task.config.refreshRate) {
-          task.service?.runTask(setting);
-        }
-      });
-      */
   }
 
   private findTask(key: string): GnroTask | undefined {

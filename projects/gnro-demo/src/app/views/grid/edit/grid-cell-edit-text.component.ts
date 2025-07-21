@@ -43,7 +43,7 @@ export class AppGridCellEditTextComponent {
     columnHidden: true,
     rowSelection: true,
     recordKey: 'ID',
-    refreshRate: 10,
+    //refreshRate: 10,
     sortFields: [
       {
         field: 'brand',
