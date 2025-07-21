@@ -59,7 +59,7 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
   private uniqueId = inject(_IdGenerator).getId('gnro-radio-');
   private cleanupClick: (() => void) | undefined;
   private removeUniqueSelectionListener: () => void = () => {};
-  private radioGroup: GnroRadioGroupDirective;
+  private radioGroup = inject<GnroRadioGroupDirective>(GNRO_RADIO_GROUP, { optional: true })!;
   private previousTabIndex: number | undefined;
 
   id = input<string>(this.uniqueId);
@@ -100,10 +100,6 @@ export class GnroRadioComponent implements OnInit, AfterViewInit, DoCheck, OnDes
   disabledInteractive$ = computed(() => this.disabledInteractive() || this.radioGroup?.disabledInteractive());
   @Output() readonly change: EventEmitter<GnroRadioChange> = new EventEmitter<GnroRadioChange>();
   @ViewChild('input') inputElement!: ElementRef<HTMLInputElement>;
-
-  constructor() {
-    this.radioGroup = inject<GnroRadioGroupDirective>(GNRO_RADIO_GROUP, { optional: true })!;
-  }
 
   focus(options?: FocusOptions, origin?: FocusOrigin): void {
     if (origin) {
