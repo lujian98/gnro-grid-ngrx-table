@@ -1,4 +1,5 @@
-import { Injectable, Signal } from '@angular/core';
+import { DestroyRef, inject, Injectable, Signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { interval, takeWhile } from 'rxjs';
 
 export interface GnroTaskService {
@@ -24,6 +25,7 @@ export interface GnroTask {
   providedIn: 'root',
 })
 export class GnroTasksService {
+  private readonly destroyRef = inject(DestroyRef);
   private tasks: GnroTask[] = [];
 
   loadTaskService(key: string, taskService: GnroTaskService, config: GnroTaskConfig): void {
@@ -36,13 +38,17 @@ export class GnroTasksService {
     const refreshRate = config.refreshRate * 1000;
     if (refreshRate >= 5000) {
       interval(refreshRate)
-        .pipe(takeWhile(() => !!this.findTask(key)))
+        .pipe(
+          takeWhile(() => !!this.findTask(key)),
+          takeUntilDestroyed(this.destroyRef),
+        )
         .subscribe(() => this.runTasks(task));
     }
   }
 
   private runTasks(task: GnroTask): void {
     const setting: GnroTaskSetting = task.service?.getSetting(task.key)();
+    //console.log( ' setting=', setting)
     if (setting) {
       const dt = Math.ceil((new Date().getTime() - setting.lastUpdateTime.getTime()) / 1000) + 2.5;
       if (dt > task.config.refreshRate) {
