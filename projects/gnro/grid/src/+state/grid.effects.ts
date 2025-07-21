@@ -139,19 +139,9 @@ export class GnroGridEffects {
     ),
   );
 
-  //TODO merge two actions
-  savedFormWindowData$ = createEffect(() =>
+  refreshGridData$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(savedFormWindowDataAction),
-      map(({ stateId }) => {
-        return gridActions.getGridData({ gridId: stateId });
-      }),
-    ),
-  );
-
-  deleteSelectedSucessfulAction$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(deleteSelectedSucessfulAction),
+      ofType(savedFormWindowDataAction, deleteSelectedSucessfulAction),
       map(({ stateId }) => {
         return gridActions.getGridData({ gridId: stateId });
       }),

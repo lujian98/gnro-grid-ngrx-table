@@ -57,7 +57,6 @@ export class GnroButtonEffects {
         return this.remoteService.delete(stateId, keyName, selected).pipe(
           map((res: GnroRemoteResponse[]) => {
             const { stateId, keyName } = res[0];
-            console.log(' keyName=', keyName);
             return deleteSelectedSucessfulAction({ stateId, keyName });
           }),
         );
