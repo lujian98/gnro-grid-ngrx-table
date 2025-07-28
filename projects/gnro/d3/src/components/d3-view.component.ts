@@ -19,12 +19,7 @@ import { GnroD3DataSource } from '../d3-data-source';
 import { GnroD3Dispatch } from '../dispatch/dispatch';
 import { GnroAbstractDraw, GnroAxisDraw, GnroInteractiveDraw, GnroScaleDraw, GnroView, GnroZoomDraw } from '../draws';
 import {
-  DEFAULT_BULLET_CHART_CONFIGS,
-  DEFAULT_CHART_CONFIGS,
   DEFAULT_CHART_OPTIONS,
-  DEFAULT_PIE_CHART_CONFIGS,
-  DEFAULT_RADIAL_GAUGE_CONFIGS,
-  DEFAULT_VERTICAL_BULLET_CHART_CONFIGS,
   GnroD3ChartConfig,
   GnroD3LegendOptions,
   GnroD3Options,
@@ -32,6 +27,7 @@ import {
 } from '../models';
 import { GnroD3Config } from '../models/d3.model';
 import { GnroDrawServie } from '../services/draw.service';
+import { initChartConfigs } from '../utils/initChartConfigs';
 import { GnroD3LegendComponent } from './legend/legend.component';
 
 @Component({
@@ -64,7 +60,7 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
     transform: (chartConfigs: GnroD3ChartConfig[]) => {
       const chartConfig = chartConfigs[0];
       this.view.initOptions(this.options, chartConfig);
-      this.setChartConfigs(chartConfigs);
+      this.chartConfigs$.set(initChartConfigs(chartConfigs));
       this._clearDataSource(true);
       this._setDataSource(this.data$());
       return chartConfigs;
@@ -133,48 +129,7 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
     }
   }
 
-  // TODO this is temporary set chart group from options
-  private setChartConfigs(chartConfigs: GnroD3ChartConfig[]): void {
-    const newconfigs = chartConfigs.map((item, index) => {
-      let chart = { ...item };
-      if (chart.panelId === undefined) {
-        chart.panelId = '0';
-      }
-      if (chart.yAxisId === undefined) {
-        chart.yAxisId = 'LEFT';
-      }
-      if (chart.xAxisId === undefined) {
-        chart.xAxisId = 'BOTTOM';
-      }
-      if (index > 0) {
-        chart = this.getOptions(chart, chartConfigs[0]);
-      }
-      let configs = DEFAULT_CHART_CONFIGS;
-      if (chart.chartType === 'bulletChart') {
-        const bulletType = chart.bullet && chart.bullet.type ? chart.bullet.type : 'horizontal';
-        const dOptions =
-          bulletType === 'vertical' ? DEFAULT_VERTICAL_BULLET_CHART_CONFIGS : DEFAULT_BULLET_CHART_CONFIGS;
-        configs = this.getOptions(dOptions, configs);
-      } else if (chart.chartType === 'pieChart') {
-        configs = this.getOptions(DEFAULT_PIE_CHART_CONFIGS, configs);
-      } else if (chart.chartType === 'radialGauge') {
-        configs = this.getOptions(DEFAULT_RADIAL_GAUGE_CONFIGS, configs);
-      }
-      return this.getOptions(chart, configs); // TODO options is default chart config
-    });
-    this.chartConfigs$.set(newconfigs);
-  }
-
-  private getOptions(option1: GnroD3ChartConfig, option2: GnroD3ChartConfig): GnroD3ChartConfig {
-    for (const [key, value] of Object.entries(option1)) {
-      // @ts-ignore
-      if (typeof value === 'object' && value !== null && option2[key]) {
-        // @ts-ignore
-        option1[key] = { ...option2[key], ...option1[key] };
-      }
-    }
-    return { ...option2, ...option1 };
-  }
+  redraw = () => this.draws.forEach((draw: GnroAbstractDraw<T>) => draw.redraw());
 
   private updateChart(data: T[]): void {
     this.data$.set(this.checkData(data));
@@ -221,9 +176,7 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
       this.zoom = new GnroZoomDraw(this.view, this.scale, this);
     }
     this.interactive = new GnroInteractiveDraw(this.view, this.scale, this);
-    this.interactive.drawPanel.select('.drawArea').on('mouseout', (e, d) => {
-      this.dispatch.hidePopover();
-    });
+    this.interactive.drawPanel.select('.drawArea').on('mouseout', (e, d) => this.dispatch.hidePopover());
     this.dispatch.draws = this.draws;
   }
 
@@ -262,8 +215,6 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
     this.dispatch.dispatch.on('legendClick', (d: any) => this.stateChangeDraw());
     this.dispatch.dispatch.on('legendResize', (d: any) => this.resizeChart(this.data$()));
   }
-
-  redraw = () => this.draws.forEach((draw: GnroAbstractDraw<T>) => draw.redraw());
 
   private _setDataSource(dataSource: GnroD3DataSource<T[]> | Observable<T[]> | T[]): void {
     this._clearDataSource();
