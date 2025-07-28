@@ -37,7 +37,7 @@ import { DEFAULT_OVERLAY_SERVICE_CONFIG, GnroOverlayServiceConfig, GnroPosition,
 import { GnroPopoverComponent, GnroPopoverService } from '@gnro/ui/popover';
 import { GnroD3Config } from '../models/d3.model';
 import { GnroD3LegendComponent } from './legend/legend.component';
-import { GnroD3PopoverComponent2 } from './popover/popover.component';
+import { GnroD3PopoverComponent } from './popover/popover.component';
 
 @Component({
   selector: 'gnro-d3-view',
@@ -306,7 +306,7 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
       GnroPopoverComponent,
       this.elementRef,
       overlayServiceConfig,
-      GnroD3PopoverComponent2,
+      GnroD3PopoverComponent,
       popoverContext,
     );
     this.showPopover();
