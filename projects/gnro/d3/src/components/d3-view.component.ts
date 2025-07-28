@@ -31,7 +31,7 @@ import {
   GnroD3Options,
   GnroD3ZoomOptions,
 } from '../models';
-import { GnroDrawServie } from '../services';
+import { GnroDrawServie } from '../services/draw.service';
 
 import { DEFAULT_OVERLAY_SERVICE_CONFIG, GnroOverlayServiceConfig, GnroPosition, GnroTrigger } from '@gnro/ui/overlay';
 import { GnroPopoverComponent, GnroPopoverService } from '@gnro/ui/popover';

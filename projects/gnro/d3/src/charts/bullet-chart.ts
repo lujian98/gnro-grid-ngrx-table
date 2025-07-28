@@ -1,7 +1,7 @@
+import { sortByField } from '@gnro/ui/core';
 import * as d3Array from 'd3-array';
 import { GnroAbstractDraw } from '../draws/abstract-draw';
-import { GnroScaleLinear, GnroD3Range, GnroD3BulletChartData } from '../models';
-import { GnroUtils } from '../utils/utils';
+import { GnroD3BulletChartData, GnroD3Range, GnroScaleLinear } from '../models';
 
 export class GnrobulletChart<T> extends GnroAbstractDraw<T> {
   setRangeScale(data: GnroD3BulletChartData[]): void {
@@ -25,7 +25,7 @@ export class GnrobulletChart<T> extends GnroAbstractDraw<T> {
   }
 
   private getRangeData(data: GnroD3Range[]): GnroD3Range[] {
-    const range = GnroUtils.dataSortByField(data, 'value', 'asc');
+    const range = sortByField(data, 'value', 'asc');
     return range
       .filter((d, i) => i > 0)
       .map((d, i) => {
@@ -39,7 +39,7 @@ export class GnrobulletChart<T> extends GnroAbstractDraw<T> {
   }
 
   private getMeasuredRange(data: GnroD3Range[], optionX: Function, minv: number): GnroD3Range[] {
-    data = GnroUtils.dataSortByField(data, optionX, 'asc');
+    data = sortByField(data, optionX, 'asc');
     const ndata = data.map((d, i) => {
       const p = { ...d };
       p.minv = i === 0 ? minv : optionX(data[i - 1]);

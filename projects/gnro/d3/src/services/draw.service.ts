@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import * as d3 from 'd3-selection';
 import * as d3Dispatch from 'd3-dispatch';
 import { GnroScaleDraw, GnroAbstractDraw, GnroView } from '../draws';
 import { GnroD3ChartConfig } from '../models';
@@ -24,7 +23,6 @@ import { GnroRadialGauge } from '../gauge';
 export class GnroDrawServie<T> {
   componentMapper = {
     lineChart: GnroLineChart,
-    // lineChartY2: GnroLineChart,
     areaChart: GnroAreaChart,
     bulletChart: GnrobulletChart,
     stackedAreaChart: GnroStackedAreaChart,
@@ -46,8 +44,6 @@ export class GnroDrawServie<T> {
 
     radialGauge: GnroRadialGauge,
   };
-
-  constructor() {}
 
   getDraw(
     view: GnroView,
