@@ -39,7 +39,7 @@ export class GnroInteractiveDraw<T> {
       .on('mouseout', (e, d) => this.updateInteractive(e, false));
     this.init();
     this.update();
-    this.draw.dispatch.on('drawZoom', (e) => this.updateInteractive(e.sourceEvent, true));
+    this.draw.dispatch.dispatch.on('drawZoom', (e) => this.updateInteractive(e.sourceEvent, true));
   }
 
   // updateOptions(): void {
@@ -111,7 +111,7 @@ export class GnroInteractiveDraw<T> {
     this.updateGuideLineCircle(data, pxy[0], mouseover);
     if (data.length > 0 && mouseover) {
       const pd = this.getPopoverData(data);
-      this.draw.dispatch.call('drawMouseover', this, { event: e, data: pd });
+      this.draw.dispatch.dispatch.call('drawMouseover', this, { event: e, data: pd });
     }
   }
 

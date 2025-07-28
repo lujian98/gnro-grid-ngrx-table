@@ -6,7 +6,6 @@ import {
   ElementRef,
   HostBinding,
   HostListener,
-  inject,
   input,
   OnDestroy,
   OnInit,
@@ -15,8 +14,6 @@ import {
 } from '@angular/core';
 import { Observable, of, Subject, Subscription } from 'rxjs';
 import { debounceTime, takeWhile } from 'rxjs/operators';
-// @ts-ignore
-import * as d3Dispatch from 'd3-dispatch';
 import { GnroD3DataSource } from '../d3-data-source';
 import { GnroAbstractDraw, GnroAxisDraw, GnroInteractiveDraw, GnroScaleDraw, GnroView, GnroZoomDraw } from '../draws';
 import {
@@ -32,12 +29,10 @@ import {
   GnroD3ZoomOptions,
 } from '../models';
 import { GnroDrawServie } from '../services/draw.service';
-
-import { DEFAULT_OVERLAY_SERVICE_CONFIG, GnroOverlayServiceConfig, GnroPosition, GnroTrigger } from '@gnro/ui/overlay';
-import { GnroPopoverComponent, GnroPopoverService } from '@gnro/ui/popover';
+import { GnroD3Dispatch } from '../dispatch/dispatch';
+import { GnroPopoverService } from '@gnro/ui/popover';
 import { GnroD3Config } from '../models/d3.model';
 import { GnroD3LegendComponent } from './legend/legend.component';
-import { GnroD3PopoverComponent } from './popover/popover.component';
 
 @Component({
   selector: 'gnro-d3-view',
@@ -49,9 +44,8 @@ import { GnroD3PopoverComponent } from './popover/popover.component';
   providers: [GnroDrawServie, GnroPopoverService],
 })
 export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy {
-  private popoverService = inject(GnroPopoverService);
   private options!: GnroD3Options; // get form d3Config
-  dispatch!: d3Dispatch.Dispatch<{}>;
+  dispatch = new GnroD3Dispatch();
   view = new GnroView(this.elementRef, DEFAULT_CHART_OPTIONS);
   scale: GnroScaleDraw<T> = new GnroScaleDraw(this.view);
   draws: GnroAbstractDraw<T>[] = [];
@@ -220,7 +214,7 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
     this.scale.buildScales(this.chartConfigs$());
     this.drawAxis = new GnroAxisDraw(this.view, this.scale, this.chartConfigs$());
     this.chartConfigs$().forEach((chart) => {
-      const draw = this.drawServie.getDraw(this.view, this.scale, this.dispatch, chart);
+      const draw = this.drawServie.getDraw(this.view, this.scale, this.dispatch.dispatch, chart);
       this.draws.push(draw);
     });
     this.setDrawDomain(data);
@@ -230,7 +224,7 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
     }
     this.interactive = new GnroInteractiveDraw(this.view, this.scale, this);
     this.interactive.drawPanel.select('.drawArea').on('mouseout', (e, d) => {
-      this.hidePopover();
+      this.dispatch.hidePopover();
     });
   }
 
@@ -250,7 +244,7 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
     });
   }
 
-  stateChangeDraw(): void {
+  private stateChangeDraw(): void {
     this.setDrawDomain(this.data$()); // TODO option to turn on/off set dromain
     if (this.zoomConfig.enabled) {
       this.zoom.setZoomRange();
@@ -264,64 +258,19 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
     this.drawAxis.update();
   }
 
-  setDispatch(): void {
-    this.dispatch = d3Dispatch.dispatch(
-      'drawMouseover',
-      'drawMouseout',
-      'drawZoom',
-      'legendClick',
-      'legendResize',
-      'legendMouseover',
-      'legendMouseout',
-      'stateChange',
-    );
-    this.dispatch.on('legendClick', (d: any) => {
+  private setDispatch(): void {
+    this.dispatch.setDispatch();
+    this.dispatch.dispatch.on('legendClick', (d: any) => {
       this.legendMouseover(d, !d.disabled);
       this.stateChangeDraw();
       this.legendMouseover(d, !d.disabled);
     });
-    this.dispatch.on('legendResize', (d: any) => this.resizeChart(this.data$()));
-    this.dispatch.on('legendMouseover', (d: any) => this.legendMouseover(d, true));
-    this.dispatch.on('legendMouseout', (d: any) => this.legendMouseover(d, false));
-    this.dispatch.on('drawMouseover', (p: any) => {
-      this.hidePopover();
-      if (p.data && p.data.series.length > 0) {
-        const popoverContext = { data: p.data };
-        this.buildPopover(popoverContext, p.event);
-      }
-    });
-    this.dispatch.on('drawMouseout', (p: any) => {
-      this.hidePopover(); // NOT WORKING
-    });
+    this.dispatch.dispatch.on('legendResize', (d: any) => this.resizeChart(this.data$()));
+    this.dispatch.dispatch.on('legendMouseover', (d: any) => this.legendMouseover(d, true));
+    this.dispatch.dispatch.on('legendMouseout', (d: any) => this.legendMouseover(d, false));
   }
 
-  private buildPopover(popoverContext: Object, event: MouseEvent): void {
-    const overlayServiceConfig: GnroOverlayServiceConfig = {
-      ...DEFAULT_OVERLAY_SERVICE_CONFIG,
-      trigger: GnroTrigger.POINT,
-      position: GnroPosition.BOTTOMRIGHT,
-      event,
-    };
-    this.popoverService.build(
-      GnroPopoverComponent,
-      this.elementRef,
-      overlayServiceConfig,
-      GnroD3PopoverComponent,
-      popoverContext,
-    );
-    this.showPopover();
-  }
-
-  private showPopover(): void {
-    this.hidePopover();
-    this.popoverService.show();
-  }
-
-  private hidePopover() {
-    this.popoverService.hide();
-  }
-
-  legendMouseover(data: T[], mouseover: boolean): void {
+  private legendMouseover(data: T[], mouseover: boolean): void {
     this.draws.forEach((draw: GnroAbstractDraw<T>) => draw.legendMouseover(null, data, mouseover));
   }
 

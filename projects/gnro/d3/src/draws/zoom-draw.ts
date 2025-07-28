@@ -194,7 +194,7 @@ export class GnroZoomDraw<T> {
           }
         }
       }
-      this.draw.dispatch.call('drawZoom', this, event);
+      this.draw.dispatch.dispatch.call('drawZoom', this, event);
     }
   }
 
