@@ -58,8 +58,8 @@ export class GnroPortalComponent<T> implements AfterViewInit, OnDestroy {
   }
 
   addPortalContent(content: GnroPortalContent<T>, context: Object, injector?: Injector): void {
-    this.detach();
     if (content instanceof Type) {
+      this.detach();
       this.componentRef = this.createComponentPortal(content, context, injector);
     } else if (content instanceof TemplateRef) {
       this.createTemplatePortal(content, context);
