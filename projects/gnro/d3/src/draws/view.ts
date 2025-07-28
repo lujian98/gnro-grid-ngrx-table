@@ -1,18 +1,19 @@
-import { ElementRef } from '@angular/core';
+import { ElementRef, inject } from '@angular/core';
 import * as d3 from 'd3-selection';
 import {
-  DEFAULT_CHART_OPTIONS,
-  GnroD3ZoomOptions,
-  GnroD3ChartConfig,
   DEFAULT_BULLET_CHART_OPTIONS,
-  DEFAULT_VERTICAL_BULLET_CHART_OPTIONS,
+  DEFAULT_CHART_OPTIONS,
   DEFAULT_PIE_CHART_OPTIONS,
   DEFAULT_RADIAL_GAUGE_OPTIONS,
+  DEFAULT_VERTICAL_BULLET_CHART_OPTIONS,
+  GnroD3ChartConfig,
   GnroD3Options,
+  GnroD3ZoomOptions,
   GnroMargin,
 } from '../models';
 
 export class GnroView {
+  private readonly elementRef = inject(ElementRef);
   private height!: number;
   private _svg!: d3.Selection<d3.BaseType, {}, HTMLElement, any>;
   private chartConfigs!: GnroD3ChartConfig[];
@@ -25,10 +26,7 @@ export class GnroView {
     this._svg = v;
   }
 
-  constructor(
-    protected elementRef: ElementRef,
-    private options: GnroD3Options,
-  ) {}
+  constructor(private options: GnroD3Options) {}
 
   public clearElement(): void {
     d3.select(this.elementRef.nativeElement).select('g').remove();

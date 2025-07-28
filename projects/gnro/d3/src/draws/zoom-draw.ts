@@ -22,7 +22,6 @@ export class GnroZoomDraw<T> {
 
   get configs(): GnroD3ChartConfig {
     // TODO other charts if need only for X axis for now
-    // console.log(' ssssssssssssssssss this.chartConfigs=', this.chartConfigs)
     return this.draw.chartConfigs$()[0];
   }
 

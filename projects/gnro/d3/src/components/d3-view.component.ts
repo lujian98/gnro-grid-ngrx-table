@@ -3,18 +3,20 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   HostBinding,
   HostListener,
+  inject,
   input,
   OnDestroy,
   OnInit,
   signal,
   ViewEncapsulation,
 } from '@angular/core';
+import { GnroPopoverService } from '@gnro/ui/popover';
 import { Observable, of, Subject, Subscription } from 'rxjs';
 import { debounceTime, takeWhile } from 'rxjs/operators';
 import { GnroD3DataSource } from '../d3-data-source';
+import { GnroD3Dispatch } from '../dispatch/dispatch';
 import { GnroAbstractDraw, GnroAxisDraw, GnroInteractiveDraw, GnroScaleDraw, GnroView, GnroZoomDraw } from '../draws';
 import {
   DEFAULT_BULLET_CHART_CONFIGS,
@@ -28,10 +30,8 @@ import {
   GnroD3Options,
   GnroD3ZoomOptions,
 } from '../models';
-import { GnroDrawServie } from '../services/draw.service';
-import { GnroD3Dispatch } from '../dispatch/dispatch';
-import { GnroPopoverService } from '@gnro/ui/popover';
 import { GnroD3Config } from '../models/d3.model';
+import { GnroDrawServie } from '../services/draw.service';
 import { GnroD3LegendComponent } from './legend/legend.component';
 
 @Component({
@@ -44,18 +44,19 @@ import { GnroD3LegendComponent } from './legend/legend.component';
   providers: [GnroDrawServie, GnroPopoverService],
 })
 export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy {
+  private readonly drawServie = inject(GnroDrawServie);
   private options!: GnroD3Options; // get form d3Config
-  dispatch = new GnroD3Dispatch();
-  view = new GnroView(this.elementRef, DEFAULT_CHART_OPTIONS);
-  scale: GnroScaleDraw<T> = new GnroScaleDraw(this.view);
-  draws: GnroAbstractDraw<T>[] = [];
-  zoom!: GnroZoomDraw<T>;
-  interactive!: GnroInteractiveDraw<T>;
-  drawAxis!: GnroAxisDraw<T>;
+  private zoom!: GnroZoomDraw<T>;
+  private interactive!: GnroInteractiveDraw<T>;
+  private drawAxis!: GnroAxisDraw<T>;
   private _dataSubscription!: Subscription | null;
   private alive = true;
   private isViewReady = false;
-  isWindowReszie$: Subject<{}> = new Subject();
+  private isWindowReszie$: Subject<{}> = new Subject();
+  dispatch = new GnroD3Dispatch();
+  view = new GnroView(DEFAULT_CHART_OPTIONS);
+  scale: GnroScaleDraw<T> = new GnroScaleDraw(this.view);
+  draws: GnroAbstractDraw<T>[] = [];
 
   data$ = signal<T[]>([]);
   chartConfigs$ = signal<GnroD3ChartConfig[]>([]);
@@ -112,10 +113,7 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
     }
   }
 
-  constructor(
-    protected elementRef: ElementRef,
-    private drawServie: GnroDrawServie<T>,
-  ) {
+  constructor() {
     this.setDispatch();
   }
 
@@ -178,7 +176,7 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
     return { ...option2, ...option1 };
   }
 
-  public updateChart(data: T[]): void {
+  private updateChart(data: T[]): void {
     this.data$.set(this.checkData(data));
     if (this.isViewReady && this.data$()) {
       if (!this.view.svg) {
@@ -194,7 +192,7 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
     }
   }
 
-  public resizeChart(data: T[]): void {
+  private resizeChart(data: T[]): void {
     this.view.setViewDimension(this.zoomConfig);
     this.scale.update();
     this.setDrawDomain(data);
@@ -206,7 +204,7 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
     this.interactive.update();
   }
 
-  public createChart(data: T[]): void {
+  private createChart(data: T[]): void {
     this.view.setViewDimension(this.zoomConfig);
     this.scale.initColor(data);
     this.view.initView(this.chartConfigs$());
@@ -226,9 +224,10 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
     this.interactive.drawPanel.select('.drawArea').on('mouseout', (e, d) => {
       this.dispatch.hidePopover();
     });
+    this.dispatch.draws = this.draws;
   }
 
-  drawChart(data: any[]): void {
+  private drawChart(data: any[]): void {
     this.draws.forEach((draw: GnroAbstractDraw<T>, i: number) => {
       const drawData = data.filter((d: any) => {
         const panelId = d.panelId ? d.panelId : '0';
@@ -253,25 +252,15 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
     this.interactive.update();
   }
 
-  setDrawDomain(data: T[]): void {
+  private setDrawDomain(data: T[]): void {
     this.scale.setDrawDomain(data);
     this.drawAxis.update();
   }
 
   private setDispatch(): void {
     this.dispatch.setDispatch();
-    this.dispatch.dispatch.on('legendClick', (d: any) => {
-      this.legendMouseover(d, !d.disabled);
-      this.stateChangeDraw();
-      this.legendMouseover(d, !d.disabled);
-    });
+    this.dispatch.dispatch.on('legendClick', (d: any) => this.stateChangeDraw());
     this.dispatch.dispatch.on('legendResize', (d: any) => this.resizeChart(this.data$()));
-    this.dispatch.dispatch.on('legendMouseover', (d: any) => this.legendMouseover(d, true));
-    this.dispatch.dispatch.on('legendMouseout', (d: any) => this.legendMouseover(d, false));
-  }
-
-  private legendMouseover(data: T[], mouseover: boolean): void {
-    this.draws.forEach((draw: GnroAbstractDraw<T>) => draw.legendMouseover(null, data, mouseover));
   }
 
   redraw = () => this.draws.forEach((draw: GnroAbstractDraw<T>) => draw.redraw());
@@ -311,18 +300,6 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
     }
   }
 
-  ngOnDestroy(): void {
-    this.alive = false;
-    this.isWindowReszie$.complete();
-    this._clearDataSource();
-    this.view.clearElement();
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onResize(event: MouseEvent): void {
-    this.isWindowReszie$.next(true);
-  }
-
   private cloneData = <T>(data: T[]) => data && data.map((d) => (typeof d === 'object' ? Object.assign({}, d) : d));
 
   private checkData<T>(data: T[]): any[] {
@@ -336,5 +313,17 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
           },
         ]
       : data;
+  }
+
+  ngOnDestroy(): void {
+    this.alive = false;
+    this.isWindowReszie$.complete();
+    this._clearDataSource();
+    this.view.clearElement();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: MouseEvent): void {
+    this.isWindowReszie$.next(true);
   }
 }

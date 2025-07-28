@@ -4,6 +4,7 @@ import {
   computed,
   ElementRef,
   HostBinding,
+  inject,
   input,
   OnDestroy,
   OnInit,
@@ -25,6 +26,7 @@ import { GnroD3ChartConfig } from '../../models';
   },
 })
 export class GnroD3LegendComponent<T> implements OnInit, OnDestroy {
+  private readonly elementRef = inject(ElementRef);
   view = input.required({
     transform: (view: GnroView) => {
       if (this.availableWidth !== view.width - view.margin.left!) {
@@ -84,8 +86,6 @@ export class GnroD3LegendComponent<T> implements OnInit, OnDestroy {
   get legend(): any {
     return this.configs.legend;
   }
-
-  constructor(private elementRef: ElementRef) {}
 
   ngOnInit(): void {
     this.stateChange$

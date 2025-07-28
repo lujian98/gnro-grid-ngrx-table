@@ -1,10 +1,11 @@
 import { ElementRef, inject } from '@angular/core';
-import * as d3Dispatch from 'd3-dispatch';
 import { DEFAULT_OVERLAY_SERVICE_CONFIG, GnroOverlayServiceConfig, GnroPosition, GnroTrigger } from '@gnro/ui/overlay';
 import { GnroPopoverComponent, GnroPopoverService } from '@gnro/ui/popover';
+import * as d3Dispatch from 'd3-dispatch';
 import { GnroD3PopoverComponent } from '../components/popover/popover.component';
+import { GnroAbstractDraw } from '../draws';
 
-export class GnroD3Dispatch {
+export class GnroD3Dispatch<T> {
   private readonly popoverService = inject(GnroPopoverService);
   private readonly elementRef = inject(ElementRef);
   dispatch: d3Dispatch.Dispatch<{}> = d3Dispatch.dispatch(
@@ -17,22 +18,19 @@ export class GnroD3Dispatch {
     'legendMouseout',
     'stateChange',
   );
+  draws: GnroAbstractDraw<T>[] = [];
 
   setDispatch(): void {
-    /*
     this.dispatch.on('legendClick', (d: any) => {
       this.legendMouseover(d, !d.disabled);
-      //this.stateChangeDraw();
       this.legendMouseover(d, !d.disabled);
-    });*/
-    //this.dispatch.on('legendResize', (d: any) => this.resizeChart(this.data$()));
-    //this.dispatch.on('legendMouseover', (d: any) => this.legendMouseover(d, true));
-    //this.dispatch.on('legendMouseout', (d: any) => this.legendMouseover(d, false));
+    });
+    this.dispatch.on('legendMouseover', (d: any) => this.legendMouseover(d, true));
+    this.dispatch.on('legendMouseout', (d: any) => this.legendMouseover(d, false));
     this.dispatch.on('drawMouseover', (p: any) => {
       this.hidePopover();
       if (p.data && p.data.series.length > 0) {
         const popoverContext = { data: p.data };
-        console.log(' xxxxxxxxx popover data=', popoverContext);
         this.buildPopover(popoverContext, p.event);
       }
     });
@@ -41,10 +39,9 @@ export class GnroD3Dispatch {
     });
   }
 
-  /*
   private legendMouseover(data: T[], mouseover: boolean): void {
     this.draws.forEach((draw: GnroAbstractDraw<T>) => draw.legendMouseover(null, data, mouseover));
-  }*/
+  }
 
   private buildPopover(popoverContext: Object, event: MouseEvent): void {
     const overlayServiceConfig: GnroOverlayServiceConfig = {
@@ -68,7 +65,7 @@ export class GnroD3Dispatch {
     this.popoverService.show();
   }
 
-  hidePopover() {
+  hidePopover(): void {
     this.popoverService.hide();
   }
 }
