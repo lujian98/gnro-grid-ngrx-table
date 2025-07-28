@@ -30,6 +30,7 @@ export class GnroPortalComponent<T> implements AfterViewInit, OnDestroy {
 
   content = input<GnroPortalContent<T>, GnroPortalContent<T>>(undefined, {
     transform: (content: GnroPortalContent<T>) => {
+      this.detach();
       if (this.isViewReady) {
         this.addPortalContent(content, this.context()!);
       }
