@@ -1,4 +1,3 @@
-import { isDataSource } from '@angular/cdk/collections';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -13,9 +12,8 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { GnroPopoverService } from '@gnro/ui/popover';
-import { Observable, of, Subject, Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { debounceTime, takeWhile } from 'rxjs/operators';
-import { GnroD3DataSource } from '../d3-data-source';
 import { GnroD3Dispatch } from '../dispatch/dispatch';
 import { GnroAbstractDraw, GnroAxisDraw, GnroInteractiveDraw, GnroScaleDraw, GnroView, GnroZoomDraw } from '../draws';
 import {
@@ -45,7 +43,6 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
   private zoom!: GnroZoomDraw<T>;
   private interactive!: GnroInteractiveDraw<T>;
   private drawAxis!: GnroAxisDraw<T>;
-  private _dataSubscription!: Subscription | null;
   private alive = true;
   private isViewReady = false;
   private isWindowReszie$: Subject<{}> = new Subject();
@@ -60,8 +57,8 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
     transform: (chartConfigs: GnroD3ChartConfig[]) => {
       const chartConfig = chartConfigs[0];
       this.view.initOptions(this.options, chartConfig);
+      this.view.clearElement();
       this.chartConfigs$.set(initChartConfigs(chartConfigs));
-      this._clearDataSource(true);
       this._setDataSource(this.data$());
       return chartConfigs;
     },
@@ -76,17 +73,15 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
   });
   data = input([], {
     transform: (data: T[]) => {
-      this.data$.set(data);
       this._setDataSource(data);
       return data;
     },
   });
-  dataSource = input([], {
-    transform: (dataSource: GnroD3DataSource<T[]> | Observable<T[]> | T[]) => {
-      this._setDataSource(dataSource);
-      return dataSource;
-    },
-  });
+
+  private _setDataSource(data: T[]): void {
+    this.data$.set(data as T[]);
+    this.updateChart(this.data$());
+  }
 
   get legend(): GnroD3LegendOptions {
     return this.chartConfigs$()[0].legend!;
@@ -216,41 +211,6 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
     this.dispatch.dispatch.on('legendResize', (d: any) => this.resizeChart(this.data$()));
   }
 
-  private _setDataSource(dataSource: GnroD3DataSource<T[]> | Observable<T[]> | T[]): void {
-    this._clearDataSource();
-    let dataStream: Observable<T[] | ReadonlyArray<T[]>> | undefined;
-    if (isDataSource(dataSource)) {
-      dataStream = dataSource.connect();
-    } else if (dataSource instanceof Observable) {
-      dataStream = dataSource;
-    } else if (Array.isArray(dataSource)) {
-      dataStream = of(dataSource);
-    }
-    if (dataStream) {
-      // @ts-ignore
-      this._dataSubscription = dataStream.pipe(takeWhile(() => this.alive)).subscribe((data: T[]) => {
-        if (data) {
-          this.data$.set(data);
-          this.updateChart(this.data$());
-        }
-      });
-    }
-  }
-
-  private _clearDataSource(clearElemet: boolean = false): void {
-    if (this.dataSource() && typeof (this.dataSource() as GnroD3DataSource<T[]>).disconnect === 'function') {
-      (this.dataSource() as GnroD3DataSource<T[]>).disconnect();
-      clearElemet = true;
-    }
-    if (clearElemet) {
-      this.view.clearElement();
-    }
-    if (this._dataSubscription) {
-      this._dataSubscription.unsubscribe();
-      this._dataSubscription = null;
-    }
-  }
-
   private cloneData = <T>(data: T[]) => data && data.map((d) => (typeof d === 'object' ? Object.assign({}, d) : d));
 
   private checkData<T>(data: T[]): any[] {
@@ -269,7 +229,6 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
   ngOnDestroy(): void {
     this.alive = false;
     this.isWindowReszie$.complete();
-    this._clearDataSource();
     this.view.clearElement();
   }
 
