@@ -94,7 +94,7 @@ export class GnroInteractiveDraw<T> {
       const xScale = this.scale.scaleX.value as GnroScaleLinear;
       const bisect = d3Array.bisector((d) => this.configs.x!(d)).right;
       const x0 = xScale.invert(pxy[0]);
-      this.draw.data$().forEach((d) => {
+      this.draw.data().forEach((d) => {
         const values = this.configs.y0!(d);
         idx = bisect(values, x0);
       });
@@ -139,7 +139,7 @@ export class GnroInteractiveDraw<T> {
   private getInteractiveData(idx: number): GnroD3Interactive[] {
     const ndata: GnroD3Interactive[] = [];
     this.draw
-      .data$()
+      .data()
       .filter((d: any) => !d.disabled)
       .forEach((d: any, i) => {
         this.draw.draws.forEach((draw) => {

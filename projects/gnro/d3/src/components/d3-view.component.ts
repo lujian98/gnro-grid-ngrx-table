@@ -46,7 +46,6 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
   draws: GnroAbstractDraw<T>[] = [];
 
   d3Config = input.required<GnroD3Config>();
-  data$ = signal<T[]>([]);
   chartConfigs$ = signal<GnroD3ChartConfig[]>([]);
   chartConfigs = input.required({
     transform: (chartConfigs: GnroD3ChartConfig[]) => {
@@ -54,21 +53,16 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
       this.view.initOptions(this.d3Config().options!, chartConfig);
       this.view.clearElement();
       this.chartConfigs$.set(chartConfigs);
-      this._setDataSource(this.data$());
+      this.updateChart(this.data());
       return chartConfigs;
     },
   });
   data = input([], {
     transform: (data: T[]) => {
-      this._setDataSource(data);
+      this.updateChart(data);
       return data;
     },
   });
-
-  private _setDataSource(data: T[]): void {
-    this.data$.set(data as T[]);
-    this.updateChart(this.data$());
-  }
 
   get legend(): GnroD3LegendOptions {
     return this.chartConfigs$()[0].legend!;
@@ -98,25 +92,25 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
   ngOnInit(): void {
     this.isWindowReszie$
       .pipe(debounceTime(100), takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => this.resizeChart(this.data$()));
+      .subscribe(() => this.resizeChart(this.data()));
   }
 
   ngAfterViewInit(): void {
     this.isViewReady = true;
-    if (this.data$()) {
-      this.updateChart(this.data$());
+    if (this.data()) {
+      this.updateChart(this.data());
     }
   }
 
   redraw = () => this.draws.forEach((draw: GnroAbstractDraw<T>) => draw.redraw());
 
   private updateChart(data: T[]): void {
-    if (this.isViewReady && this.data$()) {
+    if (this.isViewReady && data) {
       if (!this.view.svg) {
-        this.createChart(this.data$());
+        this.createChart(data);
       } else {
-        this.setDrawDomain(this.data$());
-        this.drawChart(this.data$());
+        this.setDrawDomain(data);
+        this.drawChart(data);
         if (this.zoomConfig.enabled) {
           this.zoom.setZoomRange();
         }
@@ -175,11 +169,11 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
   }
 
   private stateChangeDraw(): void {
-    this.setDrawDomain(this.data$()); // TODO option to turn on/off set dromain
+    this.setDrawDomain(this.data()); // TODO option to turn on/off set dromain
     if (this.zoomConfig.enabled) {
       this.zoom.setZoomRange();
     }
-    this.drawChart(this.data$());
+    this.drawChart(this.data());
     this.interactive.update();
   }
 
@@ -191,7 +185,7 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
   private setDispatch(): void {
     this.dispatch.setDispatch();
     this.dispatch.dispatch.on('legendClick', (d: any) => this.stateChangeDraw());
-    this.dispatch.dispatch.on('legendResize', (d: any) => this.resizeChart(this.data$()));
+    this.dispatch.dispatch.on('legendResize', (d: any) => this.resizeChart(this.data()));
   }
 
   ngOnDestroy(): void {
