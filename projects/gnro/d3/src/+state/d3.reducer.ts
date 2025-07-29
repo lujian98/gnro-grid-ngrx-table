@@ -2,6 +2,9 @@ import { createFeature, createReducer, on } from '@ngrx/store';
 import * as d3Actions from './d3.actions';
 import { D3State, defaultD3State } from '../models/d3.model';
 
+import { initChartConfigs } from '../utils/init-chart-configs';
+import { checkPieChartData } from '../utils/check-pie-chart-data';
+
 export const initialState: D3State = {};
 
 export const gnroD3Feature = createFeature({
@@ -37,10 +40,11 @@ export const gnroD3Feature = createFeature({
       const key = action.d3Id;
       const newState: D3State = { ...state };
       if (state[key]) {
-        const chartConfigs = state[key].chartConfigs ? state[key].chartConfigs : [];
+        const configs = state[key].chartConfigs ? state[key].chartConfigs : [];
+        const chartConfigs = initChartConfigs([...configs, ...action.chartConfigs]);
         newState[key] = {
           ...state[key],
-          chartConfigs: [...chartConfigs, ...action.chartConfigs],
+          chartConfigs,
         };
       }
       return { ...newState };
@@ -49,10 +53,11 @@ export const gnroD3Feature = createFeature({
       const key = action.d3Id;
       const newState: D3State = { ...state };
       if (state[key]) {
+        const data = checkPieChartData(action.data, state[key].chartConfigs);
         newState[key] = {
           ...state[key],
           d3Config: { ...state[key].d3Config, ...action.d3Config },
-          data: [...action.data],
+          data: data,
         };
       }
       return { ...newState };

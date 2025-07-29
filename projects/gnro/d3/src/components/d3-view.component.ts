@@ -21,7 +21,6 @@ import { GnroAbstractDraw, GnroAxisDraw, GnroInteractiveDraw, GnroScaleDraw, Gnr
 import { DEFAULT_CHART_OPTIONS, GnroD3ChartConfig, GnroD3LegendOptions, GnroD3ZoomOptions } from '../models';
 import { GnroD3Config } from '../models/d3.model';
 import { GnroDrawServie } from '../services/draw.service';
-import { initChartConfigs } from '../utils/initChartConfigs';
 import { GnroD3LegendComponent } from './legend/legend.component';
 
 @Component({
@@ -54,7 +53,7 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
       const chartConfig = chartConfigs[0];
       this.view.initOptions(this.d3Config().options!, chartConfig);
       this.view.clearElement();
-      this.chartConfigs$.set(initChartConfigs(chartConfigs));
+      this.chartConfigs$.set(chartConfigs);
       this._setDataSource(this.data$());
       return chartConfigs;
     },
@@ -112,7 +111,6 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
   redraw = () => this.draws.forEach((draw: GnroAbstractDraw<T>) => draw.redraw());
 
   private updateChart(data: T[]): void {
-    this.data$.set(this.checkData(data));
     if (this.isViewReady && this.data$()) {
       if (!this.view.svg) {
         this.createChart(this.data$());
@@ -194,21 +192,6 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
     this.dispatch.setDispatch();
     this.dispatch.dispatch.on('legendClick', (d: any) => this.stateChangeDraw());
     this.dispatch.dispatch.on('legendResize', (d: any) => this.resizeChart(this.data$()));
-  }
-
-  private cloneData = <T>(data: T[]) => data && data.map((d) => (typeof d === 'object' ? Object.assign({}, d) : d));
-
-  private checkData<T>(data: T[]): any[] {
-    const configs = this.chartConfigs$()[0];
-    data = this.cloneData(data);
-    return data && configs.chartType === 'pieChart' && !configs.y0!(data[0])
-      ? [
-          {
-            key: 'Pie Chart',
-            values: data,
-          },
-        ]
-      : data;
   }
 
   ngOnDestroy(): void {
