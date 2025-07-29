@@ -18,13 +18,7 @@ import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { GnroD3Dispatch } from '../dispatch/dispatch';
 import { GnroAbstractDraw, GnroAxisDraw, GnroInteractiveDraw, GnroScaleDraw, GnroView, GnroZoomDraw } from '../draws';
-import {
-  DEFAULT_CHART_OPTIONS,
-  GnroD3ChartConfig,
-  GnroD3LegendOptions,
-  GnroD3Options,
-  GnroD3ZoomOptions,
-} from '../models';
+import { DEFAULT_CHART_OPTIONS, GnroD3ChartConfig, GnroD3LegendOptions, GnroD3ZoomOptions } from '../models';
 import { GnroD3Config } from '../models/d3.model';
 import { GnroDrawServie } from '../services/draw.service';
 import { initChartConfigs } from '../utils/initChartConfigs';
@@ -42,7 +36,6 @@ import { GnroD3LegendComponent } from './legend/legend.component';
 export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy {
   private readonly drawServie = inject(GnroDrawServie);
   private readonly destroyRef = inject(DestroyRef);
-  private options!: GnroD3Options; // get form d3Config
   private zoom!: GnroZoomDraw<T>;
   private interactive!: GnroInteractiveDraw<T>;
   private drawAxis!: GnroAxisDraw<T>;
@@ -53,24 +46,17 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
   scale: GnroScaleDraw<T> = new GnroScaleDraw(this.view);
   draws: GnroAbstractDraw<T>[] = [];
 
+  d3Config = input.required<GnroD3Config>();
   data$ = signal<T[]>([]);
   chartConfigs$ = signal<GnroD3ChartConfig[]>([]);
   chartConfigs = input.required({
     transform: (chartConfigs: GnroD3ChartConfig[]) => {
       const chartConfig = chartConfigs[0];
-      this.view.initOptions(this.options, chartConfig);
+      this.view.initOptions(this.d3Config().options!, chartConfig);
       this.view.clearElement();
       this.chartConfigs$.set(initChartConfigs(chartConfigs));
       this._setDataSource(this.data$());
       return chartConfigs;
-    },
-  });
-  d3Config = input.required({
-    transform: (d3Config: GnroD3Config) => {
-      if (d3Config.options) {
-        this.options = { ...d3Config.options };
-      }
-      return d3Config;
     },
   });
   data = input([], {
