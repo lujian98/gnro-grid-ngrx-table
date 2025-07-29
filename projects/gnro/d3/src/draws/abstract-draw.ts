@@ -134,11 +134,11 @@ export abstract class GnroAbstractDraw<T> {
   }
 
   // @ts-ignore
-  getdrawColor = (d, i) => d.color || this.scale.colors(this.chart.drawColor(d, i));
+  getdrawColor = (d, i) => d.color || this.scale.colors$()(this.chart.drawColor(d, i));
   // @ts-ignore
-  getBarColor = (d, i) => d.color || (this.chart.barColor && this.scale.colors(this.chart.barColor(d, i)));
+  getBarColor = (d, i) => d.color || (this.chart.barColor && this.scale.colors$()(this.chart.barColor(d, i)));
   // @ts-ignore
-  getStackeddrawColor = (d, i) => d.color || this.scale.colors(d.key); // key is from stacked data
+  getStackeddrawColor = (d, i) => d.color || this.scale.colors$()(d.key); // key is from stacked data
 
   // below for popover data
   // @ts-ignore

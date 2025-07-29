@@ -37,7 +37,6 @@ export interface AxisScale {
 export class GnroScaleDraw<T> {
   x: AxisScale[] = [];
   y: AxisScale[] = [];
-  colors!: GnroScaleColor;
   colors$ = signal<GnroScaleColor | undefined>(undefined);
 
   //scaleChange$ = new Subject<GnroScaleDraw<T>>();
@@ -313,8 +312,7 @@ export class GnroScaleDraw<T> {
   }
 
   public setColors(colors: any): void {
-    this.colors = d3Scale.scaleOrdinal(colors);
-    this.colors$.set(this.colors);
+    this.colors$.set(d3Scale.scaleOrdinal(colors));
   }
 
   public setColorDomain(data: any[]): void {
@@ -323,6 +321,6 @@ export class GnroScaleDraw<T> {
       const values = this.configs.y0!(data[0]);
       keys = values.map((d: any, i: number) => this.configs.drawColor!(d, i));
     }
-    this.colors.domain(keys);
+    this.colors$()!.domain(keys);
   }
 }
