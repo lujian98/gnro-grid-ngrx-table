@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   HostBinding,
   HostListener,
   inject,
@@ -11,9 +12,10 @@ import {
   signal,
   ViewEncapsulation,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { GnroPopoverService } from '@gnro/ui/popover';
 import { Subject } from 'rxjs';
-import { debounceTime, takeWhile } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 import { GnroD3Dispatch } from '../dispatch/dispatch';
 import { GnroAbstractDraw, GnroAxisDraw, GnroInteractiveDraw, GnroScaleDraw, GnroView, GnroZoomDraw } from '../draws';
 import {
@@ -39,11 +41,11 @@ import { GnroD3LegendComponent } from './legend/legend.component';
 })
 export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy {
   private readonly drawServie = inject(GnroDrawServie);
+  private readonly destroyRef = inject(DestroyRef);
   private options!: GnroD3Options; // get form d3Config
   private zoom!: GnroZoomDraw<T>;
   private interactive!: GnroInteractiveDraw<T>;
   private drawAxis!: GnroAxisDraw<T>;
-  private alive = true;
   private isViewReady = false;
   private isWindowReszie$: Subject<{}> = new Subject();
   dispatch = new GnroD3Dispatch();
@@ -110,10 +112,7 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
 
   ngOnInit(): void {
     this.isWindowReszie$
-      .pipe(
-        takeWhile(() => this.alive),
-        debounceTime(100),
-      )
+      .pipe(debounceTime(100), takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.resizeChart(this.data$()));
   }
 
@@ -227,8 +226,6 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
   }
 
   ngOnDestroy(): void {
-    this.alive = false;
-    this.isWindowReszie$.complete();
     this.view.clearElement();
   }
 
