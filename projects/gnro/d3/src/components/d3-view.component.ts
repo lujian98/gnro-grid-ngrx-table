@@ -64,7 +64,7 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
   legend = computed(() => this.chartConfigs()[0].legend!);
   zoomConfig = computed(() => this.chartConfigs()[0].zoom!);
 
-  @HostBinding('style.flex-direction') get flexDirection(): any {
+  @HostBinding('style.flex-direction') get flexDirection(): string {
     if (this.legend()) {
       switch (this.legend().position) {
         case 'top':
@@ -75,6 +75,7 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
           return '';
       }
     }
+    return '';
   }
 
   ngOnInit(): void {
@@ -141,7 +142,7 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
     this.dispatch.draws = this.draws;
   }
 
-  private drawChart(data: any[]): void {
+  private drawChart(data: T[]): void {
     this.draws.forEach((draw: GnroAbstractDraw<T>, i: number) => {
       const drawData = data.filter((d: any) => {
         const panelId = d.panelId ? d.panelId : '0';
@@ -173,8 +174,8 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
 
   private setDispatch(): void {
     this.dispatch.setDispatch();
-    this.dispatch.dispatch.on('legendClick', (d: any) => this.stateChangeDraw());
-    this.dispatch.dispatch.on('legendResize', (d: any) => this.resizeChart(this.data()));
+    this.dispatch.dispatch.on('legendClick', () => this.stateChangeDraw());
+    this.dispatch.dispatch.on('legendResize', () => this.resizeChart(this.data()));
   }
 
   ngOnDestroy(): void {
