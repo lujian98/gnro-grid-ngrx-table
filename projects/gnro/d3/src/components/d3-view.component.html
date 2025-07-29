@@ -1,6 +1,6 @@
 <svg width="100%"></svg>
 
-@if (legend && legend.enabled) {
+@if (legend() && legend().enabled) {
   <gnro-d3-legend
     [view]="view"
     [chartConfigs]="chartConfigs()"

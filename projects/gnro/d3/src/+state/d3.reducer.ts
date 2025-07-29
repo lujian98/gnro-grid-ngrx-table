@@ -1,9 +1,8 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import * as d3Actions from './d3.actions';
 import { D3State, defaultD3State } from '../models/d3.model';
-
-import { initChartConfigs } from '../utils/init-chart-configs';
 import { checkPieChartData } from '../utils/check-pie-chart-data';
+import { initChartConfigs } from '../utils/init-chart-configs';
+import * as d3Actions from './d3.actions';
 
 export const initialState: D3State = {};
 

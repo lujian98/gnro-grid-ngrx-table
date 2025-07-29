@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  computed,
   DestroyRef,
   HostBinding,
   HostListener,
@@ -17,7 +18,7 @@ import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { GnroD3Dispatch } from '../dispatch/dispatch';
 import { GnroAbstractDraw, GnroAxisDraw, GnroInteractiveDraw, GnroScaleDraw, GnroView, GnroZoomDraw } from '../draws';
-import { DEFAULT_CHART_OPTIONS, GnroD3ChartConfig, GnroD3LegendOptions, GnroD3ZoomOptions } from '../models';
+import { DEFAULT_CHART_OPTIONS, GnroD3ChartConfig } from '../models';
 import { GnroD3Config } from '../models/d3.model';
 import { GnroDrawServie } from '../services/draw.service';
 import { GnroD3LegendComponent } from './legend/legend.component';
@@ -60,18 +61,12 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
       return data;
     },
   });
-
-  get legend(): GnroD3LegendOptions {
-    return this.chartConfigs()[0].legend!;
-  }
-
-  get zoomConfig(): GnroD3ZoomOptions {
-    return this.chartConfigs()[0].zoom!;
-  }
+  legend = computed(() => this.chartConfigs()[0].legend!);
+  zoomConfig = computed(() => this.chartConfigs()[0].zoom!);
 
   @HostBinding('style.flex-direction') get flexDirection(): any {
-    if (this.legend) {
-      switch (this.legend.position) {
+    if (this.legend()) {
+      switch (this.legend().position) {
         case 'top':
           return 'column-reverse';
         case 'bottom':
@@ -82,11 +77,8 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
     }
   }
 
-  constructor() {
-    this.setDispatch();
-  }
-
   ngOnInit(): void {
+    this.setDispatch();
     this.isWindowReszie$
       .pipe(debounceTime(100), takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.resizeChart(this.data()));
@@ -108,7 +100,7 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
       } else {
         this.setDrawDomain(data);
         this.drawChart(data);
-        if (this.zoomConfig.enabled) {
+        if (this.zoomConfig().enabled) {
           this.zoom.setZoomRange();
         }
         this.interactive.update();
@@ -117,10 +109,10 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
   }
 
   private resizeChart(data: T[]): void {
-    this.view.setViewDimension(this.zoomConfig);
+    this.view.setViewDimension(this.zoomConfig());
     this.scale.update();
     this.setDrawDomain(data);
-    if (this.zoomConfig.enabled) {
+    if (this.zoomConfig().enabled) {
       this.zoom.update();
       this.zoom.setZoomRange();
     }
@@ -129,7 +121,7 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
   }
 
   private createChart(data: T[], chartConfigs: GnroD3ChartConfig[]): void {
-    this.view.setViewDimension(this.zoomConfig);
+    this.view.setViewDimension(this.zoomConfig());
     this.scale.initColor(data);
     this.view.initView(chartConfigs);
     this.view.update();
@@ -141,7 +133,7 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
     });
     this.setDrawDomain(data);
     this.drawChart(data);
-    if (this.zoomConfig.enabled) {
+    if (this.zoomConfig().enabled) {
       this.zoom = new GnroZoomDraw(this.view, this.scale, this);
     }
     this.interactive = new GnroInteractiveDraw(this.view, this.scale, this);
@@ -167,7 +159,7 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
 
   private stateChangeDraw(): void {
     this.setDrawDomain(this.data()); // TODO option to turn on/off set dromain
-    if (this.zoomConfig.enabled) {
+    if (this.zoomConfig().enabled) {
       this.zoom.setZoomRange();
     }
     this.drawChart(this.data());
