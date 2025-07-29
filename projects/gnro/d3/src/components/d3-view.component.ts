@@ -9,7 +9,6 @@ import {
   input,
   OnDestroy,
   OnInit,
-  signal,
   ViewEncapsulation,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -46,30 +45,28 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
   draws: GnroAbstractDraw<T>[] = [];
 
   d3Config = input.required<GnroD3Config>();
-  chartConfigs$ = signal<GnroD3ChartConfig[]>([]);
   chartConfigs = input.required({
     transform: (chartConfigs: GnroD3ChartConfig[]) => {
       const chartConfig = chartConfigs[0];
       this.view.initOptions(this.d3Config().options!, chartConfig);
       this.view.clearElement();
-      this.chartConfigs$.set(chartConfigs);
-      this.updateChart(this.data());
+      this.updateChart(this.data(), chartConfigs);
       return chartConfigs;
     },
   });
   data = input([], {
     transform: (data: T[]) => {
-      this.updateChart(data);
+      this.updateChart(data, this.chartConfigs());
       return data;
     },
   });
 
   get legend(): GnroD3LegendOptions {
-    return this.chartConfigs$()[0].legend!;
+    return this.chartConfigs()[0].legend!;
   }
 
   get zoomConfig(): GnroD3ZoomOptions {
-    return this.chartConfigs$()[0].zoom!;
+    return this.chartConfigs()[0].zoom!;
   }
 
   @HostBinding('style.flex-direction') get flexDirection(): any {
@@ -98,16 +95,16 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
   ngAfterViewInit(): void {
     this.isViewReady = true;
     if (this.data()) {
-      this.updateChart(this.data());
+      this.updateChart(this.data(), this.chartConfigs());
     }
   }
 
   redraw = () => this.draws.forEach((draw: GnroAbstractDraw<T>) => draw.redraw());
 
-  private updateChart(data: T[]): void {
+  private updateChart(data: T[], chartConfigs: GnroD3ChartConfig[]): void {
     if (this.isViewReady && data) {
       if (!this.view.svg) {
-        this.createChart(data);
+        this.createChart(data, chartConfigs);
       } else {
         this.setDrawDomain(data);
         this.drawChart(data);
@@ -131,14 +128,14 @@ export class GnroD3ViewComponent<T> implements AfterViewInit, OnInit, OnDestroy 
     this.interactive.update();
   }
 
-  private createChart(data: T[]): void {
+  private createChart(data: T[], chartConfigs: GnroD3ChartConfig[]): void {
     this.view.setViewDimension(this.zoomConfig);
     this.scale.initColor(data);
-    this.view.initView(this.chartConfigs$());
+    this.view.initView(chartConfigs);
     this.view.update();
-    this.scale.buildScales(this.chartConfigs$());
-    this.drawAxis = new GnroAxisDraw(this.view, this.scale, this.chartConfigs$());
-    this.chartConfigs$().forEach((chart) => {
+    this.scale.buildScales(chartConfigs);
+    this.drawAxis = new GnroAxisDraw(this.view, this.scale, chartConfigs);
+    chartConfigs.forEach((chart) => {
       const draw = this.drawServie.getDraw(this.view, this.scale, this.dispatch.dispatch, chart);
       this.draws.push(draw);
     });
