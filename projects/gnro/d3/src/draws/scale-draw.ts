@@ -1,19 +1,18 @@
-import { Subject } from 'rxjs';
+import { signal } from '@angular/core';
 import * as d3Axis from 'd3-axis';
 import * as d3Scale from 'd3-scale';
 import * as d3ScaleChromatic from 'd3-scale-chromatic';
-import { GnroScaleFactory } from '../scales/scale-factory';
+import { GnroView } from '.';
 import {
+  DEFAULT_CHART_CONFIGS,
+  GnroD3ChartConfig,
   GnroScale,
+  GnroScaleAxis,
+  GnroScaleBand,
   GnroScaleColor,
   GnroScaleLinear,
-  GnroScaleBand,
-  GnroScaleAxis,
-  GnroD3Options,
-  GnroD3ChartConfig,
-  DEFAULT_CHART_CONFIGS,
 } from '../models';
-import { GnroView } from '.';
+import { GnroScaleFactory } from '../scales/scale-factory';
 
 export interface AxisScale {
   factory?: GnroScaleFactory<any>;
@@ -39,6 +38,7 @@ export class GnroScaleDraw<T> {
   x: AxisScale[] = [];
   y: AxisScale[] = [];
   colors!: GnroScaleColor;
+  colors$ = signal<GnroScaleColor | undefined>(undefined);
 
   //scaleChange$ = new Subject<GnroScaleDraw<T>>();
   private chartConfigs!: GnroD3ChartConfig[];
@@ -314,6 +314,7 @@ export class GnroScaleDraw<T> {
 
   public setColors(colors: any): void {
     this.colors = d3Scale.scaleOrdinal(colors);
+    this.colors$.set(this.colors);
   }
 
   public setColorDomain(data: any[]): void {

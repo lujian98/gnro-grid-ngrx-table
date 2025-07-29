@@ -13,8 +13,8 @@ import * as d3Dispatch from 'd3-dispatch';
 import * as d3 from 'd3-selection';
 import { Subject } from 'rxjs';
 import { delay, takeWhile } from 'rxjs/operators';
-import { GnroScaleDraw, GnroView } from '../../draws';
-import { GnroD3ChartConfig } from '../../models';
+import { GnroView } from '../../draws';
+import { GnroD3ChartConfig, GnroScaleColor } from '../../models';
 
 @Component({
   selector: 'gnro-d3-legend',
@@ -37,7 +37,7 @@ export class GnroD3LegendComponent<T> implements OnInit, OnDestroy {
   });
   chartConfigs = input<GnroD3ChartConfig[]>([]);
   data = input<T[]>([]);
-  scale = input<GnroScaleDraw<T> | null>(null);
+  scaleColors = input.required<GnroScaleColor>();
   dispatch = input<d3Dispatch.Dispatch<{}>>();
   legendData$ = computed(() => {
     const legendData: any[] = [];
@@ -90,8 +90,8 @@ export class GnroD3LegendComponent<T> implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.stateChange$
       .pipe(
+        delay(100),
         takeWhile(() => this.alive),
-        delay(0),
       )
       .subscribe(() => {
         this.dispatch()!.call('legendResize', this, this.getData());
@@ -162,8 +162,8 @@ export class GnroD3LegendComponent<T> implements OnInit, OnDestroy {
   }
 
   legendColor(d: any, i: number): any {
-    if (d && this.scale()?.colors) {
-      return d.color || this.scale()!.colors(this.configs.drawColor!(d, i));
+    if (d && this.scaleColors()) {
+      return d.color || this.scaleColors()(this.configs.drawColor!(d, i));
     }
   }
 
