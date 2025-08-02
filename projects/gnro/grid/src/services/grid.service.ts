@@ -4,15 +4,13 @@ import { ACCEPT_JSON_API_HEADER, GnroBackendService } from '@gnro/ui/core';
 import { Observable, catchError, forkJoin, map, of, throwError } from 'rxjs';
 import {
   GnroColumnConfig,
-  GnroColumnFilter,
   GnroColumnsConfigResponse,
   GnroGridConfig,
   GnroGridConfigResponse,
   GnroGridData,
-  GnroSortField,
 } from '../models/grid.model';
-import { GnroFilterFactory } from './filter/filter-factory';
-import { GnroRansackFilterFactory } from './ransack/filter/filter-factory';
+import { filterHttpParams } from '../utils/filter-http-params';
+import { sortHttpParams } from '../utils/sort-http-params';
 
 @Injectable({
   providedIn: 'root',
@@ -100,8 +98,8 @@ export class GnroGridService {
 
   getGridData<T>(gridConfig: GnroGridConfig, columns: GnroColumnConfig[]): Observable<GnroGridData<object>> {
     let params = this.backendService.getParams(gridConfig.urlKey, 'gridData');
-    params = this.appendFilterHttpParams(gridConfig.columnFilters, columns, params);
-    params = this.appendSortHttpParams(gridConfig.sortFields, params);
+    params = filterHttpParams(gridConfig.columnFilters, columns, params);
+    params = sortHttpParams(gridConfig.sortFields, params);
     const offset = (gridConfig.page - 1) * gridConfig.pageSize;
     const limit = gridConfig.pageSize;
     params = params.append('offset', offset.toString());
@@ -121,52 +119,13 @@ export class GnroGridService {
 
   export<T>(gridConfig: GnroGridConfig, columns: GnroColumnConfig[]): Observable<Blob> {
     let params = this.backendService.getParams(gridConfig.urlKey, 'export');
-    params = this.appendFilterHttpParams(gridConfig.columnFilters, columns, params);
-    params = this.appendSortHttpParams(gridConfig.sortFields, params);
+    params = filterHttpParams(gridConfig.columnFilters, columns, params);
+    params = sortHttpParams(gridConfig.sortFields, params);
     const offset = (gridConfig.page - 1) * gridConfig.pageSize;
     const limit = gridConfig.pageSize;
     params = params.append('offset', offset.toString());
     params = params.append('limit', limit.toString());
     const url = this.backendService.apiUrl;
     return this.http.get(url, { params, responseType: 'blob' });
-  }
-
-  appendFilterHttpParams(
-    columnFilters: GnroColumnFilter[],
-    columns: GnroColumnConfig[],
-    params: HttpParams,
-  ): HttpParams {
-    const ransackFilterFactory = new GnroRansackFilterFactory();
-    const filterFactory = new GnroFilterFactory();
-    columnFilters.forEach((col) => {
-      const column = columns.find((item) => item.name === col.name);
-      const filter = filterFactory.getFilter(column!);
-      filter.search = col.value;
-      const ransackFilter = ransackFilterFactory.getFilter(filter);
-      const filterParams = ransackFilter.getParams();
-      if (filterParams && filterParams.length > 0) {
-        filterParams.forEach((pairs: { [index: string]: string | number }) => {
-          Object.keys(pairs).forEach((key) => {
-            let value = pairs[key];
-            value = value || value === 0 ? value.toString() : '';
-            params = params.append(key, value);
-          });
-        });
-      }
-    });
-    return params;
-  }
-
-  appendSortHttpParams(sorts: GnroSortField[], params: HttpParams): HttpParams {
-    sorts.forEach((sort) => {
-      const val = sort.field + '.' + sort.dir;
-      params = params.append('order', val.toString());
-      if (sort.dir === 'asc') {
-        params = params.append('sort', sort.field);
-      } else {
-        params = params.append('sort', '-' + sort.field);
-      }
-    });
-    return params;
   }
 }
