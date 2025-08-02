@@ -195,6 +195,21 @@ export class GnroGridEffects {
     ),
   );
 
+  /*
+        // Using file-saver library for robust file saving
+      saveAs(blob, filename);
+
+      // Alternatively, using native browser download (less robust for older browsers)
+      // const url = window.URL.createObjectURL(blob);
+      // const a = document.createElement('a');
+      // a.href = url;
+      // a.download = filename;
+      // document.body.appendChild(a);
+      // a.click();
+      // window.URL.revokeObjectURL(url);
+      // document.body.removeChild(a);
+      */
+
   clearGridDataStore$ = createEffect(() =>
     this.actions$.pipe(
       ofType(gridActions.clearGridDataStore),
