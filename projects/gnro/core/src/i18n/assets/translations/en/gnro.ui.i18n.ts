@@ -12,6 +12,7 @@ export const GNRO = {
       DELETE: 'Delete',
       EDIT: 'Edit',
       ENABLED: 'Enabled',
+      EXPORT: 'Export',
       IS_EMPTY: 'Is Empty',
       OK: 'Ok',
       NOT_EMPTY: 'Not Empty',

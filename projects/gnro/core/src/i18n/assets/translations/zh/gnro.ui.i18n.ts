@@ -12,6 +12,7 @@ export const GNRO = {
       DELETE: 'Delete',
       EDIT: '编辑',
       ENABLED: '启用',
+      EXPORT: 'Export',
       IS_EMPTY: 'Is Empty',
       OK: '好的',
       NOT_EMPTY: 'Not Empty',

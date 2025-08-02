@@ -5,6 +5,7 @@ export enum GnroButtonType {
   Delete = 'Delete',
   Edit = 'Edit',
   ExpandAll = 'ExpandAll',
+  Export = 'Export',
   Open = 'Open',
   Refresh = 'Refresh',
   Remove = 'Remove',
@@ -64,6 +65,11 @@ export const GnroBUTTONS = {
   ExpandAll: {
     name: GnroButtonType.ExpandAll,
     title: 'Expand All',
+    icon: 'plus',
+  },
+  Export: {
+    name: GnroButtonType.Export,
+    title: 'GNRO.UI.ACTIONS.EXPORT',
     icon: 'plus',
   },
   Open: {

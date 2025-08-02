@@ -119,6 +119,18 @@ export class GnroGridService {
     );
   }
 
+  export<T>(gridConfig: GnroGridConfig, columns: GnroColumnConfig[]): Observable<Blob> {
+    let params = this.backendService.getParams(gridConfig.urlKey, 'export');
+    params = this.appendFilterHttpParams(gridConfig.columnFilters, columns, params);
+    params = this.appendSortHttpParams(gridConfig.sortFields, params);
+    const offset = (gridConfig.page - 1) * gridConfig.pageSize;
+    const limit = gridConfig.pageSize;
+    params = params.append('offset', offset.toString());
+    params = params.append('limit', limit.toString());
+    const url = this.backendService.apiUrl;
+    return this.http.get(url, { params, responseType: 'blob' });
+  }
+
   appendFilterHttpParams(
     columnFilters: GnroColumnFilter[],
     columns: GnroColumnConfig[],

@@ -171,10 +171,14 @@ export class GnroGridComponent<T> implements OnInit, OnDestroy {
       case GnroButtonType.Open:
         this.gridFacade.openButtonClick(this.gridId);
         break;
+      case GnroButtonType.Export:
+        this.gridFacade.export(this.gridId);
+        break;
       default:
         break;
     }
     if (button.remoteAction) {
+      // TODO for undefined button???
       this.gridFacade.buttonRemoteAction(this.gridId, button);
     }
     this.gnroButtonClick.emit({ button, gridConfig: this.gridConfig$(), gridSetting: this.gridSetting$() });

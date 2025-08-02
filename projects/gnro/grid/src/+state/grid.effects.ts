@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { concatMap, debounceTime, delay, map, mergeMap, of, switchMap } from 'rxjs';
+import { concatMap, debounceTime, delay, exhaustMap, map, mergeMap, of, switchMap } from 'rxjs';
 import { GnroColumnConfig, GnroGridConfig } from '../models/grid.model';
 import { GnroGridinMemoryService } from '../services/grid-in-memory.service';
 import { GnroGridService } from '../services/grid.service';
@@ -144,6 +144,30 @@ export class GnroGridEffects {
       ofType(savedFormWindowDataAction, deleteSelectedSucessfulAction),
       map(({ stateId }) => {
         return gridActions.getGridData({ gridId: stateId });
+      }),
+    ),
+  );
+
+  openExportWindow$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(gridActions.openExportWindow),
+      exhaustMap((action) => {
+        const gridId = action.gridId;
+        const gridConfig = this.gridFacade.getGridConfig(gridId)();
+        const columns = this.gridFacade.getColumnsConfig(gridId)();
+        return this.gridService.export(gridConfig, columns).pipe(
+          map((response) => {
+            console.log(' response=', response);
+            const blob = new Blob([response], { type: 'text/xls' });
+            const url = window.URL.createObjectURL(blob);
+            const element = document.createElement('a');
+            element.download = 'download-file.xls';
+            element.href = url;
+            element.click();
+
+            return gridActions.exportFileSuccess();
+          }),
+        );
       }),
     ),
   );

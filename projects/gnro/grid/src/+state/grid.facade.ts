@@ -292,6 +292,10 @@ export class GnroGridFacade {
     }
   }
 
+  export(gridId: string): void {
+    this.store.dispatch(gridActions.openExportWindow({ gridId }));
+  }
+
   private getSelectedRecord(gridId: string): object {
     const selected = this.getRowSelection(gridId)()?.selection.selected;
     if (selected && selected.length > 0) {
