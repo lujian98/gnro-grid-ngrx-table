@@ -166,10 +166,25 @@ export class GnroGridEffects {
         return this.gridService.export(gridConfig, params).pipe(
           map((response) => {
             console.log(' response=', response);
-            const blob = new Blob([response], { type: 'text/xls' });
+            const contentDisposition = response.headers.get('Content-Disposition');
+            console.log(' contentDisposition=', contentDisposition);
+
+            let filename = 'download-file.xls';
+
+            if (contentDisposition) {
+              const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+              const matches = filenameRegex.exec(contentDisposition);
+              if (matches != null && matches[1]) {
+                filename = matches[1].replace(/['"]/g, '');
+              }
+            }
+
+            const blob = new Blob([response.body as BlobPart], {
+              type: response.headers.get('Content-Type') || undefined,
+            });
             const url = window.URL.createObjectURL(blob);
             const element = document.createElement('a');
-            element.download = 'download-file.xls';
+            element.download = filename;
             element.href = url;
             element.click();
 

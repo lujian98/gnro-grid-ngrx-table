@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { ACCEPT_JSON_API_HEADER, GnroBackendService } from '@gnro/ui/core';
 import { Observable, catchError, forkJoin, map, of, throwError } from 'rxjs';
@@ -117,11 +117,11 @@ export class GnroGridService {
     );
   }
 
-  export(gridConfig: GnroGridConfig, params: HttpParams): Observable<Blob> {
+  export(gridConfig: GnroGridConfig, params: HttpParams): Observable<HttpResponse<Blob>> {
     //let params = this.backendService.getParams(gridConfig.urlKey, 'export');
     //params = filterHttpParams(gridConfig.columnFilters, columns, params);
     //params = sortHttpParams(gridConfig.sortFields, params);
     const url = this.backendService.apiUrl;
-    return this.http.get(url, { params, responseType: 'blob' });
+    return this.http.get(url, { params, observe: 'response', responseType: 'blob' });
   }
 }
