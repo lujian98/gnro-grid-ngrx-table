@@ -1,14 +1,17 @@
 import { Injectable, inject } from '@angular/core';
+import { GnroBackendService } from '@gnro/ui/core';
+import { savedFormWindowDataAction } from '@gnro/ui/form-window';
+import { deleteSelectedSucessfulAction } from '@gnro/ui/remote';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { concatMap, debounceTime, delay, exhaustMap, map, mergeMap, of, switchMap } from 'rxjs';
 import { GnroColumnConfig, GnroGridConfig } from '../models/grid.model';
 import { GnroGridinMemoryService } from '../services/grid-in-memory.service';
 import { GnroGridService } from '../services/grid.service';
+import { filterHttpParams } from '../utils/filter-http-params';
+import { sortHttpParams } from '../utils/sort-http-params';
 import * as gridActions from './grid.actions';
 import { GnroGridFacade } from './grid.facade';
-import { savedFormWindowDataAction } from '@gnro/ui/form-window';
-import { deleteSelectedSucessfulAction } from '@gnro/ui/remote';
 
 @Injectable()
 export class GnroGridEffects {
@@ -17,6 +20,7 @@ export class GnroGridEffects {
   private readonly gridFacade = inject(GnroGridFacade);
   private readonly gridService = inject(GnroGridService);
   private readonly gridinMemoryService = inject(GnroGridinMemoryService);
+  private readonly backendService = inject(GnroBackendService);
 
   setupGridConfig$ = createEffect(() =>
     this.actions$.pipe(
@@ -155,7 +159,11 @@ export class GnroGridEffects {
         const gridId = action.gridId;
         const gridConfig = this.gridFacade.getGridConfig(gridId)();
         const columns = this.gridFacade.getColumnsConfig(gridId)();
-        return this.gridService.export(gridConfig, columns).pipe(
+
+        let params = this.backendService.getParams(gridConfig.urlKey, 'export');
+        params = filterHttpParams(gridConfig.columnFilters, columns, params);
+        params = sortHttpParams(gridConfig.sortFields, params);
+        return this.gridService.export(gridConfig, params).pipe(
           map((response) => {
             console.log(' response=', response);
             const blob = new Blob([response], { type: 'text/xls' });
