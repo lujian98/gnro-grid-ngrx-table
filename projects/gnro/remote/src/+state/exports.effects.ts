@@ -44,6 +44,7 @@ export class GnroRemoteExportsEffects {
         if (data === undefined) {
           return closeRemoteExportsWindowAction();
         }
+        console.log('window close data =', data);
         return startRemoteExportsAction(data as { params: HttpParams });
       }),
     ),
@@ -53,7 +54,7 @@ export class GnroRemoteExportsEffects {
     this.actions$.pipe(
       ofType(startRemoteExportsAction),
       concatMap((action) => {
-        console.log(' 2222action.params= ', action.params);
+        console.log(' 66666666666666.params= ', action.params);
         return this.remoteExportsService.exports(action.params).pipe(
           map((response) => {
             console.log(' 3333333 response=', response);
