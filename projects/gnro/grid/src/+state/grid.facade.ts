@@ -295,7 +295,6 @@ export class GnroGridFacade {
   }
 
   exports(gridId: string): void {
-    console.log(' export gridId==', gridId);
     this.store.dispatch(gridActions.saveGridConfigs({ gridId }));
     const gridConfig = this.getGridConfig(gridId)();
     const columns = this.getColumnsConfig(gridId)();

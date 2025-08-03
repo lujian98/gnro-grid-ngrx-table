@@ -1,11 +1,16 @@
+import { HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { GnroMessageComponent, defaultMessageConfig, openToastMessageAction } from '@gnro/ui/message';
+import { GnroMessageComponent, defaultMessageConfig } from '@gnro/ui/message';
 import { GnroDialogService } from '@gnro/ui/overlay';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { concatMap, exhaustMap, map, mergeMap, of } from 'rxjs';
-import { GnroRemoteResponse } from '../models/remote.model';
+import { concatMap, exhaustMap, map } from 'rxjs';
 import { GnroRemoteExportsService } from '../services/exports.service';
-import { openRemoteExportsWindowAction, remoteExportFileSuccessAction } from './exports.actions';
+import {
+  closeRemoteExportsWindowAction,
+  openRemoteExportsWindowAction,
+  remoteExportFileSuccessAction,
+  startRemoteExportsAction,
+} from './exports.actions';
 
 @Injectable()
 export class GnroRemoteExportsEffects {
@@ -17,15 +22,38 @@ export class GnroRemoteExportsEffects {
     this.actions$.pipe(
       ofType(openRemoteExportsWindowAction),
       exhaustMap((action) => {
-        /*
-        const gridId = action.gridId;
-        const gridConfig = this.gridFacade.getGridConfig(gridId)();
-        const columns = this.gridFacade.getColumnsConfig(gridId)();
+        const params = action.params;
+        const dialogRef = this.dialogService.open(GnroMessageComponent, {
+          context: {
+            messageConfig: {
+              ...defaultMessageConfig,
+              title: 'Export',
+              showOkButton: true,
+              ok: 'Yes',
+              showCancelButton: true,
+              message: 'Are you sure you want export grid data selected?',
+            },
+            data: { params },
+          },
+          hasBackdrop: false,
+          closeOnBackdropClick: false,
+        });
+        return dialogRef.onClose;
+      }),
+      map((data) => {
+        if (data === undefined) {
+          return closeRemoteExportsWindowAction();
+        }
+        return startRemoteExportsAction(data as { params: HttpParams });
+      }),
+    ),
+  );
 
-        let params = this.backendService.getParams(gridConfig.urlKey, 'exports');
-        params = filterHttpParams(gridConfig.columnFilters, columns, params);
-        params = sortHttpParams(gridConfig.sortFields, params);
-        */
+  startRemoteExportsAction$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(startRemoteExportsAction),
+      concatMap((action) => {
+        console.log(' 2222action.params= ', action.params);
         return this.remoteExportsService.exports(action.params).pipe(
           map((response) => {
             console.log(' 3333333 response=', response);

@@ -1,9 +1,16 @@
+import { HttpParams } from '@angular/common/http';
 import { createAction, props } from '@ngrx/store';
-import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 
 export const openRemoteExportsWindowAction = createAction(
-  '[Remote Exports] Open Exports Window',
+  '[Remote Exports] Open Remote Exports Window',
   props<{ params: HttpParams }>(),
 );
+
+export const startRemoteExportsAction = createAction(
+  '[Remote Exports] Start Remote Exports',
+  props<{ params: HttpParams }>(),
+);
+
+export const closeRemoteExportsWindowAction = createAction('[Remote Exports] Close Remote Exports Window');
 
 export const remoteExportFileSuccessAction = createAction('[Remote Exports] Remote Exports File Success');

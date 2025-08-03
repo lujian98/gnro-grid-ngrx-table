@@ -157,7 +157,6 @@ export class GnroGridEffects {
         const columnsConfig = this.gridFacade.getColumnsConfig(gridId)();
         return this.gridService.saveGridConfigs(gridConfig, columnsConfig).pipe(
           map(() => {
-            console.log(' 22222222222 saveGridConfigs ');
             return gridActions.saveGridConfigsSuccess({ gridId });
           }),
         );
