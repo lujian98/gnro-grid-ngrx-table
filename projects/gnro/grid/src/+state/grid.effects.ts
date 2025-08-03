@@ -148,6 +148,23 @@ export class GnroGridEffects {
     ),
   );
 
+  saveGridConfigs$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(gridActions.saveGridConfigs),
+      switchMap((action) => {
+        const gridId = action.gridId;
+        const gridConfig = this.gridFacade.getGridConfig(gridId)();
+        const columnsConfig = this.gridFacade.getColumnsConfig(gridId)();
+        return this.gridService.saveGridConfigs(gridConfig, columnsConfig).pipe(
+          map(() => {
+            console.log(' 22222222222 saveGridConfigs ');
+            return gridActions.saveGridConfigsSuccess({ gridId });
+          }),
+        );
+      }),
+    ),
+  );
+
   clearGridDataStore$ = createEffect(() =>
     this.actions$.pipe(
       ofType(gridActions.clearGridDataStore),
