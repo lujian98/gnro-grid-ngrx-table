@@ -24,9 +24,7 @@ export class GnroRemoteExportsEffects {
       exhaustMap((action) => {
         const params = action.params;
         const dialogRef = this.dialogService.open(GnroExportsComponent, {
-          context: {
-            params,
-          },
+          context: { params },
           hasBackdrop: false,
           closeOnBackdropClick: false,
         });
@@ -37,7 +35,6 @@ export class GnroRemoteExportsEffects {
           return closeRemoteExportsWindowAction();
         }
         const params = data as HttpParams;
-        console.log('window close data =', params);
         return startRemoteExportsAction({ params });
       }),
     ),
@@ -47,32 +44,20 @@ export class GnroRemoteExportsEffects {
     this.actions$.pipe(
       ofType(startRemoteExportsAction),
       concatMap((action) => {
-        console.log(' 77777777.params= ', action.params);
         return this.remoteExportsService.exports(action.params).pipe(
           map((response) => {
-            console.log(' 3333333 response=', response);
             const contentDisposition = response.headers.get('Content-Disposition');
-            console.log(' 333333 contentDisposition=', contentDisposition);
-
-            let filename = 'download-file.xls';
-
-            if (contentDisposition) {
-              const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
-              const matches = filenameRegex.exec(contentDisposition);
-              if (matches != null && matches[1]) {
-                filename = matches[1].replace(/['"]/g, '');
-              }
-            }
-
             const blob = new Blob([response.body as BlobPart], {
               type: response.headers.get('Content-Type') || undefined,
             });
             const url = window.URL.createObjectURL(blob);
             const element = document.createElement('a');
-            element.download = filename;
+            element.download = this.exportFilename(contentDisposition);
             element.href = url;
+            document.body.appendChild(element);
             element.click();
-
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(element);
             return remoteExportFileSuccessAction();
           }),
         );
@@ -80,18 +65,14 @@ export class GnroRemoteExportsEffects {
     ),
   );
 
-  /*
-        // Using file-saver library for robust file saving
-      saveAs(blob, filename);
- 
-      // Alternatively, using native browser download (less robust for older browsers)
-      // const url = window.URL.createObjectURL(blob);
-      // const a = document.createElement('a');
-      // a.href = url;
-      // a.download = filename;
-      // document.body.appendChild(a);
-      // a.click();
-      // window.URL.revokeObjectURL(url);
-      // document.body.removeChild(a);
-      */
+  private exportFilename(contentDisposition: string | null): string {
+    if (contentDisposition) {
+      const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+      const matches = filenameRegex.exec(contentDisposition);
+      if (matches != null && matches[1]) {
+        return matches[1].replace(/['"]/g, '');
+      }
+    }
+    return 'exports-file.xls';
+  }
 }
