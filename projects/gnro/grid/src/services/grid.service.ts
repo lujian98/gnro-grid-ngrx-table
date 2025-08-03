@@ -117,7 +117,7 @@ export class GnroGridService {
     );
   }
 
-  export(gridConfig: GnroGridConfig, params: HttpParams): Observable<HttpResponse<Blob>> {
+  exports(gridConfig: GnroGridConfig, params: HttpParams): Observable<HttpResponse<Blob>> {
     //let params = this.backendService.getParams(gridConfig.urlKey, 'export');
     //params = filterHttpParams(gridConfig.columnFilters, columns, params);
     //params = sortHttpParams(gridConfig.sortFields, params);

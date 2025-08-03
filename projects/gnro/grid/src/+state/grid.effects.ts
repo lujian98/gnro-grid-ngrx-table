@@ -152,18 +152,18 @@ export class GnroGridEffects {
     ),
   );
 
-  openExportWindow$ = createEffect(() =>
+  openExportsWindow$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(gridActions.openExportWindow),
+      ofType(gridActions.openExportsWindow),
       exhaustMap((action) => {
         const gridId = action.gridId;
         const gridConfig = this.gridFacade.getGridConfig(gridId)();
         const columns = this.gridFacade.getColumnsConfig(gridId)();
 
-        let params = this.backendService.getParams(gridConfig.urlKey, 'export');
+        let params = this.backendService.getParams(gridConfig.urlKey, 'exports');
         params = filterHttpParams(gridConfig.columnFilters, columns, params);
         params = sortHttpParams(gridConfig.sortFields, params);
-        return this.gridService.export(gridConfig, params).pipe(
+        return this.gridService.exports(gridConfig, params).pipe(
           map((response) => {
             console.log(' response=', response);
             const contentDisposition = response.headers.get('Content-Disposition');

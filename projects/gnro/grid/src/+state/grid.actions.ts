@@ -135,7 +135,7 @@ export const loadFormWindowConfigSuccess = createAction(
   props<{ gridId: string; formWindowConfig: GnroFormWindowConfig }>(),
 );
 
-export const openExportWindow = createAction('[Grid] Open Export Window', props<{ gridId: string }>());
+export const openExportsWindow = createAction('[Grid] Open Exports Window', props<{ gridId: string }>());
 
 export const exportFileSuccess = createAction('[Grid] Export File Success');
 

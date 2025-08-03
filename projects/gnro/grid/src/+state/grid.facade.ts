@@ -292,8 +292,8 @@ export class GnroGridFacade {
     }
   }
 
-  export(gridId: string): void {
-    this.store.dispatch(gridActions.openExportWindow({ gridId }));
+  exports(gridId: string): void {
+    this.store.dispatch(gridActions.openExportsWindow({ gridId }));
   }
 
   private getSelectedRecord(gridId: string): object {
