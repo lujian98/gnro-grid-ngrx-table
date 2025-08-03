@@ -7,7 +7,7 @@ import { GnroRemoteResponse } from '../models/remote.model';
 @Injectable({
   providedIn: 'root',
 })
-export class GnroRemoteService {
+export class GnroRemoteButtonsService {
   private readonly http = inject(HttpClient);
   private readonly backendService = inject(GnroBackendService);
 

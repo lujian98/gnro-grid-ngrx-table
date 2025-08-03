@@ -4,11 +4,11 @@ import { StoreModule } from '@ngrx/store';
 import { GnroGridEffects } from './grid.effects';
 import { gnroGridFeature } from './grid.reducer';
 import { GnroFormWindowStateModule } from '@gnro/ui/form-window';
-import { GnroButtonStateModule } from '@gnro/ui/remote';
+import { GnroRemoteStateModule } from '@gnro/ui/remote';
 
 @NgModule({
   imports: [
-    GnroButtonStateModule,
+    GnroRemoteStateModule,
     GnroFormWindowStateModule,
     StoreModule.forFeature(gnroGridFeature),
     EffectsModule.forFeature([GnroGridEffects]),

@@ -1,15 +1,12 @@
 import { Injectable, inject } from '@angular/core';
-import { GnroBackendService } from '@gnro/ui/core';
 import { savedFormWindowDataAction } from '@gnro/ui/form-window';
 import { deleteSelectedSucessfulAction } from '@gnro/ui/remote';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { concatMap, debounceTime, delay, exhaustMap, map, mergeMap, of, switchMap } from 'rxjs';
+import { concatMap, debounceTime, delay, map, mergeMap, of, switchMap } from 'rxjs';
 import { GnroColumnConfig, GnroGridConfig } from '../models/grid.model';
 import { GnroGridinMemoryService } from '../services/grid-in-memory.service';
 import { GnroGridService } from '../services/grid.service';
-import { filterHttpParams } from '../utils/filter-http-params';
-import { sortHttpParams } from '../utils/sort-http-params';
 import * as gridActions from './grid.actions';
 import { GnroGridFacade } from './grid.facade';
 
@@ -20,7 +17,6 @@ export class GnroGridEffects {
   private readonly gridFacade = inject(GnroGridFacade);
   private readonly gridService = inject(GnroGridService);
   private readonly gridinMemoryService = inject(GnroGridinMemoryService);
-  private readonly backendService = inject(GnroBackendService);
 
   setupGridConfig$ = createEffect(() =>
     this.actions$.pipe(
@@ -151,64 +147,6 @@ export class GnroGridEffects {
       }),
     ),
   );
-
-  openExportsWindow$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(gridActions.openExportsWindow),
-      exhaustMap((action) => {
-        const gridId = action.gridId;
-        const gridConfig = this.gridFacade.getGridConfig(gridId)();
-        const columns = this.gridFacade.getColumnsConfig(gridId)();
-
-        let params = this.backendService.getParams(gridConfig.urlKey, 'exports');
-        params = filterHttpParams(gridConfig.columnFilters, columns, params);
-        params = sortHttpParams(gridConfig.sortFields, params);
-        return this.gridService.exports(gridConfig, params).pipe(
-          map((response) => {
-            console.log(' response=', response);
-            const contentDisposition = response.headers.get('Content-Disposition');
-            console.log(' contentDisposition=', contentDisposition);
-
-            let filename = 'download-file.xls';
-
-            if (contentDisposition) {
-              const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
-              const matches = filenameRegex.exec(contentDisposition);
-              if (matches != null && matches[1]) {
-                filename = matches[1].replace(/['"]/g, '');
-              }
-            }
-
-            const blob = new Blob([response.body as BlobPart], {
-              type: response.headers.get('Content-Type') || undefined,
-            });
-            const url = window.URL.createObjectURL(blob);
-            const element = document.createElement('a');
-            element.download = filename;
-            element.href = url;
-            element.click();
-
-            return gridActions.exportFileSuccess();
-          }),
-        );
-      }),
-    ),
-  );
-
-  /*
-        // Using file-saver library for robust file saving
-      saveAs(blob, filename);
-
-      // Alternatively, using native browser download (less robust for older browsers)
-      // const url = window.URL.createObjectURL(blob);
-      // const a = document.createElement('a');
-      // a.href = url;
-      // a.download = filename;
-      // document.body.appendChild(a);
-      // a.click();
-      // window.URL.revokeObjectURL(url);
-      // document.body.removeChild(a);
-      */
 
   clearGridDataStore$ = createEffect(() =>
     this.actions$.pipe(

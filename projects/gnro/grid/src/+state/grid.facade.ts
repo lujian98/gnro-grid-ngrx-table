@@ -1,7 +1,7 @@
 import { inject, Injectable, Signal } from '@angular/core';
+import { GnroBackendService, GnroButtonConfg } from '@gnro/ui/core';
 import { GnroFormWindowConfig, openFormWindowDialogAction } from '@gnro/ui/form-window';
-import { GnroButtonConfg, GnroBUTTONS, GnroButtonType, GnroTasksService, uniqueId } from '@gnro/ui/core';
-import { buttonRemoteAction } from '@gnro/ui/remote';
+import { buttonRemoteAction, openDeleteConfirmationAction, openRemoteExportsWindowAction } from '@gnro/ui/remote';
 import { Store } from '@ngrx/store';
 import {
   GnroCellEdit,
@@ -14,8 +14,10 @@ import {
   GnroRowGroupField,
   GnroSortField,
 } from '../models/grid.model';
+import { filterHttpParams } from '../utils/filter-http-params';
 import { GnroRowGroup } from '../utils/row-group/row-group';
 import { GnroRowGroups } from '../utils/row-group/row-groups';
+import { sortHttpParams } from '../utils/sort-http-params';
 import * as gridActions from './grid.actions';
 import {
   selectColumnsConfig,
@@ -28,11 +30,11 @@ import {
   selectRowGroups,
   selectRowSelection,
 } from './grid.selectors';
-import { openDeleteConfirmationAction } from '@gnro/ui/remote';
 
 @Injectable({ providedIn: 'root' })
 export class GnroGridFacade {
   private readonly store = inject(Store);
+  private readonly backendService = inject(GnroBackendService);
 
   initGridConfig(gridId: string, gridConfig: GnroGridConfig, gridType: string): void {
     this.store.dispatch(gridActions.initGridConfig({ gridId, gridConfig, gridType }));
@@ -293,7 +295,12 @@ export class GnroGridFacade {
   }
 
   exports(gridId: string): void {
-    this.store.dispatch(gridActions.openExportsWindow({ gridId }));
+    const gridConfig = this.getGridConfig(gridId)();
+    const columns = this.getColumnsConfig(gridId)();
+    let params = this.backendService.getParams(gridConfig.urlKey, 'exports');
+    params = filterHttpParams(gridConfig.columnFilters, columns, params);
+    params = sortHttpParams(gridConfig.sortFields, params);
+    this.store.dispatch(openRemoteExportsWindowAction({ params }));
   }
 
   private getSelectedRecord(gridId: string): object {
