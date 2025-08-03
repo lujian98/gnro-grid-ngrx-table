@@ -21,7 +21,7 @@ export class GnroGridService {
 
   getGridConfig(gridConfig: GnroGridConfig): Observable<GnroGridConfig> {
     let params = this.backendService.getParams(gridConfig.urlKey, 'gridConfig');
-    params = params.append('useDefaultConfig', !gridConfig.saveGridConfig);
+    //params = params.append('useDefaultConfig', !gridConfig.saveGridConfig);
     const url = this.backendService.apiUrl;
     return this.http.get<GnroGridConfigResponse>(url, { params }).pipe(
       map((config) => {
