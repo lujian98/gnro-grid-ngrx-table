@@ -1,9 +1,9 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { GnroMessageComponent, defaultMessageConfig } from '@gnro/ui/message';
 import { GnroDialogService } from '@gnro/ui/overlay';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatMap, exhaustMap, map } from 'rxjs';
+import { GnroExportsComponent } from '../components/exports/exports.component';
 import { GnroRemoteExportsService } from '../services/exports.service';
 import {
   closeRemoteExportsWindowAction,
@@ -23,17 +23,9 @@ export class GnroRemoteExportsEffects {
       ofType(openRemoteExportsWindowAction),
       exhaustMap((action) => {
         const params = action.params;
-        const dialogRef = this.dialogService.open(GnroMessageComponent, {
+        const dialogRef = this.dialogService.open(GnroExportsComponent, {
           context: {
-            messageConfig: {
-              ...defaultMessageConfig,
-              title: 'Export',
-              showOkButton: true,
-              ok: 'Yes',
-              showCancelButton: true,
-              message: 'Are you sure you want export grid data selected?',
-            },
-            data: { params },
+            params,
           },
           hasBackdrop: false,
           closeOnBackdropClick: false,
@@ -44,8 +36,9 @@ export class GnroRemoteExportsEffects {
         if (data === undefined) {
           return closeRemoteExportsWindowAction();
         }
-        console.log('window close data =', data);
-        return startRemoteExportsAction(data as { params: HttpParams });
+        const params = data as HttpParams;
+        console.log('window close data =', params);
+        return startRemoteExportsAction({ params });
       }),
     ),
   );
@@ -54,7 +47,7 @@ export class GnroRemoteExportsEffects {
     this.actions$.pipe(
       ofType(startRemoteExportsAction),
       concatMap((action) => {
-        console.log(' 66666666666666.params= ', action.params);
+        console.log(' 77777777.params= ', action.params);
         return this.remoteExportsService.exports(action.params).pipe(
           map((response) => {
             console.log(' 3333333 response=', response);

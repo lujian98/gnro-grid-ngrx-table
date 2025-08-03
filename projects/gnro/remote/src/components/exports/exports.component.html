@@ -1,0 +1,10 @@
+<gnro-window [windowConfig]="windowConfig">
+  <gnro-layout [resizeable]="false">
+    <gnro-layout-horizontal [resizeable]="false">Test </gnro-layout-horizontal>
+
+    <gnro-layout-footer>
+      <button gnro-button (click)="export()">{{ "GNRO.UI.ACTIONS.EXPORT" | translate }}</button>
+      <button gnro-button (click)="cancel()">{{ "GNRO.UI.ACTIONS.CANCEL" | translate }}</button>
+    </gnro-layout-footer>
+  </gnro-layout>
+</gnro-window>
