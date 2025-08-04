@@ -37,7 +37,7 @@ export class GnroExportsComponent {
     fieldName: 'ExportFormat',
     clearValue: false,
   };
-  exportOptions: string[] = ['Excel', 'CSV', 'PDF'];
+  exportOptions: string[] = ['Excel', 'CSV', 'Html', 'PDF'];
   exportFormat = 'Excel';
   selectExportFormat(format: string): void {
     console.log(' format=', format);
