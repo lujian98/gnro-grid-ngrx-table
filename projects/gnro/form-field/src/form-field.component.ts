@@ -108,12 +108,6 @@ export class GnroFormFieldComponent implements AfterViewInit {
   }
 
   private setFieldIndicator(): void {
-    this.checkFieldIndicator();
-    this.invalid = (!!this.field()?.touched || !!this.field()?.dirty) && !!this.field()?.invalid;
-    this.changeDetectorRef.markForCheck();
-  }
-
-  private checkFieldIndicator(): void {
     timer(100)
       .pipe(take(1))
       .subscribe(() => {
@@ -123,8 +117,9 @@ export class GnroFormFieldComponent implements AfterViewInit {
         }
         if (fieldIndicator !== this.fieldIndicator) {
           this.fieldIndicator = fieldIndicator;
-          this.changeDetectorRef.markForCheck();
         }
+        this.invalid = (!!this.field()?.touched || !!this.field()?.dirty) && !!this.field()?.invalid;
+        this.changeDetectorRef.markForCheck();
       });
   }
 
