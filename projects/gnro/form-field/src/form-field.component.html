@@ -18,7 +18,9 @@
 
       <div class="gnro-form-field-error" [style.line-height]="lineheight$()">
         <gnro-field-errors [errors]="field()?.dirty || field()?.touched ? field()?.errors : null"></gnro-field-errors>
+
         <!--
+
         <ng-content select="gnro-form-field-errors"></ng-content>
                 -->
       </div>

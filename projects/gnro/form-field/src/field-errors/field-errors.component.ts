@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { ValidationErrors } from '@angular/forms';
-import { GnroErrorDirective } from '@gnro/ui/form-field';
 import { GnroIconModule } from '@gnro/ui/icon';
 import { TranslatePipe } from '@ngx-translate/core';
+import { GnroErrorDirective } from '../directive/error.directive';
 
 @Component({
   selector: 'gnro-field-errors',
