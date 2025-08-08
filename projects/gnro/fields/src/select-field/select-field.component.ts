@@ -35,7 +35,6 @@ import {
   GnroFieldWidthDirective,
   GnroFormFieldComponent,
   GnroFormFieldControlDirective,
-  GnroFormFieldErrorsDirective,
   GnroInputDirective,
   GnroLabelDirective,
   GnroLabelWidthDirective,
@@ -44,7 +43,6 @@ import {
 import { GnroIconModule } from '@gnro/ui/icon';
 import { GnroOptionComponent } from '@gnro/ui/option';
 import { TranslatePipe } from '@ngx-translate/core';
-import { GnroFieldsErrorsComponent } from '../field-errors/field-errors.component';
 import { GnroSelectFieldStateModule } from './+state/select-field-state.module';
 import { GnroSelectFieldFacade } from './+state/select-field.facade';
 import { GnroSelectOptionComponent } from './components/select-option.component';
@@ -83,8 +81,6 @@ import { GnroOptionType, GnroSelectFieldConfig } from './models/select-field.mod
     GnroAutocompleteDirective,
     GnroAutocompleteContentDirective,
     GnroIconModule,
-    GnroFormFieldErrorsDirective,
-    GnroFieldsErrorsComponent,
     GnroFormFieldControlDirective,
     GnroSelectOptionComponent,
   ],

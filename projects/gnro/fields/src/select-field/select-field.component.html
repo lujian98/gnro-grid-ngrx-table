@@ -58,10 +58,5 @@
         </gnro-select-option>
       </ng-template>
     </gnro-autocomplete>
-    @if (field && (field.touched || field.dirty) && field.errors) {
-      <gnro-form-field-errors>
-        <gnro-field-errors [errors]="field!.errors!"></gnro-field-errors>
-      </gnro-form-field-errors>
-    }
   </gnro-form-field>
 }

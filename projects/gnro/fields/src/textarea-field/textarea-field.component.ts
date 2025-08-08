@@ -25,7 +25,6 @@ import {
   GnroFieldWidthDirective,
   GnroFormFieldComponent,
   GnroFormFieldControlDirective,
-  GnroFormFieldErrorsDirective,
   GnroInputDirective,
   GnroLabelDirective,
   GnroLabelWidthDirective,
@@ -33,7 +32,6 @@ import {
 } from '@gnro/ui/form-field';
 import { GnroIconModule } from '@gnro/ui/icon';
 import { TranslatePipe } from '@ngx-translate/core';
-import { GnroFieldsErrorsComponent } from '../field-errors/field-errors.component';
 import { defaultTextareaFieldConfig, GnroTextareaFieldConfig } from './models/textarea-field.model';
 
 @Component({
@@ -64,9 +62,7 @@ import { defaultTextareaFieldConfig, GnroTextareaFieldConfig } from './models/te
     GnroFieldWidthDirective,
     GnroInputDirective,
     GnroIconModule,
-    GnroFieldsErrorsComponent,
     GnroFormFieldControlDirective,
-    GnroFormFieldErrorsDirective,
   ],
 })
 export class GnroTextareaFieldComponent implements ControlValueAccessor, Validator {

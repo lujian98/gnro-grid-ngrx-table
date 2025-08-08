@@ -34,7 +34,6 @@ import {
   GnroFieldWidthDirective,
   GnroFormFieldComponent,
   GnroFormFieldControlDirective,
-  GnroFormFieldErrorsDirective,
   GnroInputDirective,
   GnroLabelDirective,
   GnroLabelWidthDirective,
@@ -43,7 +42,6 @@ import {
 import { GnroIconModule } from '@gnro/ui/icon';
 import { GnroDialogService } from '@gnro/ui/overlay';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { GnroFieldsErrorsComponent } from '../field-errors/field-errors.component';
 import { GnroDateRangePickerComponent } from './date-range-picker/date-range-picker.component';
 import { defaultDateRangeFieldConfig, GnroDateRange, GnroDateRangeFieldConfig } from './models/date-range-field.model';
 import { GnroDateRangeStoreService } from './services/date-range-store.service';
@@ -65,8 +63,6 @@ import { GnroDateRangeStoreService } from './services/date-range-store.service';
     GnroLabelWidthDirective,
     GnroFieldWidthDirective,
     GnroInputDirective,
-    GnroFormFieldErrorsDirective,
-    GnroFieldsErrorsComponent,
     GnroFormFieldControlDirective,
   ],
   providers: [

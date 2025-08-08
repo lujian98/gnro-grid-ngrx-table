@@ -5,16 +5,20 @@ import { GnroIconModule } from '@gnro/ui/icon';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
-  selector: 'gnro-field-errors',
+  selector: 'gnro-field-errors2',
   templateUrl: './field-errors.component.html',
   styleUrls: ['./field-errors.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslatePipe, GnroIconModule, GnroErrorDirective],
 })
-export class GnroFieldsErrorsComponent {
-  errors = input.required({
-    transform: (errors: ValidationErrors) => {
-      return Object.keys(errors).map((key) => ({ type: key, ...errors[key] }));
+export class GnroFieldsErrors2Component {
+  errors = input([], {
+    transform: (errors: ValidationErrors | null | undefined) => {
+      if (errors) {
+        return Object.keys(errors).map((key) => ({ type: key, ...errors[key] }));
+      } else {
+        return [];
+      }
     },
   });
 }

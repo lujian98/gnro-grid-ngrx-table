@@ -29,14 +29,12 @@ import {
   GnroFieldWidthDirective,
   GnroFormFieldComponent,
   GnroFormFieldControlDirective,
-  GnroFormFieldErrorsDirective,
   GnroLabelDirective,
   GnroLabelWidthDirective,
 } from '@gnro/ui/form-field';
 import { GnroIconModule } from '@gnro/ui/icon';
 import { TranslatePipe } from '@ngx-translate/core';
 import { take, timer } from 'rxjs';
-import { GnroFieldsErrorsComponent } from '../field-errors/field-errors.component';
 import { defaultCheckboxFieldConfig, GnroCheckboxFieldConfig } from './models/checkbox-field.model';
 
 @Component({
@@ -66,8 +64,6 @@ import { defaultCheckboxFieldConfig, GnroCheckboxFieldConfig } from './models/ch
     GnroFieldWidthDirective,
     GnroIconModule,
     GnroCheckboxComponent,
-    GnroFormFieldErrorsDirective,
-    GnroFieldsErrorsComponent,
     GnroFormFieldControlDirective,
   ],
 })

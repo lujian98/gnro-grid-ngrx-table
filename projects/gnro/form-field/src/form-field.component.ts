@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  computed,
   ContentChild,
   DestroyRef,
   ElementRef,
@@ -10,7 +11,6 @@ import {
   input,
   Optional,
   ViewChild,
-  computed,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, Validators } from '@angular/forms';
@@ -21,6 +21,7 @@ import { GnroFormLabelWidthDirective } from './directive/form-label-width.direct
 import { GnroInputDirective } from './directive/input.directive';
 import { GnroLabelWidthDirective } from './directive/label-width.directive';
 import { GnroLabelDirective } from './directive/label.directive';
+import { GnroFieldsErrors2Component } from './field-errors/field-errors.component';
 import { DEFAULT_FORM_FIELD_LABEL_WIDTH } from './models/form-field.model';
 
 @Component({
@@ -28,6 +29,7 @@ import { DEFAULT_FORM_FIELD_LABEL_WIDTH } from './models/form-field.model';
   templateUrl: './form-field.component.html',
   styleUrls: ['./form-field.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [GnroFieldsErrors2Component],
   host: {
     '[class.gnro-form-field-invalid]': 'invalid',
   },

@@ -14,4 +14,3 @@ export * from './src/select-field';
 export * from './src/text-field';
 export * from './src/textarea-field';
 export * from './src/upload-file-field';
-export * from './src/field-errors';

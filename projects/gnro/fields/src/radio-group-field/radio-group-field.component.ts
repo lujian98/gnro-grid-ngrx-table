@@ -24,13 +24,11 @@ import {
   GnroFieldWidthDirective,
   GnroFormFieldComponent,
   GnroFormFieldControlDirective,
-  GnroFormFieldErrorsDirective,
   GnroLabelDirective,
   GnroLabelWidthDirective,
 } from '@gnro/ui/form-field';
 import { GnroRadioComponent, GnroRadioGroupDirective } from '@gnro/ui/radio-group';
 import { TranslatePipe } from '@ngx-translate/core';
-import { GnroFieldsErrorsComponent } from '../field-errors/field-errors.component';
 import {
   defaultRadioGroupFieldConfig,
   GnroRadioGroup,
@@ -64,8 +62,6 @@ import {
     GnroFieldWidthDirective,
     GnroRadioGroupDirective,
     GnroRadioComponent,
-    GnroFormFieldErrorsDirective,
-    GnroFieldsErrorsComponent,
     GnroFormFieldControlDirective,
   ],
 })

@@ -27,7 +27,6 @@ import {
   GnroFieldWidthDirective,
   GnroFormFieldComponent,
   GnroFormFieldControlDirective,
-  GnroFormFieldErrorsDirective,
   GnroInputDirective,
   GnroLabelDirective,
   GnroLabelWidthDirective,
@@ -36,8 +35,6 @@ import {
 } from '@gnro/ui/form-field';
 import { GnroIconModule } from '@gnro/ui/icon';
 import { TranslatePipe } from '@ngx-translate/core';
-import { take, timer } from 'rxjs';
-import { GnroFieldsErrorsComponent } from '../field-errors/field-errors.component';
 import { defaultNumberFieldConfig, GnroNumberFieldConfig } from './models/number-field.model';
 
 @Component({
@@ -68,8 +65,6 @@ import { defaultNumberFieldConfig, GnroNumberFieldConfig } from './models/number
     GnroInputDirective,
     GnroIconModule,
     TranslatePipe,
-    GnroFormFieldErrorsDirective,
-    GnroFieldsErrorsComponent,
     GnroFormFieldControlDirective,
     GnroNumericDirective,
   ],

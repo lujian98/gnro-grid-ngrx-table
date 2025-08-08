@@ -79,6 +79,7 @@ export class GnroFormViewComponent implements OnInit {
           this.form.patchValue({ ...values });
         }
         this.form.markAsPristine();
+        //this.form.reset();
       }
       if (this.formConfig().editing) {
         this.formFacade.setFormEditable(this.formSetting().formId, GnroBUTTONS.Edit);
@@ -256,6 +257,9 @@ export class GnroFormViewComponent implements OnInit {
     this.form.patchValue({ ...this.values() });
     this.uploadFileService.uploadFiles = [];
     this.changeDetectorRef.markForCheck();
+    //this.form.markAsPristine();
+    //TODO reset
+    this.form.reset();
   }
 
   private saveForm(): void {

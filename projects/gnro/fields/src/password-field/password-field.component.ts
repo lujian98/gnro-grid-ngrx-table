@@ -25,7 +25,6 @@ import {
   GnroFieldWidthDirective,
   GnroFormFieldComponent,
   GnroFormFieldControlDirective,
-  GnroFormFieldErrorsDirective,
   GnroInputDirective,
   GnroLabelDirective,
   GnroLabelWidthDirective,
@@ -33,7 +32,6 @@ import {
 } from '@gnro/ui/form-field';
 import { GnroIconModule } from '@gnro/ui/icon';
 import { TranslatePipe } from '@ngx-translate/core';
-import { GnroFieldsErrorsComponent } from '../field-errors/field-errors.component';
 import { defaultPasswordFieldConfig, GnroPasswordFieldConfig } from './models/password-field.model';
 
 @Component({
@@ -64,8 +62,6 @@ import { defaultPasswordFieldConfig, GnroPasswordFieldConfig } from './models/pa
     GnroFieldWidthDirective,
     GnroInputDirective,
     GnroIconModule,
-    GnroFormFieldErrorsDirective,
-    GnroFieldsErrorsComponent,
     GnroFormFieldControlDirective,
   ],
 })

@@ -28,7 +28,6 @@ import {
   GnroFieldWidthDirective,
   GnroFormFieldComponent,
   GnroFormFieldControlDirective,
-  GnroFormFieldErrorsDirective,
   GnroInputDirective,
   GnroLabelDirective,
   GnroLabelWidthDirective,
@@ -36,7 +35,6 @@ import {
 } from '@gnro/ui/form-field';
 import { GnroIconModule } from '@gnro/ui/icon';
 import { TranslatePipe } from '@ngx-translate/core';
-import { GnroFieldsErrorsComponent } from '../field-errors/field-errors.component';
 import { defaultUploadFileFieldConfig, GnroUploadFileFieldConfig } from './models/upload-file-field.model';
 
 @Component({
@@ -67,8 +65,6 @@ import { defaultUploadFileFieldConfig, GnroUploadFileFieldConfig } from './model
     GnroFieldWidthDirective,
     GnroInputDirective,
     GnroIconModule,
-    GnroFormFieldErrorsDirective,
-    GnroFieldsErrorsComponent,
     GnroFormFieldControlDirective,
   ],
 })

@@ -30,8 +30,5 @@
     @if (fieldConfig().clearValue && hasValue) {
       <gnro-icon icon="remove" gnroSuffix (click)="clearValue()"></gnro-icon>
     }
-    @if (field && (field.touched || field.dirty) && field.errors) {
-      <gnro-form-field-errors><gnro-field-errors [errors]="field!.errors!"></gnro-field-errors></gnro-form-field-errors>
-    }
   </gnro-form-field>
 }
