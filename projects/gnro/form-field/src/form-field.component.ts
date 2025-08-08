@@ -60,6 +60,10 @@ export class GnroFormFieldComponent implements AfterViewInit {
     },
   });
 
+  get errors() {
+    return (this.field()?.dirty || this.field()?.touched) && this.field()?.errors ? this.field()!.errors! : {};
+  }
+
   get required(): boolean {
     return !!(this.field()?.hasValidator(Validators.required) && !this.field()?.disabled);
   }

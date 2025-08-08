@@ -12,13 +12,7 @@ import { GnroErrorDirective } from '../directive/error.directive';
   imports: [TranslatePipe, GnroIconModule, GnroErrorDirective],
 })
 export class GnroFieldsErrorsComponent {
-  errors = input([], {
-    transform: (errors: ValidationErrors | null | undefined) => {
-      if (errors) {
-        return Object.keys(errors).map((key) => ({ type: key, ...errors[key] }));
-      } else {
-        return [];
-      }
-    },
+  errors = input.required({
+    transform: (errors: ValidationErrors) => Object.keys(errors).map((key) => ({ type: key, ...errors[key] })),
   });
 }
