@@ -5,13 +5,13 @@ import { GnroIconModule } from '@gnro/ui/icon';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
-  selector: 'gnro-field-errors2',
+  selector: 'gnro-field-errors',
   templateUrl: './field-errors.component.html',
   styleUrls: ['./field-errors.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslatePipe, GnroIconModule, GnroErrorDirective],
 })
-export class GnroFieldsErrors2Component {
+export class GnroFieldsErrorsComponent {
   errors = input([], {
     transform: (errors: ValidationErrors | null | undefined) => {
       if (errors) {

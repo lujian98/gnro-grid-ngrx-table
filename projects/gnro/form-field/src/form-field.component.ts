@@ -21,7 +21,7 @@ import { GnroFormLabelWidthDirective } from './directive/form-label-width.direct
 import { GnroInputDirective } from './directive/input.directive';
 import { GnroLabelWidthDirective } from './directive/label-width.directive';
 import { GnroLabelDirective } from './directive/label.directive';
-import { GnroFieldsErrors2Component } from './field-errors/field-errors.component';
+import { GnroFieldsErrorsComponent } from './field-errors/field-errors.component';
 import { DEFAULT_FORM_FIELD_LABEL_WIDTH } from './models/form-field.model';
 
 @Component({
@@ -29,7 +29,7 @@ import { DEFAULT_FORM_FIELD_LABEL_WIDTH } from './models/form-field.model';
   templateUrl: './form-field.component.html',
   styleUrls: ['./form-field.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [GnroFieldsErrors2Component],
+  imports: [GnroFieldsErrorsComponent],
   host: {
     '[class.gnro-form-field-invalid]': 'invalid',
   },
