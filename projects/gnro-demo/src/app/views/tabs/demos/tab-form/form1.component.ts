@@ -39,9 +39,10 @@ export class AppForm1Component implements OnInit {
   };
 
   ngOnInit(): void {
+    /*
     this.form.addControl(
       this.fieldConfig.fieldName!,
       new FormControl<string>({ value: 'Form panel 1', disabled: false }, []),
-    );
+    );*/
   }
 }

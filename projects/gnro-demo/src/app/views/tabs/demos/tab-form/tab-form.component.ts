@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GnroButtonComponent } from '@gnro/ui/button';
 import { GnroLayoutComponent, GnroLayoutHeaderComponent } from '@gnro/ui/layout';
@@ -33,11 +33,13 @@ import { TabsMockService } from './tabs-mock.service';
     GnroTabsComponent,
   ],
 })
-export class AppTabFormComponent {
+export class AppTabFormComponent implements OnInit {
   private tabsMockService = inject(TabsMockService);
 
   form: FormGroup = new FormGroup({
     fieldA: new FormControl('field A'),
+    fieldTest1: new FormControl('Form Panel 1'),
+    //fieldTest2: new FormControl('Form Panel 2'),
     fieldTest3: new FormControl('Form Panel 3'),
   });
 
@@ -83,6 +85,16 @@ export class AppTabFormComponent {
       closeable: true,
     },
   ];
+
+  ngOnInit(): void {
+    const formvalues = {
+      fieldA: 'fieldA new value',
+      fieldTest1: 'fieldTest1 new value',
+      fieldTest2: 'fieldTest2 new value',
+      fieldTest3: 'fieldTest3 new value',
+    };
+    this.form.patchValue(formvalues);
+  }
 
   loadValues(): void {
     this.tabsMockService
