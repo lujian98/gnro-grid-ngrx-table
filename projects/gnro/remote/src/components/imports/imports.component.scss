@@ -1,0 +1,11 @@
+:host {
+  gnro-layout-horizontal {
+    padding: 0 10px;
+    min-height: 25px;
+  }
+
+  gnro-layout-footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
