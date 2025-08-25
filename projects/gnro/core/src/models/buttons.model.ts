@@ -6,6 +6,7 @@ export enum GnroButtonType {
   Edit = 'Edit',
   ExpandAll = 'ExpandAll',
   Export = 'Export',
+  Import = 'Import',
   Open = 'Open',
   Refresh = 'Refresh',
   Remove = 'Remove',
@@ -20,6 +21,7 @@ export enum GnroButtonActionType {
   DOWNLOAD = 'Download',
   EXPORT = 'Export',
   GET = 'Get',
+  IMPORT = 'Import',
   NEW = 'New',
   UPDATE = 'Update',
   UPLOADFILE = 'Uploadfile',
@@ -70,6 +72,11 @@ export const GnroBUTTONS = {
   Export: {
     name: GnroButtonType.Export,
     title: 'GNRO.UI.ACTIONS.EXPORT',
+    icon: 'plus',
+  },
+  Import: {
+    name: GnroButtonType.Import,
+    title: 'GNRO.UI.ACTIONS.IMPORT',
     icon: 'plus',
   },
   Open: {

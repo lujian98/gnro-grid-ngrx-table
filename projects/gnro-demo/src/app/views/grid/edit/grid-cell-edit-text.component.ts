@@ -66,6 +66,7 @@ export class AppGridCellEditTextComponent {
     GnroBUTTONS.Delete,
     GnroBUTTONS.Refresh,
     GnroBUTTONS.ClearAllFilters,
+    GnroBUTTONS.Import,
     GnroBUTTONS.Export,
   ];
 

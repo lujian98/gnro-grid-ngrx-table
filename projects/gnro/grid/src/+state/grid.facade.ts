@@ -1,7 +1,12 @@
 import { inject, Injectable, Signal } from '@angular/core';
 import { GnroBackendService, GnroButtonConfg } from '@gnro/ui/core';
 import { GnroFormWindowConfig, openFormWindowDialogAction } from '@gnro/ui/form-window';
-import { buttonRemoteAction, openDeleteConfirmationAction, openRemoteExportsWindowAction } from '@gnro/ui/remote';
+import {
+  buttonRemoteAction,
+  openDeleteConfirmationAction,
+  openRemoteExportsWindowAction,
+  openRemoteImportsWindowAction,
+} from '@gnro/ui/remote';
 import { Store } from '@ngrx/store';
 import {
   GnroCellEdit,
@@ -302,6 +307,13 @@ export class GnroGridFacade {
     params = filterHttpParams(gridConfig.columnFilters, columns, params);
     params = sortHttpParams(gridConfig.sortFields, params);
     this.store.dispatch(openRemoteExportsWindowAction({ params }));
+  }
+
+  imports(gridId: string): void {
+    this.store.dispatch(gridActions.saveGridConfigs({ gridId }));
+    const gridConfig = this.getGridConfig(gridId)();
+    let params = this.backendService.getParams(gridConfig.urlKey, 'imports');
+    this.store.dispatch(openRemoteImportsWindowAction({ stateId: gridId, keyName: gridConfig.urlKey, params }));
   }
 
   private getSelectedRecord(gridId: string): object {
