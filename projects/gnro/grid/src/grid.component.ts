@@ -174,8 +174,8 @@ export class GnroGridComponent<T> implements OnInit, OnDestroy {
       case GnroButtonType.Export:
         this.gridFacade.exports(this.gridId);
         break;
-      case GnroButtonType.Import:
-        this.gridFacade.imports(this.gridId);
+        //case GnroButtonType.Import:
+        //  this.gridFacade.imports(this.gridId);
         break;
       default:
         break;

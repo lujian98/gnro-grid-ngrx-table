@@ -6,6 +6,7 @@ import { GnroDialogRef } from '@gnro/ui/overlay';
 import { GnroWindowComponent, defaultWindowConfig } from '@gnro/ui/window';
 import { TranslatePipe } from '@ngx-translate/core';
 import { GnroSelectFieldComponent } from '@gnro/ui/fields';
+import { GnroGridComponent } from '@gnro/ui/grid';
 
 @Component({
   selector: 'gnro-imports',
@@ -20,6 +21,7 @@ import { GnroSelectFieldComponent } from '@gnro/ui/fields';
     GnroButtonComponent,
     GnroSelectFieldComponent,
     GnroWindowComponent,
+    GnroGridComponent,
   ],
 })
 export class GnroImportsComponent {

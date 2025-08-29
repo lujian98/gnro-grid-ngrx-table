@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { GnroBUTTONS, GnroButtonConfg, GnroObjectType } from '@gnro/ui/core';
+import { GnroBUTTONS, GnroButtonConfg, GnroObjectType, GnroButtonType } from '@gnro/ui/core';
 import { GnroFormWindowConfig } from '@gnro/ui/form-window';
 import {
   GnroButtonClick,
@@ -11,6 +11,7 @@ import {
   GnroGridFacade,
   defaultGridConfig,
 } from '@gnro/ui/grid';
+import { GnroImportsStateModule, GnroImportsFacade } from '@gnro/ui/imports';
 import { CARSDATA3, DCRBrands, DCRBrandsList, DCRColorsList, MakerColorList } from '../../../data/cars-large';
 import { MockFormConfig, MockFormFields, MockValues, MockWindowConfig } from './model-help.spec';
 
@@ -25,10 +26,11 @@ import { MockFormConfig, MockFormFields, MockValues, MockWindowConfig } from './
   ></gnro-grid>`,
   styles: [':host {  display: flex; width: 100%; }'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, GnroGridComponent],
+  imports: [CommonModule, GnroGridComponent, GnroImportsStateModule],
 })
 export class AppGridCellEditTextComponent {
   private gridFacade = inject(GnroGridFacade);
+  private readonly importsFacade = inject(GnroImportsFacade);
 
   gridConfig: GnroGridConfig = {
     ...defaultGridConfig,
@@ -183,6 +185,9 @@ export class AppGridCellEditTextComponent {
     if (buttonClick.button.name === 'Reload') {
       const gridSetting = buttonClick.gridSetting;
       this.gridFacade.getGridData(gridSetting.gridId, gridSetting);
+    } else if (buttonClick.button.name === GnroButtonType.Import) {
+      const gridSetting = buttonClick.gridSetting;
+      this.importsFacade.imports(gridSetting.gridId);
     }
   }
 }
