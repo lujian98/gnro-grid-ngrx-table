@@ -1,12 +1,11 @@
 <gnro-window [windowConfig]="windowConfig">
   <gnro-layout [resizeable]="false">
-    <gnro-layout-horizontal [resizeable]="false">
-      <gnro-grid [columnsConfig]="columnsConfig"></gnro-grid>
-    </gnro-layout-horizontal>
-
-    <gnro-layout-footer>
+    <gnro-layout-header>
       <button gnro-button (click)="export()">{{ "GNRO.UI.ACTIONS.EXPORT" | translate }}</button>
       <button gnro-button (click)="cancel()">{{ "GNRO.UI.ACTIONS.CANCEL" | translate }}</button>
-    </gnro-layout-footer>
+    </gnro-layout-header>
+    <gnro-layout-horizontal [resizeable]="false">
+      <gnro-grid [gridConfig]="gridConfig" [columnsConfig]="columnsConfig"></gnro-grid>
+    </gnro-layout-horizontal>
   </gnro-layout>
 </gnro-window>
