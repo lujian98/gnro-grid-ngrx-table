@@ -5,8 +5,8 @@ import { GnroLayoutComponent, GnroLayoutFooterComponent, GnroLayoutHorizontalCom
 import { GnroDialogRef } from '@gnro/ui/overlay';
 import { GnroWindowComponent, defaultWindowConfig } from '@gnro/ui/window';
 import { TranslatePipe } from '@ngx-translate/core';
-import { GnroSelectFieldComponent } from '@gnro/ui/fields';
-import { GnroGridComponent } from '@gnro/ui/grid';
+import { GnroColumnConfig, GnroGridComponent, GnroGridData } from '@gnro/ui/grid';
+//import { CARSDATA3 } from './cars-large';
 
 @Component({
   selector: 'gnro-imports',
@@ -19,7 +19,6 @@ import { GnroGridComponent } from '@gnro/ui/grid';
     GnroLayoutFooterComponent,
     GnroLayoutHorizontalComponent,
     GnroButtonComponent,
-    GnroSelectFieldComponent,
     GnroWindowComponent,
     GnroGridComponent,
   ],
@@ -31,24 +30,38 @@ export class GnroImportsComponent {
   windowConfig = {
     ...defaultWindowConfig,
     title: 'GNRO.UI.ACTIONS.IMPORT',
-    width: '400px',
+    width: '1000px',
+    height: '600px',
   };
 
-  selectionConfig = {
-    fieldLabel: 'Export Format', // TODO i18n
-    fieldName: 'ExportFormat',
-    clearValue: false,
-  };
-  exportOptions: string[] = ['Excel', 'CSV', 'Html', 'PDF'];
-  exportFormat = 'Excel';
-  selectExportFormat(format: string): void {
-    console.log(' format=', format);
-    this.exportFormat = format;
-  }
+  columnsConfig: GnroColumnConfig[] = [
+    {
+      name: 'ID',
+      width: 50,
+      align: 'center',
+    },
+    {
+      name: 'vin',
+      title: 'Vin#',
+    },
+    {
+      name: 'brand',
+    },
+    {
+      name: 'year',
+      width: 50,
+      align: 'right',
+    },
+    {
+      name: 'color',
+      width: 80,
+      align: 'center',
+    },
+  ];
+  //gridData: GnroGridData<any> = CARSDATA3;
 
   export(): void {
-    const params = this.params.append('exportFormat', this.exportFormat);
-    this.dialogRef.close(params);
+    //this.dialogRef.close(params);
   }
 
   cancel(): void {

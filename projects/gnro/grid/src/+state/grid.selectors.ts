@@ -40,7 +40,7 @@ export const selectRowSelection = (gridId: string) =>
 
 export const selectRowGroups = (gridId: string) =>
   createSelector(featureSelector, (state: GridState) => {
-    return state && state[gridId].rowGroups ? state[gridId].rowGroups : true;
+    return state && state[gridId]?.rowGroups ? state[gridId].rowGroups : true;
   });
 
 export const selectGridInMemoryData = (gridId: string) =>

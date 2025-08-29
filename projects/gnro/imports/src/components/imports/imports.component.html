@@ -1,13 +1,7 @@
 <gnro-window [windowConfig]="windowConfig">
   <gnro-layout [resizeable]="false">
     <gnro-layout-horizontal [resizeable]="false">
-      <gnro-select-field
-        [fieldConfig]="selectionConfig"
-        [value]="exportFormat"
-        [options]="exportOptions"
-        [showFieldEditIndicator]="false"
-        (valueChange)="selectExportFormat($event)"
-      ></gnro-select-field>
+      <gnro-grid [columnsConfig]="columnsConfig"></gnro-grid>
     </gnro-layout-horizontal>
 
     <gnro-layout-footer>
