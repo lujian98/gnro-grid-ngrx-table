@@ -4,12 +4,16 @@ import { GnroBackendService, GnroUploadFile } from '@gnro/ui/core';
 import { openRemoteImportsWindowAction, importsFileAction } from './imports.actions';
 import { GnroGridFacade } from '@gnro/ui/grid';
 import { GnroFileUploadConfig, GnroFileUpload } from '@gnro/ui/file-upload';
+import { selectStateId, selectImportedExcelData } from './imports.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class GnroImportsFacade {
   private readonly store = inject(Store);
   private readonly backendService = inject(GnroBackendService);
   private readonly gridFacade = inject(GnroGridFacade);
+
+  getSelectStateId$ = this.store.selectSignal(selectStateId);
+  getSelectImportedExcelData$ = this.store.selectSignal(selectImportedExcelData);
 
   imports(gridId: string): void {
     const gridConfig = this.gridFacade.getGridConfig(gridId)();

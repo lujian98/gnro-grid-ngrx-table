@@ -45,10 +45,9 @@ export class GnroRemoteImportsEffects {
     this.actions$.pipe(
       ofType(importsFileAction),
       concatMap((action) => {
-        //const uploadFiles = this.fileUploadFacade.getUploadFiles$();
         return this.importsService.importsFile(action.importsFileConfig, action.file).pipe(
-          map(() => {
-            return importsFileSuccessAction();
+          map((gridData) => {
+            return importsFileSuccessAction({ gridData });
           }),
         );
       }),

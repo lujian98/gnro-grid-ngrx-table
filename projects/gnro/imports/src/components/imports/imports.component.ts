@@ -13,7 +13,6 @@ import { GnroWindowComponent, defaultWindowConfig } from '@gnro/ui/window';
 import { TranslatePipe } from '@ngx-translate/core';
 import { GnroColumnConfig, GnroGridComponent, GnroGridData, GnroGridConfig } from '@gnro/ui/grid';
 import { GnroImportsFacade } from '../../+state/imports.facade';
-//import { CARSDATA3 } from './cars-large';
 
 /*
 export interface GnroFileUploadConfig {
@@ -65,6 +64,8 @@ export class GnroImportsComponent {
     maxSelectUploads: 1,
   }));
 
+  gridData = computed(() => this.importsFacade.getSelectImportedExcelData$());
+
   gridConfig: Partial<GnroGridConfig> = {
     //...defaultGridConfig,
     urlKey: 'Imports',
@@ -83,29 +84,38 @@ export class GnroImportsComponent {
 
   columnsConfig: GnroColumnConfig[] = [
     {
-      name: 'ID',
+      name: 'OEPN',
       width: 50,
       align: 'center',
     },
     {
-      name: 'vin',
-      title: 'Vin#',
+      name: 'make',
     },
     {
-      name: 'brand',
+      name: 'model',
     },
     {
-      name: 'year',
+      name: 'submodel',
       width: 50,
       align: 'right',
     },
     {
-      name: 'color',
-      width: 80,
+      name: 'region',
+      align: 'center',
+    },
+    {
+      name: 'years',
+      align: 'center',
+    },
+    {
+      name: 'Ruitai',
+      align: 'center',
+    },
+    {
+      name: 'CarCode',
       align: 'center',
     },
   ];
-  //gridData: GnroGridData<any> = CARSDATA3;
 
   dropped(files: GnroFileDropEntry[]): void {
     for (const droppedFile of files) {
