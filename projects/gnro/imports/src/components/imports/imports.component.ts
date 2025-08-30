@@ -1,5 +1,5 @@
 import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, ElementRef } from '@angular/core';
 import { GnroButtonComponent } from '@gnro/ui/button';
 import {
   GnroLayoutComponent,
@@ -33,13 +33,14 @@ import { GnroColumnConfig, GnroGridComponent, GnroGridData, GnroGridConfig } fro
 })
 export class GnroImportsComponent {
   private dialogRef = inject(GnroDialogRef<GnroImportsComponent>);
+  private readonly elementRef = inject(ElementRef);
   params!: HttpParams;
 
   windowConfig = {
     ...defaultWindowConfig,
     title: 'GNRO.UI.ACTIONS.IMPORT',
-    width: '1000px',
-    height: '600px',
+    width: `${window.innerWidth - 150}px`,
+    height: `${window.innerHeight - 150}px`,
   };
 
   gridConfig: Partial<GnroGridConfig> = {

@@ -38,6 +38,7 @@ export class AppDialogTestDemoComponent {
     ...defaultWindowConfig,
     title: 'Window',
     height: '600px',
+    width: '800px',
     //resizeable: false,
     //dragDisabled: true,
   };

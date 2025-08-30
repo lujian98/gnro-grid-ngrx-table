@@ -65,16 +65,17 @@ export class GnroWindowComponent<T> {
   }
 
   private initWindow(windowConfig: GnroWindowConfig): void {
-    const height = windowConfig.height;
-    if (height) {
-      this.setHeight(parseFloat(height));
+    if (windowConfig.height) {
+      this.setHeight(parseFloat(windowConfig.height));
     }
     if (windowConfig.width) {
       this.setWidth(parseFloat(windowConfig.width));
     }
-    timer(10)
-      .pipe(take(1))
-      .subscribe(() => this.initWindowPosition(windowConfig));
+    if (windowConfig.height || windowConfig.width) {
+      timer(10)
+        .pipe(take(1))
+        .subscribe(() => this.initWindowPosition(windowConfig));
+    }
   }
 
   dragEnded(event: CdkDragEnd): void {
