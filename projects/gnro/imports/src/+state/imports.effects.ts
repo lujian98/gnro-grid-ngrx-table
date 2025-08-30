@@ -25,7 +25,7 @@ export class GnroRemoteImportsEffects {
         const params = action.params;
         const dialogRef = this.dialogService.open(GnroImportsComponent, {
           context: { params },
-          hasBackdrop: false,
+          //hasBackdrop: false,
           closeOnBackdropClick: false,
         });
         return dialogRef.onClose;
