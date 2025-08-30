@@ -1,8 +1,9 @@
 import { inject, Injectable, Signal } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { GnroBackendService, GnroButtonConfg } from '@gnro/ui/core';
-import { openRemoteImportsWindowAction } from './imports.actions';
+import { GnroBackendService, GnroUploadFile } from '@gnro/ui/core';
+import { openRemoteImportsWindowAction, importsFileAction } from './imports.actions';
 import { GnroGridFacade } from '@gnro/ui/grid';
+import { GnroFileUploadConfig, GnroFileUpload } from '@gnro/ui/file-upload';
 
 @Injectable({ providedIn: 'root' })
 export class GnroImportsFacade {
@@ -13,7 +14,14 @@ export class GnroImportsFacade {
   imports(gridId: string): void {
     const gridConfig = this.gridFacade.getGridConfig(gridId)();
     console.log(' gridConfig=', gridConfig);
-    let params = this.backendService.getParams(gridConfig.urlKey, 'imports');
-    this.store.dispatch(openRemoteImportsWindowAction({ stateId: gridId, keyName: gridConfig.urlKey, params }));
+    this.store.dispatch(openRemoteImportsWindowAction({ stateId: gridId, keyName: gridConfig.urlKey }));
+  }
+
+  importsFile(importsFileConfig: GnroFileUploadConfig, file: GnroFileUpload): void {
+    this.store.dispatch(importsFileAction({ importsFileConfig, file }));
+  }
+
+  clearUploadFiles(): void {
+    //this.store.dispatch(fileUploadActions.clearUploadFiles());
   }
 }

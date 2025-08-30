@@ -6,3 +6,5 @@ export { GnroFileDropContentTemplateDirective } from './src/components/file-drop
 
 export { GnroFileDropUploadComponent } from './src/file-drop-upload.component';
 export { GnroFileSelectUploadComponent } from './src/file-select-upload.component';
+export * from './src/models/file-upload.model';
+export * from './src/+state/file-upload.reducer';

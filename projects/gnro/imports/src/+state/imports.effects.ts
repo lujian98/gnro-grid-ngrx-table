@@ -4,27 +4,28 @@ import { GnroDialogService } from '@gnro/ui/overlay';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatMap, exhaustMap, map } from 'rxjs';
 import { GnroImportsComponent } from '../components/imports/imports.component';
-//import { GnroRemoteImportService } from '../services/import.service';
+import { GnroImportsService } from '../services/imports.service';
 import {
   closeRemoteImportsWindowAction,
   openRemoteImportsWindowAction,
   //remoteExportFileSuccessAction,
   startRemoteImportsAction,
+  importsFileAction,
+  importsFileSuccessAction,
 } from './imports.actions';
 
 @Injectable()
 export class GnroRemoteImportsEffects {
   private readonly actions$ = inject(Actions);
   private readonly dialogService = inject(GnroDialogService);
-  //private readonly remoteImportsService = inject(GnroRemoteImportsService);
+  private readonly importsService = inject(GnroImportsService);
 
   openRemoteImportsWindowAction$ = createEffect(() =>
     this.actions$.pipe(
       ofType(openRemoteImportsWindowAction),
       exhaustMap((action) => {
-        const params = action.params;
         const dialogRef = this.dialogService.open(GnroImportsComponent, {
-          context: { params },
+          context: { urlKey: action.keyName },
           //hasBackdrop: false,
           closeOnBackdropClick: false,
         });
@@ -36,6 +37,20 @@ export class GnroRemoteImportsEffects {
         }
         const params = data as HttpParams;
         return startRemoteImportsAction({ params });
+      }),
+    ),
+  );
+
+  importsFile$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(importsFileAction),
+      concatMap((action) => {
+        //const uploadFiles = this.fileUploadFacade.getUploadFiles$();
+        return this.importsService.importsFile(action.importsFileConfig, action.file).pipe(
+          map(() => {
+            return importsFileSuccessAction();
+          }),
+        );
       }),
     ),
   );

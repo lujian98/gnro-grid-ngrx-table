@@ -1,5 +1,5 @@
 import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, inject, ElementRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, ElementRef, computed } from '@angular/core';
 import { GnroButtonComponent } from '@gnro/ui/button';
 import {
   GnroLayoutComponent,
@@ -8,12 +8,27 @@ import {
   GnroLayoutVerticalComponent,
 } from '@gnro/ui/layout';
 import { GnroDialogRef } from '@gnro/ui/overlay';
-import { GnroFileDropComponent, GnroFileDropEntry } from '@gnro/ui/file-upload';
+import { GnroFileDropComponent, GnroFileDropEntry, GnroFileUploadConfig, getFileUpload } from '@gnro/ui/file-upload';
 import { GnroWindowComponent, defaultWindowConfig } from '@gnro/ui/window';
 import { TranslatePipe } from '@ngx-translate/core';
 import { GnroColumnConfig, GnroGridComponent, GnroGridData, GnroGridConfig } from '@gnro/ui/grid';
+import { GnroImportsFacade } from '../../+state/imports.facade';
 //import { CARSDATA3 } from './cars-large';
 
+/*
+export interface GnroFileUploadConfig {
+  urlKey: string;
+  fileDir: string; // default to urlKey if not defined
+  maxSelectUploads: number; // for file select upload only
+}
+
+export const defaultFileUploadConfig: GnroFileUploadConfig = {
+  urlKey: 'upload',
+  fileDir: 'upload',
+  maxSelectUploads: 5,
+};
+
+*/
 @Component({
   selector: 'gnro-imports',
   templateUrl: './imports.component.html',
@@ -33,8 +48,9 @@ import { GnroColumnConfig, GnroGridComponent, GnroGridData, GnroGridConfig } fro
 })
 export class GnroImportsComponent {
   private dialogRef = inject(GnroDialogRef<GnroImportsComponent>);
+  private readonly importsFacade = inject(GnroImportsFacade);
   private readonly elementRef = inject(ElementRef);
-  params!: HttpParams;
+  urlKey!: string;
 
   windowConfig = {
     ...defaultWindowConfig,
@@ -42,6 +58,12 @@ export class GnroImportsComponent {
     width: `${window.innerWidth - 150}px`,
     height: `${window.innerHeight - 150}px`,
   };
+
+  importsFileConfig = computed(() => ({
+    urlKey: this.urlKey,
+    fileDir: 'upload',
+    maxSelectUploads: 1,
+  }));
 
   gridConfig: Partial<GnroGridConfig> = {
     //...defaultGridConfig,
@@ -90,8 +112,11 @@ export class GnroImportsComponent {
       if (droppedFile.fileEntry.isFile) {
         const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
         fileEntry.file((file: File) => {
-          console.log(' drop file fiele=', file);
-          //this.fileUploadFacade.dropUploadFile(droppedFile.relativePath, file);
+          console.log(' drop file fiele=', file); // file: File, relativePath:
+          const importsFile = getFileUpload('imports', file, droppedFile.relativePath);
+          console.log('this.importsFileConfig= ', this.importsFileConfig());
+          console.log('importsFile= ', importsFile);
+          this.importsFacade.importsFile(this.importsFileConfig(), importsFile);
         });
       }
     }
