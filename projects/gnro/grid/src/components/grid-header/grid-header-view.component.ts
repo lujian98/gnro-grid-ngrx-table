@@ -8,8 +8,8 @@ import {
   GnroColumnConfig,
   GnroColumnWidth,
   GnroGridConfig,
-  GnroGridSetting,
   GnroGridRowSelections,
+  GnroGridSetting,
 } from '../../models/grid.model';
 import { groupColumnMove } from '../../utils/group-column-move';
 import { getTableWidth, viewportWidthRatio } from '../../utils/viewport-width-ratio';
@@ -25,7 +25,6 @@ import { GnroGridHeaderComponent } from './grid-header/grid-header.component';
 })
 export class GnroGridHeaderViewComponent {
   private readonly gridFacade = inject(GnroGridFacade);
-  tableWidth: number = 1000;
   gridSetting = input.required<GnroGridSetting>();
   columnHeaderPosition = input<number>(0);
   rowSelection = input.required<GnroGridRowSelections<object>>();
@@ -44,10 +43,12 @@ export class GnroGridHeaderViewComponent {
   widthRatio = computed(() => {
     return this.isResizing() ? 1 : viewportWidthRatio(this.gridConfig(), this.gridSetting(), this.columns());
   });
-  columnWidths = computed(() => {
-    this.tableWidth = this.gridConfig().horizontalScroll
+  tableWidth = computed(() =>
+    this.gridConfig().horizontalScroll
       ? getTableWidth(this.columns(), this.gridConfig())
-      : this.gridSetting().viewportWidth;
+      : this.gridSetting().viewportWidth,
+  );
+  columnWidths = computed(() => {
     const displayColumns = [...this.resizedColumns()].filter((column) => column.hidden !== true);
     let tot = this.gridConfig().rowSelection ? ROW_SELECTION_CELL_WIDTH : 0;
     const columnWidths = displayColumns.map((column, index) => {
@@ -55,7 +56,7 @@ export class GnroGridHeaderViewComponent {
       let width = resizeable === false ? column.width! : Math.round(this.widthRatio() * column.width!);
       tot += width;
       if (index === displayColumns.length - 1) {
-        width += this.tableWidth - tot;
+        width += this.tableWidth() - tot;
       }
       return { name: column.name, width: width };
     });
@@ -75,7 +76,7 @@ export class GnroGridHeaderViewComponent {
     this.resizedColumns.set(columnWidths);
     this.isResizing.set(true);
     if (this.gridConfig().horizontalScroll) {
-      this.tableWidth = getTableWidth(columnWidths, this.gridConfig());
+      //this.tableWidth = getTableWidth(columnWidths, this.gridConfig());
     }
   }
 
