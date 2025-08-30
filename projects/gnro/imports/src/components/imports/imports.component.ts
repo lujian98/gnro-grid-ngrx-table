@@ -3,11 +3,12 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { GnroButtonComponent } from '@gnro/ui/button';
 import {
   GnroLayoutComponent,
-  GnroLayoutFooterComponent,
   GnroLayoutHeaderComponent,
-  GnroLayoutHorizontalComponent,
+  GnroLayoutTopComponent,
+  GnroLayoutVerticalComponent,
 } from '@gnro/ui/layout';
 import { GnroDialogRef } from '@gnro/ui/overlay';
+import { GnroFileDropComponent, GnroFileDropEntry } from '@gnro/ui/file-upload';
 import { GnroWindowComponent, defaultWindowConfig } from '@gnro/ui/window';
 import { TranslatePipe } from '@ngx-translate/core';
 import { GnroColumnConfig, GnroGridComponent, GnroGridData, GnroGridConfig } from '@gnro/ui/grid';
@@ -21,12 +22,13 @@ import { GnroColumnConfig, GnroGridComponent, GnroGridData, GnroGridConfig } fro
   imports: [
     TranslatePipe,
     GnroLayoutComponent,
-    GnroLayoutFooterComponent,
     GnroLayoutHeaderComponent,
-    GnroLayoutHorizontalComponent,
+    GnroLayoutVerticalComponent,
+    GnroLayoutTopComponent,
     GnroButtonComponent,
     GnroWindowComponent,
     GnroGridComponent,
+    GnroFileDropComponent,
   ],
 })
 export class GnroImportsComponent {
@@ -54,7 +56,7 @@ export class GnroImportsComponent {
   columnsConfig: GnroColumnConfig[] = [
     {
       name: 'ID',
-      width: 50,
+      //width: 50,
       align: 'center',
     },
     {
@@ -66,16 +68,28 @@ export class GnroImportsComponent {
     },
     {
       name: 'year',
-      width: 50,
+      //width: 50,
       align: 'right',
     },
     {
       name: 'color',
-      width: 80,
+      //width: 80,
       align: 'center',
     },
   ];
   //gridData: GnroGridData<any> = CARSDATA3;
+
+  dropped(files: GnroFileDropEntry[]): void {
+    for (const droppedFile of files) {
+      if (droppedFile.fileEntry.isFile) {
+        const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
+        fileEntry.file((file: File) => {
+          console.log(' drop file fiele=', file);
+          //this.fileUploadFacade.dropUploadFile(droppedFile.relativePath, file);
+        });
+      }
+    }
+  }
 
   export(): void {
     //this.dialogRef.close(params);

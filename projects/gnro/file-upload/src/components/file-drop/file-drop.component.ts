@@ -188,7 +188,11 @@ export class GnroFileDropComponent<T> implements OnDestroy {
       if (this.files.length > 0 && this.numOfActiveReadEntries === 0) {
         const files = this.files;
         this.files = [];
-        this.onFileDrop.emit(files);
+        if (this.multiple()) {
+          this.onFileDrop.emit(files);
+        } else {
+          this.onFileDrop.emit([files[0]]);
+        }
       }
     });
   }

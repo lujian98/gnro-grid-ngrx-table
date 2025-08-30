@@ -4,8 +4,18 @@
       <button gnro-button (click)="export()">{{ "GNRO.UI.ACTIONS.EXPORT" | translate }}</button>
       <button gnro-button (click)="cancel()">{{ "GNRO.UI.ACTIONS.CANCEL" | translate }}</button>
     </gnro-layout-header>
-    <gnro-layout-horizontal [resizeable]="false">
+    <gnro-layout-vertical>
+      <gnro-layout-top>
+        <gnro-file-drop
+          [accept]="'*'"
+          dropZoneClassName="gnro-file-drop__drop-zone--enabled"
+          [disabled]="false"
+          [multiple]="false"
+          (onFileDrop)="dropped($event)"
+        >
+        </gnro-file-drop>
+      </gnro-layout-top>
       <gnro-grid [gridConfig]="gridConfig" [columnsConfig]="columnsConfig"></gnro-grid>
-    </gnro-layout-horizontal>
+    </gnro-layout-vertical>
   </gnro-layout>
 </gnro-window>
