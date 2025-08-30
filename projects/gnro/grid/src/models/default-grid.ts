@@ -29,6 +29,7 @@ export const defaultGridConfig: GnroGridConfig = {
   remoteGridData: false,
   hideTopbar: false,
   hideGridFooter: false,
+  hideFooterPage: false,
   rowHeight: 24, //px
   headerHeight: 32, //px
   refreshRate: 0, //seconds  min 5 seconds to have refresh the grid data

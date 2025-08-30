@@ -46,10 +46,15 @@ export class GnroImportsComponent {
   gridConfig: Partial<GnroGridConfig> = {
     //...defaultGridConfig,
     urlKey: 'Imports',
+    verticalScroll: true,
+    hideFooterPage: true,
+    pageSize: 100000,
+    rowSelection: true,
+    multiRowSelection: true,
     hideTopbar: true,
-    //columnSort: true,
+    columnSort: true,
     columnResize: true,
-    columnReorder: true,
+    //columnReorder: true,
     //columnMenu: true,
     //columnHidden: true,
   };
@@ -57,7 +62,7 @@ export class GnroImportsComponent {
   columnsConfig: GnroColumnConfig[] = [
     {
       name: 'ID',
-      //width: 50,
+      width: 50,
       align: 'center',
     },
     {
@@ -69,12 +74,12 @@ export class GnroImportsComponent {
     },
     {
       name: 'year',
-      //width: 50,
+      width: 50,
       align: 'right',
     },
     {
       name: 'color',
-      //width: 80,
+      width: 80,
       align: 'center',
     },
   ];
@@ -92,11 +97,11 @@ export class GnroImportsComponent {
     }
   }
 
-  export(): void {
+  import(): void {
     //this.dialogRef.close(params);
   }
 
-  cancel(): void {
+  close(): void {
     this.dialogRef.close();
   }
 }

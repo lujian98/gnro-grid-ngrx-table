@@ -1,5 +1,5 @@
 <gnro-layout-footer>
-  @if (!gridConfig().virtualScroll) {
+  @if (!gridConfig().hideFooterPage && !gridConfig().virtualScroll) {
     <button gnro-button (click)="getGridPageData(1)" [disabled]="page === 1">
       <gnro-icon config="backward-step"></gnro-icon>
     </button>

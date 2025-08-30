@@ -71,6 +71,7 @@ export interface GnroGridConfig {
   remoteGridData: boolean;
   hideTopbar: boolean;
   hideGridFooter: boolean;
+  hideFooterPage: boolean;
   rowHeight: number;
   headerHeight: number;
   rowGroupField?: GnroRowGroupField;
