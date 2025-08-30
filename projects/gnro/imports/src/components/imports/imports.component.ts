@@ -1,6 +1,7 @@
-import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, inject, ElementRef, computed } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { GnroButtonComponent } from '@gnro/ui/button';
+import { GnroFileDropComponent, GnroFileDropEntry, getFileUpload } from '@gnro/ui/file-upload';
+import { GnroGridComponent, GnroGridConfig } from '@gnro/ui/grid';
 import {
   GnroLayoutComponent,
   GnroLayoutHeaderComponent,
@@ -8,26 +9,10 @@ import {
   GnroLayoutVerticalComponent,
 } from '@gnro/ui/layout';
 import { GnroDialogRef } from '@gnro/ui/overlay';
-import { GnroFileDropComponent, GnroFileDropEntry, GnroFileUploadConfig, getFileUpload } from '@gnro/ui/file-upload';
 import { GnroWindowComponent, defaultWindowConfig } from '@gnro/ui/window';
 import { TranslatePipe } from '@ngx-translate/core';
-import { GnroColumnConfig, GnroGridComponent, GnroGridData, GnroGridConfig } from '@gnro/ui/grid';
 import { GnroImportsFacade } from '../../+state/imports.facade';
 
-/*
-export interface GnroFileUploadConfig {
-  urlKey: string;
-  fileDir: string; // default to urlKey if not defined
-  maxSelectUploads: number; // for file select upload only
-}
-
-export const defaultFileUploadConfig: GnroFileUploadConfig = {
-  urlKey: 'upload',
-  fileDir: 'upload',
-  maxSelectUploads: 5,
-};
-
-*/
 @Component({
   selector: 'gnro-imports',
   templateUrl: './imports.component.html',
@@ -48,7 +33,6 @@ export const defaultFileUploadConfig: GnroFileUploadConfig = {
 export class GnroImportsComponent {
   private dialogRef = inject(GnroDialogRef<GnroImportsComponent>);
   private readonly importsFacade = inject(GnroImportsFacade);
-  private readonly elementRef = inject(ElementRef);
   urlKey!: string;
 
   windowConfig = {
@@ -57,14 +41,6 @@ export class GnroImportsComponent {
     width: `${window.innerWidth - 150}px`,
     height: `${window.innerHeight - 150}px`,
   };
-
-  importsFileConfig = computed(() => ({
-    urlKey: this.urlKey,
-    fileDir: 'upload',
-    maxSelectUploads: 1,
-  }));
-
-  gridData = computed(() => this.importsFacade.getSelectImportedExcelData$());
 
   gridConfig: Partial<GnroGridConfig> = {
     //...defaultGridConfig,
@@ -82,50 +58,33 @@ export class GnroImportsComponent {
     //columnHidden: true,
   };
 
-  columnsConfig: GnroColumnConfig[] = [
-    {
-      name: 'OEPN',
-      width: 50,
-      align: 'center',
-    },
-    {
-      name: 'make',
-    },
-    {
-      name: 'model',
-    },
-    {
-      name: 'submodel',
-      width: 50,
-      align: 'right',
-    },
-    {
-      name: 'region',
-      align: 'center',
-    },
-    {
-      name: 'years',
-      align: 'center',
-    },
-    {
-      name: 'Ruitai',
-      align: 'center',
-    },
-    {
-      name: 'CarCode',
-      align: 'center',
-    },
-  ];
+  importsFileConfig = computed(() => ({
+    urlKey: this.urlKey,
+    fileDir: 'upload',
+    maxSelectUploads: 1,
+  }));
+
+  gridData = computed(() => this.importsFacade.getSelectImportedExcelData$());
+
+  //TODO use remote columns config???
+  columnsConfig = computed(() => {
+    const gridData = this.importsFacade.getSelectImportedExcelData$();
+    if (gridData && gridData.totalCounts > 0) {
+      return Object.keys(gridData.data[0]).map((key) => ({ name: key }));
+    } else {
+      return [];
+    }
+  });
 
   dropped(files: GnroFileDropEntry[]): void {
     for (const droppedFile of files) {
       if (droppedFile.fileEntry.isFile) {
         const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
         fileEntry.file((file: File) => {
-          console.log(' drop file fiele=', file); // file: File, relativePath:
+          //console.log(' drop file fiele=', file); // file: File, relativePath:
           const importsFile = getFileUpload('imports', file, droppedFile.relativePath);
-          console.log('this.importsFileConfig= ', this.importsFileConfig());
-          console.log('importsFile= ', importsFile);
+          //console.log('this.importsFileConfig= ', this.importsFileConfig());
+          //console.log('importsFile= ', importsFile);
           this.importsFacade.importsFile(this.importsFileConfig(), importsFile);
         });
       }

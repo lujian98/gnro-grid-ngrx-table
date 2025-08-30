@@ -1,10 +1,10 @@
-import { inject, Injectable, Signal } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { GnroBackendService, GnroUploadFile } from '@gnro/ui/core';
-import { openRemoteImportsWindowAction, importsFileAction } from './imports.actions';
+import { inject, Injectable } from '@angular/core';
+import { GnroBackendService } from '@gnro/ui/core';
+import { GnroFileUpload, GnroFileUploadConfig } from '@gnro/ui/file-upload';
 import { GnroGridFacade } from '@gnro/ui/grid';
-import { GnroFileUploadConfig, GnroFileUpload } from '@gnro/ui/file-upload';
-import { selectStateId, selectImportedExcelData } from './imports.selectors';
+import { Store } from '@ngrx/store';
+import { importsFileAction, openRemoteImportsWindowAction } from './imports.actions';
+import { selectImportedExcelData, selectStateId } from './imports.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class GnroImportsFacade {

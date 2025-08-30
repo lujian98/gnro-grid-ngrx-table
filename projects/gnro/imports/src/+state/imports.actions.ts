@@ -1,7 +1,7 @@
 import { HttpParams } from '@angular/common/http';
-import { createAction, props } from '@ngrx/store';
-import { GnroFileUploadConfig, GnroFileUpload } from '@gnro/ui/file-upload';
+import { GnroFileUpload, GnroFileUploadConfig } from '@gnro/ui/file-upload';
 import { GnroGridData } from '@gnro/ui/grid';
+import { createAction, props } from '@ngrx/store';
 
 export const openRemoteImportsWindowAction = createAction(
   '[Remote Imports] Open Remote Imports Window',

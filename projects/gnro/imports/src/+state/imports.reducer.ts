@@ -1,20 +1,16 @@
-import { createFeature, createReducer, on } from '@ngrx/store';
-import { openRemoteImportsWindowAction, importsFileSuccessAction } from './imports.actions';
-import { GnroBackendService, GnroUploadFile } from '@gnro/ui/core';
-import { GnroFileUpload } from '@gnro/ui/file-upload';
 import { GnroGridData } from '@gnro/ui/grid';
+import { createFeature, createReducer, on } from '@ngrx/store';
+import { importsFileSuccessAction, openRemoteImportsWindowAction } from './imports.actions';
 
 //only support one open dialog window at a time
 export interface ImportsState {
   stateId: string;
   importedExcelData: GnroGridData<object> | undefined;
-  //importsFile: GnroFileUpload | undefined;
 }
 
 export const initialState: ImportsState = {
   stateId: '',
   importedExcelData: undefined,
-  //importsFile: undefined
 };
 
 export const gnroImportsFeature = createFeature({

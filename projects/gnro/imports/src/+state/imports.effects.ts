@@ -7,11 +7,10 @@ import { GnroImportsComponent } from '../components/imports/imports.component';
 import { GnroImportsService } from '../services/imports.service';
 import {
   closeRemoteImportsWindowAction,
-  openRemoteImportsWindowAction,
-  //remoteExportFileSuccessAction,
-  startRemoteImportsAction,
   importsFileAction,
   importsFileSuccessAction,
+  openRemoteImportsWindowAction,
+  startRemoteImportsAction,
 } from './imports.actions';
 
 @Injectable()
@@ -26,7 +25,6 @@ export class GnroRemoteImportsEffects {
       exhaustMap((action) => {
         const dialogRef = this.dialogService.open(GnroImportsComponent, {
           context: { urlKey: action.keyName },
-          //hasBackdrop: false,
           closeOnBackdropClick: false,
         });
         return dialogRef.onClose;
@@ -53,41 +51,4 @@ export class GnroRemoteImportsEffects {
       }),
     ),
   );
-
-  /*oteImportsAction$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(startRemoteImportsAction),
-      concatMap((action) => {
-        return this.remoteImportsService.imports(action.params).pipe(
-          map((response) => {
-            const contentDisposition = response.headers.get('Content-Disposition');
-            const blob = new Blob([response.body as BlobPart], {
-              type: response.headers.get('Content-Type') || undefined,
-            });
-            const url = window.URL.createObjectURL(blob);
-            const element = document.createElement('a');
-            element.download = this.exportFilename(contentDisposition);
-            element.href = url;
-            document.body.appendChild(element);
-            element.click();
-            window.URL.revokeObjectURL(url);
-            document.body.removeChild(element);
-            return remoteExportFileSuccessAction();
-          }),
-        );
-      }),
-    ),
-  );
-
-  private exportFilename(contentDisposition: string | null): string {
-    if (contentDisposition) {
-      const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
-      const matches = filenameRegex.exec(contentDisposition);
-      if (matches != null && matches[1]) {
-        return matches[1].replace(/['"]/g, '');
-      }
-    }
-    return 'import-file.xls';
-  }
-    */
 }
