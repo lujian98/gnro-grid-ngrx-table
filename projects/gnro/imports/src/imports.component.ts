@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { GnroButtonComponent } from '@gnro/ui/button';
 import { GnroFileDropComponent, GnroFileDropEntry, getFileUpload } from '@gnro/ui/file-upload';
 import { GnroGridComponent, GnroGridConfig, GnroGridFacade, GnroGridStateModule } from '@gnro/ui/grid';
@@ -35,8 +35,8 @@ export class GnroImportsComponent {
   private readonly dialogRef = inject(GnroDialogRef<GnroImportsComponent>);
   private readonly gridFacade = inject(GnroGridFacade);
   private readonly importsFacade = inject(GnroImportsFacade);
-  stateId!: string;
   urlKey!: string;
+  gridId$ = signal<string>('');
 
   windowConfig = {
     ...defaultWindowConfig,
@@ -64,11 +64,12 @@ export class GnroImportsComponent {
   importDisabled = computed(() => {
     return !(this.gridData()?.totalCounts! > 0);
   });
-  deleteDisabled = computed(() => {
-    console.log(' this.gridFacade.getRowSelection(this.stateId)()=', this.gridFacade.getRowSelection(this.stateId)());
-    return !(this.gridFacade.getRowSelection(this.stateId)()?.selected! > 0);
-  });
+  deleteDisabled = computed(() => !(this.gridFacade.getRowSelection(this.gridId$())()?.selected! > 0));
   resetDisabled = computed(() => !(this.gridData()?.totalCounts! > 0));
+
+  gnroGridId(gridId: string): void {
+    this.gridId$.set(gridId);
+  }
 
   dropped(files: GnroFileDropEntry[]): void {
     for (const droppedFile of files) {

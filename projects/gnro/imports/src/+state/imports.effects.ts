@@ -24,7 +24,7 @@ export class GnroRemoteImportsEffects {
       ofType(openRemoteImportsWindowAction),
       exhaustMap((action) => {
         const dialogRef = this.dialogService.open(GnroImportsComponent, {
-          context: { urlKey: action.keyName, stateId: action.stateId },
+          context: { urlKey: action.keyName },
           closeOnBackdropClick: false,
         });
         return dialogRef.onClose;
