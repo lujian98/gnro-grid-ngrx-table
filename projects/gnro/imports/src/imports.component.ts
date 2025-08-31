@@ -92,7 +92,7 @@ export class GnroImportsComponent {
   }
 
   reset(): void {
-    //this.dialogRef.close(params);
+    this.importsFacade.resetImportsData();
   }
 
   close(): void {

@@ -25,3 +25,5 @@ export const importsFileSuccessAction = createAction(
   '[Remote Imports] Imports File Success',
   props<{ importedExcelData: GnroGridData<object>; columnsConfig: GnroColumnConfig[] }>(),
 );
+
+export const resetImportsDataAction = createAction('[Remote Imports] Reset Remote Imports Data');
