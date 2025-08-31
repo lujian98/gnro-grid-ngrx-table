@@ -91,7 +91,7 @@ export class GnroImportsComponent {
   });
 
   importDisabled = computed(() => {
-    const data = this.gridData() ? this.gridData()!.data : [];
+    const data = this.gridData().data;
     if (data.length > 0) {
       return data.filter((item: any) => !!item['ImportStatus']).length !== 0;
     }

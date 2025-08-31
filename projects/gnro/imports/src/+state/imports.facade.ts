@@ -22,8 +22,6 @@ export class GnroImportsFacade {
 
   imports(gridId: string): void {
     const gridConfig = this.gridFacade.getGridConfig(gridId)();
-    const gridData = { data: [], totalCounts: 0 };
-    this.gridFacade.setGridInMemoryData(gridId, gridConfig, gridData);
     this.store.dispatch(openRemoteImportsWindowAction({ stateId: gridId, keyName: gridConfig.urlKey }));
   }
 

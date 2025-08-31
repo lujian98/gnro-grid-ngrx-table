@@ -11,13 +11,13 @@ import {
 //only support one open dialog window at a time
 export interface ImportsState {
   stateId: string;
-  importedExcelData: GnroGridData<object> | undefined;
+  importedExcelData: GnroGridData<object>;
   columnsConfig: GnroColumnConfig[];
 }
 
 export const initialState: ImportsState = {
   stateId: '',
-  importedExcelData: undefined,
+  importedExcelData: { data: [], totalCounts: 0 },
   columnsConfig: [],
 };
 
@@ -29,8 +29,8 @@ export const gnroImportsFeature = createFeature({
       return {
         ...state,
         stateId: action.stateId,
-        importedExcelData: undefined,
-        columnsConfig: [],
+        //importedExcelData: undefined,
+        //columnsConfig: [],
       };
     }),
     on(importsFileSuccessAction, (state, action) => {

@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { GnroBackendService, GnroUploadFile } from '@gnro/ui/core';
 import { GnroFileUploadConfig } from '@gnro/ui/file-upload';
-import { GnroGridData } from '@gnro/ui/grid';
 import { Observable, map } from 'rxjs';
 import { GnroImportsResponse } from '../models/imports.model';
 
