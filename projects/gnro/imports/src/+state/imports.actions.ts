@@ -27,3 +27,8 @@ export const importsFileSuccessAction = createAction(
 );
 
 export const resetImportsDataAction = createAction('[Remote Imports] Reset Remote Imports Data');
+
+export const deleteImportsSelectedAction = createAction(
+  '[Remote Imports] Delete Imports Selected Records',
+  props<{ selected: object[] }>(),
+);

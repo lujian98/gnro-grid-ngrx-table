@@ -88,7 +88,8 @@ export class GnroImportsComponent {
   }
 
   delete(): void {
-    //this.dialogRef.close(params);
+    const selected = this.gridFacade.getRowSelection(this.gridId$())()?.selection.selected!;
+    this.importsFacade.deleteImportsSelected(selected);
   }
 
   reset(): void {

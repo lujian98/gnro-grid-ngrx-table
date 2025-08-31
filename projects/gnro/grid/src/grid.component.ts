@@ -103,7 +103,6 @@ export class GnroGridComponent<T> implements OnInit, OnDestroy {
 
   private initGridConfig(config: GnroGridConfig): void {
     this.gridFacade.initGridConfig(this.gridId, config, 'grid');
-    console.log(' 00000000000000 this.gridId=', this.gridId);
     this.gnroGridId.emit(this.gridId);
   }
 

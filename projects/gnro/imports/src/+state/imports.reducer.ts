@@ -1,6 +1,11 @@
 import { GnroGridData, GnroColumnConfig } from '@gnro/ui/grid';
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { importsFileSuccessAction, openRemoteImportsWindowAction, resetImportsDataAction } from './imports.actions';
+import {
+  importsFileSuccessAction,
+  openRemoteImportsWindowAction,
+  resetImportsDataAction,
+  deleteImportsSelectedAction,
+} from './imports.actions';
 
 //only support one open dialog window at a time
 export interface ImportsState {
@@ -35,6 +40,14 @@ export const gnroImportsFeature = createFeature({
       };
     }),
     on(resetImportsDataAction, (state) => {
+      return {
+        ...state,
+        importedExcelData: { data: [], totalCounts: 0 },
+      };
+    }),
+    on(deleteImportsSelectedAction, (state, action) => {
+      const data = state.importedExcelData?.data;
+      // TODO delete records
       return {
         ...state,
         importedExcelData: { data: [], totalCounts: 0 },

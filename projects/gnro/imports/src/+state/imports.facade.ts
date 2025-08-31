@@ -3,7 +3,12 @@ import { GnroUploadFile } from '@gnro/ui/core';
 import { GnroFileUploadConfig } from '@gnro/ui/file-upload';
 import { GnroGridFacade } from '@gnro/ui/grid';
 import { Store } from '@ngrx/store';
-import { importsFileAction, openRemoteImportsWindowAction, resetImportsDataAction } from './imports.actions';
+import {
+  importsFileAction,
+  openRemoteImportsWindowAction,
+  resetImportsDataAction,
+  deleteImportsSelectedAction,
+} from './imports.actions';
 import { selectColumnsConfig, selectImportedExcelData, selectStateId } from './imports.selectors';
 
 @Injectable({ providedIn: 'root' })
@@ -28,6 +33,10 @@ export class GnroImportsFacade {
 
   resetImportsData(): void {
     this.store.dispatch(resetImportsDataAction());
+  }
+
+  deleteImportsSelected(selected: object[]): void {
+    this.store.dispatch(deleteImportsSelectedAction({ selected }));
   }
 
   //clearUploadFiles(): void {
