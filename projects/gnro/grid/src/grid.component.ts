@@ -70,7 +70,6 @@ export class GnroGridComponent<T> implements OnInit, OnDestroy {
       if (!this.gridConfig$().remoteGridData && gridData) {
         this.gridFacade.setGridInMemoryData(this.gridId, this.gridConfig$(), gridData as GnroGridData<object>);
       }
-      console.log(' import excel grid data=', gridData);
       return gridData;
     },
   });

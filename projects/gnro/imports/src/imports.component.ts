@@ -11,7 +11,7 @@ import {
 import { GnroDialogRef } from '@gnro/ui/overlay';
 import { GnroWindowComponent, defaultWindowConfig } from '@gnro/ui/window';
 import { TranslatePipe } from '@ngx-translate/core';
-import { GnroImportsFacade } from '../../+state/imports.facade';
+import { GnroImportsFacade } from './+state/imports.facade';
 
 @Component({
   selector: 'gnro-imports',
@@ -31,7 +31,7 @@ import { GnroImportsFacade } from '../../+state/imports.facade';
   ],
 })
 export class GnroImportsComponent {
-  private dialogRef = inject(GnroDialogRef<GnroImportsComponent>);
+  private readonly dialogRef = inject(GnroDialogRef<GnroImportsComponent>);
   private readonly importsFacade = inject(GnroImportsFacade);
   urlKey!: string;
 
@@ -43,7 +43,6 @@ export class GnroImportsComponent {
   };
 
   gridConfig: Partial<GnroGridConfig> = {
-    //...defaultGridConfig,
     urlKey: 'Imports',
     verticalScroll: true,
     hideFooterPage: true,
@@ -53,9 +52,6 @@ export class GnroImportsComponent {
     hideTopbar: true,
     columnSort: true,
     columnResize: true,
-    //columnReorder: true,
-    //columnMenu: true,
-    //columnHidden: true,
   };
 
   importsFileConfig = computed(() => ({ urlKey: this.urlKey, fileDir: 'upload', maxSelectUploads: 1 }));

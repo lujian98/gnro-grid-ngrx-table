@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { GnroDialogService } from '@gnro/ui/overlay';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatMap, exhaustMap, map } from 'rxjs';
-import { GnroImportsComponent } from '../components/imports/imports.component';
+import { GnroImportsComponent } from '../imports.component';
 import { GnroImportsService } from '../services/imports.service';
 import {
   closeRemoteImportsWindowAction,
