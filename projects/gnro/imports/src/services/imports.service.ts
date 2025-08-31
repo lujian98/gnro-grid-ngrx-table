@@ -12,9 +12,9 @@ export class GnroImportsService {
   private readonly http = inject(HttpClient);
   private readonly backendService = inject(GnroBackendService);
 
-  importsFile(fileUploadConfig: GnroFileUploadConfig, file: GnroUploadFile): Observable<GnroGridData<object>> {
+  importsFile(importsFileConfig: GnroFileUploadConfig, file: GnroUploadFile): Observable<GnroGridData<object>> {
     const url = this.backendService.apiUrl;
-    const formData = this.backendService.getFormData(fileUploadConfig.urlKey, 'imports');
+    const formData = this.backendService.getFormData(importsFileConfig.urlKey, 'imports');
     formData.append('importsfile', file.fieldName);
     if (file.relativePath) {
       formData.append(file.fieldName, file.file, file.relativePath);
