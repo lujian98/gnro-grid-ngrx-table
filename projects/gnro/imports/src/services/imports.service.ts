@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { GnroBackendService, GnroUploadFile } from '@gnro/ui/core';
+import { GnroBackendService, GnroUploadFile, ACCEPT_JSON_API_HEADER } from '@gnro/ui/core';
 import { GnroFileUploadConfig } from '@gnro/ui/file-upload';
 import { Observable, map } from 'rxjs';
 import { GnroImportsResponse } from '../models/imports.model';
@@ -25,6 +25,21 @@ export class GnroImportsService {
       map((res) => {
         console.log(' imports res=', res);
         return res;
+      }),
+    );
+  }
+
+  saveImportsRecords(urlKey: string, records: object[]): Observable<any> {
+    const headers = new HttpHeaders(ACCEPT_JSON_API_HEADER);
+    let params = this.backendService.getParams(urlKey, 'saveImportsRecords');
+    const url = this.backendService.apiUrl;
+    params = params.append('formData', JSON.stringify(records));
+    return this.http.put<any>(url, params, { headers: headers }).pipe(
+      map((response) => {
+        console.log(' saveImportsRecords res=', response);
+        return {
+          formData: { ...response.formData },
+        };
       }),
     );
   }

@@ -11,6 +11,8 @@ import {
   importsFileSuccessAction,
   openRemoteImportsWindowAction,
   startRemoteImportsAction,
+  saveImportsRecordsAction,
+  saveImportsRecordsSuccessAction,
 } from './imports.actions';
 
 @Injectable()
@@ -46,6 +48,19 @@ export class GnroRemoteImportsEffects {
         return this.importsService.importsFile(action.importsFileConfig, action.file).pipe(
           map(({ importedExcelData, columnsConfig }) => {
             return importsFileSuccessAction({ importedExcelData, columnsConfig });
+          }),
+        );
+      }),
+    ),
+  );
+
+  saveImportsRecordsAction$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(saveImportsRecordsAction),
+      concatMap((action) => {
+        return this.importsService.saveImportsRecords(action.urlKey, action.records).pipe(
+          map(() => {
+            return saveImportsRecordsSuccessAction();
           }),
         );
       }),

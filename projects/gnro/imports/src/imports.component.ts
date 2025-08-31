@@ -117,7 +117,7 @@ export class GnroImportsComponent {
   }
 
   import(): void {
-    //this.dialogRef.close(params);
+    this.importsFacade.saveImportsRecordsAction(this.urlKey);
   }
 
   delete(): void {

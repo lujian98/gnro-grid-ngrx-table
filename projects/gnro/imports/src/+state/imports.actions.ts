@@ -32,3 +32,10 @@ export const deleteImportsSelectedAction = createAction(
   '[Remote Imports] Delete Imports Selected Records',
   props<{ selected: object[] }>(),
 );
+
+export const saveImportsRecordsAction = createAction(
+  '[Remote Imports] Save Imports Records',
+  props<{ urlKey: string; records: object[] }>(),
+);
+
+export const saveImportsRecordsSuccessAction = createAction('[Remote Imports] Save Imports Records Success');

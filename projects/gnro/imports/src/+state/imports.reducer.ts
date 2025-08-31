@@ -29,8 +29,6 @@ export const gnroImportsFeature = createFeature({
       return {
         ...state,
         stateId: action.stateId,
-        //importedExcelData: undefined,
-        //columnsConfig: [],
       };
     }),
     on(importsFileSuccessAction, (state, action) => {

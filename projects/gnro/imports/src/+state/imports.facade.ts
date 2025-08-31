@@ -8,6 +8,7 @@ import {
   openRemoteImportsWindowAction,
   resetImportsDataAction,
   deleteImportsSelectedAction,
+  saveImportsRecordsAction,
 } from './imports.actions';
 import { selectColumnsConfig, selectImportedExcelData, selectStateId } from './imports.selectors';
 
@@ -35,6 +36,11 @@ export class GnroImportsFacade {
 
   deleteImportsSelected(selected: object[]): void {
     this.store.dispatch(deleteImportsSelectedAction({ selected }));
+  }
+
+  saveImportsRecordsAction(urlKey: string): void {
+    const records = this.getSelectImportedExcelData$().data;
+    this.store.dispatch(saveImportsRecordsAction({ urlKey, records }));
   }
 
   //clearUploadFiles(): void {
