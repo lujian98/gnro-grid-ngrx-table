@@ -1,7 +1,14 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { GnroButtonComponent } from '@gnro/ui/button';
+import { GnroObjectType } from '@gnro/ui/core';
 import { GnroFileDropComponent, GnroFileDropEntry, getFileUpload } from '@gnro/ui/file-upload';
-import { GnroGridComponent, GnroGridConfig, GnroGridFacade, GnroGridStateModule } from '@gnro/ui/grid';
+import {
+  GnroGridComponent,
+  GnroGridConfig,
+  GnroGridFacade,
+  GnroGridStateModule,
+  GnroGridCellRendererComponent,
+} from '@gnro/ui/grid';
 import {
   GnroLayoutComponent,
   GnroLayoutHeaderComponent,
@@ -12,6 +19,17 @@ import { GnroDialogRef } from '@gnro/ui/overlay';
 import { GnroWindowComponent, defaultWindowConfig } from '@gnro/ui/window';
 import { TranslatePipe } from '@ngx-translate/core';
 import { GnroImportsFacade } from './+state/imports.facade';
+
+@Component({
+  selector: 'gnro-imports-status',
+  template: `{{ data }}`,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[style.width]': '"100%"',
+    '[style.color]': '"red"',
+  },
+})
+export class ImportsStatusComponent extends GnroGridCellRendererComponent<string> {}
 
 @Component({
   selector: 'gnro-imports',
@@ -29,6 +47,7 @@ import { GnroImportsFacade } from './+state/imports.facade';
     GnroGridComponent,
     GnroFileDropComponent,
     GnroGridStateModule,
+    ImportsStatusComponent,
   ],
 })
 export class GnroImportsComponent {
@@ -59,10 +78,24 @@ export class GnroImportsComponent {
 
   importsFileConfig = computed(() => ({ urlKey: this.urlKey, fileDir: 'upload', maxSelectUploads: 1 }));
   gridData = computed(() => this.importsFacade.getSelectImportedExcelData$());
-  columnsConfig = computed(() => this.importsFacade.getSelectColumnsConfig$());
-  //TODO list data has invalid record
+  columnsConfig = computed(() => {
+    const config = [...this.importsFacade.getSelectColumnsConfig$()];
+    config.push({
+      name: 'ImportStatus',
+      align: 'center',
+      width: 30,
+      rendererType: GnroObjectType.Component,
+      component: ImportsStatusComponent,
+    });
+    return config;
+  });
+
   importDisabled = computed(() => {
-    return !(this.gridData()?.totalCounts! > 0);
+    const data = this.gridData() ? this.gridData()!.data : [];
+    if (data.length > 0) {
+      return data.filter((item: any) => !!item['ImportStatus']).length !== 0;
+    }
+    return true;
   });
   deleteDisabled = computed(() => !(this.gridFacade.getRowSelection(this.gridId$())()?.selected! > 0));
   resetDisabled = computed(() => !(this.gridData()?.totalCounts! > 0));
