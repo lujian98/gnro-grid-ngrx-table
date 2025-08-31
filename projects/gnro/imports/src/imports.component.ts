@@ -90,6 +90,7 @@ export class GnroImportsComponent {
   delete(): void {
     const selected = this.gridFacade.getRowSelection(this.gridId$())()?.selection.selected!;
     this.importsFacade.deleteImportsSelected(selected);
+    this.gridFacade.setSelectRows(this.gridId$(), [], false, 0);
   }
 
   reset(): void {

@@ -1,4 +1,5 @@
 import { GnroGridData, GnroColumnConfig } from '@gnro/ui/grid';
+import { isEqual } from '@gnro/ui/core';
 import { createFeature, createReducer, on } from '@ngrx/store';
 import {
   importsFileSuccessAction,
@@ -46,11 +47,12 @@ export const gnroImportsFeature = createFeature({
       };
     }),
     on(deleteImportsSelectedAction, (state, action) => {
-      const data = state.importedExcelData?.data;
-      // TODO delete records
+      const importedExcelData = state.importedExcelData ? state.importedExcelData.data : [];
+      const selected = action.selected;
+      const data = importedExcelData.filter((item) => !selected.find((record) => isEqual(item, record)));
       return {
         ...state,
-        importedExcelData: { data: [], totalCounts: 0 },
+        importedExcelData: { data: data, totalCounts: data.length },
       };
     }),
   ),
