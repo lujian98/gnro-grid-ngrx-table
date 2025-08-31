@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
-import { GnroBackendService } from '@gnro/ui/core';
-import { GnroFileUpload, GnroFileUploadConfig } from '@gnro/ui/file-upload';
+import { GnroBackendService, GnroUploadFile } from '@gnro/ui/core';
+import { GnroFileUploadConfig } from '@gnro/ui/file-upload';
 import { GnroGridFacade } from '@gnro/ui/grid';
 import { Store } from '@ngrx/store';
 import { importsFileAction, openRemoteImportsWindowAction } from './imports.actions';
@@ -21,7 +21,7 @@ export class GnroImportsFacade {
     this.store.dispatch(openRemoteImportsWindowAction({ stateId: gridId, keyName: gridConfig.urlKey }));
   }
 
-  importsFile(importsFileConfig: GnroFileUploadConfig, file: GnroFileUpload): void {
+  importsFile(importsFileConfig: GnroFileUploadConfig, file: GnroUploadFile): void {
     this.store.dispatch(importsFileAction({ importsFileConfig, file }));
   }
 

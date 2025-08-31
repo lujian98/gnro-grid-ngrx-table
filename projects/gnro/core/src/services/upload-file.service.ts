@@ -7,6 +7,10 @@ export interface GnroUploadFile {
   fieldName: string;
   relativePath?: string;
   file: File;
+  filename?: string;
+  type?: string;
+  size?: number;
+  lastModified?: number;
 }
 
 /*

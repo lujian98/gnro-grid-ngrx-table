@@ -1,12 +1,12 @@
 import { GnroGridData } from '@gnro/ui/grid';
 import { createSelector } from '@ngrx/store';
 import { FileUploadState, gnroFileUploadFeature } from './file-upload.reducer';
-import { GnroFileUpload } from '../models/file-upload.model';
+import { GnroUploadFile } from '@gnro/ui/core';
 
 export const { selectGnroFileUploadState, selectUploadFiles } = gnroFileUploadFeature;
 
 export const selectUploadFilesGridData = createSelector(selectGnroFileUploadState, (state: FileUploadState) => {
-  const gridData: GnroGridData<GnroFileUpload> = {
+  const gridData: GnroGridData<GnroUploadFile> = {
     data: state.uploadFiles,
     totalCounts: state.uploadFiles.length,
   };

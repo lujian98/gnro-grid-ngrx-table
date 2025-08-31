@@ -1,16 +1,16 @@
-import { GnroFileUpload } from '../models/file-upload.model';
+import { GnroUploadFile } from '@gnro/ui/core';
 import { createFeature, createReducer, on } from '@ngrx/store';
 import * as fileUploadActions from './file-upload.actions';
 
 export interface FileUploadState {
-  uploadFiles: GnroFileUpload[];
+  uploadFiles: GnroUploadFile[];
 }
 
 export const initialState: FileUploadState = {
   uploadFiles: [],
 };
 
-export function getFileUpload(fieldName: string, file: File, relativePath: string): GnroFileUpload {
+export function getFileUpload(fieldName: string, file: File, relativePath: string): GnroUploadFile {
   return {
     fieldName: fieldName,
     relativePath: relativePath,
