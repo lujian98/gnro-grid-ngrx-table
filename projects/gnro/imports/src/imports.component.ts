@@ -26,10 +26,12 @@ import { GnroImportsFacade } from './+state/imports.facade';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[style.width]': '"100%"',
-    '[style.color]': '"red"',
+    '[style.color]': 'textColor()',
   },
 })
-export class ImportsStatusComponent extends GnroGridCellRendererComponent<string> {}
+export class ImportsStatusComponent extends GnroGridCellRendererComponent<string> {
+  textColor = computed(() => (this.data !== 'add' && this.data !== 'update' ? 'red' : 'green'));
+}
 
 @Component({
   selector: 'gnro-imports',
@@ -93,7 +95,12 @@ export class GnroImportsComponent {
   importDisabled = computed(() => {
     const data = this.gridData().data;
     if (data.length > 0) {
-      return data.filter((item: any) => !!item['ImportStatus']).length !== 0;
+      return (
+        data.filter((item: any) => {
+          const status = item['ImportStatus'];
+          return status !== 'add' && status !== 'update';
+        }).length !== 0
+      );
     }
     return true;
   });
