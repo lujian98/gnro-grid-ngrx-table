@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { GnroButtonComponent } from '@gnro/ui/button';
 import { GnroFileDropComponent, GnroFileDropEntry, getFileUpload } from '@gnro/ui/file-upload';
-import { GnroGridComponent, GnroGridConfig } from '@gnro/ui/grid';
+import { GnroGridComponent, GnroGridConfig, GnroGridFacade, GnroGridStateModule } from '@gnro/ui/grid';
 import {
   GnroLayoutComponent,
   GnroLayoutHeaderComponent,
@@ -28,11 +28,14 @@ import { GnroImportsFacade } from './+state/imports.facade';
     GnroWindowComponent,
     GnroGridComponent,
     GnroFileDropComponent,
+    GnroGridStateModule,
   ],
 })
 export class GnroImportsComponent {
   private readonly dialogRef = inject(GnroDialogRef<GnroImportsComponent>);
+  private readonly gridFacade = inject(GnroGridFacade);
   private readonly importsFacade = inject(GnroImportsFacade);
+  stateId!: string;
   urlKey!: string;
 
   windowConfig = {
@@ -57,6 +60,15 @@ export class GnroImportsComponent {
   importsFileConfig = computed(() => ({ urlKey: this.urlKey, fileDir: 'upload', maxSelectUploads: 1 }));
   gridData = computed(() => this.importsFacade.getSelectImportedExcelData$());
   columnsConfig = computed(() => this.importsFacade.getSelectColumnsConfig$());
+  //TODO list data has invalid record
+  importDisabled = computed(() => {
+    return !(this.gridData()?.totalCounts! > 0);
+  });
+  deleteDisabled = computed(() => {
+    console.log(' this.gridFacade.getRowSelection(this.stateId)()=', this.gridFacade.getRowSelection(this.stateId)());
+    return !(this.gridFacade.getRowSelection(this.stateId)()?.selected! > 0);
+  });
+  resetDisabled = computed(() => !(this.gridData()?.totalCounts! > 0));
 
   dropped(files: GnroFileDropEntry[]): void {
     for (const droppedFile of files) {
@@ -71,6 +83,14 @@ export class GnroImportsComponent {
   }
 
   import(): void {
+    //this.dialogRef.close(params);
+  }
+
+  delete(): void {
+    //this.dialogRef.close(params);
+  }
+
+  reset(): void {
     //this.dialogRef.close(params);
   }
 

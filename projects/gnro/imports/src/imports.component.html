@@ -1,7 +1,15 @@
 <gnro-window [windowConfig]="windowConfig">
   <gnro-layout [resizeable]="false">
     <gnro-layout-header>
-      <button gnro-button (click)="import()">{{ "GNRO.UI.ACTIONS.IMPORT" | translate }}</button>
+      <button gnro-button (click)="import()" [disabled]="importDisabled()">
+        {{ "GNRO.UI.ACTIONS.IMPORT" | translate }}
+      </button>
+      <button gnro-button [disabled]="deleteDisabled()" (click)="delete()">
+        {{ "GNRO.UI.ACTIONS.DELETE" | translate }}
+      </button>
+      <button gnro-button [disabled]="resetDisabled()" (click)="reset()">
+        {{ "GNRO.UI.ACTIONS.RESET" | translate }}
+      </button>
       <button gnro-button (click)="close()">{{ "GNRO.UI.ACTIONS.CLOSE" | translate }}</button>
     </gnro-layout-header>
     <gnro-layout-vertical>
