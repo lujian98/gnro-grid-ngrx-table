@@ -13,14 +13,6 @@ export interface GnroUploadFile {
   lastModified?: number;
 }
 
-/*
-export interface GnroFileUpload extends GnroUploadFile {
-  filename: string;
-  type: string;
-  size: number;
-  lastModified: number;
-}
-  */
 @Injectable({
   providedIn: 'root',
 })

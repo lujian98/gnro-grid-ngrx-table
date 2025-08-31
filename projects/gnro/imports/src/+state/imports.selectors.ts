@@ -1,3 +1,3 @@
 import { gnroImportsFeature } from './imports.reducer';
 
-export const { selectStateId, selectImportedExcelData } = gnroImportsFeature;
+export const { selectStateId, selectImportedExcelData, selectColumnsConfig } = gnroImportsFeature;

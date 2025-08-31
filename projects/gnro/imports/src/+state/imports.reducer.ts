@@ -1,4 +1,4 @@
-import { GnroGridData } from '@gnro/ui/grid';
+import { GnroGridData, GnroColumnConfig } from '@gnro/ui/grid';
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { importsFileSuccessAction, openRemoteImportsWindowAction } from './imports.actions';
 
@@ -6,11 +6,13 @@ import { importsFileSuccessAction, openRemoteImportsWindowAction } from './impor
 export interface ImportsState {
   stateId: string;
   importedExcelData: GnroGridData<object> | undefined;
+  columnsConfig: GnroColumnConfig[];
 }
 
 export const initialState: ImportsState = {
   stateId: '',
   importedExcelData: undefined,
+  columnsConfig: [],
 };
 
 export const gnroImportsFeature = createFeature({
@@ -26,7 +28,8 @@ export const gnroImportsFeature = createFeature({
     on(importsFileSuccessAction, (state, action) => {
       return {
         ...state,
-        importedExcelData: action.gridData,
+        importedExcelData: action.importedExcelData,
+        columnsConfig: action.columnsConfig,
       };
     }),
   ),

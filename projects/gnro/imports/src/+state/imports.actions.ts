@@ -1,7 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { GnroUploadFile } from '@gnro/ui/core';
 import { GnroFileUploadConfig } from '@gnro/ui/file-upload';
-import { GnroGridData } from '@gnro/ui/grid';
+import { GnroGridData, GnroColumnConfig } from '@gnro/ui/grid';
 import { createAction, props } from '@ngrx/store';
 
 export const openRemoteImportsWindowAction = createAction(
@@ -23,5 +23,5 @@ export const importsFileAction = createAction(
 
 export const importsFileSuccessAction = createAction(
   '[Remote Imports] Imports File Success',
-  props<{ gridData: GnroGridData<object> }>(),
+  props<{ importedExcelData: GnroGridData<object>; columnsConfig: GnroColumnConfig[] }>(),
 );

@@ -58,33 +58,16 @@ export class GnroImportsComponent {
     //columnHidden: true,
   };
 
-  importsFileConfig = computed(() => ({
-    urlKey: this.urlKey,
-    fileDir: 'upload',
-    maxSelectUploads: 1,
-  }));
-
+  importsFileConfig = computed(() => ({ urlKey: this.urlKey, fileDir: 'upload', maxSelectUploads: 1 }));
   gridData = computed(() => this.importsFacade.getSelectImportedExcelData$());
-
-  //TODO use remote columns config???
-  columnsConfig = computed(() => {
-    const gridData = this.importsFacade.getSelectImportedExcelData$();
-    if (gridData && gridData.totalCounts > 0) {
-      return Object.keys(gridData.data[0]).map((key) => ({ name: key }));
-    } else {
-      return [];
-    }
-  });
+  columnsConfig = computed(() => this.importsFacade.getSelectColumnsConfig$());
 
   dropped(files: GnroFileDropEntry[]): void {
     for (const droppedFile of files) {
       if (droppedFile.fileEntry.isFile) {
         const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
         fileEntry.file((file: File) => {
-          //console.log(' drop file fiele=', file); // file: File, relativePath:
           const importsFile = getFileUpload('imports', file, droppedFile.relativePath);
-          //console.log('this.importsFileConfig= ', this.importsFileConfig());
-          //console.log('importsFile= ', importsFile);
           this.importsFacade.importsFile(this.importsFileConfig(), importsFile);
         });
       }
