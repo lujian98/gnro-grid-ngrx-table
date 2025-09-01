@@ -2,6 +2,7 @@ import { GnroUploadFile } from '@gnro/ui/core';
 import { GnroFileUploadConfig } from '@gnro/ui/file-upload';
 import { GnroColumnConfig, GnroGridData } from '@gnro/ui/grid';
 import { createAction, props } from '@ngrx/store';
+import { GnroImportsResponse } from '../models/imports.model';
 
 export const openRemoteImportsWindowAction = createAction(
   '[Remote Imports] Open Remote Imports Window',
@@ -17,7 +18,8 @@ export const importsFileAction = createAction(
 
 export const importsFileSuccessAction = createAction(
   '[Remote Imports] Imports File Success',
-  props<{ importedExcelData: GnroGridData<object>; columnsConfig: GnroColumnConfig[] }>(),
+  props<{ importsResponse: GnroImportsResponse }>(),
+  //props<{ importedExcelData: GnroGridData<object>; columnsConfig: GnroColumnConfig[] }>(),
 );
 
 export const resetImportsDataAction = createAction('[Remote Imports] Reset Remote Imports Data');

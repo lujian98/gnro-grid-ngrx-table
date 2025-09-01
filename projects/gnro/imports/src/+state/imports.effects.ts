@@ -41,8 +41,8 @@ export class GnroRemoteImportsEffects {
       ofType(importsFileAction),
       concatMap((action) => {
         return this.importsService.importsFile(action.importsFileConfig, action.file).pipe(
-          map(({ importedExcelData, columnsConfig }) => {
-            return importsFileSuccessAction({ importedExcelData, columnsConfig });
+          map((importsResponse) => {
+            return importsFileSuccessAction({ importsResponse });
           }),
         );
       }),

@@ -14,15 +14,17 @@ export interface ImportsState {
   stateId: string;
   importedExcelData: GnroGridData<object>;
   columnsConfig: GnroColumnConfig[];
+  importsKeys: string[];
+  requiredKeys: string[];
 }
 
 export const initialState: ImportsState = {
   stateId: '',
   importedExcelData: { data: [], totalCounts: 0 },
   columnsConfig: [],
+  importsKeys: [],
+  requiredKeys: [],
 };
-
-const checkKeys = ['make', 'model', 'OEPN', 'Ruitai'];
 
 function findDuplicatesByMultipleKeys(arr: any[], keys: string[]): object[] {
   const seenCombinations = new Map<string, number>();
@@ -55,12 +57,15 @@ export const gnroImportsFeature = createFeature({
       };
     }),
     on(importsFileSuccessAction, (state, action) => {
-      const duplicated = findDuplicatesByMultipleKeys(action.importedExcelData.data, checkKeys);
+      const imports = action.importsResponse;
+      const duplicated = findDuplicatesByMultipleKeys(imports.importedExcelData.data, imports.importsKeys);
       console.log(' duplicated=', duplicated);
       return {
         ...state,
-        importedExcelData: action.importedExcelData,
-        columnsConfig: action.columnsConfig,
+        importedExcelData: imports.importedExcelData,
+        columnsConfig: imports.columnsConfig,
+        importsKeys: imports.importsKeys,
+        requiredKeys: imports.requiredKeys,
       };
     }),
     on(resetImportsDataAction, saveImportsRecordsSuccessAction, (state) => {
@@ -73,7 +78,7 @@ export const gnroImportsFeature = createFeature({
       const importedExcelData = state.importedExcelData ? state.importedExcelData.data : [];
       const selected = action.selected;
       const data = importedExcelData.filter((item) => !selected.find((record) => isEqual(item, record)));
-      const duplicated = findDuplicatesByMultipleKeys(data, checkKeys);
+      const duplicated = findDuplicatesByMultipleKeys(data, state.importsKeys);
       console.log('dddd duplicated=', duplicated);
       return {
         ...state,
