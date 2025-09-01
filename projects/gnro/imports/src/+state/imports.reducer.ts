@@ -8,27 +8,30 @@ import {
   deleteImportsSelectedAction,
   saveImportsRecordsSuccessAction,
 } from './imports.actions';
+import { GnroImportsConfig } from '../models/imports.model';
 
 //only support one open dialog window at a time
 export interface ImportsState {
   stateId: string;
   importedExcelData: GnroGridData<object>;
   columnsConfig: GnroColumnConfig[];
-  importskeyId: string;
-  importsKeys: string[];
-  requiredKeys: string[];
+  importsConfig: GnroImportsConfig;
 }
 
 export const initialState: ImportsState = {
   stateId: '',
   importedExcelData: { data: [], totalCounts: 0 },
   columnsConfig: [],
-  importskeyId: '',
-  importsKeys: [],
-  requiredKeys: [],
+  importsConfig: {
+    keyId: '',
+    keys: [],
+    requiredKeys: [],
+  },
 };
 
-function getImportStatus(arr: any[], keys: string[], keyId: string): object[] {
+function getImportStatus(arr: any[], importsConfig: GnroImportsConfig): object[] {
+  const keys = importsConfig.keys;
+  const keyId = importsConfig.keyId;
   const seenCombinations = new Map<string, number>();
   const duplicates: object[] = [];
   for (const obj of arr) {
@@ -77,7 +80,7 @@ export const gnroImportsFeature = createFeature({
     }),
     on(importsFileSuccessAction, (state, action) => {
       const imports = action.importsResponse;
-      const data = getImportStatus(imports.importedExcelData.data, imports.importsKeys, imports.importskeyId);
+      const data = getImportStatus(imports.importedExcelData.data, imports.importsConfig);
       return {
         ...state,
         importedExcelData: {
@@ -85,9 +88,7 @@ export const gnroImportsFeature = createFeature({
           totalCounts: data.length,
         },
         columnsConfig: imports.columnsConfig,
-        importskeyId: imports.importskeyId,
-        importsKeys: imports.importsKeys,
-        requiredKeys: imports.requiredKeys,
+        importsConfig: imports.importsConfig,
       };
     }),
     on(resetImportsDataAction, saveImportsRecordsSuccessAction, (state) => {
@@ -100,7 +101,7 @@ export const gnroImportsFeature = createFeature({
       const importedExcelData = state.importedExcelData ? state.importedExcelData.data : [];
       const selected = action.selected;
       const excelData = importedExcelData.filter((item) => !selected.find((record) => isEqual(item, record)));
-      const data = getImportStatus(excelData, state.importsKeys, state.importskeyId);
+      const data = getImportStatus(excelData, state.importsConfig);
       return {
         ...state,
         importedExcelData: { data: data, totalCounts: data.length },
