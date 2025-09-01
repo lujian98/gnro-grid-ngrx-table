@@ -6,6 +6,7 @@ import {
   openRemoteImportsWindowAction,
   resetImportsDataAction,
   deleteImportsSelectedAction,
+  saveImportsRecordsSuccessAction,
 } from './imports.actions';
 
 //only support one open dialog window at a time
@@ -62,7 +63,7 @@ export const gnroImportsFeature = createFeature({
         columnsConfig: action.columnsConfig,
       };
     }),
-    on(resetImportsDataAction, (state) => {
+    on(resetImportsDataAction, saveImportsRecordsSuccessAction, (state) => {
       return {
         ...state,
         importedExcelData: { data: [], totalCounts: 0 },

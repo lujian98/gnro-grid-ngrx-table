@@ -4,10 +4,10 @@ import { GnroFileUploadConfig } from '@gnro/ui/file-upload';
 import { GnroGridFacade } from '@gnro/ui/grid';
 import { Store } from '@ngrx/store';
 import {
+  deleteImportsSelectedAction,
   importsFileAction,
   openRemoteImportsWindowAction,
   resetImportsDataAction,
-  deleteImportsSelectedAction,
   saveImportsRecordsAction,
 } from './imports.actions';
 import { selectColumnsConfig, selectImportedExcelData, selectStateId } from './imports.selectors';
@@ -23,7 +23,6 @@ export class GnroImportsFacade {
 
   imports(gridId: string): void {
     const gridConfig = this.gridFacade.getGridConfig(gridId)();
-    this.resetImportsData();
     this.store.dispatch(openRemoteImportsWindowAction({ stateId: gridId, keyName: gridConfig.urlKey }));
   }
 

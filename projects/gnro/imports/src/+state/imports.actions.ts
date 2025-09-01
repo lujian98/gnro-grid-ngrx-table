@@ -1,17 +1,11 @@
-import { HttpParams } from '@angular/common/http';
 import { GnroUploadFile } from '@gnro/ui/core';
 import { GnroFileUploadConfig } from '@gnro/ui/file-upload';
-import { GnroGridData, GnroColumnConfig } from '@gnro/ui/grid';
+import { GnroColumnConfig, GnroGridData } from '@gnro/ui/grid';
 import { createAction, props } from '@ngrx/store';
 
 export const openRemoteImportsWindowAction = createAction(
   '[Remote Imports] Open Remote Imports Window',
   props<{ stateId: string; keyName: string }>(),
-);
-
-export const startRemoteImportsAction = createAction(
-  '[Remote Imports] Start Remote Imports',
-  props<{ params: HttpParams }>(),
 );
 
 export const closeRemoteImportsWindowAction = createAction('[Remote Imports] Close Remote Imports Window');
@@ -38,4 +32,7 @@ export const saveImportsRecordsAction = createAction(
   props<{ urlKey: string; records: object[] }>(),
 );
 
-export const saveImportsRecordsSuccessAction = createAction('[Remote Imports] Save Imports Records Success');
+export const saveImportsRecordsSuccessAction = createAction(
+  '[Remote Imports] Save Imports Records Success',
+  props<{ urlKey: string }>(),
+);

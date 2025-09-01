@@ -137,6 +137,7 @@ export class GnroImportsComponent {
   }
 
   close(): void {
+    this.importsFacade.resetImportsData();
     this.dialogRef.close();
   }
 }
