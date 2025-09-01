@@ -19,6 +19,7 @@ import { GnroDialogRef } from '@gnro/ui/overlay';
 import { GnroWindowComponent, defaultWindowConfig } from '@gnro/ui/window';
 import { TranslatePipe } from '@ngx-translate/core';
 import { GnroImportsFacade } from './+state/imports.facade';
+import { GrnoDataType } from './models/imports.model';
 
 @Component({
   selector: 'gnro-imports-status',
@@ -95,7 +96,7 @@ export class GnroImportsComponent {
     const data = this.gridData().data;
     if (data.length > 0) {
       return (
-        data.filter((item: any) => {
+        data.filter((item: GrnoDataType) => {
           const status = item['ImportStatus'];
           return status !== 'add' && status !== 'update';
         }).length !== 0

@@ -8,12 +8,12 @@ import {
   deleteImportsSelectedAction,
   saveImportsRecordsSuccessAction,
 } from './imports.actions';
-import { GnroImportsConfig } from '../models/imports.model';
+import { GnroImportsConfig, GrnoDataType } from '../models/imports.model';
 
 //only support one open dialog window at a time
 export interface ImportsState {
   stateId: string;
-  importedExcelData: GnroGridData<object>;
+  importedExcelData: GnroGridData<GrnoDataType>;
   columnsConfig: GnroColumnConfig[];
   importsConfig: GnroImportsConfig;
 }
@@ -29,11 +29,11 @@ export const initialState: ImportsState = {
   },
 };
 
-function getImportStatus(arr: any[], importsConfig: GnroImportsConfig): object[] {
+function getImportStatus(arr: GrnoDataType[], importsConfig: GnroImportsConfig): GrnoDataType[] {
   const keys = importsConfig.keys;
   const keyId = importsConfig.keyId;
   const seenCombinations = new Map<string, number>();
-  const duplicates: object[] = [];
+  const duplicates: GrnoDataType[] = [];
   for (const obj of arr) {
     const keyParts = keys.map((key) => String(obj[key]));
     const compositeKey = keyParts.join('-');
@@ -46,7 +46,7 @@ function getImportStatus(arr: any[], importsConfig: GnroImportsConfig): object[]
   const excellData = arr.map((item, index) => {
     const keyParts = keys.map((key) => String(item[key]));
     const compositeKey = keyParts.join('-');
-    const find = duplicates.find((data: any) => {
+    const find = duplicates.find((data: GrnoDataType) => {
       const keyDups = keys.map((key) => String(data[key]));
       const compositeDup = keyDups.join('-');
       return compositeKey === compositeDup;

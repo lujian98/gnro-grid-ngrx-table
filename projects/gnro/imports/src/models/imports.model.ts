@@ -6,9 +6,12 @@ export interface GnroImportsConfig {
   requiredKeys: string[];
 }
 
-//TODO model to include ImportStatus
+export interface GrnoDataType {
+  [key: string]: string | number | boolean | object;
+}
+
 export interface GnroImportsResponse {
-  importedExcelData: GnroGridData<object>;
+  importedExcelData: GnroGridData<GrnoDataType>;
   columnsConfig: GnroColumnConfig[];
   importsConfig: GnroImportsConfig;
 }
