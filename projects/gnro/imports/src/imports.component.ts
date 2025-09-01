@@ -2,13 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { GnroButtonComponent } from '@gnro/ui/button';
 import { GnroObjectType, GrnoRecordType } from '@gnro/ui/core';
 import { GnroFileDropComponent, GnroFileDropEntry, getFileUpload } from '@gnro/ui/file-upload';
-import {
-  GnroGridCellRendererComponent,
-  GnroGridComponent,
-  GnroGridConfig,
-  GnroGridFacade,
-  GnroGridStateModule,
-} from '@gnro/ui/grid';
+import { GnroGridCellRendererComponent, GnroGridComponent, GnroGridConfig, GnroGridFacade } from '@gnro/ui/grid';
 import {
   GnroLayoutComponent,
   GnroLayoutHeaderComponent,
@@ -48,7 +42,6 @@ export class ImportsStatusComponent extends GnroGridCellRendererComponent<string
     GnroWindowComponent,
     GnroGridComponent,
     GnroFileDropComponent,
-    GnroGridStateModule,
   ],
 })
 export class GnroImportsComponent {
@@ -138,6 +131,7 @@ export class GnroImportsComponent {
 
   close(): void {
     this.importsFacade.resetImportsData();
+    //this.gridFacade.refresh(this.importsFacade.getSelectStateId$()); //no need??
     this.dialogRef.close();
   }
 }

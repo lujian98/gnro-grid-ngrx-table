@@ -204,6 +204,14 @@ export class GnroGridFacade {
     this.store.dispatch(gridActions.setGridScrollIndex({ gridId, scrollIndex }));
   }
 
+  refresh(gridId: string): void {
+    if (this.getGridConfig(gridId)().virtualScroll) {
+      this.getGridPageData(gridId, 1);
+    } else {
+      this.getGridData(gridId, this.getSetting(gridId)());
+    }
+  }
+
   getGridData(gridId: string, gridSetting: GnroGridSetting): void {
     if (!gridSetting.isTreeGrid) {
       if (gridSetting.lastUpdateTime) {

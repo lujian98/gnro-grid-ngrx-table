@@ -67,7 +67,9 @@ export class GnroRemoteImportsEffects {
       ofType(saveImportsRecordsSuccessAction),
       concatMap(({ urlKey }) =>
         of(urlKey).pipe(
-          map(() => openToastMessageAction({ action: 'Imports', keyName: urlKey, configType: 'Excel Data' })),
+          map(() => {
+            return openToastMessageAction({ action: 'Imports', keyName: urlKey, configType: 'Excel Data' });
+          }),
         ),
       ),
     ),

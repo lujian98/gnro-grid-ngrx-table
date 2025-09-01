@@ -141,11 +141,15 @@ export class GnroGridComponent<T> implements OnInit, OnDestroy {
   buttonClick(button: GnroButtonConfg): void {
     switch (button.name) {
       case GnroButtonType.Refresh: // in-memory api not able to refresh since the data are same
+        console.log(' refresh grid id =', this.gridId);
+        this.gridFacade.refresh(this.gridId);
+        /*
         if (this.gridConfig$().virtualScroll) {
           this.gridFacade.getGridPageData(this.gridId, 1);
         } else {
           this.gridFacade.getGridData(this.gridId, this.gridSetting$());
         }
+          */
         break;
       case GnroButtonType.ClearAllFilters:
         this.gridFacade.setGridColumnFilters(this.gridConfig$(), this.gridSetting$(), []);
@@ -175,9 +179,6 @@ export class GnroGridComponent<T> implements OnInit, OnDestroy {
         break;
       case GnroButtonType.Export:
         this.gridFacade.exports(this.gridId);
-        break;
-        //case GnroButtonType.Import:
-        //  this.gridFacade.imports(this.gridId);
         break;
       default:
         break;
