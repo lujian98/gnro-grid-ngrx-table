@@ -21,6 +21,28 @@ export const initialState: ImportsState = {
   columnsConfig: [],
 };
 
+const checkKeys = ['make', 'model', 'OEPN', 'Ruitai'];
+
+function findDuplicatesByMultipleKeys(arr: any[], keys: string[]): object[] {
+  const seenCombinations = new Map<string, number>();
+  const duplicates: object[] = [];
+
+  for (const obj of arr) {
+    // Create a unique key string from the specified keys
+    const keyParts = keys.map((key) => String(obj[key]));
+    const compositeKey = keyParts.join('-'); // Or any other reliable delimiter
+
+    if (seenCombinations.has(compositeKey)) {
+      // If the combination has been seen before, it's a duplicate
+      duplicates.push(obj);
+    } else {
+      // Otherwise, add the combination to the seen tracker
+      seenCombinations.set(compositeKey, 1);
+    }
+  }
+  return duplicates;
+}
+
 export const gnroImportsFeature = createFeature({
   name: 'gnroImports',
   reducer: createReducer(
@@ -32,6 +54,8 @@ export const gnroImportsFeature = createFeature({
       };
     }),
     on(importsFileSuccessAction, (state, action) => {
+      const duplicated = findDuplicatesByMultipleKeys(action.importedExcelData.data, checkKeys);
+      console.log(' duplicated=', duplicated);
       return {
         ...state,
         importedExcelData: action.importedExcelData,
@@ -48,6 +72,8 @@ export const gnroImportsFeature = createFeature({
       const importedExcelData = state.importedExcelData ? state.importedExcelData.data : [];
       const selected = action.selected;
       const data = importedExcelData.filter((item) => !selected.find((record) => isEqual(item, record)));
+      const duplicated = findDuplicatesByMultipleKeys(data, checkKeys);
+      console.log('dddd duplicated=', duplicated);
       return {
         ...state,
         importedExcelData: { data: data, totalCounts: data.length },
