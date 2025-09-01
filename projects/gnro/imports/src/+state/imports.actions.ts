@@ -5,7 +5,7 @@ import { GnroImportsResponse } from '../models/imports.model';
 
 export const openRemoteImportsWindowAction = createAction(
   '[Remote Imports] Open Remote Imports Window',
-  props<{ stateId: string; keyName: string }>(),
+  props<{ stateId: string; urlKey: string }>(),
 );
 
 export const closeRemoteImportsWindowAction = createAction('[Remote Imports] Close Remote Imports Window');

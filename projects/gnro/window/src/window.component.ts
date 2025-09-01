@@ -91,6 +91,7 @@ export class GnroWindowComponent<T> {
     this.setWindowTransform(0, 0);
     this.setHeight(this.overlay.clientHeight);
     this.setWidth(this.overlay.clientWidth);
+    //TODO issue this will cause grid reload???
     window.dispatchEvent(new Event('resize'));
   }
 
@@ -100,6 +101,7 @@ export class GnroWindowComponent<T> {
     this.setWindowTransform(this.windowInfo.left, this.windowInfo.top);
     this.setHeight(this.windowInfo.height);
     this.setWidth(this.windowInfo.width);
+    //TODO issue this will cause grid reload???
     window.dispatchEvent(new Event('resize'));
   }
 
@@ -188,7 +190,8 @@ export class GnroWindowComponent<T> {
           isMaxWindowSize: this.isMaxWindowSize,
         };
         this.resetWindowPosition();
-        window.dispatchEvent(new Event('resize'));
+        //TODO issue this will cause grid reload???
+        //window.dispatchEvent(new Event('resize'));
       });
   }
 
@@ -235,7 +238,7 @@ export class GnroWindowComponent<T> {
   @HostListener('window:resize', ['$event'])
   onResize(event: MouseEvent): void {
     if (this.windowInfo.isMaxWindowSize) {
-      //this.maximize();
+      this.maximize();
     }
   }
 }
