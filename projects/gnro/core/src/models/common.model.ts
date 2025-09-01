@@ -1,5 +1,5 @@
-export interface GrnoRecordType {
-  [key: string]: string | number | boolean | Date | object;
+export interface GrnoDataType {
+  [key: string]: string | number | boolean | Date; // | object;
 }
 
 export enum GnroObjectType {
@@ -24,4 +24,14 @@ export enum GnroObjectType {
 export interface GnroDisabled {
   name: string;
   disabled: boolean;
+}
+
+export interface GnroUploadFile {
+  fieldName: string;
+  relativePath?: string;
+  file: File;
+  filename?: string;
+  type?: string;
+  size?: number;
+  lastModified?: number;
 }

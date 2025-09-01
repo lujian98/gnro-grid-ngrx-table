@@ -1,17 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { GnroUploadFile } from '../models/common.model';
 import { GnroBackendService } from '../backend/services/backend.service';
-
-export interface GnroUploadFile {
-  fieldName: string;
-  relativePath?: string;
-  file: File;
-  filename?: string;
-  type?: string;
-  size?: number;
-  lastModified?: number;
-}
 
 @Injectable({
   providedIn: 'root',
