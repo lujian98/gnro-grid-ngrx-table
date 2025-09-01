@@ -1,14 +1,15 @@
-import { GnroGridData, GnroColumnConfig } from '@gnro/ui/grid';
 import { isEqual } from '@gnro/ui/core';
+import { GnroColumnConfig, GnroGridData } from '@gnro/ui/grid';
 import { createFeature, createReducer, on } from '@ngrx/store';
+import { GnroImportsConfig, GrnoDataType } from '../models/imports.model';
 import {
+  closeRemoteImportsWindowAction,
+  deleteImportsSelectedAction,
   importsFileSuccessAction,
   openRemoteImportsWindowAction,
   resetImportsDataAction,
-  deleteImportsSelectedAction,
   saveImportsRecordsSuccessAction,
 } from './imports.actions';
-import { GnroImportsConfig, GrnoDataType } from '../models/imports.model';
 
 //only support one open dialog window at a time
 export interface ImportsState {
@@ -91,7 +92,7 @@ export const gnroImportsFeature = createFeature({
         importsConfig: imports.importsConfig,
       };
     }),
-    on(resetImportsDataAction, saveImportsRecordsSuccessAction, (state) => {
+    on(resetImportsDataAction, saveImportsRecordsSuccessAction, closeRemoteImportsWindowAction, (state) => {
       return {
         ...state,
         importedExcelData: { data: [], totalCounts: 0 },

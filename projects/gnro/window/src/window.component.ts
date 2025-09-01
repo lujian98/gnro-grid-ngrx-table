@@ -238,7 +238,7 @@ export class GnroWindowComponent<T> {
   @HostListener('window:resize', ['$event'])
   onResize(event: MouseEvent): void {
     if (this.windowInfo.isMaxWindowSize) {
-      this.maximize();
+      //this.maximize();
     }
   }
 }
