@@ -1,7 +1,7 @@
-import { isEqual } from '@gnro/ui/core';
+import { isEqual, GrnoRecordType } from '@gnro/ui/core';
 import { GnroColumnConfig, GnroGridData } from '@gnro/ui/grid';
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { GnroImportsConfig, GrnoDataType } from '../models/imports.model';
+import { GnroImportsConfig } from '../models/imports.model';
 import {
   closeRemoteImportsWindowAction,
   deleteImportsSelectedAction,
@@ -14,7 +14,7 @@ import {
 //only support one open dialog window at a time
 export interface ImportsState {
   stateId: string;
-  importedExcelData: GnroGridData<GrnoDataType>;
+  importedExcelData: GnroGridData<GrnoRecordType>;
   columnsConfig: GnroColumnConfig[];
   importsConfig: GnroImportsConfig;
 }
@@ -30,11 +30,11 @@ export const initialState: ImportsState = {
   },
 };
 
-function getImportStatus(arr: GrnoDataType[], importsConfig: GnroImportsConfig): GrnoDataType[] {
+function getImportStatus(arr: GrnoRecordType[], importsConfig: GnroImportsConfig): GrnoRecordType[] {
   const keys = importsConfig.keys;
   const keyId = importsConfig.keyId;
   const seenCombinations = new Map<string, number>();
-  const duplicates: GrnoDataType[] = [];
+  const duplicates: GrnoRecordType[] = [];
   for (const obj of arr) {
     const keyParts = keys.map((key) => String(obj[key]));
     const compositeKey = keyParts.join('-');
@@ -47,7 +47,7 @@ function getImportStatus(arr: GrnoDataType[], importsConfig: GnroImportsConfig):
   const excellData = arr.map((item, index) => {
     const keyParts = keys.map((key) => String(item[key]));
     const compositeKey = keyParts.join('-');
-    const find = duplicates.find((data: GrnoDataType) => {
+    const find = duplicates.find((data: GrnoRecordType) => {
       const keyDups = keys.map((key) => String(data[key]));
       const compositeDup = keyDups.join('-');
       return compositeKey === compositeDup;

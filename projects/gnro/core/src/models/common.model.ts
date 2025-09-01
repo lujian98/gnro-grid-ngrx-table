@@ -1,3 +1,7 @@
+export interface GrnoRecordType {
+  [key: string]: string | number | boolean | Date | object;
+}
+
 export enum GnroObjectType {
   Component = 'component', // not field config
   Checkbox = 'checkbox',

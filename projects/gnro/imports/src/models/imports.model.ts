@@ -1,4 +1,5 @@
-import { GnroGridData, GnroColumnConfig } from '@gnro/ui/grid';
+import { GrnoRecordType } from '@gnro/ui/core';
+import { GnroColumnConfig, GnroGridData } from '@gnro/ui/grid';
 
 export interface GnroImportsConfig {
   keyId: string;
@@ -6,13 +7,8 @@ export interface GnroImportsConfig {
   requiredKeys: string[];
 }
 
-//TODO move to core
-export interface GrnoDataType {
-  [key: string]: string | number | boolean | object;
-}
-
 export interface GnroImportsResponse {
-  importedExcelData: GnroGridData<GrnoDataType>;
+  importedExcelData: GnroGridData<GrnoRecordType>;
   columnsConfig: GnroColumnConfig[];
   importsConfig: GnroImportsConfig;
 }

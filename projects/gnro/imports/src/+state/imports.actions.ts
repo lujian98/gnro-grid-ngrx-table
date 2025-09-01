@@ -1,4 +1,4 @@
-import { GnroUploadFile } from '@gnro/ui/core';
+import { GnroUploadFile, GrnoRecordType } from '@gnro/ui/core';
 import { GnroFileUploadConfig } from '@gnro/ui/file-upload';
 import { createAction, props } from '@ngrx/store';
 import { GnroImportsResponse } from '../models/imports.model';
@@ -24,12 +24,12 @@ export const resetImportsDataAction = createAction('[Remote Imports] Reset Remot
 
 export const deleteImportsSelectedAction = createAction(
   '[Remote Imports] Delete Imports Selected Records',
-  props<{ selected: object[] }>(),
+  props<{ selected: GrnoRecordType[] }>(),
 );
 
 export const saveImportsRecordsAction = createAction(
   '[Remote Imports] Save Imports Records',
-  props<{ urlKey: string; records: object[] }>(),
+  props<{ urlKey: string; records: GrnoRecordType[] }>(),
 );
 
 export const saveImportsRecordsSuccessAction = createAction(

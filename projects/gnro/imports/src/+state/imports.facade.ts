@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { GnroUploadFile } from '@gnro/ui/core';
+import { GnroUploadFile, GrnoRecordType } from '@gnro/ui/core';
 import { GnroFileUploadConfig } from '@gnro/ui/file-upload';
 import { Store } from '@ngrx/store';
 import {
@@ -31,7 +31,7 @@ export class GnroImportsFacade {
     this.store.dispatch(resetImportsDataAction());
   }
 
-  deleteImportsSelected(selected: object[]): void {
+  deleteImportsSelected(selected: GrnoRecordType[]): void {
     this.store.dispatch(deleteImportsSelectedAction({ selected }));
   }
 
@@ -39,8 +39,4 @@ export class GnroImportsFacade {
     const records = this.getSelectImportedExcelData$().data;
     this.store.dispatch(saveImportsRecordsAction({ urlKey, records }));
   }
-
-  //clearUploadFiles(): void {
-  //this.store.dispatch(fileUploadActions.clearUploadFiles());
-  //}
 }
