@@ -49,7 +49,6 @@ export class ImportsStatusComponent extends GnroGridCellRendererComponent<string
     GnroGridComponent,
     GnroFileDropComponent,
     GnroGridStateModule,
-    ImportsStatusComponent,
   ],
 })
 export class GnroImportsComponent {

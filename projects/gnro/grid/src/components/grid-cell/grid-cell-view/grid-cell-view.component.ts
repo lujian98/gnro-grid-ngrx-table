@@ -2,9 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   ComponentRef,
+  effect,
   inject,
   input,
-  OnInit,
   Type,
   ViewContainerRef,
 } from '@angular/core';
@@ -22,41 +22,31 @@ import { GnroGridCellTextComponent } from './renderer/text/grid-cell-text.compon
   template: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GnroGridCellViewComponent<T> implements OnInit {
+export class GnroGridCellViewComponent<T> {
   private readonly viewContainerRef = inject(ViewContainerRef);
   private instance!: GnroGridCell<T>;
   private _componentRef!: ComponentRef<unknown>;
   gridConfig = input.required<GnroGridConfig>();
   rowIndex = input<number>(0);
-  column = input.required({
-    transform: (column: GnroColumnConfig) => {
-      if (column && this._componentRef) {
-        this.loadComponent(column);
-      }
-      return column;
-    },
-  });
-  record = input.required({
-    transform: (record: T) => {
-      if (record && this._componentRef) {
-        this.instance.record = record;
-      }
-      return record;
-    },
-  });
+  column = input.required<GnroColumnConfig>();
+  record = input.required<T>();
 
-  ngOnInit(): void {
-    this.loadComponent(this.column());
+  constructor() {
+    effect(() => {
+      if (this.column() && this.record()) {
+        this.loadComponent();
+      }
+    });
   }
 
-  private loadComponent(column: GnroColumnConfig): void {
+  private loadComponent(): void {
     this.viewContainerRef.clear();
-    const cellComponent = this.getRenderer(column);
+    const cellComponent = this.getRenderer(this.column());
     this._componentRef = this.viewContainerRef.createComponent(cellComponent);
     this.instance = this._componentRef.instance as GnroGridCell<T>;
     this.instance.gridConfig = this.gridConfig();
     this.instance.rowIndex = this.rowIndex();
-    this.instance.column = column;
+    this.instance.column = this.column();
     this.instance.record = this.record();
   }
 
