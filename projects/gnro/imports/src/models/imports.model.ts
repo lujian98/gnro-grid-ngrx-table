@@ -6,6 +6,7 @@ export interface GnroImportsConfig {
   requiredKeys: string[];
 }
 
+//TODO move to core
 export interface GrnoDataType {
   [key: string]: string | number | boolean | object;
 }
