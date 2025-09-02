@@ -187,7 +187,7 @@ export class AppGridCellEditTextComponent {
       this.gridFacade.getGridData(gridSetting.gridId, gridSetting);
     } else if (buttonClick.button.name === GnroButtonType.Import) {
       const gridSetting = buttonClick.gridSetting;
-      this.importsFacade.imports(gridSetting.gridId);
+      this.importsFacade.imports(gridSetting.gridId, this.gridConfig.urlKey);
     }
   }
 }

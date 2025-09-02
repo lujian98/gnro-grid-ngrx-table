@@ -131,7 +131,7 @@ export class GnroImportsComponent {
 
   close(): void {
     this.importsFacade.resetImportsData();
-    //this.gridFacade.refresh(this.importsFacade.getSelectStateId$()); //no need??
+    //this.gridFacade.refresh(this.importsFacade.getSelectStateId$()); //not working and no need??
     this.dialogRef.close();
   }
 }
