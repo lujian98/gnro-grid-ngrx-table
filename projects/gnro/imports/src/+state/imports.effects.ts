@@ -5,14 +5,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatMap, exhaustMap, map, of } from 'rxjs';
 import { GnroImportsComponent } from '../imports.component';
 import { GnroImportsService } from '../services/imports.service';
-import {
-  closeRemoteImportsWindowAction,
-  importsFileAction,
-  importsFileSuccessAction,
-  openRemoteImportsWindowAction,
-  saveImportsRecordsAction,
-  saveImportsRecordsSuccessAction,
-} from './imports.actions';
+import { importsActions } from './imports.actions';
 
 @Injectable()
 export class GnroRemoteImportsEffects {
@@ -22,7 +15,7 @@ export class GnroRemoteImportsEffects {
 
   openRemoteImportsWindowAction$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(openRemoteImportsWindowAction),
+      ofType(importsActions.openWindow),
       exhaustMap((action) => {
         const dialogRef = this.dialogService.open(GnroImportsComponent, {
           context: { urlKey: action.urlKey },
@@ -31,18 +24,18 @@ export class GnroRemoteImportsEffects {
         return dialogRef.onClose;
       }),
       map(() => {
-        return closeRemoteImportsWindowAction();
+        return importsActions.closeWindow();
       }),
     ),
   );
 
   importsFile$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(importsFileAction),
+      ofType(importsActions.importsFile),
       concatMap((action) => {
         return this.importsService.importsFile(action.importsFileConfig, action.file).pipe(
           map((importsResponse) => {
-            return importsFileSuccessAction({ importsResponse });
+            return importsActions.importsFileSuccess({ importsResponse });
           }),
         );
       }),
@@ -51,11 +44,11 @@ export class GnroRemoteImportsEffects {
 
   saveImportsRecordsAction$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(saveImportsRecordsAction),
+      ofType(importsActions.saveRecords),
       concatMap((action) => {
         return this.importsService.saveImportsRecords(action.urlKey, action.records).pipe(
           map(() => {
-            return saveImportsRecordsSuccessAction({ urlKey: action.urlKey });
+            return importsActions.saveRecordsSuccess({ urlKey: action.urlKey });
           }),
         );
       }),
@@ -64,7 +57,7 @@ export class GnroRemoteImportsEffects {
 
   saveImportsRecordsSuccessAction$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(saveImportsRecordsSuccessAction),
+      ofType(importsActions.saveRecordsSuccess),
       concatMap(({ urlKey }) =>
         of(urlKey).pipe(
           map(() => {

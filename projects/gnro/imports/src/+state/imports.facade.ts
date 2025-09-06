@@ -2,13 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { GnroUploadFile, GrnoDataType } from '@gnro/ui/core';
 import { GnroFileUploadConfig } from '@gnro/ui/file-upload';
 import { Store } from '@ngrx/store';
-import {
-  deleteImportsSelectedAction,
-  importsFileAction,
-  openRemoteImportsWindowAction,
-  resetImportsDataAction,
-  saveImportsRecordsAction,
-} from './imports.actions';
+import { importsActions } from './imports.actions';
 import { selectColumnsConfig, selectImportedExcelData, selectStateId } from './imports.selectors';
 
 @Injectable({ providedIn: 'root' })
@@ -20,23 +14,23 @@ export class GnroImportsFacade {
   getSelectColumnsConfig$ = this.store.selectSignal(selectColumnsConfig);
 
   imports(gridId: string, urlKey: string): void {
-    this.store.dispatch(openRemoteImportsWindowAction({ stateId: gridId, urlKey }));
+    this.store.dispatch(importsActions.openWindow({ stateId: gridId, urlKey }));
   }
 
   importsFile(importsFileConfig: GnroFileUploadConfig, file: GnroUploadFile): void {
-    this.store.dispatch(importsFileAction({ importsFileConfig, file }));
+    this.store.dispatch(importsActions.importsFile({ importsFileConfig, file }));
   }
 
-  resetImportsData(): void {
-    this.store.dispatch(resetImportsDataAction());
+  resetRecords(): void {
+    this.store.dispatch(importsActions.resetRecords());
   }
 
-  deleteImportsSelected(selected: GrnoDataType[]): void {
-    this.store.dispatch(deleteImportsSelectedAction({ selected }));
+  deleteSelectedRecords(selected: GrnoDataType[]): void {
+    this.store.dispatch(importsActions.deleteSelectedRecords({ selected }));
   }
 
-  saveImportsRecordsAction(urlKey: string): void {
+  saveRecords(urlKey: string): void {
     const records = this.getSelectImportedExcelData$().data;
-    this.store.dispatch(saveImportsRecordsAction({ urlKey, records }));
+    this.store.dispatch(importsActions.saveRecords({ urlKey, records }));
   }
 }

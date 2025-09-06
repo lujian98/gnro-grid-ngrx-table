@@ -116,21 +116,21 @@ export class GnroImportsComponent {
   }
 
   import(): void {
-    this.importsFacade.saveImportsRecordsAction(this.urlKey);
+    this.importsFacade.saveRecords(this.urlKey);
   }
 
   delete(): void {
     const selected = this.gridFacade.getRowSelection(this.gridId$())()?.selection.selected! as GrnoDataType[];
-    this.importsFacade.deleteImportsSelected(selected);
+    this.importsFacade.deleteSelectedRecords(selected);
     this.gridFacade.setSelectAllRows(this.gridId$(), false);
   }
 
   reset(): void {
-    this.importsFacade.resetImportsData();
+    this.importsFacade.resetRecords();
   }
 
   close(): void {
-    this.importsFacade.resetImportsData();
+    this.importsFacade.resetRecords();
     //this.gridFacade.refresh(this.importsFacade.getSelectStateId$()); //not working and no need??
     this.dialogRef.close();
   }
