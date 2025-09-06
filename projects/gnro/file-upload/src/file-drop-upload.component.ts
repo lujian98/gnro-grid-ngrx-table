@@ -54,7 +54,7 @@ export class GnroFileDropUploadComponent implements OnDestroy {
       if (droppedFile.fileEntry.isFile) {
         const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
         fileEntry.file((file: File) => {
-          this.fileUploadFacade.dropUploadFile(droppedFile.relativePath, file);
+          this.fileUploadFacade.dropFile(droppedFile.relativePath, file);
         });
       }
     }
@@ -69,10 +69,10 @@ export class GnroFileDropUploadComponent implements OnDestroy {
   buttonClick(button: GnroButtonConfg): void {
     switch (button.name) {
       case GnroButtonType.Reset:
-        this.fileUploadFacade.clearUploadFiles();
+        this.fileUploadFacade.clearFiles();
         break;
       case GnroButtonType.UploadFile:
-        this.fileUploadFacade.uploadFiles(this.fileUploadConfig());
+        this.fileUploadFacade.upload(this.fileUploadConfig());
         break;
       default:
         break;
@@ -80,6 +80,6 @@ export class GnroFileDropUploadComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.fileUploadFacade.clearUploadFiles();
+    this.fileUploadFacade.clearFiles();
   }
 }

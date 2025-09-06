@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as fileUploadActions from './file-upload.actions';
+import { fileUploadActions } from './file-upload.actions';
 import { selectUploadFiles, selectUploadFilesGridData } from './file-upload.selectors';
 import { GnroFileUploadConfig } from '../models/file-upload.model';
 
@@ -10,23 +10,23 @@ export class GnroFileUploadFacade {
   getUploadFiles$ = this.store.selectSignal(selectUploadFiles);
   getUploadFilesGridData$ = this.store.selectSignal(selectUploadFilesGridData);
 
-  dropUploadFile(relativePath: string, file: File): void {
-    this.store.dispatch(fileUploadActions.dropUploadFile({ relativePath, file }));
+  dropFile(relativePath: string, file: File): void {
+    this.store.dispatch(fileUploadActions.dropFile({ relativePath, file }));
   }
 
-  selectedUploadFile(fieldName: string, file: File | null): void {
+  selectFile(fieldName: string, file: File | null): void {
     if (file) {
-      this.store.dispatch(fileUploadActions.selectedUploadFile({ fieldName, file }));
+      this.store.dispatch(fileUploadActions.selectFile({ fieldName, file }));
     } else {
-      this.store.dispatch(fileUploadActions.clearSelectedUploadFile({ fieldName }));
+      this.store.dispatch(fileUploadActions.clearSelectedFile({ fieldName }));
     }
   }
 
-  uploadFiles(fileUploadConfig: GnroFileUploadConfig): void {
-    this.store.dispatch(fileUploadActions.uploadFiles({ fileUploadConfig }));
+  upload(fileUploadConfig: GnroFileUploadConfig): void {
+    this.store.dispatch(fileUploadActions.upload({ fileUploadConfig }));
   }
 
-  clearUploadFiles(): void {
-    this.store.dispatch(fileUploadActions.clearUploadFiles());
+  clearFiles(): void {
+    this.store.dispatch(fileUploadActions.clearFiles());
   }
 }

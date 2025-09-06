@@ -77,7 +77,7 @@ export class GnroFileSelectUploadComponent implements OnDestroy {
   @ViewChildren(GnroUploadFileFieldComponent) private uploadFileFields!: QueryList<GnroUploadFileFieldComponent>;
 
   selectUploadFile(fieldConfig: GnroUploadFileFieldConfig, file: File | null): void {
-    this.fileUploadFacade.selectedUploadFile(fieldConfig.fieldName!, file);
+    this.fileUploadFacade.selectFile(fieldConfig.fieldName!, file);
   }
 
   onChange(enabled: boolean): void {
@@ -93,11 +93,11 @@ export class GnroFileSelectUploadComponent implements OnDestroy {
   buttonClick(button: GnroButtonConfg): void {
     switch (button.name) {
       case GnroButtonType.Reset:
-        this.fileUploadFacade.clearUploadFiles();
+        this.fileUploadFacade.clearFiles();
         this.clearUploadFileFields();
         break;
       case GnroButtonType.UploadFile:
-        this.fileUploadFacade.uploadFiles(this.fileUploadConfig());
+        this.fileUploadFacade.upload(this.fileUploadConfig());
         break;
       default:
         break;
@@ -105,6 +105,6 @@ export class GnroFileSelectUploadComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.fileUploadFacade.clearUploadFiles();
+    this.fileUploadFacade.clearFiles();
   }
 }
