@@ -83,7 +83,7 @@ export class GnroTreeEffects {
 
   setGridColumnFilters$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(gridActions.setGridColumnFilters, gridActions.loadGridColumnsConfigSuccess), // gridActions
+      ofType(gridActions.setColumnFilters, gridActions.loadColumnsConfigSuccess), // gridActions
       switchMap(({ gridId, gridConfig, isTreeGrid }) =>
         of({ gridId, gridConfig, isTreeGrid }).pipe(
           filter(({ isTreeGrid }) => isTreeGrid),
@@ -103,7 +103,7 @@ export class GnroTreeEffects {
 
   setGridSortFields$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(gridActions.setGridSortFields), // gridActions
+      ofType(gridActions.setSortFields), // gridActions
       switchMap(({ gridId, gridConfig, isTreeGrid }) =>
         of({ gridId, gridConfig, isTreeGrid }).pipe(
           filter(({ isTreeGrid }) => isTreeGrid),

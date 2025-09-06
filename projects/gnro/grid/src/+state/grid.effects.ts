@@ -20,21 +20,21 @@ export class GnroGridEffects {
 
   setupGridConfig$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(gridActions.loadGridConfig),
+      ofType(gridActions.loadConfig),
       concatMap((action) => {
         return this.gridService.getGridConfig(action.gridConfig).pipe(
           map((gridConfig) => {
             const gridId = action.gridId;
             if (gridConfig.remoteColumnsConfig) {
-              this.store.dispatch(gridActions.loadGridConfigSuccess({ gridId, gridConfig }));
-              return gridActions.loadGridColumnsConfig({ gridId });
+              this.store.dispatch(gridActions.loadConfigSuccess({ gridId, gridConfig }));
+              return gridActions.loadColumnsConfig({ gridId });
             } else {
               if (gridConfig.rowGroupField) {
                 this.gridFacade.initRowGroup(gridId, gridConfig);
               } else {
                 window.dispatchEvent(new Event('resize'));
               }
-              return gridActions.loadGridConfigSuccess({ gridId, gridConfig });
+              return gridActions.loadConfigSuccess({ gridId, gridConfig });
             }
           }),
         );
@@ -44,7 +44,7 @@ export class GnroGridEffects {
 
   loadGridColumnsConfig$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(gridActions.loadGridColumnsConfig),
+      ofType(gridActions.loadColumnsConfig),
       concatMap((action) => {
         const gridId = action.gridId;
         const gridSetting = this.gridFacade.getSetting(gridId)();
@@ -54,19 +54,19 @@ export class GnroGridEffects {
             const isTreeGrid = gridSetting.isTreeGrid;
             if (gridConfig.rowGroupField) {
               this.gridFacade.initRowGroup(gridId, gridConfig);
-              return gridActions.loadGridColumnsConfigSuccess({ gridId, gridConfig, isTreeGrid, columnsConfig });
+              return gridActions.loadColumnsConfigSuccess({ gridId, gridConfig, isTreeGrid, columnsConfig });
             } else if (gridConfig.remoteGridConfig || gridSetting.isTreeGrid) {
               // remote config will need trigger window resize to load data
               window.dispatchEvent(new Event('resize'));
-              return gridActions.loadGridColumnsConfigSuccess({ gridId, gridConfig, isTreeGrid, columnsConfig });
+              return gridActions.loadColumnsConfigSuccess({ gridId, gridConfig, isTreeGrid, columnsConfig });
             } else if (!gridSetting.isTreeGrid) {
               this.store.dispatch(
-                gridActions.loadGridColumnsConfigSuccess({ gridId, gridConfig, isTreeGrid, columnsConfig }),
+                gridActions.loadColumnsConfigSuccess({ gridId, gridConfig, isTreeGrid, columnsConfig }),
               );
-              return gridActions.getConcatGridData({ gridId });
+              return gridActions.getConcatData({ gridId });
             } else {
               // TODO tree need load local data?
-              return gridActions.loadGridColumnsConfigSuccess({ gridId, gridConfig, isTreeGrid, columnsConfig });
+              return gridActions.loadColumnsConfigSuccess({ gridId, gridConfig, isTreeGrid, columnsConfig });
             }
           }),
         );
@@ -76,7 +76,7 @@ export class GnroGridEffects {
 
   getGridData$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(gridActions.getGridData),
+      ofType(gridActions.getData),
       debounceTime(10), // debounce with switchMap may lose data if two or more grid pull, but will cancel previous call
       switchMap((action) => {
         const gridId = action.gridId;
@@ -90,7 +90,7 @@ export class GnroGridEffects {
 
   getConcatGridData$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(gridActions.getConcatGridData),
+      ofType(gridActions.getConcatData),
       mergeMap((action) => {
         const gridId = action.gridId;
         const gridConfig = this.gridFacade.getGridConfig(gridId)();
@@ -110,13 +110,13 @@ export class GnroGridEffects {
     if (gridConfig.remoteGridData) {
       return this.gridService.getGridData(gridConfig, columns).pipe(
         map((gridData) => {
-          return gridActions.getGridDataSuccess({ gridId, gridData });
+          return gridActions.getDataSuccess({ gridId, gridData });
         }),
       );
     } else {
       return this.gridinMemoryService.getGridData(gridConfig, columns, inMemoryData).pipe(
         map((gridData) => {
-          return gridActions.getGridDataSuccess({ gridId, gridData });
+          return gridActions.getDataSuccess({ gridId, gridData });
         }),
       );
     }
@@ -124,7 +124,7 @@ export class GnroGridEffects {
 
   saveGridModifiedRecords$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(gridActions.saveGridModifiedRecords),
+      ofType(gridActions.saveModifiedRecords),
       concatMap((action) => {
         const gridId = action.gridId;
         const gridConfig = this.gridFacade.getGridConfig(gridId)();
@@ -143,21 +143,21 @@ export class GnroGridEffects {
     this.actions$.pipe(
       ofType(savedFormWindowDataAction, deleteSelectedSucessfulAction),
       map(({ stateId }) => {
-        return gridActions.getGridData({ gridId: stateId });
+        return gridActions.getData({ gridId: stateId });
       }),
     ),
   );
 
   saveGridConfigs$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(gridActions.saveGridConfigs),
+      ofType(gridActions.saveConfigs),
       switchMap((action) => {
         const gridId = action.gridId;
         const gridConfig = this.gridFacade.getGridConfig(gridId)();
         const columnsConfig = this.gridFacade.getColumnsConfig(gridId)();
         return this.gridService.saveGridConfigs(gridConfig, columnsConfig).pipe(
           map(() => {
-            return gridActions.saveGridConfigsSuccess({ gridId });
+            return gridActions.saveConfigsSuccess({ gridId });
           }),
         );
       }),
@@ -173,7 +173,7 @@ export class GnroGridEffects {
         const columnsConfig = this.gridFacade.getColumnsConfig(gridId)();
         return this.gridService
           .saveGridConfigs(gridConfig, columnsConfig)
-          .pipe(map(() => gridActions.getGridData({ gridId: action.gridId })));
+          .pipe(map(() => gridActions.getData({ gridId: action.gridId })));
       }),
       delay(250), // wait 250 after destory the component to clear data store
       mergeMap(({ gridId }) => of(gridId).pipe(map((gridId) => gridActions.removeStore({ gridId })))),

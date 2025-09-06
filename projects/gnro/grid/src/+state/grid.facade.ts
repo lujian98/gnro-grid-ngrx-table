@@ -37,11 +37,11 @@ export class GnroGridFacade {
   private readonly backendService = inject(GnroBackendService);
 
   initGridConfig(gridId: string, gridConfig: GnroGridConfig, gridType: string): void {
-    this.store.dispatch(gridActions.initGridConfig({ gridId, gridConfig, gridType }));
+    this.store.dispatch(gridActions.initConfig({ gridId, gridConfig, gridType }));
     if (gridConfig.remoteGridConfig) {
-      this.store.dispatch(gridActions.loadGridConfig({ gridId, gridConfig }));
+      this.store.dispatch(gridActions.loadConfig({ gridId, gridConfig }));
     } else if (gridConfig.remoteColumnsConfig) {
-      this.store.dispatch(gridActions.loadGridColumnsConfig({ gridId }));
+      this.store.dispatch(gridActions.loadColumnsConfig({ gridId }));
     } else if (gridConfig.rowGroupField) {
       this.initRowGroup(gridId, gridConfig);
     }
@@ -60,7 +60,7 @@ export class GnroGridFacade {
   ): void {
     const gridId = gridSetting.gridId;
     const isTreeGrid = gridSetting.isTreeGrid;
-    this.store.dispatch(gridActions.loadGridColumnsConfigSuccess({ gridId, gridConfig, isTreeGrid, columnsConfig }));
+    this.store.dispatch(gridActions.loadColumnsConfigSuccess({ gridId, gridConfig, isTreeGrid, columnsConfig }));
   }
 
   setViewportPageSize(
@@ -87,7 +87,7 @@ export class GnroGridFacade {
     const gridId = gridSetting.gridId;
     this.store.dispatch(gridActions.setViewportPageSize({ gridId, gridConfig, pageSize, viewportWidth }));
     if (gridSetting.viewportReady && loadData && !gridSetting.isTreeGrid) {
-      this.store.dispatch(gridActions.getConcatGridData({ gridId }));
+      this.store.dispatch(gridActions.getConcatData({ gridId }));
     }
   }
 
@@ -95,7 +95,7 @@ export class GnroGridFacade {
     const gridId = gridSetting.gridId;
     const isTreeGrid = gridSetting.isTreeGrid;
     sortFields = this.checkGroupSortField(gridConfig, sortFields);
-    this.store.dispatch(gridActions.setGridSortFields({ gridId, gridConfig, isTreeGrid, sortFields }));
+    this.store.dispatch(gridActions.setSortFields({ gridId, gridConfig, isTreeGrid, sortFields }));
     this.getGridData(gridId, gridSetting);
   }
 
@@ -106,14 +106,14 @@ export class GnroGridFacade {
   ): void {
     const gridId = gridSetting.gridId;
     const isTreeGrid = gridSetting.isTreeGrid;
-    this.store.dispatch(gridActions.setGridColumnFilters({ gridId, gridConfig, isTreeGrid, columnFilters }));
+    this.store.dispatch(gridActions.setColumnFilters({ gridId, gridConfig, isTreeGrid, columnFilters }));
     //if (!gridSetting.columnUpdating) {
     this.getGridData(gridId, gridSetting);
     //}
   }
 
   setGridColumnConfig(gridId: string, columnsConfig: GnroColumnConfig): void {
-    this.store.dispatch(gridActions.setGridColumnsConfig({ gridId, columnsConfig }));
+    this.store.dispatch(gridActions.setColumnsConfig({ gridId, columnsConfig }));
   }
 
   setFormWindowConfig(gridId: string, formWindowConfig: GnroFormWindowConfig): void {
@@ -133,11 +133,11 @@ export class GnroGridFacade {
   }
 
   setGridGroupBy(gridId: string, gridConfig: GnroGridConfig, rowGroupField: GnroRowGroupField): void {
-    this.store.dispatch(gridActions.setGridUnGroupBy({ gridId, gridConfig }));
+    this.store.dispatch(gridActions.setUnGroupBy({ gridId, gridConfig }));
     const sortFields = this.getGroupSortField(gridConfig, rowGroupField);
-    this.store.dispatch(gridActions.setGridGroupBy({ gridId, gridConfig, rowGroupField }));
+    this.store.dispatch(gridActions.setGroupBy({ gridId, gridConfig, rowGroupField }));
     const isTreeGrid = false;
-    this.store.dispatch(gridActions.setGridSortFields({ gridId, gridConfig, isTreeGrid, sortFields }));
+    this.store.dispatch(gridActions.setSortFields({ gridId, gridConfig, isTreeGrid, sortFields }));
     this.dispatchGridData(gridId);
   }
 
@@ -176,23 +176,23 @@ export class GnroGridFacade {
   }
 
   setGridUnGroupBy(gridId: string, gridConfig: GnroGridConfig): void {
-    this.store.dispatch(gridActions.setGridUnGroupBy({ gridId, gridConfig }));
+    this.store.dispatch(gridActions.setUnGroupBy({ gridId, gridConfig }));
   }
 
   setGridEditable(gridId: string, gridEditable: boolean): void {
-    this.store.dispatch(gridActions.setGridEditable({ gridId, gridEditable }));
+    this.store.dispatch(gridActions.setEditable({ gridId, gridEditable }));
   }
 
   setGridRestEdit(gridId: string, restEdit: boolean): void {
-    this.store.dispatch(gridActions.setGridRestEdit({ gridId, restEdit }));
+    this.store.dispatch(gridActions.setResetEdit({ gridId, restEdit }));
   }
 
   setGridRecordModified(gridId: string, modified: GnroCellEdit<unknown>): void {
-    this.store.dispatch(gridActions.setGridRecordModified({ gridId, modified }));
+    this.store.dispatch(gridActions.setRecordModified({ gridId, modified }));
   }
 
   saveGridModifiedRecords(gridId: string): void {
-    this.store.dispatch(gridActions.saveGridModifiedRecords({ gridId }));
+    this.store.dispatch(gridActions.saveModifiedRecords({ gridId }));
   }
 
   getGridPageData(gridId: string, page: number): void {
@@ -201,7 +201,7 @@ export class GnroGridFacade {
   }
 
   setGridScrollIndex(gridId: string, scrollIndex: number): void {
-    this.store.dispatch(gridActions.setGridScrollIndex({ gridId, scrollIndex }));
+    this.store.dispatch(gridActions.setScrollIndex({ gridId, scrollIndex }));
   }
 
   refresh(gridId: string): void {
@@ -218,7 +218,7 @@ export class GnroGridFacade {
         this.dispatchGridData(gridId);
       } else {
         // make sure first time to use load
-        this.store.dispatch(gridActions.getConcatGridData({ gridId }));
+        this.store.dispatch(gridActions.getConcatData({ gridId }));
       }
     } else {
       this.setLoadTreeDataLoading(gridId, true);
@@ -226,11 +226,11 @@ export class GnroGridFacade {
   }
 
   private dispatchGridData(gridId: string): void {
-    this.store.dispatch(gridActions.getGridData({ gridId }));
+    this.store.dispatch(gridActions.getData({ gridId }));
   }
 
   setGridInMemoryData(gridId: string, gridConfig: GnroGridConfig, gridData: GnroGridData<object>): void {
-    this.store.dispatch(gridActions.setGridInMemoryData({ gridId, gridConfig, gridData }));
+    this.store.dispatch(gridActions.setInMemoryData({ gridId, gridConfig, gridData }));
     this.dispatchGridData(gridId);
   }
 
@@ -303,7 +303,7 @@ export class GnroGridFacade {
   }
 
   exports(gridId: string): void {
-    this.store.dispatch(gridActions.saveGridConfigs({ gridId }));
+    this.store.dispatch(gridActions.saveConfigs({ gridId }));
     const gridConfig = this.getGridConfig(gridId)();
     const columns = this.getColumnsConfig(gridId)();
     let params = this.backendService.getParams(gridConfig.urlKey, 'exports');
@@ -354,7 +354,7 @@ export class GnroGridFacade {
 
   runTask(setting: GnroGridSetting): void {
     console.log(' runTask=', setting);
-    this.store.dispatch(gridActions.getConcatGridData({ gridId: setting.gridId }));
+    this.store.dispatch(gridActions.getConcatData({ gridId: setting.gridId }));
   }
 
   buttonRemoteAction(gridId: string, button: GnroButtonConfg): void {

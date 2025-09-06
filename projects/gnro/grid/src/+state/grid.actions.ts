@@ -14,11 +14,11 @@ import { GnroFormWindowConfig } from '@gnro/ui/form-window';
 export const gridActions = createActionGroup({
   source: '[Grid]',
   events: {
-    'Init Grid Config': props<{ gridId: string; gridConfig: GnroGridConfig; gridType: string }>(),
-    'Load Grid Config': props<{ gridId: string; gridConfig: GnroGridConfig }>(),
-    'Load Grid Config Success': props<{ gridId: string; gridConfig: GnroGridConfig }>(),
-    'Load Grid Columns Config': props<{ gridId: string }>(),
-    'Load Grid Columns Config Success': props<{
+    'Init Config': props<{ gridId: string; gridConfig: GnroGridConfig; gridType: string }>(),
+    'Load Config': props<{ gridId: string; gridConfig: GnroGridConfig }>(),
+    'Load Config Success': props<{ gridId: string; gridConfig: GnroGridConfig }>(),
+    'Load Columns Config': props<{ gridId: string }>(),
+    'Load Columns Config Success': props<{
       gridId: string;
       gridConfig: GnroGridConfig;
       isTreeGrid: boolean;
@@ -31,40 +31,40 @@ export const gridActions = createActionGroup({
       viewportWidth: number;
     }>(),
     'Set Viewport Page': props<{ gridId: string; page: number }>(),
-    'Set Grid Scroll Index': props<{ gridId: string; scrollIndex: number }>(),
-    'Set Grid Sort Fields': props<{
+    'Set Scroll Index': props<{ gridId: string; scrollIndex: number }>(),
+    'Set Sort Fields': props<{
       gridId: string;
       gridConfig: GnroGridConfig;
       isTreeGrid: boolean;
       sortFields: GnroSortField[];
     }>(),
-    'Set Grid Column Filters': props<{
+    'Set Column Filters': props<{
       gridId: string;
       gridConfig: GnroGridConfig;
       isTreeGrid: boolean;
       columnFilters: GnroColumnFilter[];
     }>(),
-    'Set Grid Columns Config': props<{ gridId: string; columnsConfig: GnroColumnConfig }>(),
-    'Get Grid Data': props<{ gridId: string }>(),
-    'Get Concat Grid Data': props<{ gridId: string }>(),
-    'Get Grid Data Success': props<{ gridId: string; gridData: GnroGridData<object> }>(),
-    'Set Grid In Memory Data': props<{ gridId: string; gridConfig: GnroGridConfig; gridData: GnroGridData<object> }>(),
+    'Set Columns Config': props<{ gridId: string; columnsConfig: GnroColumnConfig }>(),
+    'Get Data': props<{ gridId: string }>(),
+    'Get Concat Data': props<{ gridId: string }>(),
+    'Get Data Success': props<{ gridId: string; gridData: GnroGridData<object> }>(),
+    'Set In Memory Data': props<{ gridId: string; gridConfig: GnroGridConfig; gridData: GnroGridData<object> }>(),
     'Set Select All Rows': props<{ gridId: string; selectAll: boolean }>(),
     'Set Select Rows': props<{ gridId: string; records: object[]; isSelected: boolean; selected: number }>(),
     'Set Select Row': props<{ gridId: string; record: object }>(),
-    'Set Grid Group By': props<{ gridId: string; gridConfig: GnroGridConfig; rowGroupField: GnroRowGroupField }>(),
+    'Set Group By': props<{ gridId: string; gridConfig: GnroGridConfig; rowGroupField: GnroRowGroupField }>(),
     'Set Toggle Row Group': props<{ gridId: string; rowGroup: GnroRowGroup }>(),
-    'Set Grid UnGroup By': props<{ gridId: string; gridConfig: GnroGridConfig }>(),
-    'Set GridEditable': props<{ gridId: string; gridEditable: boolean }>(),
-    'Set Grid Record Modified': props<{ gridId: string; modified: GnroCellEdit<unknown> }>(),
-    'Save Grid Modified Records': props<{ gridId: string }>(),
+    'Set UnGroup By': props<{ gridId: string; gridConfig: GnroGridConfig }>(),
+    'Set Editable': props<{ gridId: string; gridEditable: boolean }>(),
+    'Set Record Modified': props<{ gridId: string; modified: GnroCellEdit<unknown> }>(),
+    'Save Modified Records': props<{ gridId: string }>(),
     //TODO save return data or refresh data???
     'Save Modified Records Success': props<{ gridId: string; newRecords: { [key: string]: unknown }[] }>(),
-    'Set Grid Rest Edit': props<{ gridId: string; restEdit: boolean }>(),
+    'Set Reset Edit': props<{ gridId: string; restEdit: boolean }>(),
     'Load Form Window Config Success': props<{ gridId: string; formWindowConfig: GnroFormWindowConfig }>(),
     'Set Load Tree Data Loading': props<{ gridId: string; loading: boolean }>(),
-    'Save Grid Configs': props<{ gridId: string }>(),
-    'Save Grid Configs Success': props<{ gridId: string }>(),
+    'Save Configs': props<{ gridId: string }>(),
+    'Save Configs Success': props<{ gridId: string }>(),
     'Clear Store': props<{ gridId: string }>(),
     'Remove Store': props<{ gridId: string }>(),
   },
