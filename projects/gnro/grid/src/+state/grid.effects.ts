@@ -7,7 +7,7 @@ import { concatMap, debounceTime, delay, map, mergeMap, of, switchMap } from 'rx
 import { GnroColumnConfig, GnroGridConfig } from '../models/grid.model';
 import { GnroGridinMemoryService } from '../services/grid-in-memory.service';
 import { GnroGridService } from '../services/grid.service';
-import * as gridActions from './grid.actions';
+import { gridActions } from './grid.actions';
 import { GnroGridFacade } from './grid.facade';
 
 @Injectable()
@@ -166,7 +166,7 @@ export class GnroGridEffects {
 
   clearGridDataStore$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(gridActions.clearGridDataStore),
+      ofType(gridActions.clearStore),
       concatMap((action) => {
         const gridId = action.gridId;
         const gridConfig = this.gridFacade.getGridConfig(gridId)();
@@ -176,7 +176,7 @@ export class GnroGridEffects {
           .pipe(map(() => gridActions.getGridData({ gridId: action.gridId })));
       }),
       delay(250), // wait 250 after destory the component to clear data store
-      mergeMap(({ gridId }) => of(gridId).pipe(map((gridId) => gridActions.removeGridDataStore({ gridId })))),
+      mergeMap(({ gridId }) => of(gridId).pipe(map((gridId) => gridActions.removeStore({ gridId })))),
     ),
   );
 }

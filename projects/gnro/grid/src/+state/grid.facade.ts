@@ -18,7 +18,7 @@ import { filterHttpParams } from '../utils/filter-http-params';
 import { GnroRowGroup } from '../utils/row-group/row-group';
 import { GnroRowGroups } from '../utils/row-group/row-groups';
 import { sortHttpParams } from '../utils/sort-http-params';
-import * as gridActions from './grid.actions';
+import { gridActions } from './grid.actions';
 import {
   selectColumnsConfig,
   selectFormWindowConfig,
@@ -235,7 +235,7 @@ export class GnroGridFacade {
   }
 
   clearGridDataStore(gridId: string): void {
-    this.store.dispatch(gridActions.clearGridDataStore({ gridId }));
+    this.store.dispatch(gridActions.clearStore({ gridId }));
   }
 
   getGridConfig(gridId: string): Signal<GnroGridConfig> {

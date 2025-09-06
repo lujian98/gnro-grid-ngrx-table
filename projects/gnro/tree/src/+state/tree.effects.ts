@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { GnroGridFacade, loadGridColumnsConfigSuccess, setGridColumnFilters, setGridSortFields } from '@gnro/ui/grid';
+import { GnroGridFacade, gridActions } from '@gnro/ui/grid';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatMap, debounceTime, delay, filter, map, mergeMap, of, switchMap } from 'rxjs';
 import { GnroTreeConfig } from '../models/tree-grid.model';
@@ -83,7 +83,7 @@ export class GnroTreeEffects {
 
   setGridColumnFilters$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(setGridColumnFilters, loadGridColumnsConfigSuccess), // gridActions
+      ofType(gridActions.setGridColumnFilters, gridActions.loadGridColumnsConfigSuccess), // gridActions
       switchMap(({ gridId, gridConfig, isTreeGrid }) =>
         of({ gridId, gridConfig, isTreeGrid }).pipe(
           filter(({ isTreeGrid }) => isTreeGrid),
@@ -103,7 +103,7 @@ export class GnroTreeEffects {
 
   setGridSortFields$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(setGridSortFields), // gridActions
+      ofType(gridActions.setGridSortFields), // gridActions
       switchMap(({ gridId, gridConfig, isTreeGrid }) =>
         of({ gridId, gridConfig, isTreeGrid }).pipe(
           filter(({ isTreeGrid }) => isTreeGrid),

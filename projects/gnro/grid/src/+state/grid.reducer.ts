@@ -10,7 +10,7 @@ import { GnroRowGroup } from '../utils/row-group/row-group';
 import { GnroRowGroups } from '../utils/row-group/row-groups';
 import { getSelection, setSelection } from '../utils/row-selection';
 import { stickyEndMinWidth } from '../utils/viewport-width-ratio';
-import * as gridActions from './grid.actions';
+import { gridActions } from './grid.actions';
 
 export const initialState: GridState = {};
 
@@ -555,7 +555,7 @@ export const gnroGridFeature = createFeature({
       return { ...newState };
     }),
 
-    on(gridActions.removeGridDataStore, (state, action) => {
+    on(gridActions.removeStore, (state, action) => {
       const key = action.gridId;
       const newState: GridState = { ...state };
       if (state[key]) {
