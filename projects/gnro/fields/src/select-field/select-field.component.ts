@@ -105,11 +105,11 @@ export class GnroSelectFieldComponent<T, G> implements OnDestroy, ControlValueAc
     transform: (config: Partial<GnroSelectFieldConfig>) => {
       const fieldConfig = { ...defaultSelectFieldConfig, ...config };
       if (this.firstTimeLoad) {
-        this.selectFieldFacade.initFieldConfig(this.fieldId, fieldConfig);
+        this.selectFieldFacade.initConfig(this.fieldId, fieldConfig);
         this.firstTimeLoad = false;
       }
       if (fieldConfig.options) {
-        this.selectFieldFacade.setSelectFieldOptions(this.fieldId, fieldConfig.options);
+        this.selectFieldFacade.setOptions(this.fieldId, fieldConfig.options);
       }
       return fieldConfig;
     },
@@ -117,7 +117,7 @@ export class GnroSelectFieldComponent<T, G> implements OnDestroy, ControlValueAc
   //WARNING local set option only, only add field config if no initial input fieldconfig
   options = input([], {
     transform: (options: GnroOptionType[]) => {
-      this.selectFieldFacade.setSelectFieldOptions(this.fieldId, options);
+      this.selectFieldFacade.setOptions(this.fieldId, options);
       return options;
     },
   });
@@ -135,7 +135,7 @@ export class GnroSelectFieldComponent<T, G> implements OnDestroy, ControlValueAc
   requireReload = input(false, {
     transform: (requireReload: boolean) => {
       if (requireReload && this.fieldConfig().remoteOptions) {
-        this.selectFieldFacade.reloadSelectFieldOptions(this.fieldId);
+        this.selectFieldFacade.reloadOptions(this.fieldId);
       }
       return requireReload;
     },
@@ -337,6 +337,6 @@ export class GnroSelectFieldComponent<T, G> implements OnDestroy, ControlValueAc
   }
 
   ngOnDestroy(): void {
-    this.selectFieldFacade.clearSelectFieldStore(this.fieldId);
+    this.selectFieldFacade.clearStore(this.fieldId);
   }
 }

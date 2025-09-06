@@ -8,7 +8,7 @@ import { selectFieldConfig, selectFieldSetting, selectOptions } from './select-f
 export class GnroSelectFieldFacade {
   private readonly store = inject(Store);
 
-  initFieldConfig(fieldId: string, fieldConfig: GnroSelectFieldConfig): void {
+  initConfig(fieldId: string, fieldConfig: GnroSelectFieldConfig): void {
     this.store.dispatch(selectFieldActions.initConfig({ fieldId, fieldConfig }));
     if (fieldConfig.remoteConfig) {
       this.store.dispatch(selectFieldActions.loadRemoteConfig({ fieldId, fieldConfig }));
@@ -19,16 +19,16 @@ export class GnroSelectFieldFacade {
     }
   }
 
-  setSelectFieldOptions(fieldId: string, options: GnroOptionType[]): void {
+  setOptions(fieldId: string, options: GnroOptionType[]): void {
     this.store.dispatch(selectFieldActions.loadOptionsSuccess({ fieldId, options }));
   }
 
-  reloadSelectFieldOptions(fieldId: string): void {
+  reloadOptions(fieldId: string): void {
     const fieldConfig = this.getFieldConfig(fieldId)();
     this.store.dispatch(selectFieldActions.loadOptions({ fieldId, fieldConfig }));
   }
 
-  clearSelectFieldStore(fieldId: string): void {
+  clearStore(fieldId: string): void {
     this.store.dispatch(selectFieldActions.clearStore({ fieldId }));
   }
 
