@@ -10,7 +10,7 @@ import { selectFormConfig, selectFormFieldsConfig, selectFormData, selectFormSet
 export class GnroFormFacade {
   private readonly store = inject(Store);
 
-  initFormConfig(formId: string, formConfig: GnroFormConfig): void {
+  initConfig(formId: string, formConfig: GnroFormConfig): void {
     this.store.dispatch(formActions.initConfig({ formId, formConfig }));
 
     if (formConfig.remoteFormConfig) {
@@ -20,28 +20,28 @@ export class GnroFormFacade {
     }
   }
 
-  setFormFieldsConfig(formId: string, formConfig: GnroFormConfig, formFields: GnroFormField[]): void {
+  setFieldsConfig(formId: string, formConfig: GnroFormConfig, formFields: GnroFormField[]): void {
     this.store.dispatch(formActions.loadFieldsConfigSuccess({ formId, formConfig, formFields }));
     if (formConfig.remoteFormData) {
       this.store.dispatch(formActions.getData({ formId, formConfig }));
     }
   }
 
-  setFormData(formId: string, formConfig: GnroFormConfig, formData: object): void {
+  setData(formId: string, formConfig: GnroFormConfig, formData: object): void {
     this.store.dispatch(formActions.getDataSuccess({ formId, formConfig, formData }));
   }
 
-  setFormEditable(formId: string, button: GnroButtonConfg): void {
+  setEditable(formId: string, button: GnroButtonConfg): void {
     this.store.dispatch(formActions.setEditable({ formId, button }));
   }
 
-  getFormData(formId: string, formConfig: GnroFormConfig): void {
+  getData(formId: string, formConfig: GnroFormConfig): void {
     if (formConfig.remoteFormData) {
       this.store.dispatch(formActions.getData({ formId, formConfig }));
     }
   }
 
-  saveFormData(formId: string, formConfig: GnroFormConfig, formData: object): void {
+  saveData(formId: string, formConfig: GnroFormConfig, formData: object): void {
     this.store.dispatch(formActions.saveData({ formId, formConfig, formData }));
   }
 
@@ -52,11 +52,11 @@ export class GnroFormFacade {
     }
   }*/
 
-  clearformDataStore(formId: string): void {
+  clearStore(formId: string): void {
     this.store.dispatch(formActions.clearStore({ formId }));
   }
 
-  getFormConfig(formId: string): Signal<GnroFormConfig> {
+  getConfig(formId: string): Signal<GnroFormConfig> {
     return this.store.selectSignal(selectFormConfig(formId));
   }
 
@@ -64,11 +64,11 @@ export class GnroFormFacade {
     return this.store.selectSignal(selectFormSetting(fieldId));
   }
 
-  getFormFieldsConfig(formId: string): Signal<GnroFormField[]> {
+  getFieldsConfig(formId: string): Signal<GnroFormField[]> {
     return this.store.selectSignal(selectFormFieldsConfig(formId));
   }
 
-  getFormSignalData(formId: string): Signal<object | undefined> {
+  getSignalData(formId: string): Signal<object | undefined> {
     return this.store.selectSignal(selectFormData(formId));
   }
 }

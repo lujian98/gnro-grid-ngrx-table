@@ -21,10 +21,10 @@ import { GnroFormButtonClick, GnroFormConfig } from './models/form.model';
 export class GnroFormComponent implements OnDestroy {
   private readonly formFacade = inject(GnroFormFacade);
   private formId = `form-${uniqueId()}`;
-  formConfig$ = this.formFacade.getFormConfig(this.formId);
+  formConfig$ = this.formFacade.getConfig(this.formId);
   formSetting$ = this.formFacade.getSetting(this.formId);
-  formFieldsConfig$ = this.formFacade.getFormFieldsConfig(this.formId);
-  formData$ = this.formFacade.getFormSignalData(this.formId);
+  formFieldsConfig$ = this.formFacade.getFieldsConfig(this.formId);
+  formData$ = this.formFacade.getSignalData(this.formId);
   formConfig = input(defaultFormConfig, {
     transform: (value: Partial<GnroFormConfig>) => {
       const formConfig = { ...defaultFormConfig, ...value };
@@ -35,14 +35,14 @@ export class GnroFormComponent implements OnDestroy {
   formFields = input([], {
     transform: (formFields: GnroFormField[]) => {
       if (!this.formConfig$().remoteFieldsConfig && formFields.length > 0) {
-        this.formFacade.setFormFieldsConfig(this.formId, this.formConfig$(), formFields);
+        this.formFacade.setFieldsConfig(this.formId, this.formConfig$(), formFields);
       }
       return formFields;
     },
   });
   values = input(undefined, {
     transform: (values: object) => {
-      this.formFacade.setFormData(this.formId, this.formConfig(), values);
+      this.formFacade.setData(this.formId, this.formConfig(), values);
       return values;
     },
   });
@@ -57,7 +57,7 @@ export class GnroFormComponent implements OnDestroy {
   }
 
   private initFormConfig(formConfig: GnroFormConfig): void {
-    this.formFacade.initFormConfig(this.formId, formConfig);
+    this.formFacade.initConfig(this.formId, formConfig);
   }
 
   formButtonClick(buttonClick: GnroFormButtonClick): void {
@@ -65,6 +65,6 @@ export class GnroFormComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.formFacade.clearformDataStore(this.formId);
+    this.formFacade.clearStore(this.formId);
   }
 }
