@@ -7,19 +7,19 @@ export const formActions = createActionGroup({
   source: '[Form]',
   events: {
     'Init Config': props<{ formId: string; formConfig: GnroFormConfig }>(),
-    'Load Remote Form Config': props<{ formId: string; formConfig: GnroFormConfig }>(),
-    'Load Remote Form Config Success': props<{ formId: string; formConfig: GnroFormConfig }>(),
-    'Load Remote Form Fields Config': props<{ formId: string; formConfig: GnroFormConfig }>(),
-    'Load Remote Form Fields Config Success': props<{
+    'Load Config': props<{ formId: string; formConfig: GnroFormConfig }>(),
+    'Load Config Success': props<{ formId: string; formConfig: GnroFormConfig }>(),
+    'Load Fields Config': props<{ formId: string; formConfig: GnroFormConfig }>(),
+    'Load Fields Config Success': props<{
       formId: string;
       formConfig: GnroFormConfig;
       formFields: GnroFormField[];
     }>(),
-    'Set Form Editable': props<{ formId: string; button: GnroButtonConfg }>(),
-    'Get Form Data': props<{ formId: string; formConfig: GnroFormConfig }>(),
-    'Get Form Data Success': props<{ formId: string; formConfig: GnroFormConfig; formData: object }>(),
-    'Save Form Data': props<{ formId: string; formConfig: GnroFormConfig; formData: object }>(),
-    'Save Form Data Success': props<{ formId: string; formConfig: GnroFormConfig; formData: object }>(),
+    'Set Editable': props<{ formId: string; button: GnroButtonConfg }>(),
+    'Get Data': props<{ formId: string; formConfig: GnroFormConfig }>(),
+    'Get Data Success': props<{ formId: string; formConfig: GnroFormConfig; formData: object }>(),
+    'Save Data': props<{ formId: string; formConfig: GnroFormConfig; formData: object }>(),
+    'Save Data Success': props<{ formId: string; formConfig: GnroFormConfig; formData: object }>(),
     'Clear Store': props<{ formId: string }>(),
     'Remove Store': props<{ formId: string }>(),
   },

@@ -72,7 +72,7 @@ export const gnroFormFeature = createFeature({
       };
       return { ...newState };
     }),
-    on(formActions.loadRemoteFormConfigSuccess, (state, action) => {
+    on(formActions.loadConfigSuccess, (state, action) => {
       const key = action.formId;
       const newState: FormState = { ...state };
       if (state[key]) {
@@ -86,7 +86,7 @@ export const gnroFormFeature = createFeature({
       }
       return { ...newState };
     }),
-    on(formActions.loadRemoteFormFieldsConfigSuccess, (state, action) => {
+    on(formActions.loadFieldsConfigSuccess, (state, action) => {
       const key = action.formId;
       const newState: FormState = { ...state };
       if (state[key]) {
@@ -98,7 +98,7 @@ export const gnroFormFeature = createFeature({
       }
       return { ...newState };
     }),
-    on(formActions.setFormEditable, (state, action) => {
+    on(formActions.setEditable, (state, action) => {
       const key = action.formId;
       const newState: FormState = { ...state };
       if (state[key]) {
@@ -115,7 +115,7 @@ export const gnroFormFeature = createFeature({
       }
       return { ...newState };
     }),
-    on(formActions.getFormDataSuccess, (state, action) => {
+    on(formActions.getDataSuccess, (state, action) => {
       const key = action.formId;
       const newState: FormState = { ...state };
       if (state[key]) {
@@ -127,7 +127,7 @@ export const gnroFormFeature = createFeature({
       }
       return { ...newState };
     }),
-    on(formActions.saveFormDataSuccess, (state, action) => {
+    on(formActions.saveDataSuccess, (state, action) => {
       const key = action.formId;
       const newState: FormState = { ...state };
       if (state[key]) {

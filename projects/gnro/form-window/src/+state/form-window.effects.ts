@@ -36,7 +36,7 @@ export class GnroFormWindowEffects {
 
   saveFormDataSuccess$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(formActions.saveFormData),
+      ofType(formActions.saveData),
       concatMap(({ formConfig }) =>
         of({ formConfig }).pipe(
           map(({ formConfig }) => {

@@ -16,15 +16,15 @@ export class GnroFormEffects {
 
   loadRemoteFormConfig$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(formActions.loadRemoteFormConfig),
+      ofType(formActions.loadConfig),
       concatMap(({ formId, formConfig }) => {
         return this.formService.getRemoteFormConfig(formConfig).pipe(
           map((formConfig) => {
             if (formConfig.remoteFieldsConfig) {
-              this.store.dispatch(formActions.loadRemoteFormConfigSuccess({ formId, formConfig }));
-              return formActions.loadRemoteFormFieldsConfig({ formId, formConfig });
+              this.store.dispatch(formActions.loadConfigSuccess({ formId, formConfig }));
+              return formActions.loadFieldsConfig({ formId, formConfig });
             } else {
-              return formActions.loadRemoteFormConfigSuccess({ formId, formConfig });
+              return formActions.loadConfigSuccess({ formId, formConfig });
             }
           }),
         );
@@ -34,15 +34,15 @@ export class GnroFormEffects {
 
   loadRemoteFormFieldsConfig$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(formActions.loadRemoteFormFieldsConfig),
+      ofType(formActions.loadFieldsConfig),
       concatMap(({ formId, formConfig }) => {
         return this.formService.getFormFieldsConfig(formConfig).pipe(
           map((formFields) => {
             if (formConfig.remoteFormData) {
-              this.store.dispatch(formActions.loadRemoteFormFieldsConfigSuccess({ formId, formConfig, formFields }));
-              return formActions.getFormData({ formId, formConfig });
+              this.store.dispatch(formActions.loadFieldsConfigSuccess({ formId, formConfig, formFields }));
+              return formActions.getData({ formId, formConfig });
             } else {
-              return formActions.loadRemoteFormFieldsConfigSuccess({ formId, formConfig, formFields });
+              return formActions.loadFieldsConfigSuccess({ formId, formConfig, formFields });
             }
           }),
         );
@@ -52,11 +52,11 @@ export class GnroFormEffects {
 
   getFormData$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(formActions.getFormData),
+      ofType(formActions.getData),
       concatMap(({ formId, formConfig }) => {
         return this.formService.getFormData(formConfig).pipe(
           map(({ formConfig, formData }) => {
-            return formActions.getFormDataSuccess({ formId, formConfig, formData });
+            return formActions.getDataSuccess({ formId, formConfig, formData });
           }),
         );
       }),
@@ -65,11 +65,11 @@ export class GnroFormEffects {
 
   saveFormData$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(formActions.saveFormData),
+      ofType(formActions.saveData),
       concatMap(({ formId, formConfig, formData }) => {
         return this.formService.saveFormData(formConfig, formData).pipe(
           map(({ formConfig, formData }) => {
-            return formActions.saveFormDataSuccess({ formId, formConfig, formData });
+            return formActions.saveDataSuccess({ formId, formConfig, formData });
           }),
         );
       }),
@@ -78,7 +78,7 @@ export class GnroFormEffects {
 
   saveFormDataSuccess$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(formActions.saveFormDataSuccess),
+      ofType(formActions.saveDataSuccess),
       concatMap(({ formConfig, formData }) =>
         of(formData).pipe(
           map(() => GnroMessageActions.show({ action: 'Update', keyName: 'formData', configType: formConfig.urlKey })),

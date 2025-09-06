@@ -14,35 +14,35 @@ export class GnroFormFacade {
     this.store.dispatch(formActions.initConfig({ formId, formConfig }));
 
     if (formConfig.remoteFormConfig) {
-      this.store.dispatch(formActions.loadRemoteFormConfig({ formId, formConfig }));
+      this.store.dispatch(formActions.loadConfig({ formId, formConfig }));
     } else if (formConfig.remoteFieldsConfig) {
-      this.store.dispatch(formActions.loadRemoteFormFieldsConfig({ formId, formConfig }));
+      this.store.dispatch(formActions.loadFieldsConfig({ formId, formConfig }));
     }
   }
 
   setFormFieldsConfig(formId: string, formConfig: GnroFormConfig, formFields: GnroFormField[]): void {
-    this.store.dispatch(formActions.loadRemoteFormFieldsConfigSuccess({ formId, formConfig, formFields }));
+    this.store.dispatch(formActions.loadFieldsConfigSuccess({ formId, formConfig, formFields }));
     if (formConfig.remoteFormData) {
-      this.store.dispatch(formActions.getFormData({ formId, formConfig }));
+      this.store.dispatch(formActions.getData({ formId, formConfig }));
     }
   }
 
   setFormData(formId: string, formConfig: GnroFormConfig, formData: object): void {
-    this.store.dispatch(formActions.getFormDataSuccess({ formId, formConfig, formData }));
+    this.store.dispatch(formActions.getDataSuccess({ formId, formConfig, formData }));
   }
 
   setFormEditable(formId: string, button: GnroButtonConfg): void {
-    this.store.dispatch(formActions.setFormEditable({ formId, button }));
+    this.store.dispatch(formActions.setEditable({ formId, button }));
   }
 
   getFormData(formId: string, formConfig: GnroFormConfig): void {
     if (formConfig.remoteFormData) {
-      this.store.dispatch(formActions.getFormData({ formId, formConfig }));
+      this.store.dispatch(formActions.getData({ formId, formConfig }));
     }
   }
 
   saveFormData(formId: string, formConfig: GnroFormConfig, formData: object): void {
-    this.store.dispatch(formActions.saveFormData({ formId, formConfig, formData }));
+    this.store.dispatch(formActions.saveData({ formId, formConfig, formData }));
   }
 
   /*
