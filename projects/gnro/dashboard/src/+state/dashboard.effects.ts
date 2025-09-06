@@ -1,10 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store, ReducerManager } from '@ngrx/store';
-
 import { concatMap, delay, map, mergeMap, of } from 'rxjs';
 //import { GnroDashboardService } from '../services/dashboard.service';
-import * as dashboardActions from './dashboard.actions';
+import { dashboardActions } from './dashboard.actions';
 
 @Injectable()
 export class GnroDashboardEffects {

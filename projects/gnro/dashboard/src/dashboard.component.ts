@@ -52,13 +52,13 @@ export class GnroDashboardComponent<T> implements AfterViewInit, OnDestroy {
     },
   });
   options = input([], {
-    transform: (options: GnroTileOption<unknown>[]) => {
+    transform: (options: GnroTileOption<T>[]) => {
       this.dashboardFacade.setDashboardOptions(this.dashboardId, options);
       return options;
     },
   });
   tiles = input([], {
-    transform: (items: GnroTile<unknown>[]) => {
+    transform: (items: GnroTile<T>[]) => {
       const tiles = items.map((tile) => ({ ...defaultTileConfig, ...tile }));
       if (!this.config().remoteTiles) {
         this.dashboardFacade.setDashboardTiles(this.dashboardId, tiles);

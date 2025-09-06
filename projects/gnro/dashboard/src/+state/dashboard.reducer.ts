@@ -1,7 +1,7 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { DashboardState, defaultDashboardState } from '../models/dashboard.model';
 import { viewportConfig, viewportSetting } from '../utils/viewport-setting';
-import * as dashboardActions from './dashboard.actions';
+import { dashboardActions } from './dashboard.actions';
 
 export const initialState: DashboardState = {};
 
@@ -86,7 +86,7 @@ export const gnroDashboardFeature = createFeature({
       }
       return { ...newState };
     }),
-    on(dashboardActions.loadDashboardGridMapTiles, (state, action) => {
+    on(dashboardActions.loadDashboardGridMapAndTiles, (state, action) => {
       const key = action.dashboardId;
       const newState: DashboardState = { ...state };
       if (state[key]) {

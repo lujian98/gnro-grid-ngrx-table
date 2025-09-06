@@ -1,13 +1,13 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { GnroDashboardConfig, GnroTile } from '../models/dashboard.model';
 
-export function dragDropTile<D>(
+export function dragDropTile<D, T>(
   e: CdkDragDrop<D>,
-  tile: GnroTile<unknown>,
-  tiles: GnroTile<unknown>[],
+  tile: GnroTile<T>,
+  tiles: GnroTile<T>[],
   config: GnroDashboardConfig,
   gridMap: number[][],
-): GnroTile<unknown>[] {
+): GnroTile<T>[] {
   const draggedTile = tiles[e.item.data];
   const dx = Math.round(e.distance.x / config.gridWidth);
   const dy = Math.round(e.distance.y / config.gridHeight);
@@ -38,10 +38,10 @@ export function dragDropTile<D>(
   return tiles;
 }
 
-function isDroppable(
+function isDroppable<T>(
   x: number,
   y: number,
-  tile: GnroTile<unknown>,
+  tile: GnroTile<T>,
   index: number,
   config: GnroDashboardConfig,
   tileGridMap: number[][],

@@ -37,7 +37,7 @@ import {
     GnroResizeDirective,
   ],
 })
-export class GnroTilesComponent implements OnInit {
+export class GnroTilesComponent<T> implements OnInit {
   private readonly dashboardFacade = inject(GnroDashboardFacade);
   resizeType = GnroResizeType;
   position: GnroPosition = GnroPosition.BOTTOMRIGHT;
@@ -54,8 +54,8 @@ export class GnroTilesComponent implements OnInit {
     },
   });
   setting = input.required<GnroDashboardSetting>();
-  tiles = input.required<GnroTile<unknown>[]>();
-  options = input<GnroTileOption<unknown>[]>([]);
+  tiles = input.required<GnroTile<T>[]>();
+  options = input<GnroTileOption<T>[]>([]);
 
   get gridGap(): string {
     return `${this.config().gridGap}px`;
@@ -65,18 +65,18 @@ export class GnroTilesComponent implements OnInit {
     this.setupTilesLayout(this.tiles());
   }
 
-  getPortalContent(tile: GnroTile<unknown>): GnroPortalContent<unknown> {
+  getPortalContent(tile: GnroTile<T>): GnroPortalContent<T> {
     const find = this.options().find((option) => option.name === tile.portalName);
     return find ? find.content : tile.content!;
   }
 
-  getContextMenuTrigger(tile: GnroTile<unknown>): GnroTrigger {
+  getContextMenuTrigger(tile: GnroTile<T>): GnroTrigger {
     return tile.enableContextMenu ? GnroTrigger.CONTEXTMENU : GnroTrigger.NOOP;
   }
 
-  onTileMenuClicked(tileMenu: GnroMenuConfig, tile: GnroTile<unknown>): void {}
+  onTileMenuClicked(tileMenu: GnroMenuConfig, tile: GnroTile<T>): void {}
 
-  onResizeTile(resizeInfo: GnroResizeInfo, tile: GnroTile<unknown>): void {
+  onResizeTile(resizeInfo: GnroResizeInfo, tile: GnroTile<T>): void {
     if (resizeInfo.isResized) {
       const tileInfo = tileResizeInfo(resizeInfo, tile, this.config(), this.setting().gridMap);
       Object.assign(tile, tileInfo);
@@ -85,16 +85,16 @@ export class GnroTilesComponent implements OnInit {
     }
   }
 
-  isDragDisabled(tile: GnroTile<unknown>): boolean {
+  isDragDisabled(tile: GnroTile<T>): boolean {
     return !!tile.dragDisabled;
   }
 
-  onDropListDropped<D>(e: CdkDragDrop<D>, tile: GnroTile<unknown>): void {
+  onDropListDropped<D>(e: CdkDragDrop<D>, tile: GnroTile<T>): void {
     const newTiles = dragDropTile(e, tile, this.tiles(), this.config(), this.setting().gridMap);
     this.setupTilesLayout(newTiles);
   }
 
-  private setupTilesLayout(tiles: GnroTile<unknown>[]): void {
+  private setupTilesLayout(tiles: GnroTile<T>[]): void {
     const gridMap = initGridMap(this.config()); //WARNING initialize gridMap!!!
     const newTiles = setupTilesLayout(tiles, this.config(), gridMap);
     this.dashboardFacade.loadDashboardGridMapTiles(this.setting().dashboardId, gridMap, newTiles);
