@@ -31,8 +31,8 @@ export interface GnroDashboardSetting {
   gridMap: number[][];
 }
 
-export interface DashboardState {
-  [key: string]: GnroDashboardState;
+export interface DashboardState<T> {
+  [key: string]: GnroDashboardState<T>;
 }
 
 export interface GnroTile<T> {
@@ -59,11 +59,11 @@ export const defaultTileConfig = {
   enableContextMenu: true,
 };
 
-export interface GnroDashboardState {
+export interface GnroDashboardState<T> {
   dashboardConfig: GnroDashboardConfig;
   dashboardSetting: GnroDashboardSetting;
-  tiles: GnroTile<unknown>[];
-  options: GnroTile<unknown>[]; // options are input to tabs mapped using portalName to portal component
+  tiles: GnroTile<T>[];
+  options: GnroTile<T>[]; // options are input to tabs mapped using portalName to portal component
 }
 
 export const defaultDashboardSetting: GnroDashboardSetting = {
@@ -74,12 +74,14 @@ export const defaultDashboardSetting: GnroDashboardSetting = {
   gridMap: [],
 };
 
-export const defaultDashboardState: GnroDashboardState = {
-  dashboardConfig: defaultDashboardConfig,
-  dashboardSetting: defaultDashboardSetting,
-  tiles: [],
-  options: [],
-};
+export function defaultDashboardState<T>(): GnroDashboardState<T> {
+  return {
+    dashboardConfig: defaultDashboardConfig,
+    dashboardSetting: defaultDashboardSetting,
+    tiles: [],
+    options: [],
+  };
+}
 
 export interface GnroTileOption<T> {
   name: string;

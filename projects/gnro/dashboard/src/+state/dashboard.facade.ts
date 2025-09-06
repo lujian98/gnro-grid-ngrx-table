@@ -47,7 +47,7 @@ export class GnroDashboardFacade {
     return this.store.selectSignal(selectDashboardConfig(dashboardId));
   }
 
-  getDashboardTiles<T>(dashboardId: string): Signal<GnroTile<unknown>[]> {
-    return this.store.selectSignal(selectDashboardTiles(dashboardId));
+  getDashboardTiles<T>(dashboardId: string): Signal<GnroTile<T>[]> {
+    return this.store.selectSignal(selectDashboardTiles(dashboardId)) as Signal<GnroTile<T>[]>;
   }
 }
