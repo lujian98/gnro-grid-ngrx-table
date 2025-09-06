@@ -9,27 +9,27 @@ export class GnroSelectFieldFacade {
   private readonly store = inject(Store);
 
   initFieldConfig(fieldId: string, fieldConfig: GnroSelectFieldConfig): void {
-    this.store.dispatch(selectFieldActions.initFieldConfig({ fieldId, fieldConfig }));
+    this.store.dispatch(selectFieldActions.initConfig({ fieldId, fieldConfig }));
     if (fieldConfig.remoteConfig) {
-      this.store.dispatch(selectFieldActions.loadRemoteFieldConfig({ fieldId, fieldConfig }));
+      this.store.dispatch(selectFieldActions.loadRemoteConfig({ fieldId, fieldConfig }));
     }
 
     if (fieldConfig.remoteOptions && !fieldConfig.remoteConfig) {
-      this.store.dispatch(selectFieldActions.loadSelectFieldOptions({ fieldId, fieldConfig }));
+      this.store.dispatch(selectFieldActions.loadOptions({ fieldId, fieldConfig }));
     }
   }
 
   setSelectFieldOptions(fieldId: string, options: GnroOptionType[]): void {
-    this.store.dispatch(selectFieldActions.loadSelectFieldOptionsSuccess({ fieldId, options }));
+    this.store.dispatch(selectFieldActions.loadOptionsSuccess({ fieldId, options }));
   }
 
   reloadSelectFieldOptions(fieldId: string): void {
     const fieldConfig = this.getFieldConfig(fieldId)();
-    this.store.dispatch(selectFieldActions.loadSelectFieldOptions({ fieldId, fieldConfig }));
+    this.store.dispatch(selectFieldActions.loadOptions({ fieldId, fieldConfig }));
   }
 
   clearSelectFieldStore(fieldId: string): void {
-    this.store.dispatch(selectFieldActions.clearSelectFieldStore({ fieldId }));
+    this.store.dispatch(selectFieldActions.clearStore({ fieldId }));
   }
 
   getFieldConfig(fieldId: string): Signal<GnroSelectFieldConfig> {

@@ -13,7 +13,7 @@ export class GnroSelectFieldService {
   private readonly http = inject(HttpClient);
   private readonly backendService = inject(GnroBackendService);
 
-  getRemoteFieldConfig(fieldConfig: GnroSelectFieldConfig): Observable<GnroSelectFieldConfig> {
+  getRemoteConfig(fieldConfig: GnroSelectFieldConfig): Observable<GnroSelectFieldConfig> {
     const params = this.backendService.getParams(fieldConfig.urlKey, 'selectFieldConfig', fieldConfig.fieldName);
     const url = this.backendService.apiUrl;
     return this.http.get<GnroFieldConfigResponse>(url, { params }).pipe(
@@ -27,7 +27,7 @@ export class GnroSelectFieldService {
     );
   }
 
-  getSelectFieldOptions(fieldConfig: GnroSelectFieldConfig): Observable<GnroOptionType[]> {
+  getOptions(fieldConfig: GnroSelectFieldConfig): Observable<GnroOptionType[]> {
     const params = this.backendService.getParams(fieldConfig.urlKey, 'select', fieldConfig.fieldName);
     const url = this.backendService.apiUrl;
     return this.http.get<GnroOptionsResponse>(url, { params }).pipe(

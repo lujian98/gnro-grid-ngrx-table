@@ -13,12 +13,12 @@ export class GnroSelectFieldEffects {
 
   getRemoteFieldConfig$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(selectFieldActions.loadRemoteFieldConfig),
+      ofType(selectFieldActions.loadRemoteConfig),
       concatMap(({ fieldId, fieldConfig }) => {
-        return this.selectfieldService.getRemoteFieldConfig(fieldConfig).pipe(
+        return this.selectfieldService.getRemoteConfig(fieldConfig).pipe(
           map((fieldConfig) => {
-            this.store.dispatch(selectFieldActions.loadFieldConfigSuccess({ fieldId, fieldConfig }));
-            return selectFieldActions.loadSelectFieldOptions({ fieldId, fieldConfig });
+            this.store.dispatch(selectFieldActions.loadConfigSuccess({ fieldId, fieldConfig }));
+            return selectFieldActions.loadOptions({ fieldId, fieldConfig });
           }),
         );
       }),
@@ -27,11 +27,11 @@ export class GnroSelectFieldEffects {
 
   loadSelectFieldOptions$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(selectFieldActions.loadSelectFieldOptions),
+      ofType(selectFieldActions.loadOptions),
       concatMap(({ fieldId, fieldConfig }) => {
-        return this.selectfieldService.getSelectFieldOptions(fieldConfig).pipe(
+        return this.selectfieldService.getOptions(fieldConfig).pipe(
           map((options) => {
-            return selectFieldActions.loadSelectFieldOptionsSuccess({ fieldId, options });
+            return selectFieldActions.loadOptionsSuccess({ fieldId, options });
           }),
         );
       }),
@@ -40,11 +40,9 @@ export class GnroSelectFieldEffects {
 
   clearSelectFieldStore$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(selectFieldActions.clearSelectFieldStore),
+      ofType(selectFieldActions.clearStore),
       delay(250), // wait 250 after destory the component to clear data store
-      mergeMap(({ fieldId }) =>
-        of(fieldId).pipe(map((fieldId) => selectFieldActions.removeSelectFieldStore({ fieldId }))),
-      ),
+      mergeMap(({ fieldId }) => of(fieldId).pipe(map((fieldId) => selectFieldActions.removeStore({ fieldId })))),
     ),
   );
 }

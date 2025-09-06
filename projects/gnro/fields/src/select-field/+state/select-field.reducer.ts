@@ -9,7 +9,7 @@ export const gnroSelectFieldFeature = createFeature({
   name: 'gnroSelectField',
   reducer: createReducer(
     initialState,
-    on(selectFieldActions.initFieldConfig, (state, action) => {
+    on(selectFieldActions.initConfig, (state, action) => {
       const fieldConfig = { ...action.fieldConfig };
       const key = action.fieldId;
       const newState: SelectFieldState = { ...state };
@@ -24,7 +24,7 @@ export const gnroSelectFieldFeature = createFeature({
       };
       return { ...newState };
     }),
-    on(selectFieldActions.loadFieldConfigSuccess, (state, action) => {
+    on(selectFieldActions.loadConfigSuccess, (state, action) => {
       const fieldConfig = { ...action.fieldConfig };
       const key = action.fieldId;
       const newState: SelectFieldState = { ...state };
@@ -42,7 +42,7 @@ export const gnroSelectFieldFeature = createFeature({
       }
       return { ...newState };
     }),
-    on(selectFieldActions.loadSelectFieldOptionsSuccess, (state, action) => {
+    on(selectFieldActions.loadOptionsSuccess, (state, action) => {
       const key = action.fieldId;
       const newState: SelectFieldState = { ...state };
       if (state[key]) {
@@ -59,7 +59,7 @@ export const gnroSelectFieldFeature = createFeature({
       }
       return { ...newState };
     }),
-    on(selectFieldActions.removeSelectFieldStore, (state, action) => {
+    on(selectFieldActions.removeStore, (state, action) => {
       const key = action.fieldId;
       const newState: SelectFieldState = { ...state };
       if (state[key]) {
