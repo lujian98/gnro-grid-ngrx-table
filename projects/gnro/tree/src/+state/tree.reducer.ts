@@ -10,7 +10,7 @@ import {
   gnroRemoveNestedNode,
   gnroSetNestNodeId,
 } from '../utils/nested-tree';
-import * as treeActions from './tree.actions';
+import { treeActions } from './tree.actions';
 
 export const initialState: TreeState = {};
 
@@ -18,7 +18,7 @@ export const gnroTreeFeature = createFeature({
   name: 'gnroTree',
   reducer: createReducer(
     initialState,
-    on(treeActions.initTreeConfig, (state, action) => {
+    on(treeActions.initConfig, (state, action) => {
       const treeConfig = { ...action.treeConfig };
       const key = action.treeId;
       const newState: TreeState = { ...state };
@@ -38,7 +38,7 @@ export const gnroTreeFeature = createFeature({
       return { ...newState };
     }),
 
-    on(treeActions.getTreeRemoteDataSuccess, (state, action) => {
+    on(treeActions.getDataSuccess, (state, action) => {
       const key = action.treeId;
       const newState: TreeState = { ...state };
       if (state[key]) {
@@ -56,7 +56,7 @@ export const gnroTreeFeature = createFeature({
       return { ...newState };
     }),
 
-    on(treeActions.setTreeInMemoryData, (state, action) => {
+    on(treeActions.setInMemoryData, (state, action) => {
       const key = action.treeId;
       const newState: TreeState = { ...state };
       if (state[key]) {
@@ -68,7 +68,7 @@ export const gnroTreeFeature = createFeature({
       return { ...newState };
     }),
 
-    on(treeActions.getInMemoryTreeDataSuccess, (state, action) => {
+    on(treeActions.getInMemoryDataSuccess, (state, action) => {
       const key = action.treeId;
       const newState: TreeState = { ...state }; // treeData is faltten and filter
       if (state[key]) {
@@ -180,7 +180,7 @@ export const gnroTreeFeature = createFeature({
       return { ...newState };
     }),
 
-    on(treeActions.removeTreeDataStore, (state, action) => {
+    on(treeActions.removeStore, (state, action) => {
       const key = action.treeId;
       const newState: TreeState = { ...state };
       if (state[key]) {
