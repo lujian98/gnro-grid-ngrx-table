@@ -73,11 +73,11 @@ export class GnroTabsTabComponent {
   }
 
   onContextMenuClicked(menuItem: GnroMenuConfig, tab: GnroTabConfig<unknown>): void {
-    this.tabsFacade.setContextMenuClicked(this.tabsSetting().tabsId, menuItem, tab, this.index());
+    this.tabsFacade.contextMenuClicked(this.tabsSetting().tabsId, menuItem, tab, this.index());
   }
 
   closeTab(event: MouseEvent, tab: GnroTabConfig<unknown>): void {
     event.stopPropagation();
-    this.tabsFacade.setCloseTab(this.tabsSetting().tabsId, tab);
+    this.tabsFacade.closeTab(this.tabsSetting().tabsId, tab);
   }
 }

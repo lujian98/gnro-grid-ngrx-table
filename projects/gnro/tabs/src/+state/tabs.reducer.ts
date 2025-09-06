@@ -3,7 +3,7 @@ import { createFeature, createReducer, on } from '@ngrx/store';
 import { defaultTabsState, TabsState } from '../models/tabs.model';
 import { contextClickedTabs } from '../utils/context-clicked-tabs';
 import { getSelectedTabIndex } from '../utils/selected-tab-index';
-import * as tabsActions from './tabs.actions';
+import { tabsActions } from './tabs.actions';
 
 export const initialState: TabsState = {};
 
@@ -11,7 +11,7 @@ export const gnroTabsFeature = createFeature({
   name: 'gnroTabs',
   reducer: createReducer(
     initialState,
-    on(tabsActions.initTabsConfig, (state, action) => {
+    on(tabsActions.initConfig, (state, action) => {
       const tabsConfig = { ...action.tabsConfig };
       const key = action.tabsId;
       const newState: TabsState = { ...state };
@@ -26,7 +26,7 @@ export const gnroTabsFeature = createFeature({
       };
       return { ...newState };
     }),
-    on(tabsActions.loadTabsConfigSuccess, (state, action) => {
+    on(tabsActions.loadConfigSuccess, (state, action) => {
       const tabsConfig = { ...action.tabsConfig };
       const key = action.tabsId;
       const newState: TabsState = { ...state };
@@ -44,7 +44,7 @@ export const gnroTabsFeature = createFeature({
       }
       return { ...newState };
     }),
-    on(tabsActions.loadTabsOptions, (state, action) => {
+    on(tabsActions.loadOptions, (state, action) => {
       const key = action.tabsId;
       const newState: TabsState = { ...state };
       if (state[key]) {
@@ -59,7 +59,7 @@ export const gnroTabsFeature = createFeature({
       }
       return { ...newState };
     }),
-    on(tabsActions.loadTabsTabsSuccess, (state, action) => {
+    on(tabsActions.loadTabsSuccess, (state, action) => {
       const key = action.tabsId;
       const newState: TabsState = { ...state };
       if (state[key]) {
@@ -88,7 +88,7 @@ export const gnroTabsFeature = createFeature({
       }
       return { ...newState };
     }),
-    on(tabsActions.setAddTab, (state, action) => {
+    on(tabsActions.addTab, (state, action) => {
       const key = action.tabsId;
       const newState: TabsState = { ...state };
       if (state[key]) {
@@ -120,7 +120,7 @@ export const gnroTabsFeature = createFeature({
       }
       return { ...newState };
     }),
-    on(tabsActions.setDragDropTab, (state, action) => {
+    on(tabsActions.dragDropTab, (state, action) => {
       const key = action.tabsId;
       const newState: TabsState = { ...state };
       if (state[key]) {
@@ -139,7 +139,7 @@ export const gnroTabsFeature = createFeature({
       }
       return { ...newState };
     }),
-    on(tabsActions.setContextMenuClicked, (state, action) => {
+    on(tabsActions.contextMenuClicked, (state, action) => {
       const key = action.tabsId;
       const newState: TabsState = { ...state };
       if (state[key]) {
@@ -158,7 +158,7 @@ export const gnroTabsFeature = createFeature({
       }
       return { ...newState };
     }),
-    on(tabsActions.setCloseTab, (state, action) => {
+    on(tabsActions.closeTab, (state, action) => {
       const key = action.tabsId;
       const newState: TabsState = { ...state };
       if (state[key]) {
@@ -177,7 +177,7 @@ export const gnroTabsFeature = createFeature({
       }
       return { ...newState };
     }),
-    on(tabsActions.removeTabsStore, (state, action) => {
+    on(tabsActions.removeStore, (state, action) => {
       const key = action.tabsId;
       const newState: TabsState = { ...state };
       if (state[key]) {

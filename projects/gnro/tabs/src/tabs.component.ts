@@ -36,36 +36,36 @@ import {
 export class GnroTabsComponent implements OnDestroy {
   private readonly tabsFacade = inject(GnroTabsFacade);
   private readonly tabsId = `tab-${uniqueId()}`;
-  tabsConfig$ = this.tabsFacade.getTabsConfig(this.tabsId);
+  tabsConfig$ = this.tabsFacade.getConfig(this.tabsId);
   tabsSetting$ = this.tabsFacade.getSetting(this.tabsId);
-  tabsTabs$ = this.tabsFacade.getTabsTabs(this.tabsId);
+  tabsTabs$ = this.tabsFacade.getTabs(this.tabsId);
   position: GnroPosition = GnroPosition.BOTTOMRIGHT;
   menuItem = defaultContextMenu;
 
   tabsConfig = input.required({
     transform: (value: Partial<GnroTabsConfig>) => {
       const config = { ...defaultTabsConfig, ...value };
-      this.tabsFacade.setTabsConfig(this.tabsId, config);
+      this.tabsFacade.setConfig(this.tabsId, config);
       return config;
     },
   });
   options = input([], {
     transform: (options: GnroTabOption<unknown>[]) => {
-      this.tabsFacade.setTabsOptions(this.tabsId, options);
+      this.tabsFacade.setOptions(this.tabsId, options);
       return options;
     },
   });
   tabs = input([], {
     transform: (tabs: GnroTabConfig<unknown>[]) => {
       if (this.tabsConfig() && !this.tabsConfig().remoteTabs) {
-        this.tabsFacade.setTabsTabs(this.tabsId, tabs);
+        this.tabsFacade.setTabs(this.tabsId, tabs);
       }
       return tabs;
     },
   });
 
   constructor() {
-    this.tabsFacade.initTabsConfig(this.tabsId, defaultTabsConfig);
+    this.tabsFacade.initConfig(this.tabsId, defaultTabsConfig);
   }
 
   onSelectedIndexChange(index: number): void {
@@ -73,15 +73,15 @@ export class GnroTabsComponent implements OnDestroy {
   }
 
   drop(event: CdkDragDrop<GnroTabConfig<unknown>>): void {
-    this.tabsFacade.setDragDropTab(this.tabsId, event.previousIndex, event.currentIndex);
+    this.tabsFacade.dragDropTab(this.tabsId, event.previousIndex, event.currentIndex);
   }
 
   // add tab from left side menu
   addTab(tabItem: GnroTabConfig<unknown>): void {
-    this.tabsFacade.setAddTab(this.tabsId, tabItem);
+    this.tabsFacade.addTab(this.tabsId, tabItem);
   }
 
   ngOnDestroy(): void {
-    this.tabsFacade.clearTabsStore(this.tabsId);
+    this.tabsFacade.clearStore(this.tabsId);
   }
 }

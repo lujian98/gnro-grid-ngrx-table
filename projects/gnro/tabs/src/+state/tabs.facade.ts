@@ -2,69 +2,69 @@ import { inject, Injectable, Signal } from '@angular/core';
 import { GnroMenuConfig } from '@gnro/ui/menu';
 import { Store } from '@ngrx/store';
 import { GnroTabConfig, GnroTabOption, GnroTabsConfig, GnroTabsSetting } from '../models/tabs.model';
-import * as tabsActions from './tabs.actions';
+import { tabsActions } from './tabs.actions';
 import { selectTabsConfig, selectTabsOptions, selectTabsSetting, selectTabsTabs } from './tabs.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class GnroTabsFacade {
   private store = inject(Store);
 
-  initTabsConfig(tabsId: string, tabsConfig: GnroTabsConfig): void {
-    this.store.dispatch(tabsActions.initTabsConfig({ tabsId, tabsConfig }));
+  initConfig(tabsId: string, tabsConfig: GnroTabsConfig): void {
+    this.store.dispatch(tabsActions.initConfig({ tabsId, tabsConfig }));
     if (tabsConfig.remoteConfig) {
-      this.store.dispatch(tabsActions.loadRemoteTabsConfig({ tabsId, tabsConfig }));
+      this.store.dispatch(tabsActions.loadConfig({ tabsId, tabsConfig }));
     }
   }
 
-  setTabsConfig(tabsId: string, tabsConfig: GnroTabsConfig): void {
-    this.store.dispatch(tabsActions.loadTabsConfigSuccess({ tabsId, tabsConfig }));
+  setConfig(tabsId: string, tabsConfig: GnroTabsConfig): void {
+    this.store.dispatch(tabsActions.loadConfigSuccess({ tabsId, tabsConfig }));
   }
 
-  setTabsTabs(tabsId: string, tabs: GnroTabConfig<unknown>[]): void {
-    this.store.dispatch(tabsActions.loadTabsTabsSuccess({ tabsId, tabs }));
+  setTabs(tabsId: string, tabs: GnroTabConfig<unknown>[]): void {
+    this.store.dispatch(tabsActions.loadTabsSuccess({ tabsId, tabs }));
   }
 
-  setTabsOptions(tabsId: string, options: GnroTabOption<unknown>[]): void {
-    this.store.dispatch(tabsActions.loadTabsOptions({ tabsId, options }));
+  setOptions(tabsId: string, options: GnroTabOption<unknown>[]): void {
+    this.store.dispatch(tabsActions.loadOptions({ tabsId, options }));
   }
 
   setSelectedIndex(tabsId: string, index: number): void {
     this.store.dispatch(tabsActions.setSelectedIndex({ tabsId, index }));
   }
 
-  setAddTab(tabsId: string, tab: GnroTabConfig<unknown>): void {
-    this.store.dispatch(tabsActions.setAddTab({ tabsId, tab }));
+  addTab(tabsId: string, tab: GnroTabConfig<unknown>): void {
+    this.store.dispatch(tabsActions.addTab({ tabsId, tab }));
   }
 
-  setDragDropTab(tabsId: string, previousIndex: number, currentIndex: number): void {
-    this.store.dispatch(tabsActions.setDragDropTab({ tabsId, previousIndex, currentIndex }));
+  dragDropTab(tabsId: string, previousIndex: number, currentIndex: number): void {
+    this.store.dispatch(tabsActions.dragDropTab({ tabsId, previousIndex, currentIndex }));
   }
 
-  setContextMenuClicked(tabsId: string, menuItem: GnroMenuConfig, tab: GnroTabConfig<unknown>, index: number): void {
-    this.store.dispatch(tabsActions.setContextMenuClicked({ tabsId, menuItem, tab, index }));
+  contextMenuClicked(tabsId: string, menuItem: GnroMenuConfig, tab: GnroTabConfig<unknown>, index: number): void {
+    this.store.dispatch(tabsActions.contextMenuClicked({ tabsId, menuItem, tab, index }));
   }
 
-  setCloseTab(tabsId: string, tab: GnroTabConfig<unknown>): void {
-    this.store.dispatch(tabsActions.setCloseTab({ tabsId, tab }));
+  closeTab(tabsId: string, tab: GnroTabConfig<unknown>): void {
+    this.store.dispatch(tabsActions.closeTab({ tabsId, tab }));
   }
 
-  clearTabsStore(tabsId: string): void {
-    this.store.dispatch(tabsActions.clearTabsStore({ tabsId }));
+  clearStore(tabsId: string): void {
+    this.store.dispatch(tabsActions.clearStore({ tabsId }));
   }
 
   getSetting(tabsId: string): Signal<GnroTabsSetting> {
     return this.store.selectSignal(selectTabsSetting(tabsId));
   }
 
-  getTabsConfig(tabsId: string): Signal<GnroTabsConfig> {
+  getConfig(tabsId: string): Signal<GnroTabsConfig> {
     return this.store.selectSignal(selectTabsConfig(tabsId));
   }
 
-  getTabsTabs(tabsId: string): Signal<GnroTabConfig<unknown>[]> {
+  getTabs(tabsId: string): Signal<GnroTabConfig<unknown>[]> {
     return this.store.selectSignal(selectTabsTabs(tabsId));
   }
 
-  getTabsOptions(tabsId: string): Signal<GnroTabConfig<unknown>[]> {
+  getOptions(tabsId: string): Signal<GnroTabConfig<unknown>[]> {
     return this.store.selectSignal(selectTabsOptions(tabsId));
   }
 }
