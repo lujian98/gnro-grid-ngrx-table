@@ -43,10 +43,10 @@ export class GnroDashboardEffects {
 
   clearDashboardStore$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(dashboardActions.clearDashboardStore),
+      ofType(dashboardActions.clearStore),
       delay(250), // wait 250 after destory the component to clear data store
       mergeMap(({ dashboardId }) =>
-        of(dashboardId).pipe(map((dashboardId) => dashboardActions.removeDashboardStore({ dashboardId }))),
+        of(dashboardId).pipe(map((dashboardId) => dashboardActions.removeStore({ dashboardId }))),
       ),
     ),
   );

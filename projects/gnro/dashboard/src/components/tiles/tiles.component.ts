@@ -97,6 +97,6 @@ export class GnroTilesComponent<T> implements OnInit {
   private setupTilesLayout(tiles: GnroTile<T>[]): void {
     const gridMap = initGridMap(this.config()); //WARNING initialize gridMap!!!
     const newTiles = setupTilesLayout(tiles, this.config(), gridMap);
-    this.dashboardFacade.loadDashboardGridMapTiles(this.setting().dashboardId, gridMap, newTiles);
+    this.dashboardFacade.loadGridMapTiles(this.setting().dashboardId, gridMap, newTiles);
   }
 }

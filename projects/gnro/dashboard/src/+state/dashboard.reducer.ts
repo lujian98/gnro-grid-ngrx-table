@@ -3,17 +3,15 @@ import { DashboardState, defaultDashboardState } from '../models/dashboard.model
 import { viewportConfig, viewportSetting } from '../utils/viewport-setting';
 import { dashboardActions } from './dashboard.actions';
 
-//export const initialState: DashboardState = {};
-
-function initialState<T>(): DashboardState<T> {
+const initialState = <T>(): DashboardState<T> => {
   return {};
-}
+};
 
 export const gnroDashboardFeature = createFeature({
   name: 'gnroDashboard',
   reducer: createReducer(
     initialState(),
-    on(dashboardActions.initDashboardConfig, (state, action) => {
+    on(dashboardActions.initConfig, (state, action) => {
       const dashboardConfig = { ...action.dashboardConfig };
       const key = action.dashboardId;
       const newState = { ...state };
@@ -29,7 +27,7 @@ export const gnroDashboardFeature = createFeature({
       };
       return { ...newState };
     }),
-    on(dashboardActions.loadDashboardConfigSuccess, (state, action) => {
+    on(dashboardActions.loadConfigSuccess, (state, action) => {
       const dashboardConfig = { ...action.dashboardConfig };
       const key = action.dashboardId;
       const newState = { ...state };
@@ -46,7 +44,7 @@ export const gnroDashboardFeature = createFeature({
       }
       return { ...newState };
     }),
-    on(dashboardActions.loadDashboardOptions, (state, action) => {
+    on(dashboardActions.loadOptions, (state, action) => {
       const key = action.dashboardId;
       const newState = { ...state };
       if (state[key]) {
@@ -61,7 +59,7 @@ export const gnroDashboardFeature = createFeature({
       }
       return { ...newState };
     }),
-    on(dashboardActions.loadDashboardTilesSuccess, (state, action) => {
+    on(dashboardActions.loadTilesSuccess, (state, action) => {
       const key = action.dashboardId;
       const newState = { ...state };
       if (state[key]) {
@@ -90,7 +88,7 @@ export const gnroDashboardFeature = createFeature({
       }
       return { ...newState };
     }),
-    on(dashboardActions.loadDashboardGridMapAndTiles, (state, action) => {
+    on(dashboardActions.loadGridMapAndTiles, (state, action) => {
       const key = action.dashboardId;
       const newState = { ...state };
       if (state[key]) {
@@ -105,7 +103,7 @@ export const gnroDashboardFeature = createFeature({
       }
       return { ...newState };
     }),
-    on(dashboardActions.removeDashboardStore, (state, action) => {
+    on(dashboardActions.removeStore, (state, action) => {
       const key = action.dashboardId;
       const newState = { ...state };
       if (state[key]) {

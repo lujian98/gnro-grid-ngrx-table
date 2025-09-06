@@ -8,35 +8,35 @@ import { selectDashboardConfig, selectDashboardSetting, selectDashboardTiles } f
 export class GnroDashboardFacade {
   private readonly store = inject(Store);
 
-  initDashboardConfig(dashboardId: string, dashboardConfig: GnroDashboardConfig): void {
-    this.store.dispatch(dashboardActions.initDashboardConfig({ dashboardId, dashboardConfig }));
+  initConfig(dashboardId: string, dashboardConfig: GnroDashboardConfig): void {
+    this.store.dispatch(dashboardActions.initConfig({ dashboardId, dashboardConfig }));
     if (dashboardConfig.remoteConfig) {
-      this.store.dispatch(dashboardActions.loadRemoteDashboardConfig({ dashboardId, dashboardConfig }));
+      this.store.dispatch(dashboardActions.loadRemoteConfig({ dashboardId, dashboardConfig }));
     }
   }
 
-  setDashboardConfig(dashboardId: string, dashboardConfig: GnroDashboardConfig): void {
-    this.store.dispatch(dashboardActions.loadDashboardConfigSuccess({ dashboardId, dashboardConfig }));
+  setConfig(dashboardId: string, dashboardConfig: GnroDashboardConfig): void {
+    this.store.dispatch(dashboardActions.loadConfigSuccess({ dashboardId, dashboardConfig }));
   }
 
-  setDashboardOptions<T>(dashboardId: string, options: GnroTileOption<T>[]): void {
-    this.store.dispatch(dashboardActions.loadDashboardOptions({ dashboardId, options }));
+  setOptions<T>(dashboardId: string, options: GnroTileOption<T>[]): void {
+    this.store.dispatch(dashboardActions.loadOptions({ dashboardId, options }));
   }
 
-  setDashboardTiles<T>(dashboardId: string, tiles: GnroTile<T>[]): void {
-    this.store.dispatch(dashboardActions.loadDashboardTilesSuccess({ dashboardId, tiles }));
+  setTiles<T>(dashboardId: string, tiles: GnroTile<T>[]): void {
+    this.store.dispatch(dashboardActions.loadTilesSuccess({ dashboardId, tiles }));
   }
 
-  loadDashboardGridMapTiles<T>(dashboardId: string, gridMap: number[][], tiles: GnroTile<T>[]): void {
-    this.store.dispatch(dashboardActions.loadDashboardGridMapAndTiles({ dashboardId, gridMap, tiles }));
+  loadGridMapTiles<T>(dashboardId: string, gridMap: number[][], tiles: GnroTile<T>[]): void {
+    this.store.dispatch(dashboardActions.loadGridMapAndTiles({ dashboardId, gridMap, tiles }));
   }
 
   setGridViewport(dashboardId: string, width: number, height: number): void {
     this.store.dispatch(dashboardActions.setGridViewport({ dashboardId, width, height }));
   }
 
-  clearDashboardStore(dashboardId: string): void {
-    this.store.dispatch(dashboardActions.clearDashboardStore({ dashboardId }));
+  clearStore(dashboardId: string): void {
+    this.store.dispatch(dashboardActions.clearStore({ dashboardId }));
   }
 
   getSetting(dashboardId: string): Signal<GnroDashboardSetting> {
@@ -47,7 +47,7 @@ export class GnroDashboardFacade {
     return this.store.selectSignal(selectDashboardConfig(dashboardId));
   }
 
-  getDashboardTiles<T>(dashboardId: string): Signal<GnroTile<T>[]> {
+  getTiles<T>(dashboardId: string): Signal<GnroTile<T>[]> {
     return this.store.selectSignal(selectDashboardTiles(dashboardId)) as Signal<GnroTile<T>[]>;
   }
 }

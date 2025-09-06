@@ -41,19 +41,19 @@ export class GnroDashboardComponent<T> implements AfterViewInit, OnDestroy {
   private readonly dashboardId = `dashbard-${uniqueId()}`;
   config$ = this.dashboardFacade.getDashboardConfig(this.dashboardId);
   setting$ = this.dashboardFacade.getSetting(this.dashboardId);
-  tiles$ = this.dashboardFacade.getDashboardTiles(this.dashboardId);
+  tiles$ = this.dashboardFacade.getTiles(this.dashboardId);
   buttons: GnroButtonConfg[] = [GnroBUTTONS.Add, GnroBUTTONS.Remove];
 
   config = input.required({
     transform: (value: Partial<GnroDashboardConfig>) => {
       const config = { ...defaultDashboardConfig, ...value };
-      this.dashboardFacade.setDashboardConfig(this.dashboardId, config);
+      this.dashboardFacade.setConfig(this.dashboardId, config);
       return config;
     },
   });
   options = input([], {
     transform: (options: GnroTileOption<T>[]) => {
-      this.dashboardFacade.setDashboardOptions(this.dashboardId, options);
+      this.dashboardFacade.setOptions(this.dashboardId, options);
       return options;
     },
   });
@@ -61,14 +61,14 @@ export class GnroDashboardComponent<T> implements AfterViewInit, OnDestroy {
     transform: (items: GnroTile<T>[]) => {
       const tiles = items.map((tile) => ({ ...defaultTileConfig, ...tile }));
       if (!this.config().remoteTiles) {
-        this.dashboardFacade.setDashboardTiles(this.dashboardId, tiles);
+        this.dashboardFacade.setTiles(this.dashboardId, tiles);
       }
       return tiles;
     },
   });
 
   constructor() {
-    this.dashboardFacade.initDashboardConfig(this.dashboardId, defaultDashboardConfig);
+    this.dashboardFacade.initConfig(this.dashboardId, defaultDashboardConfig);
   }
 
   ngAfterViewInit(): void {
@@ -88,7 +88,7 @@ export class GnroDashboardComponent<T> implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.dashboardFacade.clearDashboardStore(this.dashboardId);
+    this.dashboardFacade.clearStore(this.dashboardId);
   }
 
   @HostListener('window:resize', ['$event'])
