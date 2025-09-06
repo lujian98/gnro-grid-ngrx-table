@@ -14,7 +14,7 @@ export class GnroMessageEffects {
 
   updateToastMessage$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(GnroMessageActions.showToast),
+      ofType(GnroMessageActions.show),
       concatMap(({ action, keyName, configType }) => {
         this.dialogService.open(GnroMessageComponent, {
           context: {
@@ -30,7 +30,7 @@ export class GnroMessageEffects {
           hasBackdrop: false,
           closeOnBackdropClick: false,
         });
-        return of(action).pipe(map(() => GnroMessageActions.hideToast()));
+        return of(action).pipe(map(() => GnroMessageActions.end()));
       }),
     ),
   );

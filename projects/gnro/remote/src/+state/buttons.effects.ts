@@ -17,7 +17,7 @@ export class GnroRemoteButtonsEffects {
         console.log(' remote button action =', button);
         return this.remoteButtonsService.remoteAction(button, keyName, configType, formData).pipe(
           map(({ keyName, configType }) => {
-            return GnroMessageActions.showToast({ action: button.remoteAction!, keyName, configType });
+            return GnroMessageActions.show({ action: button.remoteAction!, keyName, configType });
           }),
         );
       }),

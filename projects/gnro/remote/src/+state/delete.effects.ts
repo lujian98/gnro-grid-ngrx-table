@@ -69,7 +69,7 @@ export class GnroRemoteDeleteEffects {
       ofType(deleteSelectedSucessfulAction),
       concatMap(({ stateId, keyName }) =>
         of({ stateId, keyName }).pipe(
-          map(() => GnroMessageActions.showToast({ action: 'Delete', keyName: keyName, configType: '' })),
+          map(() => GnroMessageActions.show({ action: 'Delete', keyName: keyName, configType: '' })),
         ),
       ),
     ),

@@ -81,9 +81,7 @@ export class GnroFormEffects {
       ofType(formActions.saveFormDataSuccessAction),
       concatMap(({ formConfig, formData }) =>
         of(formData).pipe(
-          map(() =>
-            GnroMessageActions.showToast({ action: 'Update', keyName: 'formData', configType: formConfig.urlKey }),
-          ),
+          map(() => GnroMessageActions.show({ action: 'Update', keyName: 'formData', configType: formConfig.urlKey })),
         ),
       ),
     ),
