@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { saveFormDataSuccessAction } from '@gnro/ui/form';
+import { formActions } from '@gnro/ui/form';
 import { GnroDialogService } from '@gnro/ui/overlay';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -36,7 +36,7 @@ export class GnroFormWindowEffects {
 
   saveFormDataSuccess$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(saveFormDataSuccessAction),
+      ofType(formActions.saveFormData),
       concatMap(({ formConfig }) =>
         of({ formConfig }).pipe(
           map(({ formConfig }) => {

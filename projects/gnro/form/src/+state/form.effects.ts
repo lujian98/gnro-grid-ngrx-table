@@ -5,7 +5,7 @@ import { GnroMessageActions } from '@gnro/ui/message';
 import { Store } from '@ngrx/store';
 import { concatMap, delay, map, mergeMap, of } from 'rxjs';
 import { GnroFormService } from '../services/form.service';
-import * as formActions from './form.actions';
+import { formActions } from './form.actions';
 
 @Injectable()
 export class GnroFormEffects {
@@ -22,7 +22,7 @@ export class GnroFormEffects {
           map((formConfig) => {
             if (formConfig.remoteFieldsConfig) {
               this.store.dispatch(formActions.loadRemoteFormConfigSuccess({ formId, formConfig }));
-              return formActions.loadFormFieldsConfig({ formId, formConfig });
+              return formActions.loadRemoteFormFieldsConfig({ formId, formConfig });
             } else {
               return formActions.loadRemoteFormConfigSuccess({ formId, formConfig });
             }
@@ -32,17 +32,17 @@ export class GnroFormEffects {
     ),
   );
 
-  loadFormFieldsConfig$ = createEffect(() =>
+  loadRemoteFormFieldsConfig$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(formActions.loadFormFieldsConfig),
+      ofType(formActions.loadRemoteFormFieldsConfig),
       concatMap(({ formId, formConfig }) => {
         return this.formService.getFormFieldsConfig(formConfig).pipe(
           map((formFields) => {
             if (formConfig.remoteFormData) {
-              this.store.dispatch(formActions.loadFormFieldsConfigSuccess({ formId, formConfig, formFields }));
+              this.store.dispatch(formActions.loadRemoteFormFieldsConfigSuccess({ formId, formConfig, formFields }));
               return formActions.getFormData({ formId, formConfig });
             } else {
-              return formActions.loadFormFieldsConfigSuccess({ formId, formConfig, formFields });
+              return formActions.loadRemoteFormFieldsConfigSuccess({ formId, formConfig, formFields });
             }
           }),
         );
@@ -69,7 +69,7 @@ export class GnroFormEffects {
       concatMap(({ formId, formConfig, formData }) => {
         return this.formService.saveFormData(formConfig, formData).pipe(
           map(({ formConfig, formData }) => {
-            return formActions.saveFormDataSuccessAction({ formId, formConfig, formData });
+            return formActions.saveFormDataSuccess({ formId, formConfig, formData });
           }),
         );
       }),
@@ -78,7 +78,7 @@ export class GnroFormEffects {
 
   saveFormDataSuccess$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(formActions.saveFormDataSuccessAction),
+      ofType(formActions.saveFormDataSuccess),
       concatMap(({ formConfig, formData }) =>
         of(formData).pipe(
           map(() => GnroMessageActions.show({ action: 'Update', keyName: 'formData', configType: formConfig.urlKey })),
@@ -104,9 +104,9 @@ export class GnroFormEffects {
 
   clearFormDataStore$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(formActions.clearFormDataStore),
+      ofType(formActions.clearStore),
       delay(250), // wait 250 after destory the component to clear data store
-      mergeMap(({ formId }) => of(formId).pipe(map((formId) => formActions.removeFormDataStore({ formId })))),
+      mergeMap(({ formId }) => of(formId).pipe(map((formId) => formActions.removeStore({ formId })))),
     ),
   );
 }

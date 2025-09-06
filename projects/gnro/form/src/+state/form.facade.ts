@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { GnroButtonConfg } from '@gnro/ui/core';
 import { GnroFormConfig, GnroFormSetting } from '../models/form.model';
 import { GnroFormField } from '@gnro/ui/fields';
-import * as formActions from './form.actions';
+import { formActions } from './form.actions';
 import { selectFormConfig, selectFormFieldsConfig, selectFormData, selectFormSetting } from './form.selectors';
 
 @Injectable({ providedIn: 'root' })
@@ -11,17 +11,17 @@ export class GnroFormFacade {
   private readonly store = inject(Store);
 
   initFormConfig(formId: string, formConfig: GnroFormConfig): void {
-    this.store.dispatch(formActions.initFormConfig({ formId, formConfig }));
+    this.store.dispatch(formActions.initConfig({ formId, formConfig }));
 
     if (formConfig.remoteFormConfig) {
       this.store.dispatch(formActions.loadRemoteFormConfig({ formId, formConfig }));
     } else if (formConfig.remoteFieldsConfig) {
-      this.store.dispatch(formActions.loadFormFieldsConfig({ formId, formConfig }));
+      this.store.dispatch(formActions.loadRemoteFormFieldsConfig({ formId, formConfig }));
     }
   }
 
   setFormFieldsConfig(formId: string, formConfig: GnroFormConfig, formFields: GnroFormField[]): void {
-    this.store.dispatch(formActions.loadFormFieldsConfigSuccess({ formId, formConfig, formFields }));
+    this.store.dispatch(formActions.loadRemoteFormFieldsConfigSuccess({ formId, formConfig, formFields }));
     if (formConfig.remoteFormData) {
       this.store.dispatch(formActions.getFormData({ formId, formConfig }));
     }
@@ -53,7 +53,7 @@ export class GnroFormFacade {
   }*/
 
   clearformDataStore(formId: string): void {
-    this.store.dispatch(formActions.clearFormDataStore({ formId }));
+    this.store.dispatch(formActions.clearStore({ formId }));
   }
 
   getFormConfig(formId: string): Signal<GnroFormConfig> {

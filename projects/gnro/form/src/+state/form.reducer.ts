@@ -1,6 +1,6 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { GnroBUTTONS, GnroButtonConfg, GnroButtonType } from '@gnro/ui/core';
-import * as formActions from './form.actions';
+import { formActions } from './form.actions';
 import { FormState } from '../models/form.model';
 import { defaultFormState } from '../models/default-form';
 import { GnroFormField, GnroFieldsetConfig, defaultBaseField } from '@gnro/ui/fields';
@@ -59,7 +59,7 @@ export const gnroFormFeature = createFeature({
   name: 'gnroForm',
   reducer: createReducer(
     initialState,
-    on(formActions.initFormConfig, (state, action) => {
+    on(formActions.initConfig, (state, action) => {
       const key = action.formId;
       const newState: FormState = { ...state };
       newState[key] = {
@@ -86,7 +86,7 @@ export const gnroFormFeature = createFeature({
       }
       return { ...newState };
     }),
-    on(formActions.loadFormFieldsConfigSuccess, (state, action) => {
+    on(formActions.loadRemoteFormFieldsConfigSuccess, (state, action) => {
       const key = action.formId;
       const newState: FormState = { ...state };
       if (state[key]) {
@@ -127,7 +127,7 @@ export const gnroFormFeature = createFeature({
       }
       return { ...newState };
     }),
-    on(formActions.saveFormDataSuccessAction, (state, action) => {
+    on(formActions.saveFormDataSuccess, (state, action) => {
       const key = action.formId;
       const newState: FormState = { ...state };
       if (state[key]) {
@@ -138,7 +138,7 @@ export const gnroFormFeature = createFeature({
       }
       return { ...newState };
     }),
-    on(formActions.removeFormDataStore, (state, action) => {
+    on(formActions.removeStore, (state, action) => {
       const key = action.formId;
       const newState: FormState = { ...state };
       if (state[key]) {
