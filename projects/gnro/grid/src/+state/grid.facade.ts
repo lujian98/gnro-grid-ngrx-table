@@ -36,7 +36,7 @@ export class GnroGridFacade {
   private readonly store = inject(Store);
   private readonly backendService = inject(GnroBackendService);
 
-  initGridConfig(gridId: string, gridConfig: GnroGridConfig, gridType: string): void {
+  initConfig(gridId: string, gridConfig: GnroGridConfig, gridType: string): void {
     this.store.dispatch(gridActions.initConfig({ gridId, gridConfig, gridType }));
     if (gridConfig.remoteGridConfig) {
       this.store.dispatch(gridActions.loadConfig({ gridId, gridConfig }));
@@ -49,15 +49,11 @@ export class GnroGridFacade {
 
   initRowGroup(gridId: string, gridConfig: GnroGridConfig): void {
     if (gridConfig.rowGroupField) {
-      this.setGridGroupBy(gridId, gridConfig, gridConfig.rowGroupField);
+      this.setGroupBy(gridId, gridConfig, gridConfig.rowGroupField);
     }
   }
 
-  setGridColumnsConfig(
-    gridConfig: GnroGridConfig,
-    gridSetting: GnroGridSetting,
-    columnsConfig: GnroColumnConfig[],
-  ): void {
+  setColumnsConfig(gridConfig: GnroGridConfig, gridSetting: GnroGridSetting, columnsConfig: GnroColumnConfig[]): void {
     const gridId = gridSetting.gridId;
     const isTreeGrid = gridSetting.isTreeGrid;
     this.store.dispatch(gridActions.loadColumnsConfigSuccess({ gridId, gridConfig, isTreeGrid, columnsConfig }));
@@ -73,7 +69,7 @@ export class GnroGridFacade {
     const gridId = gridSetting.gridId;
     this.store.dispatch(gridActions.setViewportPageSize({ gridId, gridConfig, pageSize, viewportWidth }));
     if (gridSetting.viewportReady && loadData && !gridSetting.isTreeGrid) {
-      this.getGridData(gridId, gridSetting);
+      this.getData(gridId, gridSetting);
     }
   }
 
@@ -91,28 +87,24 @@ export class GnroGridFacade {
     }
   }
 
-  setGridSortFields(gridConfig: GnroGridConfig, gridSetting: GnroGridSetting, sortFields: GnroSortField[]): void {
+  setSortFields(gridConfig: GnroGridConfig, gridSetting: GnroGridSetting, sortFields: GnroSortField[]): void {
     const gridId = gridSetting.gridId;
     const isTreeGrid = gridSetting.isTreeGrid;
     sortFields = this.checkGroupSortField(gridConfig, sortFields);
     this.store.dispatch(gridActions.setSortFields({ gridId, gridConfig, isTreeGrid, sortFields }));
-    this.getGridData(gridId, gridSetting);
+    this.getData(gridId, gridSetting);
   }
 
-  setGridColumnFilters(
-    gridConfig: GnroGridConfig,
-    gridSetting: GnroGridSetting,
-    columnFilters: GnroColumnFilter[],
-  ): void {
+  setColumnFilters(gridConfig: GnroGridConfig, gridSetting: GnroGridSetting, columnFilters: GnroColumnFilter[]): void {
     const gridId = gridSetting.gridId;
     const isTreeGrid = gridSetting.isTreeGrid;
     this.store.dispatch(gridActions.setColumnFilters({ gridId, gridConfig, isTreeGrid, columnFilters }));
     //if (!gridSetting.columnUpdating) {
-    this.getGridData(gridId, gridSetting);
+    this.getData(gridId, gridSetting);
     //}
   }
 
-  setGridColumnConfig(gridId: string, columnsConfig: GnroColumnConfig): void {
+  setColumnConfig(gridId: string, columnsConfig: GnroColumnConfig): void {
     this.store.dispatch(gridActions.setColumnsConfig({ gridId, columnsConfig }));
   }
 
@@ -132,13 +124,13 @@ export class GnroGridFacade {
     this.store.dispatch(gridActions.setSelectRow({ gridId, record }));
   }
 
-  setGridGroupBy(gridId: string, gridConfig: GnroGridConfig, rowGroupField: GnroRowGroupField): void {
+  setGroupBy(gridId: string, gridConfig: GnroGridConfig, rowGroupField: GnroRowGroupField): void {
     this.store.dispatch(gridActions.setUnGroupBy({ gridId, gridConfig }));
     const sortFields = this.getGroupSortField(gridConfig, rowGroupField);
     this.store.dispatch(gridActions.setGroupBy({ gridId, gridConfig, rowGroupField }));
     const isTreeGrid = false;
     this.store.dispatch(gridActions.setSortFields({ gridId, gridConfig, isTreeGrid, sortFields }));
-    this.dispatchGridData(gridId);
+    this.dispatchGetData(gridId);
   }
 
   private checkGroupSortField(gridConfig: GnroGridConfig, sortFields: GnroSortField[]): GnroSortField[] {
@@ -175,29 +167,29 @@ export class GnroGridFacade {
     this.store.dispatch(gridActions.setToggleRowGroup({ gridId, rowGroup }));
   }
 
-  setGridUnGroupBy(gridId: string, gridConfig: GnroGridConfig): void {
+  setUnGroupBy(gridId: string, gridConfig: GnroGridConfig): void {
     this.store.dispatch(gridActions.setUnGroupBy({ gridId, gridConfig }));
   }
 
-  setGridEditable(gridId: string, gridEditable: boolean): void {
+  setEditable(gridId: string, gridEditable: boolean): void {
     this.store.dispatch(gridActions.setEditable({ gridId, gridEditable }));
   }
 
-  setGridRestEdit(gridId: string, restEdit: boolean): void {
+  setResetEdit(gridId: string, restEdit: boolean): void {
     this.store.dispatch(gridActions.setResetEdit({ gridId, restEdit }));
   }
 
-  setGridRecordModified(gridId: string, modified: GnroCellEdit<unknown>): void {
+  setRecordModified(gridId: string, modified: GnroCellEdit<unknown>): void {
     this.store.dispatch(gridActions.setRecordModified({ gridId, modified }));
   }
 
-  saveGridModifiedRecords(gridId: string): void {
+  saveModifiedRecords(gridId: string): void {
     this.store.dispatch(gridActions.saveModifiedRecords({ gridId }));
   }
 
-  getGridPageData(gridId: string, page: number): void {
+  getPageData(gridId: string, page: number): void {
     this.store.dispatch(gridActions.setViewportPage({ gridId, page }));
-    this.dispatchGridData(gridId);
+    this.dispatchGetData(gridId);
   }
 
   setGridScrollIndex(gridId: string, scrollIndex: number): void {
@@ -205,17 +197,17 @@ export class GnroGridFacade {
   }
 
   refresh(gridId: string): void {
-    if (this.getGridConfig(gridId)().virtualScroll) {
-      this.getGridPageData(gridId, 1);
+    if (this.getConfig(gridId)().virtualScroll) {
+      this.getPageData(gridId, 1);
     } else {
-      this.getGridData(gridId, this.getSetting(gridId)());
+      this.getData(gridId, this.getSetting(gridId)());
     }
   }
 
-  getGridData(gridId: string, gridSetting: GnroGridSetting): void {
+  getData(gridId: string, gridSetting: GnroGridSetting): void {
     if (!gridSetting.isTreeGrid) {
       if (gridSetting.lastUpdateTime) {
-        this.dispatchGridData(gridId);
+        this.dispatchGetData(gridId);
       } else {
         // make sure first time to use load
         this.store.dispatch(gridActions.getConcatData({ gridId }));
@@ -225,20 +217,20 @@ export class GnroGridFacade {
     }
   }
 
-  private dispatchGridData(gridId: string): void {
+  private dispatchGetData(gridId: string): void {
     this.store.dispatch(gridActions.getData({ gridId }));
   }
 
-  setGridInMemoryData(gridId: string, gridConfig: GnroGridConfig, gridData: GnroGridData<object>): void {
+  setInMemoryData(gridId: string, gridConfig: GnroGridConfig, gridData: GnroGridData<object>): void {
     this.store.dispatch(gridActions.setInMemoryData({ gridId, gridConfig, gridData }));
-    this.dispatchGridData(gridId);
+    this.dispatchGetData(gridId);
   }
 
-  clearGridDataStore(gridId: string): void {
+  clearStore(gridId: string): void {
     this.store.dispatch(gridActions.clearStore({ gridId }));
   }
 
-  getGridConfig(gridId: string): Signal<GnroGridConfig> {
+  getConfig(gridId: string): Signal<GnroGridConfig> {
     return this.store.selectSignal(selectGridConfig(gridId));
   }
 
@@ -254,11 +246,11 @@ export class GnroGridFacade {
     return this.store.selectSignal(selectFormWindowConfig(gridId));
   }
 
-  getGridModifiedRecords(gridId: string): Signal<{ [key: string]: unknown }[]> {
+  getModifiedRecords(gridId: string): Signal<{ [key: string]: unknown }[]> {
     return this.store.selectSignal(selectGridModifiedRecords(gridId)) as Signal<{ [key: string]: unknown }[]>;
   }
 
-  getGridSignalData(gridId: string): Signal<object[]> {
+  getSignalData(gridId: string): Signal<object[]> {
     return this.store.selectSignal(selectGridData(gridId));
   }
 
@@ -266,7 +258,7 @@ export class GnroGridFacade {
     return this.store.selectSignal(selectRowSelection(gridId));
   }
 
-  getGridInMemoryData<T>(gridId: string): Signal<T[]> {
+  getInMemoryData<T>(gridId: string): Signal<T[]> {
     return this.store.selectSignal(selectGridInMemoryData(gridId)) as Signal<T[]>;
   }
 
@@ -277,24 +269,24 @@ export class GnroGridFacade {
   openButtonClick(gridId: string): void {
     const selected = this.getRowSelection(gridId)()?.selection.selected;
     if (selected && selected.length > 0) {
-      this.openGridFormWindow(gridId, selected[0], false);
+      this.openFormWindow(gridId, selected[0], false);
     }
   }
 
   rowDblClick(gridId: string, record: object): void {
     this.store.dispatch(gridActions.setSelectRow({ gridId, record }));
-    this.openGridFormWindow(gridId, record, false);
+    this.openFormWindow(gridId, record, false);
   }
 
-  addNewGridRecord(gridId: string): void {
+  addNewRecord(gridId: string): void {
     const record = this.getSelectedRecord(gridId);
-    this.openGridFormWindow(gridId, record, true);
+    this.openFormWindow(gridId, record, true);
   }
 
-  deleteGridRecords(gridId: string): void {
+  deleteRecords(gridId: string): void {
     const data = this.getRowSelection(gridId)()?.selection.selected;
     if (data && data.length > 0) {
-      const gridConfig = this.getGridConfig(gridId)();
+      const gridConfig = this.getConfig(gridId)();
       const keyName = gridConfig.urlKey;
       const recordKey = gridConfig.recordKey;
       const selected = data.map((item: object) => ({ [recordKey]: item[recordKey as keyof typeof item] }));
@@ -304,7 +296,7 @@ export class GnroGridFacade {
 
   exports(gridId: string): void {
     this.store.dispatch(gridActions.saveConfigs({ gridId }));
-    const gridConfig = this.getGridConfig(gridId)();
+    const gridConfig = this.getConfig(gridId)();
     const columns = this.getColumnsConfig(gridId)();
     let params = this.backendService.getParams(gridConfig.urlKey, 'exports');
     params = filterHttpParams(gridConfig.columnFilters, columns, params);
@@ -324,7 +316,7 @@ export class GnroGridFacade {
     const selected = this.getRowSelection(gridId)()?.selection.selected;
     if (selected && selected.length > 0) {
       const record = selected[0];
-      const gridConfig = this.getGridConfig(gridId)();
+      const gridConfig = this.getConfig(gridId)();
       return {
         ...record,
         [gridConfig.recordKey]: undefined,
@@ -332,7 +324,7 @@ export class GnroGridFacade {
     }
     return {};
   }
-  private openGridFormWindow(stateId: string, values: object, editing: boolean): void {
+  private openFormWindow(stateId: string, values: object, editing: boolean): void {
     const config = this.getFormWindowConfig(stateId)();
     if (config) {
       const formWindowConfig = {

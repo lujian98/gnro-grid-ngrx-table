@@ -23,7 +23,7 @@ export class GnroGridColumnMenuComponent {
   set gridId(val: string) {
     this._gridId = val;
     if (!this.gridConfig$) {
-      this.gridConfig$ = this.gridFacade.getGridConfig(this.gridId);
+      this.gridConfig$ = this.gridFacade.getConfig(this.gridId);
     }
     if (!this.gridSetting$) {
       this.gridSetting$ = this.gridFacade.getSetting(this.gridId);
@@ -136,9 +136,9 @@ export class GnroGridColumnMenuComponent {
       this.columnSort(item.name);
     } else if (item.name === 'groupBy') {
       const rowGroupField: GnroRowGroupField = { field: this.column.name, dir: 'asc' };
-      this.gridFacade.setGridGroupBy(this.gridId, this.gridConfig$(), rowGroupField);
+      this.gridFacade.setGroupBy(this.gridId, this.gridConfig$(), rowGroupField);
     } else if (item.name === 'unGroupBy') {
-      this.gridFacade.setGridUnGroupBy(this.gridId, this.gridConfig$());
+      this.gridFacade.setUnGroupBy(this.gridId, this.gridConfig$());
     } else if (item.name === 'sticky') {
       this.columnSticky(true, false);
     } else if (item.name === 'stickyEnd') {
@@ -168,7 +168,7 @@ export class GnroGridColumnMenuComponent {
 
   private columnSort(dir: string): void {
     const sort = { field: this.column.name, dir: dir };
-    this.gridFacade.setGridSortFields(this.gridConfig$(), this.gridSetting$(), [sort]);
+    this.gridFacade.setSortFields(this.gridConfig$(), this.gridSetting$(), [sort]);
   }
 
   private columnHideShow(values: { [key: string]: boolean }, columns: GnroColumnConfig[]): void {
@@ -179,7 +179,7 @@ export class GnroGridColumnMenuComponent {
     })!;
     if (column) {
       const col: GnroColumnConfig = { ...column, hidden: !values[column.name] };
-      this.gridFacade.setGridColumnConfig(this.gridId, col);
+      this.gridFacade.setColumnConfig(this.gridId, col);
     }
   }
 
@@ -203,7 +203,7 @@ export class GnroGridColumnMenuComponent {
   }
 
   private setGridColumnsConfig(columns: GnroColumnConfig[]): void {
-    this.gridFacade.setGridColumnsConfig(this.gridConfig$(), this.gridSetting$(), columns);
+    this.gridFacade.setColumnsConfig(this.gridConfig$(), this.gridSetting$(), columns);
   }
 
   private isSameGroup(col: GnroColumnConfig): boolean {

@@ -114,7 +114,7 @@ export class GnroGridViewComponent<T> implements AfterViewInit {
       const pageSize = this.gridConfig().pageSize;
       const displayTotal = (nextPage - 1) * pageSize;
       if (displayTotal - index < pageSize - 10 && displayTotal < this.gridSetting().totalCounts) {
-        this.gridFacade.getGridPageData(this.gridSetting().gridId, nextPage);
+        this.gridFacade.getPageData(this.gridSetting().gridId, nextPage);
       } else {
         this.gridFacade.setGridScrollIndex(this.gridSetting().gridId, this.scrollIndex);
       }
@@ -128,7 +128,7 @@ export class GnroGridViewComponent<T> implements AfterViewInit {
       const displayTotal = (nextPage - 1) * pageSize;
       const actualDisplay = displayTotal - rowGroups.totalHiddenCounts;
       if (actualDisplay - this.scrollIndex < pageSize - 10 && displayTotal < this.gridSetting().totalCounts) {
-        this.gridFacade.getGridPageData(this.gridSetting().gridId, nextPage);
+        this.gridFacade.getPageData(this.gridSetting().gridId, nextPage);
       }
     }
   }

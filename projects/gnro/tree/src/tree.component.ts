@@ -28,7 +28,7 @@ export class GnroTreeComponent<T> implements OnDestroy {
   private readonly treeFacade = inject(GnroTreeFacade);
   private readonly gridFacade = inject(GnroGridFacade);
   private treeId = `tree-${uniqueId()}`;
-  treeConfig$ = this.gridFacade.getGridConfig(this.treeId);
+  treeConfig$ = this.gridFacade.getConfig(this.treeId);
   gridSetting$ = this.gridFacade.getSetting(this.treeId); // Only support gridSetting for now
   columnsConfig$ = this.gridFacade.getColumnsConfig(this.treeId);
   treeData$ = this.treeFacade.getTreeSignalData(this.treeId);
@@ -52,7 +52,7 @@ export class GnroTreeComponent<T> implements OnDestroy {
     transform: (columnsConfig: GnroColumnConfig[]) => {
       if (!this.treeConfig$().remoteColumnsConfig && columnsConfig.length > 0) {
         const treeSetting = { ...defaultTreeSetting, gridId: this.treeId };
-        this.gridFacade.setGridColumnsConfig(this.treeConfig$(), treeSetting, columnsConfig);
+        this.gridFacade.setColumnsConfig(this.treeConfig$(), treeSetting, columnsConfig);
       }
       return columnsConfig;
     },
@@ -71,7 +71,7 @@ export class GnroTreeComponent<T> implements OnDestroy {
   }
 
   private initGridConfig(treeConfig: GnroTreeConfig): void {
-    this.gridFacade.initGridConfig(this.treeId, treeConfig, 'treeGrid');
+    this.gridFacade.initConfig(this.treeId, treeConfig, 'treeGrid');
     this.treeFacade.initTreeConfig(this.treeId, treeConfig);
   }
 
@@ -81,7 +81,7 @@ export class GnroTreeComponent<T> implements OnDestroy {
         this.treeFacade.getTreeData(this.treeId, this.treeConfig$());
         break;
       case GnroButtonType.ClearAllFilters:
-        this.gridFacade.setGridColumnFilters(this.treeConfig$(), this.gridSetting$(), []);
+        this.gridFacade.setColumnFilters(this.treeConfig$(), this.gridSetting$(), []);
         break;
 
       case GnroButtonType.ExpandAll:
@@ -96,7 +96,7 @@ export class GnroTreeComponent<T> implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.gridFacade.clearGridDataStore(this.treeId);
+    this.gridFacade.clearStore(this.treeId);
     this.treeFacade.clearTreeDataStore(this.treeId);
   }
 }

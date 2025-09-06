@@ -91,6 +91,6 @@ export class GnroFieldFilterComponent implements AfterViewInit {
         value: this.value,
       });
     }
-    this.gridFacade.setGridColumnFilters(this.gridConfig, this.gridSetting, columnFilters);
+    this.gridFacade.setColumnFilters(this.gridConfig, this.gridSetting, columnFilters);
   }
 }

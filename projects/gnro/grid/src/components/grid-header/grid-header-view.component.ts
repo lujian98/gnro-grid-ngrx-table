@@ -93,7 +93,7 @@ export class GnroGridHeaderViewComponent {
 
     this.resizedColumns.set(this.columns());
     this.isResizing.set(false);
-    this.gridFacade.setGridColumnsConfig(this.gridConfig(), this.gridSetting(), columns);
+    this.gridFacade.setColumnsConfig(this.gridConfig(), this.gridSetting(), columns);
   }
 
   onColumnDragDrop(events: DragDropEvent): void {
@@ -136,14 +136,14 @@ export class GnroGridHeaderViewComponent {
 
   private moveGroupColumn(previousIndex: number, currentIndex: number): void {
     const columns = groupColumnMove(previousIndex, currentIndex, [...this.columns()]);
-    this.gridFacade.setGridColumnsConfig(this.gridConfig(), this.gridSetting(), columns);
+    this.gridFacade.setColumnsConfig(this.gridConfig(), this.gridSetting(), columns);
     this.columns.set(columns);
   }
 
   private moveColumn(previousIndex: number, currentIndex: number): void {
     const columns = [...this.columns()];
     moveItemInArray(columns, previousIndex, currentIndex);
-    this.gridFacade.setGridColumnsConfig(this.gridConfig(), this.gridSetting(), columns);
+    this.gridFacade.setColumnsConfig(this.gridConfig(), this.gridSetting(), columns);
   }
 
   private indexCorrection(idx: number): number {

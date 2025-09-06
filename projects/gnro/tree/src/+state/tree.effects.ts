@@ -22,7 +22,7 @@ export class GnroTreeEffects {
       debounceTime(10), // debounce with switchMap may lose data if two or more tree pull, but will cancel previous call
       switchMap((action) => {
         const treeId = action.treeId;
-        const treeConfig = this.gridFacade.getGridConfig(treeId)();
+        const treeConfig = this.gridFacade.getConfig(treeId)();
         const columns = this.gridFacade.getColumnsConfig(treeId)();
         return this.treeRemoteService.getTreeRemoteData(treeConfig, columns).pipe(
           map((treeData) => {
@@ -39,7 +39,7 @@ export class GnroTreeEffects {
       ofType(treeActions.getConcatTreeData),
       concatMap((action) => {
         const treeId = action.treeId;
-        const treeConfig = this.gridFacade.getGridConfig(treeId)();
+        const treeConfig = this.gridFacade.getConfig(treeId)();
         const columns = this.gridFacade.getColumnsConfig(treeId)();
         const inMemoryData = this.treeFacade.getTreeInMemoryData(treeId)();
         if (treeConfig.remoteGridData) {
@@ -68,7 +68,7 @@ export class GnroTreeEffects {
       debounceTime(10), // debounce with switchMap may lose data if two or more tree pull, but will cancel previous call
       switchMap((action) => {
         const treeId = action.treeId;
-        const treeConfig = this.gridFacade.getGridConfig(treeId)();
+        const treeConfig = this.gridFacade.getConfig(treeId)();
         const columns = this.gridFacade.getColumnsConfig(treeId)();
         const inMemoryData = this.treeFacade.getTreeInMemoryData(treeId)();
         return this.treeinMemoryService.getTreeData(treeConfig, columns, inMemoryData).pipe(

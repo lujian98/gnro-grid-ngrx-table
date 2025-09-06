@@ -43,11 +43,11 @@ export class GnroGridComponent<T> implements OnInit, OnDestroy {
   private readonly gridFacade = inject(GnroGridFacade);
   private readonly tasksService = inject(GnroTasksService);
   private gridId = `grid-${uniqueId()}`;
-  gridConfig$ = this.gridFacade.getGridConfig(this.gridId);
+  gridConfig$ = this.gridFacade.getConfig(this.gridId);
   gridSetting$ = this.gridFacade.getSetting(this.gridId);
   columnsConfig$ = this.gridFacade.getColumnsConfig(this.gridId);
   rowSelection$ = this.gridFacade.getRowSelection(this.gridId);
-  gridData$ = this.gridFacade.getGridSignalData(this.gridId);
+  gridData$ = this.gridFacade.getSignalData(this.gridId);
   buttons = input<GnroButtonConfg[]>([GnroBUTTONS.Refresh, GnroBUTTONS.ClearAllFilters]);
   gridConfig = input(defaultGridConfig, {
     transform: (value: Partial<GnroGridConfig>) => {
@@ -60,7 +60,7 @@ export class GnroGridComponent<T> implements OnInit, OnDestroy {
     transform: (columnsConfig: GnroColumnConfig[]) => {
       if (!this.gridConfig$().remoteColumnsConfig && columnsConfig.length > 0) {
         const gridSetting = { ...defaultGridSetting, gridId: this.gridId };
-        this.gridFacade.setGridColumnsConfig(this.gridConfig$(), gridSetting, columnsConfig);
+        this.gridFacade.setColumnsConfig(this.gridConfig$(), gridSetting, columnsConfig);
       }
       return columnsConfig;
     },
@@ -68,7 +68,7 @@ export class GnroGridComponent<T> implements OnInit, OnDestroy {
   gridData = input(undefined, {
     transform: (gridData: GnroGridData<T> | undefined) => {
       if (!this.gridConfig$().remoteGridData && gridData) {
-        this.gridFacade.setGridInMemoryData(this.gridId, this.gridConfig$(), gridData as GnroGridData<object>);
+        this.gridFacade.setInMemoryData(this.gridId, this.gridConfig$(), gridData as GnroGridData<object>);
       }
       return gridData;
     },
@@ -102,7 +102,7 @@ export class GnroGridComponent<T> implements OnInit, OnDestroy {
   }
 
   private initGridConfig(config: GnroGridConfig): void {
-    this.gridFacade.initGridConfig(this.gridId, config, 'grid');
+    this.gridFacade.initConfig(this.gridId, config, 'grid');
     this.gnroGridId.emit(this.gridId);
   }
 
@@ -152,27 +152,27 @@ export class GnroGridComponent<T> implements OnInit, OnDestroy {
           */
         break;
       case GnroButtonType.ClearAllFilters:
-        this.gridFacade.setGridColumnFilters(this.gridConfig$(), this.gridSetting$(), []);
+        this.gridFacade.setColumnFilters(this.gridConfig$(), this.gridSetting$(), []);
         break;
       case GnroButtonType.Add:
         if (this.gridConfig().hasDetailView) {
-          this.gridFacade.addNewGridRecord(this.gridId);
+          this.gridFacade.addNewRecord(this.gridId);
         }
         break;
       case GnroButtonType.Delete:
-        this.gridFacade.deleteGridRecords(this.gridId);
+        this.gridFacade.deleteRecords(this.gridId);
         break;
       case GnroButtonType.Edit:
-        this.gridFacade.setGridEditable(this.gridId, true);
+        this.gridFacade.setEditable(this.gridId, true);
         break;
       case GnroButtonType.View:
-        this.gridFacade.setGridEditable(this.gridId, false);
+        this.gridFacade.setEditable(this.gridId, false);
         break;
       case GnroButtonType.Reset:
-        this.gridFacade.setGridRestEdit(this.gridId, true);
+        this.gridFacade.setResetEdit(this.gridId, true);
         break;
       case GnroButtonType.Save:
-        this.gridFacade.saveGridModifiedRecords(this.gridId);
+        this.gridFacade.saveModifiedRecords(this.gridId);
         break;
       case GnroButtonType.Open:
         this.gridFacade.openButtonClick(this.gridId);
@@ -191,7 +191,7 @@ export class GnroGridComponent<T> implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.gridFacade.clearGridDataStore(this.gridId);
+    this.gridFacade.clearStore(this.gridId);
     this.tasksService.removeTask(this.gridId);
   }
 }

@@ -48,7 +48,7 @@ export class GnroGridEffects {
       concatMap((action) => {
         const gridId = action.gridId;
         const gridSetting = this.gridFacade.getSetting(gridId)();
-        const gridConfig = this.gridFacade.getGridConfig(gridId)();
+        const gridConfig = this.gridFacade.getConfig(gridId)();
         return this.gridService.getGridColumnsConfig(gridConfig).pipe(
           map((columnsConfig) => {
             const isTreeGrid = gridSetting.isTreeGrid;
@@ -80,9 +80,9 @@ export class GnroGridEffects {
       debounceTime(10), // debounce with switchMap may lose data if two or more grid pull, but will cancel previous call
       switchMap((action) => {
         const gridId = action.gridId;
-        const gridConfig = this.gridFacade.getGridConfig(gridId)();
+        const gridConfig = this.gridFacade.getConfig(gridId)();
         const columns = this.gridFacade.getColumnsConfig(gridId)();
-        const inMemoryData = this.gridFacade.getGridInMemoryData(gridId)();
+        const inMemoryData = this.gridFacade.getInMemoryData(gridId)();
         return this.getGridData(action.gridId, gridConfig, columns, inMemoryData);
       }),
     ),
@@ -93,9 +93,9 @@ export class GnroGridEffects {
       ofType(gridActions.getConcatData),
       mergeMap((action) => {
         const gridId = action.gridId;
-        const gridConfig = this.gridFacade.getGridConfig(gridId)();
+        const gridConfig = this.gridFacade.getConfig(gridId)();
         const columns = this.gridFacade.getColumnsConfig(gridId)();
-        const inMemoryData = this.gridFacade.getGridInMemoryData(gridId)();
+        const inMemoryData = this.gridFacade.getInMemoryData(gridId)();
         return this.getGridData(action.gridId, gridConfig, columns, inMemoryData);
       }),
     ),
@@ -127,8 +127,8 @@ export class GnroGridEffects {
       ofType(gridActions.saveModifiedRecords),
       concatMap((action) => {
         const gridId = action.gridId;
-        const gridConfig = this.gridFacade.getGridConfig(gridId)();
-        const modifiedRecords = this.gridFacade.getGridModifiedRecords(gridId)();
+        const gridConfig = this.gridFacade.getConfig(gridId)();
+        const modifiedRecords = this.gridFacade.getModifiedRecords(gridId)();
         return this.gridService.saveModifiedRecords(gridConfig, modifiedRecords).pipe(
           map((newRecords) => {
             const gridId = action.gridId;
@@ -153,7 +153,7 @@ export class GnroGridEffects {
       ofType(gridActions.saveConfigs),
       switchMap((action) => {
         const gridId = action.gridId;
-        const gridConfig = this.gridFacade.getGridConfig(gridId)();
+        const gridConfig = this.gridFacade.getConfig(gridId)();
         const columnsConfig = this.gridFacade.getColumnsConfig(gridId)();
         return this.gridService.saveGridConfigs(gridConfig, columnsConfig).pipe(
           map(() => {
@@ -169,7 +169,7 @@ export class GnroGridEffects {
       ofType(gridActions.clearStore),
       concatMap((action) => {
         const gridId = action.gridId;
-        const gridConfig = this.gridFacade.getGridConfig(gridId)();
+        const gridConfig = this.gridFacade.getConfig(gridId)();
         const columnsConfig = this.gridFacade.getColumnsConfig(gridId)();
         return this.gridService
           .saveGridConfigs(gridConfig, columnsConfig)

@@ -63,7 +63,7 @@ export class GnroGridHeaderCellComponent {
           dir: 'asc',
         };
       }
-      this.gridFacade.setGridSortFields(this.gridConfig(), this.gridSetting(), [sort]);
+      this.gridFacade.setSortFields(this.gridConfig(), this.gridSetting(), [sort]);
     }
   }
 

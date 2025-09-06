@@ -94,7 +94,7 @@ export class GnroGridFooterComponent {
   }
 
   getGridPageData(page: number): void {
-    this.gridFacade.getGridPageData(this.gridSetting().gridId, page);
+    this.gridFacade.getPageData(this.gridSetting().gridId, page);
   }
 
   onValueChange(page: number | null): void {
