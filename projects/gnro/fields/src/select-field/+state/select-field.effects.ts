@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { concatMap, delay, map, mergeMap, of } from 'rxjs';
 import { GnroSelectFieldService } from '../services/select-field.service';
-import * as selectFieldActions from './select-field.actions';
+import { selectFieldActions } from './select-field.actions';
 
 @Injectable()
 export class GnroSelectFieldEffects {

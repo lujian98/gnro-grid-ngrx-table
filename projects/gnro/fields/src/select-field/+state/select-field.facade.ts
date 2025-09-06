@@ -1,7 +1,7 @@
 import { inject, Injectable, Signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { GnroOptionType, GnroSelectFieldConfig, GnroSelectFieldSetting } from '../models/select-field.model';
-import * as selectFieldActions from './select-field.actions';
+import { selectFieldActions } from './select-field.actions';
 import { selectFieldConfig, selectFieldSetting, selectOptions } from './select-field.selectors';
 
 @Injectable({ providedIn: 'root' })

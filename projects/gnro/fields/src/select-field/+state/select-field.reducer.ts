@@ -1,7 +1,7 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { defaultSelectFieldState } from '../models/default-select-field';
 import { SelectFieldState } from '../models/select-field.model';
-import * as selectFieldActions from './select-field.actions';
+import { selectFieldActions } from './select-field.actions';
 
 export const initialState: SelectFieldState = {};
 
