@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { GnroMessageComponent, defaultMessageConfig, openToastMessageAction } from '@gnro/ui/message';
+import { GnroMessageComponent, defaultMessageConfig, GnroMessageActions } from '@gnro/ui/message';
 import { GnroDialogService } from '@gnro/ui/overlay';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatMap, exhaustMap, map, mergeMap, of } from 'rxjs';
@@ -69,7 +69,7 @@ export class GnroRemoteDeleteEffects {
       ofType(deleteSelectedSucessfulAction),
       concatMap(({ stateId, keyName }) =>
         of({ stateId, keyName }).pipe(
-          map(() => openToastMessageAction({ action: 'Delete', keyName: keyName, configType: '' })),
+          map(() => GnroMessageActions.showToast({ action: 'Delete', keyName: keyName, configType: '' })),
         ),
       ),
     ),

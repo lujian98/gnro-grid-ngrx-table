@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { openToastMessageAction } from '@gnro/ui/message';
+import { GnroMessageActions } from '@gnro/ui/message';
 import { GnroDialogService } from '@gnro/ui/overlay';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatMap, exhaustMap, map, of } from 'rxjs';
@@ -68,7 +68,7 @@ export class GnroRemoteImportsEffects {
       concatMap(({ urlKey }) =>
         of(urlKey).pipe(
           map(() => {
-            return openToastMessageAction({ action: 'Imports', keyName: urlKey, configType: 'Excel Data' });
+            return GnroMessageActions.showToast({ action: 'Imports', keyName: urlKey, configType: 'Excel Data' });
           }),
         ),
       ),

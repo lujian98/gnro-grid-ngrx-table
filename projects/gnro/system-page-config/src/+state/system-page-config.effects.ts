@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { openToastMessageAction } from '@gnro/ui/message';
+import { GnroMessageActions } from '@gnro/ui/message';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatMap, map } from 'rxjs';
 import { GnroSystemPageConfigService } from '../services/system-page-config.service';
@@ -16,7 +16,7 @@ export class GnroSystemPageConfigEffects {
       concatMap(({ keyName, configType, configData }) => {
         return this.systemPageConfigService.systemPageConfig(keyName, configType, configData).pipe(
           map(() => {
-            return openToastMessageAction({ action: 'Update', keyName, configType });
+            return GnroMessageActions.showToast({ action: 'Update', keyName, configType });
           }),
         );
       }),
