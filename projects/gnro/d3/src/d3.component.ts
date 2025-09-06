@@ -16,10 +16,10 @@ import { GnroD3Config, defaultD3Config } from './models/d3.model';
 export class GnroD3Component<T> implements OnDestroy {
   private readonly d3Facade = inject(GnroD3Facade);
   private d3Id = `d3-${uniqueId()}`;
-  d3Config$ = this.d3Facade.getD3Config(this.d3Id);
+  d3Config$ = this.d3Facade.getConfig(this.d3Id);
   d3Setting$ = this.d3Facade.getSetting(this.d3Id);
-  chartConfigs$ = this.d3Facade.getD3ChartConfigs(this.d3Id);
-  data$ = this.d3Facade.getD3Data(this.d3Id);
+  chartConfigs$ = this.d3Facade.getChartConfigs(this.d3Id);
+  data$ = this.d3Facade.getData(this.d3Id);
 
   d3Config = input(defaultD3Config, {
     transform: (value: Partial<GnroD3Config>) => {
@@ -32,7 +32,7 @@ export class GnroD3Component<T> implements OnDestroy {
   chartConfigs = input([], {
     transform: (chartConfigs: GnroD3ChartConfig[]) => {
       if (!this.d3Config().remoteChartConfigs && chartConfigs.length > 0) {
-        this.d3Facade.setD3ChartConfigs(this.d3Id, this.d3Config(), [...chartConfigs]);
+        this.d3Facade.setChartConfigs(this.d3Id, this.d3Config(), [...chartConfigs]);
       }
       return chartConfigs;
     },
@@ -40,7 +40,7 @@ export class GnroD3Component<T> implements OnDestroy {
   data = input([], {
     transform: (data: T[]) => {
       if (!this.d3Config().remoteD3Data && data) {
-        this.d3Facade.setD3Data(this.d3Id, this.d3Config(), data);
+        this.d3Facade.setData(this.d3Id, this.d3Config(), data);
       }
       return data;
     },
@@ -51,10 +51,10 @@ export class GnroD3Component<T> implements OnDestroy {
   }
 
   private initChartConfigs(d3Config: GnroD3Config): void {
-    this.d3Facade.initD3Config(this.d3Id, d3Config);
+    this.d3Facade.initConfig(this.d3Id, d3Config);
   }
 
   ngOnDestroy(): void {
-    this.d3Facade.clearD3DataStore(this.d3Id);
+    this.d3Facade.clearStore(this.d3Id);
   }
 }

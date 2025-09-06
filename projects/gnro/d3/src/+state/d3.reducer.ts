@@ -2,7 +2,7 @@ import { createFeature, createReducer, on } from '@ngrx/store';
 import { D3State, defaultD3State } from '../models/d3.model';
 import { checkPieChartData } from '../utils/check-pie-chart-data';
 import { initChartConfigs } from '../utils/init-chart-configs';
-import * as d3Actions from './d3.actions';
+import { d3Actions } from './d3.actions';
 
 export const initialState: D3State = {};
 
@@ -10,7 +10,7 @@ export const gnroD3Feature = createFeature({
   name: 'gnroD3',
   reducer: createReducer(
     initialState,
-    on(d3Actions.initD3Config, (state, action) => {
+    on(d3Actions.initConfig, (state, action) => {
       const d3Config = { ...action.d3Config };
       const key = action.d3Id;
       const newState: D3State = { ...state };
@@ -24,7 +24,7 @@ export const gnroD3Feature = createFeature({
       };
       return { ...newState };
     }),
-    on(d3Actions.loadRemoteD3ConfigSuccess, (state, action) => {
+    on(d3Actions.loadConfigSuccess, (state, action) => {
       const key = action.d3Id;
       const newState: D3State = { ...state };
       if (state[key]) {
@@ -35,7 +35,7 @@ export const gnroD3Feature = createFeature({
       }
       return { ...newState };
     }),
-    on(d3Actions.loadD3ChartConfigsSuccess, (state, action) => {
+    on(d3Actions.loadChartConfigsSuccess, (state, action) => {
       const key = action.d3Id;
       const newState: D3State = { ...state };
       if (state[key]) {
@@ -48,7 +48,7 @@ export const gnroD3Feature = createFeature({
       }
       return { ...newState };
     }),
-    on(d3Actions.getD3DataSuccess, (state, action) => {
+    on(d3Actions.getDataSuccess, (state, action) => {
       const key = action.d3Id;
       const newState: D3State = { ...state };
       if (state[key]) {
@@ -61,7 +61,7 @@ export const gnroD3Feature = createFeature({
       }
       return { ...newState };
     }),
-    on(d3Actions.removeD3DataStore, (state, action) => {
+    on(d3Actions.removeStore, (state, action) => {
       const key = action.d3Id;
       const newState: D3State = { ...state };
       if (state[key]) {
