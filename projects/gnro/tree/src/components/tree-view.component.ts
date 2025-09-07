@@ -58,7 +58,7 @@ export class GnroTreeViewComponent<T> implements AfterViewInit {
       return treeData;
     },
   });
-  rowSelection = input.required<GnroGridRowSelections<object>>();
+  rowSelection = input.required<GnroGridRowSelections<GnroTreeNode<T>>>();
 
   @ViewChild(CdkVirtualScrollViewport, { static: true }) private viewport!: CdkVirtualScrollViewport;
 
@@ -259,12 +259,12 @@ export class GnroTreeViewComponent<T> implements AfterViewInit {
     this.treeFacade.setSelectAllRows(this.gridSetting().gridId, !allSelected);
   }
 
-  rowClick(event: MouseEvent, rowIndex: number, record: object): void {
+  rowClick(event: MouseEvent, rowIndex: number, record: GnroTreeNode<T>): void {
     if (this.treeConfig().rowSelection) {
       if (this.prevRowIndex < 0) {
         this.prevRowIndex = rowIndex;
       }
-      const selected = this.rowSelection().selection.isSelected(record as object);
+      const selected = this.rowSelection().selection.isSelected(record);
       if (this.treeConfig().multiRowSelection) {
         if (event.ctrlKey || event.metaKey) {
           this.selectRecord([record], !selected);
@@ -279,7 +279,7 @@ export class GnroTreeViewComponent<T> implements AfterViewInit {
           if (selected) {
             this.treeFacade.setSelectAllRows(this.gridSetting().gridId, false);
           } else {
-            this.treeFacade.setSelectRow(this.gridSetting().gridId, record as object);
+            this.treeFacade.setSelectRow(this.gridSetting().gridId, record);
           }
         }
       } else {
@@ -289,7 +289,7 @@ export class GnroTreeViewComponent<T> implements AfterViewInit {
     }
   }
 
-  private getSelectionRange(prevRowIndex: number, rowIndex: number): object[] {
+  private getSelectionRange(prevRowIndex: number, rowIndex: number): GnroTreeNode<T>[] {
     if (prevRowIndex > rowIndex) {
       return [...this.treeData()].slice(rowIndex, prevRowIndex);
     } else {
@@ -297,12 +297,12 @@ export class GnroTreeViewComponent<T> implements AfterViewInit {
     }
   }
 
-  private selectRecord(record: object[], isSelected: boolean): void {
+  private selectRecord(record: GnroTreeNode<T>[], isSelected: boolean): void {
     const selected = this.getSelectedTotal(record, isSelected);
-    this.treeFacade.setSelectRows(this.gridSetting().gridId, record as object[], isSelected, selected);
+    this.treeFacade.setSelectRows(this.gridSetting().gridId, record, isSelected, selected);
   }
 
-  private getSelectedTotal(record: object[], isSelected: boolean): number {
+  private getSelectedTotal(record: GnroTreeNode<T>[], isSelected: boolean): number {
     if (this.treeConfig().multiRowSelection) {
       const prevSelectedLength = this.rowSelection().selection.selected.length;
       if (isSelected) {
@@ -317,9 +317,9 @@ export class GnroTreeViewComponent<T> implements AfterViewInit {
   }
 
   /*
-  rowDblClick(record: object): void {
+  rowDblClick(record: GnroTreeNode<T>): void {
     if (this.treeConfig().hasDetailView) {
-      this.gridFacade.rowDblClick(this.gridSetting().gridId, record as object);
+      this.gridFacade.rowDblClick(this.gridSetting().gridId, record);
     }
   }*/
 

@@ -43,32 +43,34 @@ export interface GnroTreeDataResponse {
 
 export interface GnroTreeNode<T> extends GnroTreeData {}
 
-export interface TreeState {
-  [key: string]: GnroTreeState;
+export interface TreeState<T> {
+  [key: string]: GnroTreeState<T>;
 }
 
-export interface GnroTreeState<T extends object = object> {
+export interface GnroTreeState<T> {
   treeConfig: GnroTreeConfig;
   treeSetting: GnroTreeSetting;
   treeData: GnroTreeNode<T>[];
   totalCounts: number;
-  selection: GnroGridRowSelections<T>;
+  selection: GnroGridRowSelections<GnroTreeNode<T>>;
   inMemoryData: GnroTreeNode<T>[];
 }
 
-export const defaultTreeState: GnroTreeState = {
-  treeConfig: defaultTreeConfig,
-  treeSetting: defaultTreeSetting,
-  treeData: [],
-  totalCounts: 0,
-  selection: {
-    selection: new SelectionModel<object>(false, []),
-    selected: 0,
-    allSelected: false,
-    indeterminate: false,
-  },
-  inMemoryData: [],
-};
+export function defaultTreeState<T>(): GnroTreeState<T> {
+  return {
+    treeConfig: defaultTreeConfig,
+    treeSetting: defaultTreeSetting,
+    treeData: [],
+    totalCounts: 0,
+    selection: {
+      selection: new SelectionModel<GnroTreeNode<T>>(false, []),
+      selected: 0,
+      allSelected: false,
+      indeterminate: false,
+    },
+    inMemoryData: [],
+  };
+}
 
 export interface GnroTreeDropInfo<T> {
   target: GnroTreeNode<T>;

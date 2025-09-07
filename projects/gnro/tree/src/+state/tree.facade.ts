@@ -73,11 +73,11 @@ export class GnroTreeFacade {
     this.store.dispatch(treeActions.setSelectAllRows({ treeId, selectAll }));
   }
 
-  setSelectRows(treeId: string, records: object[], isSelected: boolean, selected: number): void {
+  setSelectRows<T>(treeId: string, records: GnroTreeNode<T>[], isSelected: boolean, selected: number): void {
     this.store.dispatch(treeActions.setSelectRows({ treeId, records, isSelected, selected }));
   }
 
-  setSelectRow(treeId: string, record: object): void {
+  setSelectRow<T>(treeId: string, record: GnroTreeNode<T>): void {
     this.store.dispatch(treeActions.setSelectRow({ treeId, record }));
   }
 
@@ -97,7 +97,7 @@ export class GnroTreeFacade {
     return this.store.selectSignal(selectTreeInMemoryData(treeId));
   }
 
-  getRowSelection(gridId: string): Signal<GnroGridRowSelections<object> | undefined> {
+  getRowSelection<T>(gridId: string): Signal<GnroGridRowSelections<GnroTreeNode<T>> | undefined> {
     return this.store.selectSignal(selectRowSelection(gridId));
   }
 }

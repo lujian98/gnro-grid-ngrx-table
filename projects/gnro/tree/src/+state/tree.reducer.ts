@@ -1,7 +1,7 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { getSelection, setSelection } from '@gnro/ui/grid';
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { TreeState, defaultTreeState } from '../models/tree-grid.model';
+import { TreeState, defaultTreeState, GnroTreeNode } from '../models/tree-grid.model';
 import {
   gnroAddNestedTreeNode,
   gnroExpandAllNodesInMemoryData,
@@ -12,25 +12,27 @@ import {
 } from '../utils/nested-tree';
 import { treeActions } from './tree.actions';
 
-export const initialState: TreeState = {};
+const initialState = <T>(): TreeState<T> => ({});
 
 export const gnroTreeFeature = createFeature({
   name: 'gnroTree',
   reducer: createReducer(
-    initialState,
+    initialState(),
     on(treeActions.initConfig, (state, action) => {
       const treeConfig = { ...action.treeConfig };
       const key = action.treeId;
-      const newState: TreeState = { ...state };
-      const initSelection = state[key] ? state[key].selection.selection : defaultTreeState.selection.selection;
-      const selection = treeConfig.multiRowSelection ? new SelectionModel<object>(true, []) : initSelection;
+      const newState = { ...state };
+      const initSelection = state[key] ? state[key].selection.selection : defaultTreeState().selection.selection;
+      const selection = treeConfig.multiRowSelection
+        ? new SelectionModel<GnroTreeNode<unknown>>(true, [])
+        : initSelection;
 
       newState[key] = {
-        ...defaultTreeState,
+        ...defaultTreeState(),
         treeConfig,
         treeSetting: {
           // not used in the tree panel yet, just hold for the gridId
-          ...defaultTreeState.treeSetting,
+          ...defaultTreeState().treeSetting,
           gridId: action.treeId,
         },
         selection: getSelection(treeConfig, selection, []),
@@ -40,7 +42,7 @@ export const gnroTreeFeature = createFeature({
 
     on(treeActions.getDataSuccess, (state, action) => {
       const key = action.treeId;
-      const newState: TreeState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         const oldState = state[key];
         const inMemoryData = gnroSetNestNodeId([...action.treeData]);
@@ -58,7 +60,7 @@ export const gnroTreeFeature = createFeature({
 
     on(treeActions.setInMemoryData, (state, action) => {
       const key = action.treeId;
-      const newState: TreeState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         newState[key] = {
           ...state[key],
@@ -70,7 +72,7 @@ export const gnroTreeFeature = createFeature({
 
     on(treeActions.getInMemoryDataSuccess, (state, action) => {
       const key = action.treeId;
-      const newState: TreeState = { ...state }; // treeData is faltten and filter
+      const newState = { ...state }; // treeData is faltten and filter
       if (state[key]) {
         const oldState = state[key];
         setSelection(oldState.treeConfig, oldState.selection.selection, action.treeData);
@@ -85,7 +87,7 @@ export const gnroTreeFeature = createFeature({
 
     on(treeActions.nodeToggleInMemoryData, (state, action) => {
       const key = action.treeId;
-      const newState: TreeState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         const oldState = state[key];
         newState[key] = {
@@ -98,7 +100,7 @@ export const gnroTreeFeature = createFeature({
 
     on(treeActions.dropNode, (state, action) => {
       const key = action.treeId;
-      const newState: TreeState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         const oldState = state[key];
         const nodes = gnroRemoveNestedNode([...oldState.inMemoryData], action.node);
@@ -113,7 +115,7 @@ export const gnroTreeFeature = createFeature({
 
     on(treeActions.expandAllNodesInMemoryData, (state, action) => {
       const key = action.treeId;
-      const newState: TreeState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         const oldState = state[key];
         setSelection(oldState.treeConfig, oldState.selection.selection, oldState.treeData);
@@ -128,7 +130,7 @@ export const gnroTreeFeature = createFeature({
 
     on(treeActions.setSelectAllRows, (state, action) => {
       const key = action.treeId;
-      const newState: TreeState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         const oldState = state[key];
         const selection = oldState.selection.selection;
@@ -146,7 +148,7 @@ export const gnroTreeFeature = createFeature({
     }),
     on(treeActions.setSelectRows, (state, action) => {
       const key = action.treeId;
-      const newState: TreeState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         const oldState = state[key];
         const selection = oldState.selection.selection;
@@ -166,7 +168,7 @@ export const gnroTreeFeature = createFeature({
     }),
     on(treeActions.setSelectRow, (state, action) => {
       const key = action.treeId;
-      const newState: TreeState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         const oldState = state[key];
         const selection = oldState.selection.selection;
@@ -182,7 +184,7 @@ export const gnroTreeFeature = createFeature({
 
     on(treeActions.removeStore, (state, action) => {
       const key = action.treeId;
-      const newState: TreeState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         delete newState[key];
       }
