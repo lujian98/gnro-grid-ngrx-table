@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { GnroObjectType } from '@gnro/ui/core';
+import { GnroObjectType, GrnoDataType } from '@gnro/ui/core';
 import { formWindowActions } from '@gnro/ui/form-window';
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { MIN_GRID_COLUMN_WIDTH, VIRTUAL_SCROLL_PAGE_SIZE } from '../models/constants';
@@ -494,19 +494,16 @@ export const gnroGridFeature = createFeature({
       }
       return { ...newState };
     }),
-    /*
     on(gridActions.setRecordModified, (state, action) => {
       const key = action.gridId;
       const newState = { ...state };
       if (state[key]) {
         const oldState = state[key];
         const value = action.modified;
-        let modified = [...oldState.modified];
-        const find = modified.find((record: { [key: string]: any }) => record[value.recordKey] === value.recordId);
+        let modified = [...oldState.modified] as GrnoDataType[];
+        const find = modified.find((record) => record[value.recordKey] === value.recordId);
         if (find) {
-          modified = [...modified].filter(
-            (record: { [key: string]: unknown }) => record[value.recordKey] !== value.recordId,
-          );
+          modified = [...modified].filter((record) => record[value.recordKey] !== value.recordId);
           if (value.changed) {
             (find as { [key: string]: unknown })[value.field] = value.value;
           } else {
@@ -516,10 +513,13 @@ export const gnroGridFeature = createFeature({
             modified.push(find);
           }
         } else {
-          const record: { [index: string]: unknown } = {};
-          record[value.recordKey] = value.recordId;
-          record[value.field] = value.value;
-          modified.push(record);
+          const record = {
+            [value.recordKey]: value.recordId,
+            [value.field]: value.value,
+          };
+          //record[value.recordKey] = value.recordId;
+          //record[value.field] = value.value;
+          modified.push(record as GrnoDataType);
         }
         newState[key] = {
           ...oldState,
@@ -533,9 +533,6 @@ export const gnroGridFeature = createFeature({
       }
       return { ...newState };
     }),
-    */
-
-    /*
     on(gridActions.saveModifiedRecordsSuccess, (state, action) => {
       const key = action.gridId;
       const newState = { ...state };
@@ -543,8 +540,8 @@ export const gnroGridFeature = createFeature({
         const oldState = state[key];
         const recordKey = oldState.gridConfig.recordKey;
         const data = [...oldState.data].map((item) => {
-          const keyId = (item as { [key: string]: unknown })[recordKey];
-          const find = action.newRecords.find((record) => record[recordKey] === keyId);
+          const keyId = (item as GrnoDataType)[recordKey];
+          const find = (action.newRecords as GrnoDataType[]).find((record) => record[recordKey] === keyId);
           return find ? find : item;
         });
         newState[key] = {
@@ -559,8 +556,6 @@ export const gnroGridFeature = createFeature({
       }
       return { ...newState };
     }),
-    */
-
     on(gridActions.removeStore, (state, action) => {
       const key = action.gridId;
       const newState = { ...state };
