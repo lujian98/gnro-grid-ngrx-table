@@ -1,4 +1,3 @@
-import { SelectionModel } from '@angular/cdk/collections';
 import { GnroObjectType, GrnoDataType } from '@gnro/ui/core';
 import { formWindowActions } from '@gnro/ui/form-window';
 import { createFeature, createReducer, on } from '@ngrx/store';
@@ -8,7 +7,7 @@ import { GridState } from '../models/grid.model';
 import { getFormFields } from '../utils/form-fields';
 import { GnroRowGroup } from '../utils/row-group/row-group';
 import { GnroRowGroups } from '../utils/row-group/row-groups';
-import { getSelection, setSelection } from '../utils/row-selection';
+import { getSelection, initSelection, setSelection } from '../utils/row-selection';
 import { stickyEndMinWidth } from '../utils/viewport-width-ratio';
 import { gridActions } from './grid.actions';
 
@@ -85,9 +84,7 @@ export const gnroGridFeature = createFeature({
         });
 
         const columnsConfig = stickyEndMinWidth(columns, gridConfig, state[key].gridSetting);
-        const selection = gridConfig.multiRowSelection
-          ? new SelectionModel<unknown>(true, [])
-          : state[key].selection.selection;
+        const selection = initSelection(gridConfig, state[key].selection.selection);
         const formFields = getFormFields(gridConfig, columnsConfig);
         newState[key] = {
           ...state[key],

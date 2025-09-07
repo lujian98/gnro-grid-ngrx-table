@@ -1,7 +1,6 @@
-import { SelectionModel } from '@angular/cdk/collections';
-import { getSelection, setSelection } from '@gnro/ui/grid';
+import { getSelection, initSelection, setSelection } from '@gnro/ui/grid';
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { TreeState, defaultTreeState, GnroTreeNode } from '../models/tree-grid.model';
+import { TreeState, defaultTreeState } from '../models/tree-grid.model';
 import {
   gnroAddNestedTreeNode,
   gnroExpandAllNodesInMemoryData,
@@ -22,11 +21,8 @@ export const gnroTreeFeature = createFeature({
       const treeConfig = { ...action.treeConfig };
       const key = action.treeId;
       const newState = { ...state };
-      const initSelection = state[key] ? state[key].selection.selection : defaultTreeState().selection.selection;
-      const selection = treeConfig.multiRowSelection
-        ? new SelectionModel<GnroTreeNode<unknown>>(true, [])
-        : initSelection;
-
+      const defaultSelection = state[key] ? state[key].selection.selection : defaultTreeState().selection.selection;
+      const selection = initSelection(treeConfig, defaultSelection);
       newState[key] = {
         ...defaultTreeState(),
         treeConfig,

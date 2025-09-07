@@ -3,6 +3,10 @@ import { GrnoDataType } from '@gnro/ui/core';
 import { GnroGridConfig, GnroGridRowSelections } from '../models/grid.model';
 import { GnroRowGroup } from '../utils/row-group/row-group';
 
+export function initSelection<T>(gridConfig: GnroGridConfig, selection: SelectionModel<T>): SelectionModel<T> {
+  return gridConfig.multiRowSelection ? new SelectionModel<T>(true, []) : selection;
+}
+
 export function setSelection<T>(gridConfig: GnroGridConfig, selection: SelectionModel<T>, data: T[]) {
   if (selection.hasValue()) {
     const recordKey = gridConfig.recordKey;
