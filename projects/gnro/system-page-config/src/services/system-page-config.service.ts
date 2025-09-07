@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { ACCEPT_JSON_API_HEADER, GnroBackendService } from '@gnro/ui/core';
+import { ACCEPT_JSON_API_HEADER, GnroBackendService, GrnoDataType } from '@gnro/ui/core';
 import { Observable, map } from 'rxjs';
 
 @Injectable({
@@ -10,7 +10,7 @@ export class GnroSystemPageConfigService {
   private readonly http = inject(HttpClient);
   private readonly backendService = inject(GnroBackendService);
 
-  systemPageConfig(keyName: string, configType: string, configData: object): Observable<unknown> {
+  systemPageConfig(keyName: string, configType: string, configData: GrnoDataType): Observable<object> {
     const headers = new HttpHeaders(ACCEPT_JSON_API_HEADER);
     const url = this.backendService.apiUrl;
 
