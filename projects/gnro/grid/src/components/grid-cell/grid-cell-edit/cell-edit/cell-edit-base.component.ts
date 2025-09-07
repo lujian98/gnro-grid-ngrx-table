@@ -99,11 +99,11 @@ export class GnroCellEditBaseComponent<T> {
     } else {
       this.resetField();
     }
-    const modified: GnroCellEdit<unknown> = {
+    const modified: GnroCellEdit<T> = {
       recordKey: this.gridConfig.recordKey,
       recordId: this.recordId,
       field: this.column.name,
-      value: value,
+      value: value!,
       originalValue: this.data,
       changed: changed,
     };

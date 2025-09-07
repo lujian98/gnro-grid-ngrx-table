@@ -48,10 +48,7 @@ export class GnroGridService {
     return of();
   }
 
-  saveModifiedRecords(
-    gridConfig: GnroGridConfig,
-    modifiedRecords: { [key: string]: unknown }[],
-  ): Observable<{ [key: string]: unknown }[]> {
+  saveModifiedRecords<T>(gridConfig: GnroGridConfig, modifiedRecords: T[]): Observable<T[]> {
     const params = this.backendService.getParams(gridConfig.urlKey, 'update');
     const headers = new HttpHeaders({ Accept: 'application/vnd.api+json' });
     const url = this.backendService.apiUrl;

@@ -179,7 +179,7 @@ export class GnroGridFacade {
     this.store.dispatch(gridActions.setResetEdit({ gridId, restEdit }));
   }
 
-  setRecordModified(gridId: string, modified: GnroCellEdit<unknown>): void {
+  setRecordModified<T>(gridId: string, modified: GnroCellEdit<T>): void {
     this.store.dispatch(gridActions.setRecordModified({ gridId, modified }));
   }
 
@@ -246,8 +246,8 @@ export class GnroGridFacade {
     return this.store.selectSignal(selectFormWindowConfig(gridId));
   }
 
-  getModifiedRecords(gridId: string): Signal<{ [key: string]: unknown }[]> {
-    return this.store.selectSignal(selectGridModifiedRecords(gridId)) as Signal<{ [key: string]: unknown }[]>;
+  getModifiedRecords<T>(gridId: string): Signal<T[]> {
+    return this.store.selectSignal(selectGridModifiedRecords(gridId)) as Signal<T[]>;
   }
 
   getSignalData<T>(gridId: string): Signal<T[]> {

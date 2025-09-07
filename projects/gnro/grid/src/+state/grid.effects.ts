@@ -101,11 +101,11 @@ export class GnroGridEffects {
     ),
   );
 
-  private getGridData = (
+  private getGridData = <T>(
     gridId: string,
     gridConfig: GnroGridConfig,
     columns: GnroColumnConfig[],
-    inMemoryData: unknown[],
+    inMemoryData: T[],
   ) => {
     if (gridConfig.remoteGridData) {
       return this.gridService.getGridData(gridConfig, columns).pipe(
