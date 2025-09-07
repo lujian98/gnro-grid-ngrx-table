@@ -67,12 +67,14 @@ export const defaultTabsSetting: GnroTabsSetting = {
   viewportReady: false,
 };
 
-export const defaultTabsState: GnroTabsState<any> = {
-  tabsConfig: defaultTabsConfig,
-  tabsSetting: defaultTabsSetting,
-  tabs: [],
-  options: [],
-};
+export function defaultTabsState<T>(): GnroTabsState<T> {
+  return {
+    tabsConfig: defaultTabsConfig,
+    tabsSetting: defaultTabsSetting,
+    tabs: [],
+    options: [],
+  };
+}
 
 export enum GnroContextMenuType {
   CLOSE = 'Close',

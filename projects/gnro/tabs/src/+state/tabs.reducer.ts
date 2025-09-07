@@ -20,10 +20,10 @@ export const gnroTabsFeature = createFeature({
       const key = action.tabsId;
       const newState = { ...state };
       newState[key] = {
-        ...defaultTabsState,
+        ...defaultTabsState(),
         tabsConfig,
         tabsSetting: {
-          ...defaultTabsState.tabsSetting,
+          ...defaultTabsState().tabsSetting,
           tabsId: action.tabsId,
           viewportReady: !tabsConfig.remoteConfig,
         },

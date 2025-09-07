@@ -10,13 +10,13 @@ export const featureSelector = <T>(state: AppTabsState<T>) => state.gnroTabs;
 export const selectTabsSetting = (tabsId: string) =>
   createSelector(featureSelector, (state) => {
     const tabsSetting = state && state[tabsId] ? state[tabsId].tabsSetting : undefined;
-    return tabsSetting && tabsSetting.viewportReady ? tabsSetting : defaultTabsState.tabsSetting;
+    return tabsSetting && tabsSetting.viewportReady ? tabsSetting : defaultTabsState().tabsSetting;
   });
 
 export const selectTabsConfig = (tabsId: string) =>
   createSelector(featureSelector, (state) => {
     const tabsConfig = state && state[tabsId] ? state[tabsId].tabsConfig : undefined;
-    return tabsConfig && state[tabsId].tabsSetting.viewportReady ? tabsConfig : defaultTabsState.tabsConfig;
+    return tabsConfig && state[tabsId].tabsSetting.viewportReady ? tabsConfig : defaultTabsState().tabsConfig;
   });
 
 export const selectTabsTabs = (tabsId: string) =>
