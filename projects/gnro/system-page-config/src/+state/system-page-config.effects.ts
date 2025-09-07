@@ -3,7 +3,7 @@ import { GnroMessageActions } from '@gnro/ui/message';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatMap, map } from 'rxjs';
 import { GnroSystemPageConfigService } from '../services/system-page-config.service';
-import { updateSystemPageConfigConfigAction } from './system-page-config.actions';
+import { systemPageConfigActions } from './system-page-config.actions';
 
 @Injectable()
 export class GnroSystemPageConfigEffects {
@@ -12,7 +12,7 @@ export class GnroSystemPageConfigEffects {
 
   updateSystemPageConfigConfig$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(updateSystemPageConfigConfigAction),
+      ofType(systemPageConfigActions.update),
       concatMap(({ keyName, configType, configData }) => {
         return this.systemPageConfigService.systemPageConfig(keyName, configType, configData).pipe(
           map(() => {

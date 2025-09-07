@@ -30,15 +30,15 @@ export class GnroSystemPageConfigComponent {
 
   systemPageConfig(): void {
     if (this.pageConfig()) {
-      this.systemPageConfigFacade.updateSystemPageConfigConfig(this.keyName(), 'pageConfig', this.pageConfig()!);
+      this.systemPageConfigFacade.update(this.keyName(), 'pageConfig', this.pageConfig()!);
     }
 
     if (this.gridConfig()) {
-      this.systemPageConfigFacade.updateSystemPageConfigConfig(this.keyName(), 'gridConfig', this.gridConfig()!);
+      this.systemPageConfigFacade.update(this.keyName(), 'gridConfig', this.gridConfig()!);
     }
 
     if (this.columnsConfig()) {
-      this.systemPageConfigFacade.updateSystemPageConfigConfig(this.keyName(), 'columnsConfig', this.columnsConfig()!);
+      this.systemPageConfigFacade.update(this.keyName(), 'columnsConfig', this.columnsConfig()!);
     }
   }
 }
