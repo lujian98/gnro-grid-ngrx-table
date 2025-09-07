@@ -23,11 +23,11 @@ import { GnroGridHeaderComponent } from './grid-header/grid-header.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DragDropModule, ScrollingModule, GnroGridHeaderComponent, GnroGridGroupHeaderComponent],
 })
-export class GnroGridHeaderViewComponent {
+export class GnroGridHeaderViewComponent<T> {
   private readonly gridFacade = inject(GnroGridFacade);
   gridSetting = input.required<GnroGridSetting>();
   columnHeaderPosition = input<number>(0);
-  rowSelection = input.required<GnroGridRowSelections<object>>();
+  rowSelection = input.required<GnroGridRowSelections<T>>();
   gridConfig = input.required<GnroGridConfig>();
   columnConfigs = input.required({
     transform: (columnConfigs: GnroColumnConfig[]) => {

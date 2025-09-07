@@ -56,10 +56,10 @@ export class GnroGridViewComponent<T> implements AfterViewInit {
     },
   });
   gridConfig = input.required<GnroGridConfig>();
-  rowSelection = input.required<GnroGridRowSelections<object>>();
+  rowSelection = input.required<GnroGridRowSelections<T>>();
   columns = input.required<GnroColumnConfig[]>();
   gridData = input.required({
-    transform: (gridData: object[]) => {
+    transform: (gridData: T[]) => {
       this.checkViewport(gridData);
       return gridData;
     },
@@ -149,7 +149,7 @@ export class GnroGridViewComponent<T> implements AfterViewInit {
     }
   }
 
-  private checkViewport(data: object[]): void {
+  private checkViewport(data: T[]): void {
     const el = this.viewport.elementRef.nativeElement;
     const clientWidth = el.clientWidth;
     const clientHeight = el.clientHeight;
@@ -168,16 +168,16 @@ export class GnroGridViewComponent<T> implements AfterViewInit {
     }
   }
 
-  isRowGroup(index: number, record: object | GnroRowGroup): boolean {
+  isRowGroup(index: number, record: T | GnroRowGroup): boolean {
     return record instanceof GnroRowGroup;
   }
 
-  rowClick(event: MouseEvent, rowIndex: number, record: object): void {
+  rowClick(event: MouseEvent, rowIndex: number, record: T): void {
     if (this.gridConfig().rowSelection) {
       if (this.prevRowIndex < 0) {
         this.prevRowIndex = rowIndex;
       }
-      const selected = this.rowSelection().selection.isSelected(record as object);
+      const selected = this.rowSelection().selection.isSelected(record);
       if (this.gridConfig().multiRowSelection) {
         if (event.ctrlKey || event.metaKey) {
           this.selectRecord([record], !selected);
@@ -192,7 +192,7 @@ export class GnroGridViewComponent<T> implements AfterViewInit {
           if (selected) {
             this.gridFacade.setSelectAllRows(this.gridSetting().gridId, false);
           } else {
-            this.gridFacade.setSelectRow(this.gridSetting().gridId, record as object);
+            this.gridFacade.setSelectRow(this.gridSetting().gridId, record);
           }
         }
       } else {
@@ -202,7 +202,7 @@ export class GnroGridViewComponent<T> implements AfterViewInit {
     }
   }
 
-  private getSelectionRange(prevRowIndex: number, rowIndex: number): object[] {
+  private getSelectionRange(prevRowIndex: number, rowIndex: number): T[] {
     if (prevRowIndex > rowIndex) {
       return [...this.gridData()].slice(rowIndex, prevRowIndex);
     } else {
@@ -210,12 +210,12 @@ export class GnroGridViewComponent<T> implements AfterViewInit {
     }
   }
 
-  private selectRecord(record: object[], isSelected: boolean): void {
+  private selectRecord(record: T[], isSelected: boolean): void {
     const selected = this.getSelectedTotal(record, isSelected);
-    this.gridFacade.setSelectRows(this.gridSetting().gridId, record as object[], isSelected, selected);
+    this.gridFacade.setSelectRows(this.gridSetting().gridId, record, isSelected, selected);
   }
 
-  private getSelectedTotal(record: object[], isSelected: boolean): number {
+  private getSelectedTotal(record: T[], isSelected: boolean): number {
     if (this.gridConfig().multiRowSelection) {
       const prevSelectedLength = this.rowSelection().selection.selected.length;
       if (isSelected) {
@@ -229,9 +229,9 @@ export class GnroGridViewComponent<T> implements AfterViewInit {
     }
   }
 
-  rowDblClick(record: object): void {
+  rowDblClick(record: T): void {
     if (this.gridConfig().hasDetailView) {
-      this.gridFacade.rowDblClick(this.gridSetting().gridId, record as object);
+      this.gridFacade.rowDblClick(this.gridSetting().gridId, record);
     }
   }
 

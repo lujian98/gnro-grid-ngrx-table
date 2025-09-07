@@ -116,11 +116,11 @@ export class GnroGridFacade {
     this.store.dispatch(gridActions.setSelectAllRows({ gridId, selectAll }));
   }
 
-  setSelectRows(gridId: string, records: object[], isSelected: boolean, selected: number): void {
+  setSelectRows<T>(gridId: string, records: T[], isSelected: boolean, selected: number): void {
     this.store.dispatch(gridActions.setSelectRows({ gridId, records, isSelected, selected }));
   }
 
-  setSelectRow(gridId: string, record: object): void {
+  setSelectRow<T>(gridId: string, record: T): void {
     this.store.dispatch(gridActions.setSelectRow({ gridId, record }));
   }
 
@@ -221,7 +221,7 @@ export class GnroGridFacade {
     this.store.dispatch(gridActions.getData({ gridId }));
   }
 
-  setInMemoryData(gridId: string, gridConfig: GnroGridConfig, gridData: GnroGridData<object>): void {
+  setInMemoryData<T>(gridId: string, gridConfig: GnroGridConfig, gridData: GnroGridData<T>): void {
     this.store.dispatch(gridActions.setInMemoryData({ gridId, gridConfig, gridData }));
     this.dispatchGetData(gridId);
   }
@@ -250,12 +250,12 @@ export class GnroGridFacade {
     return this.store.selectSignal(selectGridModifiedRecords(gridId)) as Signal<{ [key: string]: unknown }[]>;
   }
 
-  getSignalData(gridId: string): Signal<object[]> {
-    return this.store.selectSignal(selectGridData(gridId));
+  getSignalData<T>(gridId: string): Signal<T[]> {
+    return this.store.selectSignal(selectGridData(gridId)) as Signal<T[]>;
   }
 
-  getRowSelection(gridId: string): Signal<GnroGridRowSelections<object> | undefined> {
-    return this.store.selectSignal(selectRowSelection(gridId));
+  getRowSelection<T>(gridId: string): Signal<GnroGridRowSelections<T> | undefined> {
+    return this.store.selectSignal(selectRowSelection(gridId)) as Signal<GnroGridRowSelections<T> | undefined>;
   }
 
   getInMemoryData<T>(gridId: string): Signal<T[]> {
@@ -273,7 +273,7 @@ export class GnroGridFacade {
     }
   }
 
-  rowDblClick(gridId: string, record: object): void {
+  rowDblClick<T>(gridId: string, record: T): void {
     this.store.dispatch(gridActions.setSelectRow({ gridId, record }));
     this.openFormWindow(gridId, record, false);
   }
@@ -283,14 +283,14 @@ export class GnroGridFacade {
     this.openFormWindow(gridId, record, true);
   }
 
-  deleteRecords(gridId: string): void {
+  deleteRecords<T>(gridId: string): void {
     const data = this.getRowSelection(gridId)()?.selection.selected;
     if (data && data.length > 0) {
       const gridConfig = this.getConfig(gridId)();
       const keyName = gridConfig.urlKey;
       const recordKey = gridConfig.recordKey;
-      const selected = data.map((item: object) => ({ [recordKey]: item[recordKey as keyof typeof item] }));
-      this.store.dispatch(remoteDeleteActions.openConfirmationWindow({ stateId: gridId, keyName, selected }));
+      //const selected = data.map((item: T) => ({ [recordKey]: item[recordKey as keyof typeof item] }));
+      //this.store.dispatch(remoteDeleteActions.openConfirmationWindow({ stateId: gridId, keyName, selected }));
     }
   }
 
@@ -312,19 +312,19 @@ export class GnroGridFacade {
     this.store.dispatch(openRemoteImportsWindowAction({ stateId: gridId, keyName: gridConfig.urlKey, params }));
   }*/
 
-  private getSelectedRecord(gridId: string): object {
+  private getSelectedRecord<T>(gridId: string): T {
     const selected = this.getRowSelection(gridId)()?.selection.selected;
     if (selected && selected.length > 0) {
-      const record = selected[0];
+      const record = selected[0] as T;
       const gridConfig = this.getConfig(gridId)();
       return {
         ...record,
         [gridConfig.recordKey]: undefined,
-      };
+      } as T;
     }
-    return {};
+    return {} as T;
   }
-  private openFormWindow(stateId: string, values: object, editing: boolean): void {
+  private openFormWindow<T>(stateId: string, values: T, editing: boolean): void {
     const config = this.getFormWindowConfig(stateId)();
     if (config) {
       const formWindowConfig = {
@@ -336,7 +336,7 @@ export class GnroGridFacade {
         values,
       };
       console.log(' formWindowConfig=', formWindowConfig);
-      this.store.dispatch(formWindowActions.open({ stateId, formWindowConfig }));
+      //this.store.dispatch(formWindowActions.open({ stateId, formWindowConfig }));
     }
   }
 

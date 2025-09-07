@@ -49,7 +49,7 @@ export class GnroGridHeaderComponent<T> {
   columns = input.required<GnroColumnConfig[]>();
   columnWidths = input.required<GnroColumnWidth[]>();
   columnHeaderPosition = input<number>(0);
-  rowSelection = input.required<GnroGridRowSelections<object>>();
+  rowSelection = input.required<GnroGridRowSelections<T>>();
   left$ = computed(() => `${this.columnHeaderPosition()}px`);
   columnResizing = output<GnroColumnWidth[]>();
   columnResized = output<GnroColumnWidth[]>();

@@ -68,7 +68,7 @@ export class GnroGridComponent<T> implements OnInit, OnDestroy {
   gridData = input(undefined, {
     transform: (gridData: GnroGridData<T> | undefined) => {
       if (!this.gridConfig$().remoteGridData && gridData) {
-        this.gridFacade.setInMemoryData(this.gridId, this.gridConfig$(), gridData as GnroGridData<object>);
+        this.gridFacade.setInMemoryData(this.gridId, this.gridConfig$(), gridData as GnroGridData<T>);
       }
       return gridData;
     },

@@ -80,8 +80,8 @@ export interface GnroGridConfig {
   hasDetailView: boolean;
 }
 
-export interface GridState {
-  [key: string]: GnroGridState;
+export interface GridState<T> {
+  [key: string]: GnroGridState<T>;
 }
 
 export interface GnroGridSetting {
@@ -108,7 +108,7 @@ export interface GnroGridRowSelections<T> {
   indeterminate: boolean;
 }
 
-export interface GnroGridState<T extends object = object> {
+export interface GnroGridState<T> {
   gridConfig: GnroGridConfig; // for external grid config
   gridSetting: GnroGridSetting; // for internal use only settings
   formWindowConfig: GnroFormWindowConfig; //use with hasDetailView to open form window edit or view data
@@ -119,7 +119,7 @@ export interface GnroGridState<T extends object = object> {
   selection: GnroGridRowSelections<T>;
   queryData: T[]; // for row group temporary data
   rowGroups?: GnroRowGroups; // row group will handle at client side data only and only with one level
-  modified: { [key: string]: unknown }[];
+  modified: T[];
 }
 
 export interface GnroGridConfigResponse {

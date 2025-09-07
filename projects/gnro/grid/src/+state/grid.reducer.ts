@@ -12,28 +12,30 @@ import { getSelection, setSelection } from '../utils/row-selection';
 import { stickyEndMinWidth } from '../utils/viewport-width-ratio';
 import { gridActions } from './grid.actions';
 
-export const initialState: GridState = {};
+//export const initialState: GridState = {};
+
+const initialState = <T>(): GridState<T> => ({});
 
 export const gnroGridFeature = createFeature({
   name: 'gnroGrid',
   reducer: createReducer(
-    initialState,
+    initialState(),
     on(gridActions.initConfig, (state, action) => {
       const gridConfig = {
         ...action.gridConfig,
         //virtualScroll: action.gridConfig.virtualScroll || action.gridConfig.rowGroup,
       };
       const key = action.gridId;
-      const newState: GridState = { ...state };
+      const newState = { ...state };
       newState[key] = {
-        ...defaultState,
+        ...defaultState(),
         gridConfig: {
           ...gridConfig,
           pageSize: !gridConfig.virtualScroll ? gridConfig.pageSize : VIRTUAL_SCROLL_PAGE_SIZE,
           columnSticky: gridConfig.horizontalScroll ? gridConfig.columnSticky : false,
         },
         gridSetting: {
-          ...defaultState.gridSetting,
+          ...defaultState().gridSetting,
           gridId: action.gridId,
           isTreeGrid: action.gridType === 'treeGrid',
           viewportReady: !gridConfig.remoteGridConfig && !gridConfig.remoteColumnsConfig,
@@ -47,7 +49,7 @@ export const gnroGridFeature = createFeature({
         //virtualScroll: action.gridConfig.virtualScroll || action.gridConfig.rowGroup,
       };
       const key = action.gridId;
-      const newState: GridState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         newState[key] = {
           ...state[key],
@@ -69,7 +71,7 @@ export const gnroGridFeature = createFeature({
     }),
     on(gridActions.loadColumnsConfigSuccess, (state, action) => {
       const key = action.gridId;
-      const newState: GridState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         const gridConfig = state[key].gridConfig;
         const gridSetting = state[key].gridSetting;
@@ -86,7 +88,7 @@ export const gnroGridFeature = createFeature({
 
         const columnsConfig = stickyEndMinWidth(columns, gridConfig, state[key].gridSetting);
         const selection = gridConfig.multiRowSelection
-          ? new SelectionModel<object>(true, [])
+          ? new SelectionModel<unknown>(true, [])
           : state[key].selection.selection;
         const formFields = getFormFields(gridConfig, columnsConfig);
         newState[key] = {
@@ -112,7 +114,7 @@ export const gnroGridFeature = createFeature({
     }),
     on(gridActions.loadFormWindowConfigSuccess, (state, action) => {
       const key = action.gridId;
-      const newState: GridState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         const formFields = action.formWindowConfig.formFields || [];
         const formWindowConfig = {
@@ -128,7 +130,7 @@ export const gnroGridFeature = createFeature({
     }),
     on(gridActions.setViewportPageSize, (state, action) => {
       const key = action.gridId;
-      const newState: GridState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         const gridConfig = state[key].gridConfig;
         const pageSize = gridConfig.virtualScroll || gridConfig.verticalScroll ? gridConfig.pageSize : action.pageSize;
@@ -152,7 +154,7 @@ export const gnroGridFeature = createFeature({
     }),
     on(gridActions.setSortFields, (state, action) => {
       const key = action.gridId;
-      const newState: GridState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         newState[key] = {
           ...state[key],
@@ -167,7 +169,7 @@ export const gnroGridFeature = createFeature({
     }),
     on(gridActions.setColumnFilters, (state, action) => {
       const key = action.gridId;
-      const newState: GridState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         newState[key] = {
           ...state[key],
@@ -186,7 +188,7 @@ export const gnroGridFeature = createFeature({
     }),
     on(gridActions.setViewportPage, (state, action) => {
       const key = action.gridId;
-      const newState: GridState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         newState[key] = {
           ...state[key],
@@ -200,7 +202,7 @@ export const gnroGridFeature = createFeature({
     }),
     on(gridActions.setScrollIndex, (state, action) => {
       const key = action.gridId;
-      const newState: GridState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         newState[key] = {
           ...state[key],
@@ -214,7 +216,7 @@ export const gnroGridFeature = createFeature({
     }),
     on(gridActions.setColumnsConfig, (state, action) => {
       const key = action.gridId;
-      const newState: GridState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         const columns = state[key].columnsConfig.map((column) => {
           if (column.name === action.columnsConfig.name) {
@@ -232,7 +234,7 @@ export const gnroGridFeature = createFeature({
     }),
     on(gridActions.getData, gridActions.getConcatData, (state, action) => {
       const key = action.gridId;
-      const newState: GridState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         newState[key] = {
           ...state[key],
@@ -246,7 +248,7 @@ export const gnroGridFeature = createFeature({
     }),
     on(gridActions.getDataSuccess, (state, action) => {
       const key = action.gridId;
-      const newState: GridState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         const oldState = state[key];
         const gridConfig = oldState.gridConfig;
@@ -289,7 +291,7 @@ export const gnroGridFeature = createFeature({
     }),
     on(formWindowActions.saveSuccess, (state, action) => {
       const key = action.stateId;
-      const newState: GridState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         const oldState = state[key];
         newState[key] = {
@@ -304,7 +306,7 @@ export const gnroGridFeature = createFeature({
     }),
     on(gridActions.setLoadTreeDataLoading, (state, action) => {
       const key = action.gridId;
-      const newState: GridState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         newState[key] = {
           ...state[key],
@@ -322,7 +324,7 @@ export const gnroGridFeature = createFeature({
     }),
     on(gridActions.setInMemoryData, (state, action) => {
       const key = action.gridId;
-      const newState: GridState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         newState[key] = {
           ...state[key],
@@ -338,7 +340,7 @@ export const gnroGridFeature = createFeature({
     }),
     on(gridActions.setSelectAllRows, (state, action) => {
       const key = action.gridId;
-      const newState: GridState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         const oldState = state[key];
         const selection = oldState.selection.selection;
@@ -357,7 +359,7 @@ export const gnroGridFeature = createFeature({
     }),
     on(gridActions.setSelectRows, (state, action) => {
       const key = action.gridId;
-      const newState: GridState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         const oldState = state[key];
         const selection = oldState.selection.selection;
@@ -377,7 +379,7 @@ export const gnroGridFeature = createFeature({
     }),
     on(gridActions.setSelectRow, (state, action) => {
       const key = action.gridId;
-      const newState: GridState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         const oldState = state[key];
         const selection = oldState.selection.selection;
@@ -392,7 +394,7 @@ export const gnroGridFeature = createFeature({
     }),
     on(gridActions.setGroupBy, (state, action) => {
       const key = action.gridId;
-      const newState: GridState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         const oldState = state[key];
         const rowGroups = new GnroRowGroups();
@@ -411,7 +413,7 @@ export const gnroGridFeature = createFeature({
     }),
     on(gridActions.setToggleRowGroup, (state, action) => {
       const key = action.gridId;
-      const newState: GridState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         const oldState = state[key];
         const queryData = [...oldState.queryData];
@@ -433,7 +435,7 @@ export const gnroGridFeature = createFeature({
     }),
     on(gridActions.setUnGroupBy, (state, action) => {
       const key = action.gridId;
-      const newState: GridState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         const oldState = state[key];
         const groups = [...oldState.data].filter((record) => record instanceof GnroRowGroup);
@@ -459,7 +461,7 @@ export const gnroGridFeature = createFeature({
     }),
     on(gridActions.setEditable, (state, action) => {
       const key = action.gridId;
-      const newState: GridState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         const oldState = state[key];
         newState[key] = {
@@ -477,7 +479,7 @@ export const gnroGridFeature = createFeature({
     }),
     on(gridActions.setResetEdit, (state, action) => {
       const key = action.gridId;
-      const newState: GridState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         const oldState = state[key];
         newState[key] = {
@@ -492,14 +494,15 @@ export const gnroGridFeature = createFeature({
       }
       return { ...newState };
     }),
+    /*
     on(gridActions.setRecordModified, (state, action) => {
       const key = action.gridId;
-      const newState: GridState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         const oldState = state[key];
         const value = action.modified;
         let modified = [...oldState.modified];
-        const find = modified.find((record: { [key: string]: unknown }) => record[value.recordKey] === value.recordId);
+        const find = modified.find((record: { [key: string]: any }) => record[value.recordKey] === value.recordId);
         if (find) {
           modified = [...modified].filter(
             (record: { [key: string]: unknown }) => record[value.recordKey] !== value.recordId,
@@ -530,10 +533,12 @@ export const gnroGridFeature = createFeature({
       }
       return { ...newState };
     }),
+    */
 
+    /*
     on(gridActions.saveModifiedRecordsSuccess, (state, action) => {
       const key = action.gridId;
-      const newState: GridState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         const oldState = state[key];
         const recordKey = oldState.gridConfig.recordKey;
@@ -554,10 +559,11 @@ export const gnroGridFeature = createFeature({
       }
       return { ...newState };
     }),
+    */
 
     on(gridActions.removeStore, (state, action) => {
       const key = action.gridId;
-      const newState: GridState = { ...state };
+      const newState = { ...state };
       if (state[key]) {
         delete newState[key];
       }
