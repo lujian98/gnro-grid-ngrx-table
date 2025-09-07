@@ -5,11 +5,7 @@ import { contextClickedTabs } from '../utils/context-clicked-tabs';
 import { getSelectedTabIndex } from '../utils/selected-tab-index';
 import { tabsActions } from './tabs.actions';
 
-//export const initialState: TabsState = {};
-
-const initialState = <T>(): TabsState<T> => {
-  return {};
-};
+const initialState = <T>(): TabsState<T> => ({});
 
 export const gnroTabsFeature = createFeature({
   name: 'gnroTabs',

@@ -3,9 +3,7 @@ import { DashboardState, defaultDashboardState } from '../models/dashboard.model
 import { viewportConfig, viewportSetting } from '../utils/viewport-setting';
 import { dashboardActions } from './dashboard.actions';
 
-const initialState = <T>(): DashboardState<T> => {
-  return {};
-};
+const initialState = <T>(): DashboardState<T> => ({});
 
 export const gnroDashboardFeature = createFeature({
   name: 'gnroDashboard',
