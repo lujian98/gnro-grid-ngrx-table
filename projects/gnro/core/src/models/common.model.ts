@@ -1,5 +1,5 @@
 export interface GrnoDataType {
-  [key: string]: string | number | boolean | Date; // | object;
+  [key: string]: string | number | boolean | Date | object;
 }
 
 export enum GnroObjectType {
