@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { formWindowActions } from '@gnro/ui/form-window';
-import { deleteSelectedSucessfulAction } from '@gnro/ui/remote';
+import { remoteDeleteActions } from '@gnro/ui/remote';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { concatMap, debounceTime, delay, map, mergeMap, of, switchMap } from 'rxjs';
@@ -141,7 +141,7 @@ export class GnroGridEffects {
 
   refreshGridData$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(formWindowActions.saveSuccess, deleteSelectedSucessfulAction),
+      ofType(formWindowActions.saveSuccess, remoteDeleteActions.deleteSelectedSuccess),
       map(({ stateId }) => {
         return gridActions.getData({ gridId: stateId });
       }),

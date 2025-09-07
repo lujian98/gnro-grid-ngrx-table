@@ -5,12 +5,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatMap, exhaustMap, map } from 'rxjs';
 import { GnroExportsComponent } from '../components/exports/exports.component';
 import { GnroRemoteExportsService } from '../services/exports.service';
-import {
-  closeRemoteExportsWindowAction,
-  openRemoteExportsWindowAction,
-  remoteExportFileSuccessAction,
-  startRemoteExportsAction,
-} from './exports.actions';
+import { remoteExportsActions } from './exports.actions';
 
 @Injectable()
 export class GnroRemoteExportsEffects {
@@ -20,7 +15,7 @@ export class GnroRemoteExportsEffects {
 
   openRemoteExportsWindowAction$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(openRemoteExportsWindowAction),
+      ofType(remoteExportsActions.open),
       exhaustMap((action) => {
         const params = action.params;
         const dialogRef = this.dialogService.open(GnroExportsComponent, {
@@ -32,17 +27,17 @@ export class GnroRemoteExportsEffects {
       }),
       map((data) => {
         if (data === undefined) {
-          return closeRemoteExportsWindowAction();
+          return remoteExportsActions.close();
         }
         const params = data as HttpParams;
-        return startRemoteExportsAction({ params });
+        return remoteExportsActions.start({ params });
       }),
     ),
   );
 
   startRemoteExportsAction$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(startRemoteExportsAction),
+      ofType(remoteExportsActions.start),
       concatMap((action) => {
         return this.remoteExportsService.exports(action.params).pipe(
           map((response) => {
@@ -58,7 +53,7 @@ export class GnroRemoteExportsEffects {
             element.click();
             window.URL.revokeObjectURL(url);
             document.body.removeChild(element);
-            return remoteExportFileSuccessAction();
+            return remoteExportsActions.success();
           }),
         );
       }),

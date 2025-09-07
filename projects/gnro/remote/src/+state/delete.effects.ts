@@ -5,12 +5,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatMap, exhaustMap, map, mergeMap, of } from 'rxjs';
 import { GnroRemoteResponse } from '../models/remote.model';
 import { GnroRemoteDeleteService } from '../services/delete.service';
-import {
-  applyDeleteConfirmationAction,
-  closeDeleteConfirmationAction,
-  deleteSelectedSucessfulAction,
-  openDeleteConfirmationAction,
-} from './delete.actions';
+import { remoteDeleteActions } from './delete.actions';
 
 @Injectable()
 export class GnroRemoteDeleteEffects {
@@ -21,7 +16,7 @@ export class GnroRemoteDeleteEffects {
   //TODO i18n
   openDeleteConfirmationWindow$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(openDeleteConfirmationAction),
+      ofType(remoteDeleteActions.openConfirmationWindow),
       exhaustMap(({ stateId, keyName, selected }) => {
         const dialogRef = this.dialogService.open(GnroMessageComponent, {
           context: {
@@ -42,21 +37,21 @@ export class GnroRemoteDeleteEffects {
       }),
       map((data) => {
         if (data === undefined) {
-          return closeDeleteConfirmationAction();
+          return remoteDeleteActions.closeConfirmationWindow();
         }
-        return applyDeleteConfirmationAction(data as { stateId: string; keyName: string; selected: unknown[] });
+        return remoteDeleteActions.deleteSelected(data as { stateId: string; keyName: string; selected: unknown[] });
       }),
     ),
   );
 
   applyDeleteConfirmationAction$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(applyDeleteConfirmationAction),
+      ofType(remoteDeleteActions.deleteSelected),
       mergeMap(({ stateId, keyName, selected }) => {
         return this.remoteDeleteService.delete(stateId, keyName, selected).pipe(
           map((res: GnroRemoteResponse[]) => {
             const { stateId, keyName } = res[0];
-            return deleteSelectedSucessfulAction({ stateId, keyName });
+            return remoteDeleteActions.deleteSelectedSuccess({ stateId, keyName });
           }),
         );
       }),
@@ -64,9 +59,9 @@ export class GnroRemoteDeleteEffects {
   );
 
   //TODO i18n
-  deleteSelectedSucessfulAction$ = createEffect(() =>
+  deleteSelectedSuccessfulAction$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(deleteSelectedSucessfulAction),
+      ofType(remoteDeleteActions.deleteSelectedSuccess),
       concatMap(({ stateId, keyName }) =>
         of({ stateId, keyName }).pipe(
           map(() => GnroMessageActions.show({ action: 'Delete', keyName: keyName, configType: '' })),

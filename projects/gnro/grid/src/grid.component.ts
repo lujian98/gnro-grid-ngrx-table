@@ -185,7 +185,7 @@ export class GnroGridComponent<T> implements OnInit, OnDestroy {
     }
     if (button.remoteAction) {
       // TODO for undefined button???
-      this.gridFacade.buttonRemoteAction(this.gridId, button);
+      this.gridFacade.buttonRemoteClick(this.gridId, button);
     }
     this.gnroButtonClick.emit({ button, gridConfig: this.gridConfig$(), gridSetting: this.gridSetting$() });
   }

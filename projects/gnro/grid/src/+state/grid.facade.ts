@@ -1,7 +1,7 @@
 import { inject, Injectable, Signal } from '@angular/core';
 import { GnroBackendService, GnroButtonConfg } from '@gnro/ui/core';
 import { GnroFormWindowConfig, formWindowActions } from '@gnro/ui/form-window';
-import { buttonRemoteAction, openDeleteConfirmationAction, openRemoteExportsWindowAction } from '@gnro/ui/remote';
+import { remoteButtonActions, remoteDeleteActions, remoteExportsActions } from '@gnro/ui/remote';
 import { Store } from '@ngrx/store';
 import {
   GnroCellEdit,
@@ -290,7 +290,7 @@ export class GnroGridFacade {
       const keyName = gridConfig.urlKey;
       const recordKey = gridConfig.recordKey;
       const selected = data.map((item: object) => ({ [recordKey]: item[recordKey as keyof typeof item] }));
-      this.store.dispatch(openDeleteConfirmationAction({ stateId: gridId, keyName, selected }));
+      this.store.dispatch(remoteDeleteActions.openConfirmationWindow({ stateId: gridId, keyName, selected }));
     }
   }
 
@@ -301,7 +301,7 @@ export class GnroGridFacade {
     let params = this.backendService.getParams(gridConfig.urlKey, 'exports');
     params = filterHttpParams(gridConfig.columnFilters, columns, params);
     params = sortHttpParams(gridConfig.sortFields, params);
-    this.store.dispatch(openRemoteExportsWindowAction({ params }));
+    this.store.dispatch(remoteExportsActions.open({ params }));
   }
 
   /*
@@ -349,8 +349,8 @@ export class GnroGridFacade {
     this.store.dispatch(gridActions.getConcatData({ gridId: setting.gridId }));
   }
 
-  buttonRemoteAction(gridId: string, button: GnroButtonConfg): void {
+  buttonRemoteClick(gridId: string, button: GnroButtonConfg): void {
     console.log(' button=', button);
-    this.store.dispatch(buttonRemoteAction({ button, keyName: 'DCR', configType: 'record', formData: {} }));
+    this.store.dispatch(remoteButtonActions.click({ button, keyName: 'DCR', configType: 'record', formData: {} }));
   }
 }

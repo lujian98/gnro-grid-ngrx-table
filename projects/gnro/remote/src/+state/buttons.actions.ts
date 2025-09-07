@@ -1,7 +1,9 @@
 import { GnroButtonConfg } from '@gnro/ui/core';
-import { createAction, props } from '@ngrx/store';
+import { createActionGroup, props } from '@ngrx/store';
 
-export const buttonRemoteAction = createAction(
-  '[Remote Button] Remote Button Action',
-  props<{ button: GnroButtonConfg; keyName: string; configType: string; formData: object }>(),
-);
+export const remoteButtonActions = createActionGroup({
+  source: '[Remote Button]',
+  events: {
+    Click: props<{ button: GnroButtonConfg; keyName: string; configType: string; formData: object }>(),
+  },
+});
