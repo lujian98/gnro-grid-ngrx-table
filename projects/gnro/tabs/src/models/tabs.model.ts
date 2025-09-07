@@ -51,15 +51,15 @@ export interface GnroTabsSetting {
   viewportReady: boolean; //not used
 }
 
-export interface TabsState {
-  [key: string]: GnroTabsState;
+export interface TabsState<T> {
+  [key: string]: GnroTabsState<T>;
 }
 
-export interface GnroTabsState {
+export interface GnroTabsState<T> {
   tabsConfig: GnroTabsConfig;
   tabsSetting: GnroTabsSetting;
-  tabs: GnroTabConfig<unknown>[];
-  options: GnroTabOption<unknown>[]; // options are input to tabs mapped using portalName to portal component
+  tabs: GnroTabConfig<T>[];
+  options: GnroTabOption<T>[]; // options are input to tabs mapped using portalName to portal component
 }
 
 export const defaultTabsSetting: GnroTabsSetting = {
@@ -67,7 +67,7 @@ export const defaultTabsSetting: GnroTabsSetting = {
   viewportReady: false,
 };
 
-export const defaultTabsState: GnroTabsState = {
+export const defaultTabsState: GnroTabsState<any> = {
   tabsConfig: defaultTabsConfig,
   tabsSetting: defaultTabsSetting,
   tabs: [],

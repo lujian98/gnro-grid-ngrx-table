@@ -60,11 +60,11 @@ export class GnroTabsFacade {
     return this.store.selectSignal(selectTabsConfig(tabsId));
   }
 
-  getTabs(tabsId: string): Signal<GnroTabConfig<unknown>[]> {
-    return this.store.selectSignal(selectTabsTabs(tabsId));
+  getTabs<T>(tabsId: string): Signal<GnroTabConfig<T>[]> {
+    return this.store.selectSignal(selectTabsTabs(tabsId)) as Signal<GnroTabConfig<T>[]>;
   }
 
-  getOptions(tabsId: string): Signal<GnroTabConfig<unknown>[]> {
-    return this.store.selectSignal(selectTabsOptions(tabsId));
+  getOptions<T>(tabsId: string): Signal<GnroTabConfig<T>[]> {
+    return this.store.selectSignal(selectTabsOptions(tabsId)) as Signal<GnroTabConfig<T>[]>;
   }
 }
