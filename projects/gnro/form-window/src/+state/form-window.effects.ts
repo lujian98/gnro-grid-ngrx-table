@@ -5,7 +5,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { concatMap, exhaustMap, map, of } from 'rxjs';
 import { GnroFormWindowComponent } from '../form-window.component';
-import * as formWindowActions from './form-window.actions';
+import { formWindowActions } from './form-window.actions';
 import { selectStateId } from './form-window.selectors';
 
 @Injectable()
@@ -14,9 +14,9 @@ export class GnroFormWindowEffects {
   private readonly store = inject(Store);
   private readonly dialogService = inject(GnroDialogService);
 
-  openGridFormWindow$ = createEffect(() =>
+  openFormWindow$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(formWindowActions.openFormWindowDialogAction),
+      ofType(formWindowActions.open),
       exhaustMap(({ formWindowConfig }) => {
         const dialogRef = this.dialogService.open(GnroFormWindowComponent, {
           context: formWindowConfig,
@@ -26,15 +26,15 @@ export class GnroFormWindowEffects {
       }),
       map((values) => {
         if (values === undefined) {
-          return formWindowActions.closeFormWindowDialogAction();
+          return formWindowActions.close();
         }
         // current is use Save button save record, not use this apply action.
-        return formWindowActions.applyFormWindowDialogChangesAction({ values: values as object });
+        return formWindowActions.save({ values: values as object });
       }),
     ),
   );
 
-  saveFormDataSuccess$ = createEffect(() =>
+  saveFormWindowDataSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(formActions.saveData),
       concatMap(({ formConfig }) =>
@@ -42,7 +42,7 @@ export class GnroFormWindowEffects {
           map(({ formConfig }) => {
             const keyName = formConfig.urlKey;
             const stateId = this.store.selectSignal(selectStateId)();
-            return formWindowActions.savedFormWindowDataAction({ stateId, keyName });
+            return formWindowActions.saveSuccess({ stateId, keyName });
           }),
         ),
       ),

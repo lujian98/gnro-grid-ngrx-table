@@ -1,6 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { GnroObjectType } from '@gnro/ui/core';
-import { savedFormWindowDataAction } from '@gnro/ui/form-window';
+import { formWindowActions } from '@gnro/ui/form-window';
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { MIN_GRID_COLUMN_WIDTH, VIRTUAL_SCROLL_PAGE_SIZE } from '../models/constants';
 import { defaultState } from '../models/default-grid';
@@ -287,7 +287,7 @@ export const gnroGridFeature = createFeature({
       }
       return { ...newState };
     }),
-    on(savedFormWindowDataAction, (state, action) => {
+    on(formWindowActions.saveSuccess, (state, action) => {
       const key = action.stateId;
       const newState: GridState = { ...state };
       if (state[key]) {
