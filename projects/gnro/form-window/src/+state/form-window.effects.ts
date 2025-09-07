@@ -25,11 +25,12 @@ export class GnroFormWindowEffects {
         return dialogRef.onClose;
       }),
       map((values) => {
-        if (values === undefined) {
-          return formWindowActions.close();
-        }
+        //if (values === undefined) {
+        //  return formWindowActions.close();
+        //}
+        return formWindowActions.close();
         // current is use Save button save record, not use this apply action.
-        return formWindowActions.save({ values: values as object });
+        //return formWindowActions.save({ values });
       }),
     ),
   );

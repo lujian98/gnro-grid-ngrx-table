@@ -1,5 +1,5 @@
 import { inject, Injectable, Signal } from '@angular/core';
-import { GnroBackendService, GnroButtonConfg } from '@gnro/ui/core';
+import { GnroBackendService, GnroButtonConfg, GrnoDataType } from '@gnro/ui/core';
 import { GnroFormWindowConfig, formWindowActions } from '@gnro/ui/form-window';
 import { remoteButtonActions, remoteDeleteActions, remoteExportsActions } from '@gnro/ui/remote';
 import { Store } from '@ngrx/store';
@@ -283,14 +283,14 @@ export class GnroGridFacade {
     this.openFormWindow(gridId, record, true);
   }
 
-  deleteRecords<T>(gridId: string): void {
-    const data = this.getRowSelection(gridId)()?.selection.selected;
+  deleteRecords(gridId: string): void {
+    const data = this.getRowSelection(gridId)()?.selection.selected as GrnoDataType[];
     if (data && data.length > 0) {
       const gridConfig = this.getConfig(gridId)();
       const keyName = gridConfig.urlKey;
       const recordKey = gridConfig.recordKey;
-      //const selected = data.map((item: T) => ({ [recordKey]: item[recordKey as keyof typeof item] }));
-      //this.store.dispatch(remoteDeleteActions.openConfirmationWindow({ stateId: gridId, keyName, selected }));
+      const selected = data.map((item) => ({ [recordKey]: item[recordKey as keyof typeof item] }));
+      this.store.dispatch(remoteDeleteActions.openConfirmationWindow({ stateId: gridId, keyName, selected }));
     }
   }
 
@@ -333,10 +333,10 @@ export class GnroGridFacade {
           ...config.formConfig,
           editing: editing,
         },
-        values,
+        values: values as GrnoDataType,
       };
       console.log(' formWindowConfig=', formWindowConfig);
-      //this.store.dispatch(formWindowActions.open({ stateId, formWindowConfig }));
+      this.store.dispatch(formWindowActions.open({ stateId, formWindowConfig }));
     }
   }
 

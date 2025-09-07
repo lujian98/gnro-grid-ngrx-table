@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { GrnoDataType } from '@gnro/ui/core';
 import { GnroFormField } from '@gnro/ui/fields';
 import { GnroLayoutComponent } from '@gnro/ui/layout';
 import { GnroFormComponent, GnroFormConfig } from '@gnro/ui/form';
@@ -13,5 +14,5 @@ import { GnroFormComponent, GnroFormConfig } from '@gnro/ui/form';
 export class GnroFormPanelComponent {
   formConfig = input.required<Partial<GnroFormConfig>>();
   formFields = input<GnroFormField[]>([]);
-  values = input<object>({});
+  values = input<GrnoDataType>({});
 }
