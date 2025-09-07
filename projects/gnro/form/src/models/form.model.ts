@@ -1,5 +1,5 @@
 import { ValidatorFn } from '@angular/forms';
-import { GnroButtonConfg } from '@gnro/ui/core';
+import { GnroButtonConfg, GrnoDataType } from '@gnro/ui/core';
 import { GnroFormField } from '@gnro/ui/fields';
 
 export interface GnroFormConfig {
@@ -24,7 +24,7 @@ export interface GnroFormFieldsResponse {
 }
 
 export interface GnroFormRecordResponse {
-  formData: object;
+  formData: GrnoDataType;
 }
 
 export interface GnroFormSetting {
@@ -37,14 +37,14 @@ export interface FormState {
   [key: string]: GnroFormState;
 }
 
-export interface GnroFormState<T extends object = object> {
+export interface GnroFormState {
   formConfig: GnroFormConfig;
   formSetting: GnroFormSetting;
   formFields: GnroFormField[];
-  formData: object | undefined;
+  formData: GrnoDataType | undefined;
 }
 
 export interface GnroFormButtonClick {
   button: GnroButtonConfg;
-  formData: object;
+  formData: GrnoDataType;
 }

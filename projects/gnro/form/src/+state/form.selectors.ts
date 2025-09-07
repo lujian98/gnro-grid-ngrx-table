@@ -25,5 +25,5 @@ export const selectFormFieldsConfig = (formId: string) =>
 
 export const selectFormData = (formId: string) =>
   createSelector(featureSelector, (state: FormState) => {
-    return state && state[formId] ? state[formId].formData : [];
+    return state && state[formId] ? state[formId].formData : undefined;
   });

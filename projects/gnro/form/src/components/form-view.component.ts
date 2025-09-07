@@ -16,6 +16,7 @@ import {
   GnroButtonType,
   GnroObjectType,
   GnroBUTTONS,
+  GrnoDataType,
   GnroUploadFileService,
   isEqual,
 } from '@gnro/ui/core';
@@ -73,7 +74,7 @@ export class GnroFormViewComponent implements OnInit {
     },
   });
   values = input(undefined, {
-    transform: (values: object) => {
+    transform: (values: GrnoDataType) => {
       if (this.form) {
         if (values) {
           this.form.patchValue({ ...values });
@@ -167,7 +168,7 @@ export class GnroFormViewComponent implements OnInit {
     this.uploadFileService.uploadFiles = [];
   }
 
-  private checkFormValueChanged(values: object): void {
+  private checkFormValueChanged(values: GrnoDataType): void {
     if (this.values() && Object.keys(this.values()!).length > 0) {
       isEqual(values, this.values()) ? this.form.markAsPristine() : this.form.markAsDirty();
       this.setFieldDirty(values, this.values()!);
@@ -175,10 +176,10 @@ export class GnroFormViewComponent implements OnInit {
     }
   }
 
-  private setFieldDirty<T>(values: object, orgValues: object): void {
+  private setFieldDirty(values: GrnoDataType, orgValues: GrnoDataType): void {
     Object.keys(values).forEach((key) => {
       const formField = this.form.get(key)!;
-      const isequal = isEqual((values as { [key: string]: T })[key], (orgValues as { [key: string]: T })[key]);
+      const isequal = isEqual(values[key], orgValues[key]);
       if (isequal) {
         formField.markAsPristine();
       } else {
