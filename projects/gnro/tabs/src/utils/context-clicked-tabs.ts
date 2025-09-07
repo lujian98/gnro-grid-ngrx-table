@@ -1,12 +1,12 @@
 import { GnroMenuConfig } from '@gnro/ui/menu';
 import { GnroContextMenuType, GnroTabConfig } from '../models/tabs.model';
 
-export function contextClickedTabs(
+export function contextClickedTabs<T>(
   menu: GnroMenuConfig,
-  tabs: GnroTabConfig<unknown>[],
-  tab: GnroTabConfig<unknown>,
+  tabs: GnroTabConfig<T>[],
+  tab: GnroTabConfig<T>,
   index: number,
-): GnroTabConfig<unknown>[] {
+): GnroTabConfig<T>[] {
   switch (menu.name) {
     case GnroContextMenuType.CLOSE:
       return [...tabs].filter((item) => item.name !== tab.name || !item.closeable);

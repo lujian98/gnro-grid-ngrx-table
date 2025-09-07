@@ -20,11 +20,11 @@ export class GnroTabsFacade {
     this.store.dispatch(tabsActions.loadConfigSuccess({ tabsId, tabsConfig }));
   }
 
-  setTabs(tabsId: string, tabs: GnroTabConfig<unknown>[]): void {
+  setTabs<T>(tabsId: string, tabs: GnroTabConfig<T>[]): void {
     this.store.dispatch(tabsActions.loadTabsSuccess({ tabsId, tabs }));
   }
 
-  setOptions(tabsId: string, options: GnroTabOption<unknown>[]): void {
+  setOptions<T>(tabsId: string, options: GnroTabOption<T>[]): void {
     this.store.dispatch(tabsActions.loadOptions({ tabsId, options }));
   }
 
@@ -32,7 +32,7 @@ export class GnroTabsFacade {
     this.store.dispatch(tabsActions.setSelectedIndex({ tabsId, index }));
   }
 
-  addTab(tabsId: string, tab: GnroTabConfig<unknown>): void {
+  addTab<T>(tabsId: string, tab: GnroTabConfig<T>): void {
     this.store.dispatch(tabsActions.addTab({ tabsId, tab }));
   }
 
@@ -40,11 +40,11 @@ export class GnroTabsFacade {
     this.store.dispatch(tabsActions.dragDropTab({ tabsId, previousIndex, currentIndex }));
   }
 
-  contextMenuClicked(tabsId: string, menuItem: GnroMenuConfig, tab: GnroTabConfig<unknown>, index: number): void {
+  contextMenuClicked<T>(tabsId: string, menuItem: GnroMenuConfig, tab: GnroTabConfig<T>, index: number): void {
     this.store.dispatch(tabsActions.contextMenuClicked({ tabsId, menuItem, tab, index }));
   }
 
-  closeTab(tabsId: string, tab: GnroTabConfig<unknown>): void {
+  closeTab<T>(tabsId: string, tab: GnroTabConfig<T>): void {
     this.store.dispatch(tabsActions.closeTab({ tabsId, tab }));
   }
 

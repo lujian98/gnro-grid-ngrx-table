@@ -1,9 +1,9 @@
 import { createActionGroup, props } from '@ngrx/store';
 import { GnroDashboardConfig, GnroTile, GnroTileOption } from '../models/dashboard.model';
 
-export const dashboardActions = createdDashboardActions();
+export const dashboardActions = createDashboardActions();
 
-export function createdDashboardActions<T>() {
+export function createDashboardActions<T>() {
   return createActionGroup({
     source: '[Dashboard]',
     events: {

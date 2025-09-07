@@ -21,41 +21,41 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DragDropModule, CdkDrag, GnroMenusComponent, GnroPopoverDirective, GnroIconModule, GnroTabsStateModule],
 })
-export class GnroTabsTabComponent {
+export class GnroTabsTabComponent<T> {
   private tabsFacade = inject(GnroTabsFacade);
   position: GnroPosition = GnroPosition.BOTTOMRIGHT;
   contextMenu = defaultContextMenu;
 
   tabsConfig = input.required<GnroTabsConfig>();
   tabsSetting = input.required<GnroTabsSetting>();
-  tab = input.required<GnroTabConfig<unknown>>();
-  tabs = input.required<GnroTabConfig<unknown>[]>();
+  tab = input.required<GnroTabConfig<T>>();
+  tabs = input.required<GnroTabConfig<T>[]>();
   index = input.required<number>();
 
   get contextMenuTrigger(): GnroTrigger {
     return this.tabsConfig().enableContextMenu ? GnroTrigger.CONTEXTMENU : GnroTrigger.NOOP;
   }
 
-  dragDisabled(tab: GnroTabConfig<unknown>): boolean {
+  dragDisabled(tab: GnroTabConfig<T>): boolean {
     return !this.tabsConfig().tabReorder;
   }
 
-  closeable(tab: GnroTabConfig<unknown>): boolean {
+  closeable(tab: GnroTabConfig<T>): boolean {
     return this.tabsConfig().closeable && !!tab.closeable;
   }
 
-  getTabLabel(tab: GnroTabConfig<unknown>): string {
+  getTabLabel(tab: GnroTabConfig<T>): string {
     return tab.title || tab.name;
   }
 
-  getDisabled(tab: GnroTabConfig<unknown>): GnroDisabled[] {
+  getDisabled(tab: GnroTabConfig<T>): GnroDisabled[] {
     return [...defaultContextMenu].map((menu) => ({
       name: menu.name,
       disabled: this.menuItemDisabled(menu.name, tab, this.index()),
     }));
   }
 
-  private menuItemDisabled(name: GnroContextMenuType, tab: GnroTabConfig<unknown>, index: number): boolean {
+  private menuItemDisabled(name: GnroContextMenuType, tab: GnroTabConfig<T>, index: number): boolean {
     switch (name) {
       case GnroContextMenuType.CLOSE:
         return !tab.closeable;
@@ -72,11 +72,11 @@ export class GnroTabsTabComponent {
     }
   }
 
-  onContextMenuClicked(menuItem: GnroMenuConfig, tab: GnroTabConfig<unknown>): void {
+  onContextMenuClicked(menuItem: GnroMenuConfig, tab: GnroTabConfig<T>): void {
     this.tabsFacade.contextMenuClicked(this.tabsSetting().tabsId, menuItem, tab, this.index());
   }
 
-  closeTab(event: MouseEvent, tab: GnroTabConfig<unknown>): void {
+  closeTab(event: MouseEvent, tab: GnroTabConfig<T>): void {
     event.stopPropagation();
     this.tabsFacade.closeTab(this.tabsSetting().tabsId, tab);
   }

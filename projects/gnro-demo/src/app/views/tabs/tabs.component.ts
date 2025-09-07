@@ -119,7 +119,7 @@ export class AppTabsComponent {
     return { ...option, ...find };
   });
 
-  @ViewChild(GnroTabsComponent, { static: false }) tabsPanel!: GnroTabsComponent;
+  @ViewChild(GnroTabsComponent, { static: false }) tabsPanel!: GnroTabsComponent<unknown>;
 
   onMenuItemClick(item: GnroTabConfig<unknown> | GnroMenuConfig): void {
     if ((item as GnroMenuConfig).link) {

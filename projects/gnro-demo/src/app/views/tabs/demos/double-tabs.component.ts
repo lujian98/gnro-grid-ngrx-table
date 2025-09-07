@@ -38,7 +38,7 @@ export class AppDoubleTabsComponent {
     skills: [12, 13, 14, 15, 16],
   };
 
-  tabs = [
+  tabs: any[] = [
     {
       name: 'one',
       content: AppGridMultiRowSelectionComponent,
@@ -71,7 +71,7 @@ export class AppDoubleTabsComponent {
     },
   ];
 
-  tabs2 = [
+  tabs2: any[] = [
     {
       name: 'one',
       content: AppGridMultiRowSelectionComponent,

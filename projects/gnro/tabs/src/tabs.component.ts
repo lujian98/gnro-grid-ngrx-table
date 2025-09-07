@@ -33,7 +33,7 @@ import {
     GnroTabsTabComponent,
   ],
 })
-export class GnroTabsComponent implements OnDestroy {
+export class GnroTabsComponent<T> implements OnDestroy {
   private readonly tabsFacade = inject(GnroTabsFacade);
   private readonly tabsId = `tab-${uniqueId()}`;
   tabsConfig$ = this.tabsFacade.getConfig(this.tabsId);
@@ -50,13 +50,13 @@ export class GnroTabsComponent implements OnDestroy {
     },
   });
   options = input([], {
-    transform: (options: GnroTabOption<unknown>[]) => {
+    transform: (options: GnroTabOption<T>[]) => {
       this.tabsFacade.setOptions(this.tabsId, options);
       return options;
     },
   });
   tabs = input([], {
-    transform: (tabs: GnroTabConfig<unknown>[]) => {
+    transform: (tabs: GnroTabConfig<T>[]) => {
       if (this.tabsConfig() && !this.tabsConfig().remoteTabs) {
         this.tabsFacade.setTabs(this.tabsId, tabs);
       }
@@ -72,12 +72,12 @@ export class GnroTabsComponent implements OnDestroy {
     this.tabsFacade.setSelectedIndex(this.tabsId, index);
   }
 
-  drop(event: CdkDragDrop<GnroTabConfig<unknown>>): void {
+  drop(event: CdkDragDrop<GnroTabConfig<T>>): void {
     this.tabsFacade.dragDropTab(this.tabsId, event.previousIndex, event.currentIndex);
   }
 
   // add tab from left side menu
-  addTab(tabItem: GnroTabConfig<unknown>): void {
+  addTab(tabItem: GnroTabConfig<T>): void {
     this.tabsFacade.addTab(this.tabsId, tabItem);
   }
 
