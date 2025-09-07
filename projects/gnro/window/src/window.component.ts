@@ -191,7 +191,7 @@ export class GnroWindowComponent<T> {
         };
         this.resetWindowPosition();
         //TODO issue this will cause grid reload???
-        window.dispatchEvent(new Event('resize'));
+        //window.dispatchEvent(new Event('resize'));
       });
   }
 
