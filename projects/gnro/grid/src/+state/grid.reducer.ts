@@ -12,8 +12,6 @@ import { getSelection, setSelection } from '../utils/row-selection';
 import { stickyEndMinWidth } from '../utils/viewport-width-ratio';
 import { gridActions } from './grid.actions';
 
-//export const initialState: GridState = {};
-
 const initialState = <T>(): GridState<T> => ({});
 
 export const gnroGridFeature = createFeature({
