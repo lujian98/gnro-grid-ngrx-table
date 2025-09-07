@@ -5,6 +5,7 @@ import { MIN_GRID_COLUMN_WIDTH, VIRTUAL_SCROLL_PAGE_SIZE } from '../models/const
 import { defaultState } from '../models/default-grid';
 import { GridState } from '../models/grid.model';
 import { getFormFields } from '../utils/form-fields';
+import { getModifiedRecords } from '../utils/modified-records';
 import { GnroRowGroup } from '../utils/row-group/row-group';
 import { GnroRowGroups } from '../utils/row-group/row-groups';
 import { getSelection, initSelection, setSelection } from '../utils/row-selection';
@@ -494,28 +495,7 @@ export const gnroGridFeature = createFeature({
       const newState = { ...state };
       if (state[key]) {
         const oldState = state[key];
-        const value = action.modified;
-        let modified = [...oldState.modified] as GrnoDataType[];
-        const find = modified.find((record) => record[value.recordKey] === value.recordId);
-        if (find) {
-          modified = [...modified].filter((record) => record[value.recordKey] !== value.recordId);
-          if (value.changed) {
-            (find as { [key: string]: unknown })[value.field] = value.value;
-          } else {
-            delete (find as { [key: string]: unknown })[value.field];
-          }
-          if (Object.keys(find).length > 1) {
-            modified.push(find);
-          }
-        } else {
-          const record = {
-            [value.recordKey]: value.recordId,
-            [value.field]: value.value,
-          };
-          //record[value.recordKey] = value.recordId;
-          //record[value.field] = value.value;
-          modified.push(record as GrnoDataType);
-        }
+        const modified = getModifiedRecords(oldState.modified as GrnoDataType[], action.modified);
         newState[key] = {
           ...oldState,
           gridSetting: {
