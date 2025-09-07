@@ -93,7 +93,7 @@ export class GnroGridService {
     return params;
   }
 
-  getGridData<T>(gridConfig: GnroGridConfig, columns: GnroColumnConfig[]): Observable<GnroGridData<object>> {
+  getGridData<T>(gridConfig: GnroGridConfig, columns: GnroColumnConfig[]): Observable<GnroGridData<T>> {
     let params = this.backendService.getParams(gridConfig.urlKey, 'gridData');
     params = filterHttpParams(gridConfig.columnFilters, columns, params);
     params = sortHttpParams(gridConfig.sortFields, params);
@@ -102,7 +102,7 @@ export class GnroGridService {
     params = params.append('offset', offset.toString());
     params = params.append('limit', limit.toString());
     const url = this.backendService.apiUrl;
-    return this.http.get<GnroGridData<object>>(url, { params }).pipe(
+    return this.http.get<GnroGridData<T>>(url, { params }).pipe(
       map((res) => {
         return res;
       }),

@@ -86,38 +86,3 @@ export function defaultState<T>(): GnroGridState<T> {
     modified: [],
   };
 }
-
-/*
-export const defaultState: GnroGridState = {
-  gridConfig: defaultGridConfig,
-  gridSetting: defaultGridSetting,
-  columnsConfig: [],
-  formWindowConfig: {
-    windowConfig: {
-      title: 'Grid Form Window',
-      showHeader: true,
-      closable: true,
-      dragDisabled: false,
-      maximizable: true,
-      resizeable: true,
-      width: '800px',
-    },
-    formConfig: {
-      labelWidth: 150,
-    },
-    formFields: [],
-  },
-  data: [],
-  totalCounts: 0,
-  inMemoryData: [],
-  queryData: [],
-  rowGroups: undefined,
-  selection: {
-    selection: new SelectionModel<object>(false, []),
-    selected: 0,
-    allSelected: false,
-    indeterminate: false,
-  },
-  modified: [],
-};
-*/

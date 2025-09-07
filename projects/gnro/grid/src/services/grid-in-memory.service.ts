@@ -25,9 +25,9 @@ export class GnroGridinMemoryService {
     gridConfig: GnroGridConfig,
     columns: GnroColumnConfig[],
     inMemoryData: T[],
-  ): Observable<GnroGridData<object>> {
+  ): Observable<GnroGridData<T>> {
     const filterParams = this.getFilterParams(gridConfig.columnFilters, columns);
-    const filteredData = this.getFilteredData([...inMemoryData] as object[], filterParams);
+    const filteredData = this.getFilteredData([...inMemoryData], filterParams);
     const sortedData = this.getSortedData(filteredData, gridConfig.sortFields);
     const offset = (gridConfig.page - 1) * gridConfig.pageSize;
     const limit = gridConfig.pageSize;
@@ -36,7 +36,7 @@ export class GnroGridinMemoryService {
     return of({
       data: offsetData,
       totalCounts: filteredData.length,
-    });
+    } as GnroGridData<T>);
   }
 
   private getSearches(filterKey: string, compareKey: string, filterParams: GnroInMemoryFilterValue[]): any[] {
@@ -47,7 +47,7 @@ export class GnroGridinMemoryService {
       });
   }
 
-  protected getFilteredData(data: object[], filterParams: GnroInMemoryFilterValue[]) {
+  protected getFilteredData<T>(data: T[], filterParams: GnroInMemoryFilterValue[]) {
     const filters: { [index: string]: GnroInMemoryFilters[] } = {};
     [...filterParams].forEach((params) => {
       const key = params.key;
@@ -82,7 +82,7 @@ export class GnroGridinMemoryService {
     return data;
   }
 
-  private getFilterCondition(filters: GnroInMemoryFilters[], item: object): boolean {
+  private getFilterCondition<T>(filters: GnroInMemoryFilters[], item: T): boolean {
     let ret: boolean | undefined = undefined;
     let lastType = '';
     let lastKey = '';
