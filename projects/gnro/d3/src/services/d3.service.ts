@@ -40,10 +40,10 @@ export class GnroD3Service {
     );
   }
 
-  getD3Data(d3Config: GnroD3Config): Observable<any[]> {
+  getD3Data<T>(d3Config: GnroD3Config): Observable<T[]> {
     const params = this.backendService.getParams(d3Config.urlKey, 'd3Data', d3Config.chartName);
     const url = this.backendService.apiUrl;
-    return this.http.get<GnroD3DataResponse>(url, { params }).pipe(
+    return this.http.get<GnroD3DataResponse<T>>(url, { params }).pipe(
       map((response) => {
         return [...response.d3Data];
       }),

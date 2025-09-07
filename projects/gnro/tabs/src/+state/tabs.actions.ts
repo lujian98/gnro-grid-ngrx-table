@@ -4,7 +4,7 @@ import { GnroTabConfig, GnroTabOption, GnroTabsConfig } from '../models/tabs.mod
 
 export const tabsActions = createTabsActions();
 
-export function createTabsActions<T>() {
+function createTabsActions<T>() {
   return createActionGroup({
     source: '[Tabs]',
     events: {

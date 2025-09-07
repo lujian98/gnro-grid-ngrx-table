@@ -26,7 +26,7 @@ export class GnroD3Facade {
     }
   }
 
-  setData(d3Id: string, d3Config: GnroD3Config, data: any): void {
+  setData<T>(d3Id: string, d3Config: GnroD3Config, data: T[]): void {
     this.store.dispatch(d3Actions.getDataSuccess({ d3Id, d3Config, data }));
   }
 
@@ -46,7 +46,7 @@ export class GnroD3Facade {
     return this.store.selectSignal(selectD3ChartConfigs(d3Id));
   }
 
-  getData(d3Id: string): Signal<any> {
-    return this.store.selectSignal(selectD3Data(d3Id));
+  getData<T>(d3Id: string): Signal<T[]> {
+    return this.store.selectSignal(selectD3Data(d3Id)) as Signal<T[]>;
   }
 }

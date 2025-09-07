@@ -107,19 +107,19 @@ export class InMemoryService extends InMemoryDbService {
 
     DCR_d3ConfigP1: GnroD3ConfigResponse;
     DCR_d3ChartConfigsP1: GnroD3ChartConfigsResponse;
-    DCR_d3DataP1: GnroD3DataResponse;
+    DCR_d3DataP1: GnroD3DataResponse<unknown>;
 
     DCR_d3ConfigP2: GnroD3ConfigResponse;
     DCR_d3ChartConfigsP2: GnroD3ChartConfigsResponse;
-    DCR_d3DataP2: GnroD3DataResponse;
+    DCR_d3DataP2: GnroD3DataResponse<unknown>;
 
     DCR_d3ConfigP3: GnroD3ConfigResponse;
     DCR_d3ChartConfigsP3: GnroD3ChartConfigsResponse;
-    DCR_d3DataP3: GnroD3DataResponse;
+    DCR_d3DataP3: GnroD3DataResponse<unknown>;
 
     DCR_d3ConfigP4: GnroD3ConfigResponse;
     DCR_d3ChartConfigsP4: GnroD3ChartConfigsResponse;
-    DCR_d3DataP4: GnroD3DataResponse;
+    DCR_d3DataP4: GnroD3DataResponse<unknown>;
   } {
     return {
       DCR: CARSDATA,

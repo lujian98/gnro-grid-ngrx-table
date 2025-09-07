@@ -17,8 +17,8 @@ export interface GnroD3ChartConfigsResponse {
   d3ChartConfigs: GnroD3ChartConfig[];
 }
 
-export interface GnroD3DataResponse {
-  d3Data: unknown[];
+export interface GnroD3DataResponse<T> {
+  d3Data: T[];
 }
 
 // for internal grid setting
@@ -30,11 +30,11 @@ export const defaultD3Setting: GnroD3Setting = {
   d3Id: '191cf2bb6b5', // auto generated unique id
 };
 
-export interface D3State {
-  [key: string]: GnroD3State;
+export interface D3State<T> {
+  [key: string]: GnroD3State<T>;
 }
 
-export interface GnroD3State<T extends object = object> {
+export interface GnroD3State<T> {
   d3Config: GnroD3Config;
   d3Setting: GnroD3Setting;
   chartConfigs: GnroD3ChartConfig[];
@@ -42,7 +42,7 @@ export interface GnroD3State<T extends object = object> {
 }
 
 export const defaultD3Config: GnroD3Config = {
-  urlKey: 'formfields', // Only for remote config
+  urlKey: 'd3config', // Only for remote config
   chartName: 'chartName',
   options: undefined,
   remoteD3Config: false,
@@ -50,9 +50,11 @@ export const defaultD3Config: GnroD3Config = {
   remoteD3Data: false,
 };
 
-export const defaultD3State: GnroD3State = {
-  d3Config: defaultD3Config,
-  d3Setting: defaultD3Setting,
-  chartConfigs: [],
-  data: undefined,
-};
+export function defaultD3State<T>(): GnroD3State<T> {
+  return {
+    d3Config: defaultD3Config,
+    d3Setting: defaultD3Setting,
+    chartConfigs: [],
+    data: undefined,
+  };
+}

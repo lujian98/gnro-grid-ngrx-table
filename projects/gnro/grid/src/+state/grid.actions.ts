@@ -13,7 +13,7 @@ import { GnroRowGroup } from '../utils/row-group/row-group';
 
 export const gridActions = createGridActions();
 
-export function createGridActions<T>() {
+function createGridActions<T>() {
   return createActionGroup({
     source: '[Grid]',
     events: {

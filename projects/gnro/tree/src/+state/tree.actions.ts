@@ -3,7 +3,7 @@ import { GnroTreeConfig, GnroTreeNode } from '../models/tree-grid.model';
 
 export const treeActions = createTreeActions();
 
-export function createTreeActions<T>() {
+function createTreeActions<T>() {
   return createActionGroup({
     source: '[Tree]',
     events: {

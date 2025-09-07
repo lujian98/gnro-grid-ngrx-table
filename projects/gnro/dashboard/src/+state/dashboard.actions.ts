@@ -3,7 +3,7 @@ import { GnroDashboardConfig, GnroTile, GnroTileOption } from '../models/dashboa
 
 export const dashboardActions = createDashboardActions();
 
-export function createDashboardActions<T>() {
+function createDashboardActions<T>() {
   return createActionGroup({
     source: '[Dashboard]',
     events: {
