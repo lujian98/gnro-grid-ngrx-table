@@ -1,0 +1,12 @@
+<div>Base Store</div>
+
+@if (data$()) {
+  <div>load data</div>
+
+  @for (record of data$(); track $index; let index = $index) {
+    <div>
+      <span>{{ record["ID"] }} </span>
+      <span>{{ record["brand"] }} </span>
+    </div>
+  }
+}
