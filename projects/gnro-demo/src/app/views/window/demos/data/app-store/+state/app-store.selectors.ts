@@ -1,2 +1,3 @@
-//import { appBaseStoreFeature } from './app-store.reducer';
-//export const { selectData } = appBaseStoreFeature;
+import { appStoreFeature } from './app-store.reducer';
+
+//export const { selectTotal } = appStoreFeature;

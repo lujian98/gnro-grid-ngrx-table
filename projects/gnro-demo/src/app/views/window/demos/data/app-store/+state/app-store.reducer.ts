@@ -1,13 +1,23 @@
 import { Action, ActionReducer, createFeature, createReducer, on } from '@ngrx/store';
-import { baseStoreReducer, initialState } from '../../base-store';
+import { baseStoreReducer, initialState, BaseStoreState } from '../../base-store';
 import { appStoreActions } from './app-store.actions';
 
+export interface AppStoreState extends BaseStoreState {
+  total: number;
+}
+
+export const initialAppState: AppStoreState = {
+  ...initialState,
+  total: 0,
+};
+
 export const appStoreReducer = createReducer(
-  initialState,
+  initialAppState,
   on(appStoreActions.refreshDataSuccess, (state, { data }) => {
     return {
       ...state,
       data,
+      total: data.length,
     };
   }),
 );

@@ -1,7 +1,7 @@
 <div (click)="reloadData()">Base Store Reload Data</div>
 
 @if (data$()) {
-  <div>load data</div>
+  <div>loaded data</div>
 
   @for (record of data$(); track $index; let index = $index) {
     <div>
