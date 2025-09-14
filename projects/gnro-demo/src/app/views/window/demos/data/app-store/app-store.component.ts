@@ -18,4 +18,8 @@ export class AppStoreComponent {
   refresh(): void {
     this.appStoreFacade.refreshData();
   }
+
+  reload(): void {
+    this.appStoreFacade.reloadData();
+  }
 }

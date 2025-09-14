@@ -11,4 +11,8 @@ export class AppStoreFacade {
   refreshData(): void {
     this.store.dispatch(appStoreActions.refreshData());
   }
+
+  reloadData(): void {
+    this.store.dispatch(appStoreActions.reloadData());
+  }
 }
