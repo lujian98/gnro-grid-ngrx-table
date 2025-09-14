@@ -10,16 +10,18 @@ export const initialState: BaseStoreState = {
   data: [],
 };
 
+export const baseStoreReducer = createReducer(
+  initialState,
+  on(appBaseStoreActions.loadDataSuccess, (state, { data }) => {
+    console.log('base reducer  data=', data);
+    return {
+      ...state,
+      data,
+    };
+  }),
+);
+
 export const appBaseStoreFeature = createFeature({
   name: 'baseStore',
-  reducer: createReducer(
-    initialState,
-    on(appBaseStoreActions.loadDataSuccess, (state, { data }) => {
-      console.log('reducer  data=', data);
-      return {
-        ...state,
-        data,
-      };
-    }),
-  ),
+  reducer: baseStoreReducer,
 });
