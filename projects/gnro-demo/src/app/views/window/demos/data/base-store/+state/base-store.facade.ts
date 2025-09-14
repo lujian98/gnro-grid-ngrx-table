@@ -12,6 +12,10 @@ export class AppBaseStoreFacade {
     this.store.dispatch(appBaseStoreActions.loadData());
   }
 
+  reloadData(): void {
+    this.store.dispatch(appBaseStoreActions.reloadData());
+  }
+
   getData(): Signal<GrnoDataType[]> {
     return this.store.selectSignal(selectData);
   }

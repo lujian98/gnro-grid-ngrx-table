@@ -17,4 +17,8 @@ export class AppBaseStoreComponent {
   constructor() {
     this.appBaseStoreFacade.loadData();
   }
+
+  reloadData(): void {
+    this.appBaseStoreFacade.reloadData();
+  }
 }

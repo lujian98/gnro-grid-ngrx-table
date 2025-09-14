@@ -21,4 +21,17 @@ export class AppBaseStoreEffects {
       }),
     ),
   );
+
+  reloadData$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(appBaseStoreActions.reloadData),
+      concatMap(() => {
+        return this.appBaseStoreService.loadData().pipe(
+          map((res) => {
+            return appBaseStoreActions.loadDataSuccess({ data: res });
+          }),
+        );
+      }),
+    ),
+  );
 }

@@ -6,5 +6,6 @@ export const appBaseStoreActions = createActionGroup({
   events: {
     'Load Data': emptyProps(),
     'Load Data Success': props<{ data: GrnoDataType[] }>(),
+    'Reload Data': emptyProps(),
   },
 });
