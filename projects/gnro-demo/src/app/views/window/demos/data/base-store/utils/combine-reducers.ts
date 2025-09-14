@@ -1,10 +1,7 @@
 import { Action, ActionReducer } from '@ngrx/store';
 
-export function mergeReducers<TState>(
-  initState: TState,
-  reducers: ActionReducer<TState, Action>[],
-): ActionReducer<TState, Action> {
-  const mergedReducers = (state: TState, action: Action): TState => {
+export function mergeReducers<T>(initState: T, reducers: ActionReducer<T, Action>[]): ActionReducer<T, Action> {
+  const mergedReducers = (state: T, action: Action): T => {
     if (reducers.length === 0) {
       throw new Error('At least one reducer was expected');
     }
@@ -14,9 +11,9 @@ export function mergeReducers<TState>(
       return intermediaryState;
     }, state);
 
-    return newState as TState;
+    return newState as T;
   };
-  return mergedReducers as ActionReducer<TState, Action>;
+  return mergedReducers as ActionReducer<T, Action>;
 }
 
 /*
