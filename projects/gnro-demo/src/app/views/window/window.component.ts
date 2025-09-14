@@ -31,7 +31,7 @@ export class AppWindowComponent {
       items: [
         { name: 'Simple Window', link: 'simple-window' },
         { name: 'Message', link: 'message' },
-        { name: 'Data Store', link: 'data-store' },
+        { name: 'Data Store Extend Base Store', link: 'data-store' },
       ],
     },
   ];
