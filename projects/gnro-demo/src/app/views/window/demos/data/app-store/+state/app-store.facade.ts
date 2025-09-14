@@ -1,19 +1,12 @@
-import { Injectable, inject, Signal } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { GrnoDataType } from '@gnro/ui/core';
 import { appStoreActions } from './app-store.actions';
-//import { selectData } from './app-store.selectors';
 
 @Injectable({ providedIn: 'root' })
-export class AppBaseStoreFacade {
+export class AppStoreFacade {
   private readonly store = inject(Store);
 
-  loadData(): void {
-    //this.store.dispatch(appStoreActions.loadData());
+  refreshData(): void {
+    this.store.dispatch(appStoreActions.refreshData());
   }
-
-  /*
-  getData(): Signal<GrnoDataType[]> {
-    return this.store.selectSignal(selectData);
-  }*/
 }

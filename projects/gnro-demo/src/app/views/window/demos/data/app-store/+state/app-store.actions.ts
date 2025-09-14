@@ -1,10 +1,16 @@
-import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { GrnoDataType } from '@gnro/ui/core';
+import { createActionGroup, emptyProps, props } from '@ngrx/store';
+import { appBaseStoreActions } from '../../base-store';
 
-export const appStoreActions = createActionGroup({
+const newActions = createActionGroup({
   source: '[Base Store]',
   events: {
-    //'Load Data': emptyProps(),
-    //'Load Data Success': props<{ data: GrnoDataType[] }>(),
+    'Refresh Data': emptyProps(),
+    'Refresh Data Success': props<{ data: GrnoDataType[] }>(),
   },
 });
+
+export const appStoreActions = {
+  ...appBaseStoreActions,
+  ...newActions,
+};

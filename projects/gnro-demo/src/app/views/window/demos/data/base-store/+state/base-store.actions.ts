@@ -1,5 +1,5 @@
-import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { GrnoDataType } from '@gnro/ui/core';
+import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
 export const appBaseStoreActions = createActionGroup({
   source: '[Base Store]',

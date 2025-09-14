@@ -1,26 +1,24 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatMap, map } from 'rxjs';
-//import { AppBaseStoreService } from '../services/base-store.service';
+import { AppStoreService } from '../services/app-store.service';
 import { appStoreActions } from './app-store.actions';
 
 @Injectable()
 export class AppStoreEffects {
   private actions$ = inject(Actions);
-  /*
-  private appBaseStoreService = inject(AppBaseStoreService);
+  private appStoreService = inject(AppStoreService);
 
-  loadData$ = createEffect(() =>
+  refreshData$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(appBaseStoreActions.loadData),
+      ofType(appStoreActions.refreshData),
       concatMap(() => {
-        return this.appBaseStoreService.loadData().pipe(
+        return this.appStoreService.refreshData().pipe(
           map((res) => {
-            return appBaseStoreActions.loadDataSuccess({ data: res });
+            return appStoreActions.refreshDataSuccess({ data: res });
           }),
         );
       }),
     ),
   );
-  */
 }

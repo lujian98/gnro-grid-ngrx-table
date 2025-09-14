@@ -1,6 +1,6 @@
-import { Injectable, inject, Signal } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { inject, Injectable, Signal } from '@angular/core';
 import { GrnoDataType } from '@gnro/ui/core';
+import { Store } from '@ngrx/store';
 import { appBaseStoreActions } from './base-store.actions';
 import { selectData } from './base-store.selectors';
 

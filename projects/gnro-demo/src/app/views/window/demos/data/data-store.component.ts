@@ -1,15 +1,19 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AppBaseStoreComponent } from './base-store';
+import { AppStoreStateModule } from './app-store/+state/app-store-state.module';
+import { AppStoreFacade } from './app-store/+state/app-store.facade';
 
 @Component({
   selector: 'app-data-store',
   templateUrl: './data-store.component.html',
   styleUrls: ['./data-store.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AppBaseStoreComponent],
+  imports: [AppBaseStoreComponent, AppStoreStateModule],
 })
 export class AppDataStoreComponent {
-  constructor() {}
+  private readonly appStoreFacade = inject(AppStoreFacade);
 
-  ngOnInit(): void {}
+  refresh(): void {
+    this.appStoreFacade.refreshData();
+  }
 }
