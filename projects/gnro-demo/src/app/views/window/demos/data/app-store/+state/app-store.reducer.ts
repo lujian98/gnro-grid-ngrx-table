@@ -1,6 +1,6 @@
 import { concatReducers } from '@gnro/ui/core';
-import { Action, ActionReducer, createFeature, createReducer, on } from '@ngrx/store';
-import { baseStoreReducer, BaseStoreState, initialState } from '../../base-store';
+import { Action, ActionReducer, createFeature, createReducer, on, ActionCreator } from '@ngrx/store';
+import { baseStoreReducer, BaseStoreState, initialState, baseOnActions } from '../../base-store';
 import { appStoreActions } from './app-store.actions';
 
 export interface AppStoreState extends BaseStoreState {
@@ -12,6 +12,7 @@ export const initialAppState: AppStoreState = {
   total: 0,
 };
 
+/*
 export const appStoreReducer = createReducer(
   initialAppState,
   on(appStoreActions.refreshDataSuccess, (state, { data }) => {
@@ -21,7 +22,7 @@ export const appStoreReducer = createReducer(
       total: data.length,
     };
   }),
-);
+); 
 
 const mergedReducers = concatReducers([
   baseStoreReducer as ActionReducer<unknown, Action<string>>,
@@ -31,4 +32,24 @@ const mergedReducers = concatReducers([
 export const appStoreFeature = createFeature({
   name: 'baseStore', //must use 'baseStore` to access base store reducer data
   reducer: mergedReducers,
+});
+*/
+
+export const appOnActions: ReturnType<typeof on<AppStoreState, readonly ActionCreator[]>>[] = [
+  on(appStoreActions.refreshDataSuccess, (state, { data }) => {
+    return {
+      ...state,
+      data,
+      total: data.length,
+    };
+  }),
+];
+
+const allOns = [...baseOnActions, ...appOnActions] as ReturnType<typeof on<AppStoreState, readonly ActionCreator[]>>[];
+
+export const appStoreReducer = createReducer(initialAppState, ...allOns);
+
+export const appStoreFeature = createFeature({
+  name: 'baseStore',
+  reducer: appStoreReducer,
 });
