@@ -6,4 +6,3 @@ export * from './+state/base-store.effects';
 export * from './+state/base-store.facade';
 export * from './+state/base-store.reducer';
 export * from './+state/base-store.selectors';
-export * from './utils/combine-reducers';

@@ -1,5 +1,6 @@
+import { concatReducers } from '@gnro/ui/core';
 import { Action, ActionReducer, createFeature, createReducer, on } from '@ngrx/store';
-import { baseStoreReducer, BaseStoreState, initialState, concatReducers } from '../../base-store';
+import { baseStoreReducer, BaseStoreState, initialState } from '../../base-store';
 import { appStoreActions } from './app-store.actions';
 
 export interface AppStoreState extends BaseStoreState {
