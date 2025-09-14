@@ -7,7 +7,6 @@ import { Observable, map } from 'rxjs';
   providedIn: 'root',
 })
 export class AppBaseStoreService {
-  //service can be standalong or extends base state service
   private readonly http = inject(HttpClient);
   private readonly backendService = inject(GnroBackendService);
 
