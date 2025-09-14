@@ -3,14 +3,11 @@ import { Action, ActionReducer } from '@ngrx/store';
 export const concatReducers =
   <T>(reducers: ActionReducer<T, Action>[]) =>
   (state: T, action: Action): T =>
-    reducers.reduce((accumulatedState, reducer) => reducer(accumulatedState, action), state);
+    reducers.reduce((accumulate, reducer) => reducer(accumulate, action), state);
 
 export function mergeReducers<T>(reducers: ActionReducer<T, Action>[]): ActionReducer<T, Action> {
   return ((state: T, action: Action): T =>
-    reducers.reduce((accumulatedState, reducer) => reducer(accumulatedState, action), state)) as ActionReducer<
-    T,
-    Action
-  >;
+    reducers.reduce((accumulate, reducer) => reducer(accumulate, action), state)) as ActionReducer<T, Action>;
 }
 
 /*

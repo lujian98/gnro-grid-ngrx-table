@@ -1,5 +1,5 @@
 import { Action, ActionReducer, createFeature, createReducer, on } from '@ngrx/store';
-import { baseStoreReducer, BaseStoreState, initialState, mergeReducers, concatReducers } from '../../base-store';
+import { baseStoreReducer, BaseStoreState, initialState, concatReducers } from '../../base-store';
 import { appStoreActions } from './app-store.actions';
 
 export interface AppStoreState extends BaseStoreState {
@@ -25,9 +25,9 @@ export const appStoreReducer = createReducer(
 const mergedReducers = concatReducers([
   baseStoreReducer as ActionReducer<unknown, Action<string>>,
   appStoreReducer as ActionReducer<unknown, Action<string>>,
-]);
+]) as ActionReducer<AppStoreState, Action<string>>;
 
 export const appStoreFeature = createFeature({
   name: 'baseStore',
-  reducer: mergedReducers as ActionReducer<AppStoreState, Action<string>>,
+  reducer: mergedReducers,
 });
