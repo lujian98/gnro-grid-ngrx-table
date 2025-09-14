@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { AppBaseStoreComponent } from './base-store/base-store.component';
+import { AppBaseStoreComponent } from './base-store';
 
 @Component({
   selector: 'app-data-store',
