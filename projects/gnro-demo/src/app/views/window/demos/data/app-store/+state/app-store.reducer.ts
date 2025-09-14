@@ -3,7 +3,7 @@ import { baseStoreReducer, BaseStoreState, initialState, concatReducers } from '
 import { appStoreActions } from './app-store.actions';
 
 export interface AppStoreState extends BaseStoreState {
-  total: number;
+  total: number; // attibutes not in the base store cannot access from base store, only available to this store.
 }
 
 export const initialAppState: AppStoreState = {
@@ -28,6 +28,6 @@ const mergedReducers = concatReducers([
 ]) as ActionReducer<AppStoreState, Action<string>>;
 
 export const appStoreFeature = createFeature({
-  name: 'baseStore',
+  name: 'baseStore', //must use 'baseStore` to access base store reducer data
   reducer: mergedReducers,
 });

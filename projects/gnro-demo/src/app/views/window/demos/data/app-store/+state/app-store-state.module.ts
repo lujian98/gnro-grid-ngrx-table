@@ -7,4 +7,4 @@ import { appStoreFeature } from './app-store.reducer';
 @NgModule({
   imports: [StoreModule.forFeature(appStoreFeature), EffectsModule.forFeature([AppStoreEffects])],
 })
-export class AppStoreStateModule {}
+export class AppStoreStateModule {} //need provide AppStoreStateModule to the hightest use app-base-store-

@@ -6,6 +6,7 @@ import { appStoreActions } from './app-store.actions';
 
 @Injectable()
 export class AppStoreEffects {
+  //effects can be standalone or extends base effect
   private actions$ = inject(Actions);
   private appStoreService = inject(AppStoreService);
 
