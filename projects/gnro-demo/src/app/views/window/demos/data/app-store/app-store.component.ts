@@ -9,6 +9,11 @@ import { AppStoreFacade } from './+state/app-store.facade';
 })
 export class AppStoreComponent {
   private readonly appStoreFacade = inject(AppStoreFacade);
+  total$ = this.appStoreFacade.total$;
+
+  constructor() {
+    // this.appStoreFacade.refreshData();
+  }
 
   refresh(): void {
     this.appStoreFacade.refreshData();
