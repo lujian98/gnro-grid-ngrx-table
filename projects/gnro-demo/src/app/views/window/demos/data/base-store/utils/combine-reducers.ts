@@ -1,9 +1,16 @@
 import { Action, ActionReducer } from '@ngrx/store';
 
-export function mergeReducers<T>(reducers: ActionReducer<T, Action>[]): ActionReducer<T, Action> {
-  const merged = (state: T, action: Action): T =>
+export const concatReducers =
+  <T>(reducers: ActionReducer<T, Action>[]) =>
+  (state: T, action: Action): T =>
     reducers.reduce((accumulatedState, reducer) => reducer(accumulatedState, action), state);
-  return merged as ActionReducer<T, Action>;
+
+export function mergeReducers<T>(reducers: ActionReducer<T, Action>[]): ActionReducer<T, Action> {
+  return ((state: T, action: Action): T =>
+    reducers.reduce((accumulatedState, reducer) => reducer(accumulatedState, action), state)) as ActionReducer<
+    T,
+    Action
+  >;
 }
 
 /*
