@@ -22,7 +22,9 @@ export const appStoreReducer = createReducer(
   }),
 );
 
-function combineReducers(reducers: ActionReducer<any, Action>[]): ActionReducer<any, Action> {
+function combineReducers(
+  reducers: (ActionReducer<BaseStoreState, Action> | ActionReducer<AppStoreState, Action>)[],
+): ActionReducer<AppStoreState, Action> {
   return (state: any, action: Action) => {
     return reducers.reduce((accumulator, currentReducer) => {
       return currentReducer(accumulator, action);
