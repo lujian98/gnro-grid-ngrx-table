@@ -1,4 +1,4 @@
-import { createFeature, ActionReducerMap, createReducer, on, Action, combineReducers } from '@ngrx/store';
+import { createFeature, ActionReducerMap, createReducer, on, Action, ActionReducer } from '@ngrx/store';
 import { appStoreActions } from './app-store.actions';
 import { GrnoDataType } from '@gnro/ui/core';
 import { BaseStoreState, initialState, baseStoreReducer } from '../../base-store';
@@ -29,14 +29,26 @@ export function combinedReducer(state: BaseStoreState | undefined, action: any) 
 const reducer = combineReducers(baseStoreReducer, appStoreReducer);
 */
 
+function combineReducers(reducers: ActionReducer<any, Action>[]): ActionReducer<any, Action> {
+  return (state: any, action: Action) => {
+    return reducers.reduce((accumulator, currentReducer) => {
+      return currentReducer(accumulator, action);
+    }, state);
+  };
+}
+
+const extendedReducer = combineReducers([baseStoreReducer, appStoreReducer]);
+
+/*
 export const reducers = combineReducers({
   baseStore: baseStoreReducer,
   appStore: appStoreReducer,
 });
+*/
 
 export const appStoreFeature = createFeature({
-  name: 'appStore',
-  reducer: reducers,
+  name: 'baseStore',
+  reducer: extendedReducer,
 });
 
 /*
