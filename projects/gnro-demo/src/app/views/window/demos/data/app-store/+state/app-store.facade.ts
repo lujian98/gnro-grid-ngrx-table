@@ -9,7 +9,7 @@ export class AppBaseStoreFacade {
   private readonly store = inject(Store);
 
   loadData(): void {
-    // this.store.dispatch(appBaseStoreActions.loadData());
+    //this.store.dispatch(appStoreActions.loadData());
   }
 
   /*
