@@ -22,7 +22,7 @@ export const appStoreReducer = createReducer(
   }),
 );
 
-const mergedReducers = mergeReducers(initialAppState, [
+const mergedReducers = mergeReducers([
   baseStoreReducer as ActionReducer<unknown, Action<string>>,
   appStoreReducer as ActionReducer<unknown, Action<string>>,
 ]);
