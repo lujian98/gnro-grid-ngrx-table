@@ -12,6 +12,29 @@ export function mergeReducers<T>(reducers: ActionReducer<T, Action>[]): ActionRe
 
 /*
 
+
+export const appStoreReducer = createReducer(
+  initialAppState,
+  on(appStoreActions.refreshDataSuccess, (state, { data }) => {
+    return {
+      ...state,
+      data,
+      total: data.length,
+    };
+  }),
+); 
+
+const mergedReducers = concatReducers([
+  baseStoreReducer as ActionReducer<unknown, Action<string>>,
+  appStoreReducer as ActionReducer<unknown, Action<string>>,
+]) as ActionReducer<AppStoreState, Action<string>>;
+
+export const appStoreFeature = createFeature({
+  name: 'baseStore', //must use 'baseStore` to access base store reducer data
+  reducer: mergedReducers,
+});
+
+
 export const concatReducers =
   <T, V extends Action = Action>(...reducers: Array<ActionReducer<T>>) =>
   (state: T, action: Action): T =>

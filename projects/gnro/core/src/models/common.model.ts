@@ -1,6 +1,10 @@
+import { on, ActionCreator } from '@ngrx/store';
+
 export interface GrnoDataType {
   [key: string]: string | number | boolean | Date | object;
 }
+
+export type GnroOnAction<T> = ReturnType<typeof on<T, readonly ActionCreator[]>>;
 
 export enum GnroObjectType {
   Component = 'component', // not field config

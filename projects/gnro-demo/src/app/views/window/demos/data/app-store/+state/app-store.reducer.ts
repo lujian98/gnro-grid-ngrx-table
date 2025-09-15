@@ -1,6 +1,6 @@
-import { concatReducers } from '@gnro/ui/core';
-import { Action, ActionReducer, createFeature, createReducer, on, ActionCreator } from '@ngrx/store';
-import { baseStoreReducer, BaseStoreState, initialState, baseOnActions } from '../../base-store';
+import { GnroOnAction } from '@gnro/ui/core';
+import { createFeature, createReducer, on } from '@ngrx/store';
+import { baseOnActions, BaseStoreState, initialState } from '../../base-store';
 import { appStoreActions } from './app-store.actions';
 
 export interface AppStoreState extends BaseStoreState {
@@ -12,31 +12,9 @@ export const initialAppState: AppStoreState = {
   total: 0,
 };
 
-/*
-export const appStoreReducer = createReducer(
-  initialAppState,
+export const appOnActions: GnroOnAction<AppStoreState>[] = [
   on(appStoreActions.refreshDataSuccess, (state, { data }) => {
-    return {
-      ...state,
-      data,
-      total: data.length,
-    };
-  }),
-); 
-
-const mergedReducers = concatReducers([
-  baseStoreReducer as ActionReducer<unknown, Action<string>>,
-  appStoreReducer as ActionReducer<unknown, Action<string>>,
-]) as ActionReducer<AppStoreState, Action<string>>;
-
-export const appStoreFeature = createFeature({
-  name: 'baseStore', //must use 'baseStore` to access base store reducer data
-  reducer: mergedReducers,
-});
-*/
-
-export const appOnActions: ReturnType<typeof on<AppStoreState, readonly ActionCreator[]>>[] = [
-  on(appStoreActions.refreshDataSuccess, (state, { data }) => {
+    console.log(' data=', data);
     return {
       ...state,
       data,
@@ -45,11 +23,11 @@ export const appOnActions: ReturnType<typeof on<AppStoreState, readonly ActionCr
   }),
 ];
 
-const allOns = [...baseOnActions, ...appOnActions] as ReturnType<typeof on<AppStoreState, readonly ActionCreator[]>>[];
+const allOns = [...baseOnActions, ...appOnActions] as GnroOnAction<AppStoreState>[];
 
 export const appStoreReducer = createReducer(initialAppState, ...allOns);
 
 export const appStoreFeature = createFeature({
-  name: 'baseStore',
+  name: 'baseStore', // must same as base Store feture name, otherwise cannot access the view use base store
   reducer: appStoreReducer,
 });
