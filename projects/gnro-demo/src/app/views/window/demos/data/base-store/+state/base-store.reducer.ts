@@ -20,8 +20,4 @@ export const baseOnActions: GnroOnAction<BaseStoreState>[] = [
 ];
 
 export const baseStoreReducer = createReducer(initialState, ...baseOnActions);
-
-export const appBaseStoreFeature = createFeature({
-  name: 'baseStore',
-  reducer: baseStoreReducer,
-});
+export const appBaseStoreFeature = createFeature({ name: 'baseStore', reducer: baseStoreReducer });

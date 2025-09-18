@@ -50,8 +50,4 @@ export const gnroFileUploadOnActions: GnroOnAction<FileUploadState>[] = [
 ];
 
 export const gnroFileUploadReducer = createReducer(initialState, ...gnroFileUploadOnActions);
-
-export const gnroFileUploadFeature = createFeature({
-  name: 'gnroFileUpload',
-  reducer: gnroFileUploadReducer,
-});
+export const gnroFileUploadFeature = createFeature({ name: 'gnroFileUpload', reducer: gnroFileUploadReducer });

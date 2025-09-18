@@ -539,11 +539,7 @@ export const gnroGridOnActions = (): GnroOnAction<GridState<unknown>>[] => [
 ];
 
 export const gnroGridReducer = createReducer(initialState(), ...gnroGridOnActions());
-
-export const gnroGridFeature = createFeature({
-  name: 'gnroGrid',
-  reducer: gnroGridReducer,
-});
+export const gnroGridFeature = createFeature({ name: 'gnroGrid', reducer: gnroGridReducer });
 
 /*
 

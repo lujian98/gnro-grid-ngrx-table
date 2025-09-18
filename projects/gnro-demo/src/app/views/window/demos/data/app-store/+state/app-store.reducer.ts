@@ -39,8 +39,5 @@ export const appOnActions = <AppStoreState>() =>
 const allOns = [...baseOnActions, ...appOnActions()] as GnroOnAction<AppStoreState>[];
 
 export const appStoreReducer = createReducer(initialAppState, ...allOns);
-
-export const appStoreFeature = createFeature({
-  name: 'baseStore', // must same as base Store feture name, otherwise cannot access the view use base store
-  reducer: appStoreReducer,
-});
+// must same as base Store feture name, otherwise cannot access the view use base store
+export const appStoreFeature = createFeature({ name: 'baseStore', reducer: appStoreReducer });

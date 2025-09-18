@@ -1,9 +1,9 @@
+import { GnroBUTTONS, GnroButtonConfg, GnroButtonType, GnroOnAction } from '@gnro/ui/core';
+import { GnroFieldsetConfig, GnroFormField, defaultBaseField } from '@gnro/ui/fields';
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { GnroBUTTONS, GnroButtonConfg, GnroButtonType } from '@gnro/ui/core';
-import { formActions } from './form.actions';
-import { FormState } from '../models/form.model';
 import { defaultFormState } from '../models/default-form';
-import { GnroFormField, GnroFieldsetConfig, defaultBaseField } from '@gnro/ui/fields';
+import { FormState } from '../models/form.model';
+import { formActions } from './form.actions';
 
 export const initialState: FormState = {};
 
@@ -55,96 +55,95 @@ export function setFormFieldsEditable(formFields: GnroFormField[], button: GnroB
   ] as GnroFormField[];
 }
 
-export const gnroFormFeature = createFeature({
-  name: 'gnroForm',
-  reducer: createReducer(
-    initialState,
-    on(formActions.initConfig, (state, action) => {
-      const key = action.formId;
-      const newState: FormState = { ...state };
+export const gnroFormOnActions: GnroOnAction<FormState>[] = [
+  on(formActions.initConfig, (state, action) => {
+    const key = action.formId;
+    const newState: FormState = { ...state };
+    newState[key] = {
+      ...defaultFormState,
+      formConfig: { ...action.formConfig },
+      formSetting: {
+        ...defaultFormState.formSetting,
+        formId: action.formId,
+      },
+    };
+    return { ...newState };
+  }),
+  on(formActions.loadConfigSuccess, (state, action) => {
+    const key = action.formId;
+    const newState: FormState = { ...state };
+    if (state[key]) {
+      const formConfig = { ...state[key].formConfig, ...action.formConfig };
+      const formFields = setFormFieldsEditable(state[key].formFields, GnroBUTTONS.View);
       newState[key] = {
-        ...defaultFormState,
-        formConfig: { ...action.formConfig },
-        formSetting: {
-          ...defaultFormState.formSetting,
-          formId: action.formId,
-        },
+        ...state[key],
+        formConfig,
+        formFields,
       };
-      return { ...newState };
-    }),
-    on(formActions.loadConfigSuccess, (state, action) => {
-      const key = action.formId;
-      const newState: FormState = { ...state };
-      if (state[key]) {
-        const formConfig = { ...state[key].formConfig, ...action.formConfig };
-        const formFields = setFormFieldsEditable(state[key].formFields, GnroBUTTONS.View);
-        newState[key] = {
-          ...state[key],
-          formConfig,
-          formFields,
-        };
-      }
-      return { ...newState };
-    }),
-    on(formActions.loadFieldsConfigSuccess, (state, action) => {
-      const key = action.formId;
-      const newState: FormState = { ...state };
-      if (state[key]) {
-        const formFields = setFormFieldsEditable(action.formFields, GnroBUTTONS.View);
-        newState[key] = {
-          ...state[key],
-          formFields,
-        };
-      }
-      return { ...newState };
-    }),
-    on(formActions.setEditable, (state, action) => {
-      const key = action.formId;
-      const newState: FormState = { ...state };
-      if (state[key]) {
-        const editing = getFormEditable(action.button);
-        const formFields = setFormFieldsEditable(state[key].formFields, action.button);
-        newState[key] = {
-          ...state[key],
-          formSetting: {
-            ...state[key].formSetting,
-            editing,
-          },
-          formFields,
-        };
-      }
-      return { ...newState };
-    }),
-    on(formActions.getDataSuccess, (state, action) => {
-      const key = action.formId;
-      const newState: FormState = { ...state };
-      if (state[key]) {
-        newState[key] = {
-          ...state[key],
-          formConfig: { ...state[key].formConfig, ...action.formConfig },
-          formData: { ...action.formData },
-        };
-      }
-      return { ...newState };
-    }),
-    on(formActions.saveDataSuccess, (state, action) => {
-      const key = action.formId;
-      const newState: FormState = { ...state };
-      if (state[key]) {
-        newState[key] = {
-          ...state[key],
-          formData: { ...action.formData },
-        };
-      }
-      return { ...newState };
-    }),
-    on(formActions.removeStore, (state, action) => {
-      const key = action.formId;
-      const newState: FormState = { ...state };
-      if (state[key]) {
-        delete newState[key];
-      }
-      return { ...newState };
-    }),
-  ),
-});
+    }
+    return { ...newState };
+  }),
+  on(formActions.loadFieldsConfigSuccess, (state, action) => {
+    const key = action.formId;
+    const newState: FormState = { ...state };
+    if (state[key]) {
+      const formFields = setFormFieldsEditable(action.formFields, GnroBUTTONS.View);
+      newState[key] = {
+        ...state[key],
+        formFields,
+      };
+    }
+    return { ...newState };
+  }),
+  on(formActions.setEditable, (state, action) => {
+    const key = action.formId;
+    const newState: FormState = { ...state };
+    if (state[key]) {
+      const editing = getFormEditable(action.button);
+      const formFields = setFormFieldsEditable(state[key].formFields, action.button);
+      newState[key] = {
+        ...state[key],
+        formSetting: {
+          ...state[key].formSetting,
+          editing,
+        },
+        formFields,
+      };
+    }
+    return { ...newState };
+  }),
+  on(formActions.getDataSuccess, (state, action) => {
+    const key = action.formId;
+    const newState: FormState = { ...state };
+    if (state[key]) {
+      newState[key] = {
+        ...state[key],
+        formConfig: { ...state[key].formConfig, ...action.formConfig },
+        formData: { ...action.formData },
+      };
+    }
+    return { ...newState };
+  }),
+  on(formActions.saveDataSuccess, (state, action) => {
+    const key = action.formId;
+    const newState: FormState = { ...state };
+    if (state[key]) {
+      newState[key] = {
+        ...state[key],
+        formData: { ...action.formData },
+      };
+    }
+    return { ...newState };
+  }),
+  on(formActions.removeStore, (state, action) => {
+    const key = action.formId;
+    const newState: FormState = { ...state };
+    if (state[key]) {
+      delete newState[key];
+    }
+    return { ...newState };
+  }),
+];
+
+export const gnroFormReducer = createReducer(initialState, ...gnroFormOnActions);
+export const gnroFormFeature = createFeature({ name: 'gnroForm', reducer: gnroFormReducer });
