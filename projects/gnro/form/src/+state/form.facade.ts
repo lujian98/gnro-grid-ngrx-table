@@ -1,6 +1,6 @@
 import { Injectable, inject, Signal } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { GnroButtonConfg, GrnoDataType } from '@gnro/ui/core';
+import { GnroButtonConfg, GnroDataType } from '@gnro/ui/core';
 import { GnroFormConfig, GnroFormSetting } from '../models/form.model';
 import { GnroFormField } from '@gnro/ui/fields';
 import { formActions } from './form.actions';
@@ -27,7 +27,7 @@ export class GnroFormFacade {
     }
   }
 
-  setData(formId: string, formConfig: GnroFormConfig, formData: GrnoDataType): void {
+  setData(formId: string, formConfig: GnroFormConfig, formData: GnroDataType): void {
     this.store.dispatch(formActions.getDataSuccess({ formId, formConfig, formData }));
   }
 
@@ -41,7 +41,7 @@ export class GnroFormFacade {
     }
   }
 
-  saveData(formId: string, formConfig: GnroFormConfig, formData: GrnoDataType): void {
+  saveData(formId: string, formConfig: GnroFormConfig, formData: GnroDataType): void {
     this.store.dispatch(formActions.saveData({ formId, formConfig, formData }));
   }
 
@@ -68,7 +68,7 @@ export class GnroFormFacade {
     return this.store.selectSignal(selectFormFieldsConfig(formId));
   }
 
-  getSignalData(formId: string): Signal<GrnoDataType | undefined> {
+  getSignalData(formId: string): Signal<GnroDataType | undefined> {
     return this.store.selectSignal(selectFormData(formId));
   }
 }

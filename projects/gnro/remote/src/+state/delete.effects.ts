@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { GnroMessageComponent, defaultMessageConfig, GnroMessageActions } from '@gnro/ui/message';
 import { GnroDialogService } from '@gnro/ui/overlay';
-import { GrnoDataType } from '@gnro/ui/core';
+import { GnroDataType } from '@gnro/ui/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { concatMap, exhaustMap, map, mergeMap, of } from 'rxjs';
 import { GnroRemoteResponse } from '../models/remote.model';
@@ -41,7 +41,7 @@ export class GnroRemoteDeleteEffects {
           return remoteDeleteActions.closeConfirmationWindow();
         }
         return remoteDeleteActions.deleteSelected(
-          data as { stateId: string; keyName: string; selected: GrnoDataType[] },
+          data as { stateId: string; keyName: string; selected: GnroDataType[] },
         );
       }),
     ),

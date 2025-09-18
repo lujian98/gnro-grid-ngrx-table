@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { GnroBackendService, GrnoDataType } from '@gnro/ui/core';
+import { GnroBackendService, GnroDataType } from '@gnro/ui/core';
 import { Observable, forkJoin, map } from 'rxjs';
 import { GnroRemoteResponse } from '../models/remote.model';
 
@@ -11,7 +11,7 @@ export class GnroRemoteDeleteService {
   private readonly http = inject(HttpClient);
   private readonly backendService = inject(GnroBackendService);
 
-  delete(stateId: string, keyName: string, selected: GrnoDataType[]): Observable<GnroRemoteResponse[]> {
+  delete(stateId: string, keyName: string, selected: GnroDataType[]): Observable<GnroRemoteResponse[]> {
     let params = this.backendService.getParams(keyName, 'delete');
     const url = this.backendService.apiUrl;
 

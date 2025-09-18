@@ -1,5 +1,5 @@
 import { inject, Injectable, Signal } from '@angular/core';
-import { GnroBackendService, GnroButtonConfg, GrnoDataType } from '@gnro/ui/core';
+import { GnroBackendService, GnroButtonConfg, GnroDataType } from '@gnro/ui/core';
 import { GnroFormWindowConfig, formWindowActions } from '@gnro/ui/form-window';
 import { remoteButtonActions, remoteDeleteActions, remoteExportsActions } from '@gnro/ui/remote';
 import { Store } from '@ngrx/store';
@@ -284,7 +284,7 @@ export class GnroGridFacade {
   }
 
   deleteRecords(gridId: string): void {
-    const data = this.getRowSelection(gridId)()?.selection.selected as GrnoDataType[];
+    const data = this.getRowSelection(gridId)()?.selection.selected as GnroDataType[];
     if (data && data.length > 0) {
       const gridConfig = this.getConfig(gridId)();
       const keyName = gridConfig.urlKey;
@@ -333,7 +333,7 @@ export class GnroGridFacade {
           ...config.formConfig,
           editing: editing,
         },
-        values: values as GrnoDataType,
+        values: values as GnroDataType,
       };
       console.log(' formWindowConfig=', formWindowConfig);
       this.store.dispatch(formWindowActions.open({ stateId, formWindowConfig }));

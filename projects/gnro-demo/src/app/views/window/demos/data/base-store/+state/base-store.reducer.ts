@@ -1,9 +1,9 @@
-import { GnroOnAction, GrnoDataType } from '@gnro/ui/core';
+import { GnroOnAction, GnroDataType } from '@gnro/ui/core';
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { appBaseStoreActions } from './base-store.actions';
 
 export interface BaseStoreState {
-  data: GrnoDataType[];
+  data: GnroDataType[];
 }
 
 export const initialState: BaseStoreState = {

@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { ACCEPT_JSON_API_HEADER, GnroBackendService, GrnoDataType } from '@gnro/ui/core';
+import { ACCEPT_JSON_API_HEADER, GnroBackendService, GnroDataType } from '@gnro/ui/core';
 import { GnroFormField } from '@gnro/ui/fields';
 import { Observable, map } from 'rxjs';
 import {
@@ -40,7 +40,7 @@ export class GnroFormService {
     );
   }
 
-  getFormData(formConfig: GnroFormConfig): Observable<{ formConfig: GnroFormConfig; formData: GrnoDataType }> {
+  getFormData(formConfig: GnroFormConfig): Observable<{ formConfig: GnroFormConfig; formData: GnroDataType }> {
     const params = this.backendService.getParams(formConfig.urlKey, 'formData');
     const url = this.backendService.apiUrl;
     return this.http.get<GnroFormRecordResponse>(url, { params }).pipe(
@@ -55,8 +55,8 @@ export class GnroFormService {
 
   saveFormData(
     formConfig: GnroFormConfig,
-    formData: GrnoDataType,
-  ): Observable<{ formConfig: GnroFormConfig; formData: GrnoDataType }> {
+    formData: GnroDataType,
+  ): Observable<{ formConfig: GnroFormConfig; formData: GnroDataType }> {
     const headers = new HttpHeaders(ACCEPT_JSON_API_HEADER);
 
     let params = this.backendService.getParams(formConfig.urlKey, 'update');

@@ -1,4 +1,4 @@
-import { GrnoDataType } from '@gnro/ui/core';
+import { GnroDataType } from '@gnro/ui/core';
 import { GnroColumnConfig, GnroGridData } from '@gnro/ui/grid';
 
 export interface GnroImportsConfig {
@@ -8,7 +8,7 @@ export interface GnroImportsConfig {
 }
 
 export interface GnroImportsResponse {
-  importedExcelData: GnroGridData<GrnoDataType>;
+  importedExcelData: GnroGridData<GnroDataType>;
   columnsConfig: GnroColumnConfig[];
   importsConfig: GnroImportsConfig;
 }

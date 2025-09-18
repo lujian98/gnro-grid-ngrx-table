@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { GnroFormField } from '@gnro/ui/fields';
 import { GnroDialogRef } from '@gnro/ui/overlay';
-import { GrnoDataType } from '@gnro/ui/core';
+import { GnroDataType } from '@gnro/ui/core';
 import { GnroWindowComponent, GnroWindowConfig } from '@gnro/ui/window';
 import { GnroFormPanelComponent } from './form-panel.component';
 import { GnroFormConfig } from '@gnro/ui/form';
@@ -19,7 +19,7 @@ export class GnroFormWindowComponent {
   windowConfig!: GnroWindowConfig;
   formConfig!: Partial<GnroFormConfig>;
   formFields: GnroFormField[] = [];
-  values: GrnoDataType = {};
+  values: GnroDataType = {};
 
   close(): void {
     this.dialogRef.close('test uujj make');

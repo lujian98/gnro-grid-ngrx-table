@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { ACCEPT_JSON_API_HEADER, GnroBackendService, GnroButtonConfg, GrnoDataType } from '@gnro/ui/core';
+import { ACCEPT_JSON_API_HEADER, GnroBackendService, GnroButtonConfg, GnroDataType } from '@gnro/ui/core';
 import { Observable, forkJoin, map, of } from 'rxjs';
 import { GnroRemoteResponse } from '../models/remote.model';
 
@@ -11,7 +11,7 @@ export class GnroRemoteButtonsService {
   private readonly http = inject(HttpClient);
   private readonly backendService = inject(GnroBackendService);
 
-  delete(stateId: string, keyName: string, selected: GrnoDataType[]): Observable<GnroRemoteResponse[]> {
+  delete(stateId: string, keyName: string, selected: GnroDataType[]): Observable<GnroRemoteResponse[]> {
     let params = this.backendService.getParams(keyName, 'delete');
     const url = this.backendService.apiUrl;
 
@@ -27,8 +27,8 @@ export class GnroRemoteButtonsService {
     button: GnroButtonConfg,
     keyName: string,
     configType: string,
-    formData: GrnoDataType,
-  ): Observable<{ keyName: string; configType: string; formData: GrnoDataType }> {
+    formData: GnroDataType,
+  ): Observable<{ keyName: string; configType: string; formData: GnroDataType }> {
     const headers = new HttpHeaders(ACCEPT_JSON_API_HEADER);
 
     let params = this.backendService.getParams(keyName, 'update');

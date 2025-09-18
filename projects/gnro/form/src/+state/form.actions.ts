@@ -1,4 +1,4 @@
-import { GnroButtonConfg, GrnoDataType } from '@gnro/ui/core';
+import { GnroButtonConfg, GnroDataType } from '@gnro/ui/core';
 import { GnroFormField } from '@gnro/ui/fields';
 import { createActionGroup, props } from '@ngrx/store';
 import { GnroFormConfig } from '../models/form.model';
@@ -17,9 +17,9 @@ export const formActions = createActionGroup({
     }>(),
     'Set Editable': props<{ formId: string; button: GnroButtonConfg }>(),
     'Get Data': props<{ formId: string; formConfig: GnroFormConfig }>(),
-    'Get Data Success': props<{ formId: string; formConfig: GnroFormConfig; formData: GrnoDataType }>(),
-    'Save Data': props<{ formId: string; formConfig: GnroFormConfig; formData: GrnoDataType }>(),
-    'Save Data Success': props<{ formId: string; formConfig: GnroFormConfig; formData: GrnoDataType }>(),
+    'Get Data Success': props<{ formId: string; formConfig: GnroFormConfig; formData: GnroDataType }>(),
+    'Save Data': props<{ formId: string; formConfig: GnroFormConfig; formData: GnroDataType }>(),
+    'Save Data Success': props<{ formId: string; formConfig: GnroFormConfig; formData: GnroDataType }>(),
     'Clear Store': props<{ formId: string }>(),
     'Remove Store': props<{ formId: string }>(),
   },

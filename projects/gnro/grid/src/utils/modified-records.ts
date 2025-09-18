@@ -1,7 +1,7 @@
-import { GrnoDataType } from '@gnro/ui/core';
+import { GnroDataType } from '@gnro/ui/core';
 import { GnroCellEdit } from '../models/grid.model';
 
-export function getModifiedRecords<T>(records: GrnoDataType[], value: GnroCellEdit<T>): GrnoDataType[] {
+export function getModifiedRecords<T>(records: GnroDataType[], value: GnroCellEdit<T>): GnroDataType[] {
   const find = records.find((record) => record[value.recordKey] === value.recordId);
   const modifiedRecords = [...records].filter((record) => record[value.recordKey] !== value.recordId);
   if (find) {
@@ -18,7 +18,7 @@ export function getModifiedRecords<T>(records: GrnoDataType[], value: GnroCellEd
       [value.recordKey]: value.recordId,
       [value.field]: value.value,
     };
-    modifiedRecords.push(record as GrnoDataType);
+    modifiedRecords.push(record as GnroDataType);
   }
   return modifiedRecords;
 }

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { GnroBackendService, GrnoDataType } from '@gnro/ui/core';
+import { GnroBackendService, GnroDataType } from '@gnro/ui/core';
 import { Observable, map } from 'rxjs';
 
 @Injectable({
@@ -10,7 +10,7 @@ export class AppBaseStoreService {
   private readonly http = inject(HttpClient);
   private readonly backendService = inject(GnroBackendService);
 
-  loadData(): Observable<GrnoDataType[]> {
+  loadData(): Observable<GnroDataType[]> {
     let params = this.backendService.getParams('DCR', 'gridData');
     params = params.append('offset', '0');
     params = params.append('limit', '20');

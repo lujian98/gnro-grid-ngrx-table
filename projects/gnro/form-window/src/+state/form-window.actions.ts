@@ -6,7 +6,7 @@ export const formWindowActions = createActionGroup({
   events: {
     Open: props<{ stateId: string; formWindowConfig: GnroFormWindowConfig }>(),
     Close: emptyProps(),
-    //Save: props<{ values: GrnoDataType }>(), //not used here
+    //Save: props<{ values: GnroDataType }>(), //not used here
     'Save Success': props<{ stateId: string; keyName: string }>(),
   },
 });

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { GnroButtonComponent } from '@gnro/ui/button';
-import { GnroObjectType, GrnoDataType } from '@gnro/ui/core';
+import { GnroObjectType, GnroDataType } from '@gnro/ui/core';
 import { GnroFileDropComponent, GnroFileDropEntry, getFileUpload } from '@gnro/ui/file-upload';
 import { GnroGridCellRendererComponent, GnroGridComponent, GnroGridConfig, GnroGridFacade } from '@gnro/ui/grid';
 import {
@@ -88,7 +88,7 @@ export class GnroImportsComponent {
     const data = this.gridData().data;
     if (data.length > 0) {
       return (
-        data.filter((item: GrnoDataType) => {
+        data.filter((item: GnroDataType) => {
           const status = item['ImportStatus'];
           return status !== 'add' && status !== 'update';
         }).length !== 0
@@ -120,7 +120,7 @@ export class GnroImportsComponent {
   }
 
   delete(): void {
-    const selected = this.gridFacade.getRowSelection(this.gridId$())()?.selection.selected! as GrnoDataType[];
+    const selected = this.gridFacade.getRowSelection(this.gridId$())()?.selection.selected! as GnroDataType[];
     this.importsFacade.deleteSelectedRecords(selected);
     this.gridFacade.setSelectAllRows(this.gridId$(), false);
   }

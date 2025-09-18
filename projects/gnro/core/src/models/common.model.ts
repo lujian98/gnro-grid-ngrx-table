@@ -1,6 +1,6 @@
 import { on, ActionCreator } from '@ngrx/store';
 
-export interface GrnoDataType {
+export interface GnroDataType {
   [key: string]: string | number | boolean | Date | object;
 }
 

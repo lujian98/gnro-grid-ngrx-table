@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { GnroUploadFile, GrnoDataType } from '@gnro/ui/core';
+import { GnroUploadFile, GnroDataType } from '@gnro/ui/core';
 import { GnroFileUploadConfig } from '@gnro/ui/file-upload';
 import { Store } from '@ngrx/store';
 import { importsActions } from './imports.actions';
@@ -25,7 +25,7 @@ export class GnroImportsFacade {
     this.store.dispatch(importsActions.resetRecords());
   }
 
-  deleteSelectedRecords(selected: GrnoDataType[]): void {
+  deleteSelectedRecords(selected: GnroDataType[]): void {
     this.store.dispatch(importsActions.deleteSelectedRecords({ selected }));
   }
 

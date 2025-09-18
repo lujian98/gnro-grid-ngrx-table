@@ -1,5 +1,5 @@
 import { inject, Injectable, Signal } from '@angular/core';
-import { GrnoDataType } from '@gnro/ui/core';
+import { GnroDataType } from '@gnro/ui/core';
 import { Store } from '@ngrx/store';
 import { appBaseStoreActions } from './base-store.actions';
 import { selectData } from './base-store.selectors';
@@ -16,7 +16,7 @@ export class AppBaseStoreFacade {
     this.store.dispatch(appBaseStoreActions.reloadData());
   }
 
-  getData(): Signal<GrnoDataType[]> {
+  getData(): Signal<GnroDataType[]> {
     return this.store.selectSignal(selectData);
   }
 }

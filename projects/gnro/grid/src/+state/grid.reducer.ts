@@ -1,4 +1,4 @@
-import { GnroObjectType, GrnoDataType } from '@gnro/ui/core';
+import { GnroObjectType, GnroDataType } from '@gnro/ui/core';
 import { formWindowActions } from '@gnro/ui/form-window';
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { MIN_GRID_COLUMN_WIDTH, VIRTUAL_SCROLL_PAGE_SIZE } from '../models/constants';
@@ -495,7 +495,7 @@ export const gnroGridFeature = createFeature({
       const newState = { ...state };
       if (state[key]) {
         const oldState = state[key];
-        const modified = getModifiedRecords(oldState.modified as GrnoDataType[], action.modified);
+        const modified = getModifiedRecords(oldState.modified as GnroDataType[], action.modified);
         newState[key] = {
           ...oldState,
           gridSetting: {
@@ -515,8 +515,8 @@ export const gnroGridFeature = createFeature({
         const oldState = state[key];
         const recordKey = oldState.gridConfig.recordKey;
         const data = [...oldState.data].map((item) => {
-          const keyId = (item as GrnoDataType)[recordKey];
-          const find = (action.newRecords as GrnoDataType[]).find((record) => record[recordKey] === keyId);
+          const keyId = (item as GnroDataType)[recordKey];
+          const find = (action.newRecords as GnroDataType[]).find((record) => record[recordKey] === keyId);
           return find ? find : item;
         });
         newState[key] = {

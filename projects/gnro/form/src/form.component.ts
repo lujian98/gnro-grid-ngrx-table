@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, input, OnDestroy, output } from '@angular/core';
 import { GnroFormField } from '@gnro/ui/fields';
 import { GnroLayoutComponent } from '@gnro/ui/layout';
-import { uniqueId, GrnoDataType } from '@gnro/ui/core';
+import { uniqueId, GnroDataType } from '@gnro/ui/core';
 import { GnroFormStateModule } from './+state/form-state.module';
 import { GnroFormFacade } from './+state/form.facade';
 import { GnroFormViewComponent } from './components/form-view.component';
@@ -41,7 +41,7 @@ export class GnroFormComponent implements OnDestroy {
     },
   });
   values = input(undefined, {
-    transform: (values: GrnoDataType) => {
+    transform: (values: GnroDataType) => {
       this.formFacade.setData(this.formId, this.formConfig(), values);
       return values;
     },
