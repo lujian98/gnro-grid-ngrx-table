@@ -12,6 +12,7 @@ export const initialAppState: AppStoreState = {
   total: 0,
 };
 
+/*
 export const appOnActions: GnroOnAction<AppStoreState>[] = [
   on(appStoreActions.refreshDataSuccess, (state, { data }) => {
     console.log(' data=', data);
@@ -21,9 +22,21 @@ export const appOnActions: GnroOnAction<AppStoreState>[] = [
       total: data.length,
     };
   }),
-];
+];*/
 
-const allOns = [...baseOnActions, ...appOnActions] as GnroOnAction<AppStoreState>[];
+export const appOnActions = <AppStoreState>() =>
+  [
+    on(appStoreActions.refreshDataSuccess, (state, { data }) => {
+      console.log(' data=', data);
+      return {
+        ...state,
+        data,
+        total: data.length,
+      };
+    }),
+  ] as GnroOnAction<AppStoreState>[];
+
+const allOns = [...baseOnActions, ...appOnActions()] as GnroOnAction<AppStoreState>[];
 
 export const appStoreReducer = createReducer(initialAppState, ...allOns);
 
