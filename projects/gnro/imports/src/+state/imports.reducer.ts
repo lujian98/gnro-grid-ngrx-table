@@ -1,4 +1,4 @@
-import { isEqual, GnroDataType } from '@gnro/ui/core';
+import { GnroDataType, GnroOnAction, isEqual } from '@gnro/ui/core';
 import { GnroColumnConfig, GnroGridData } from '@gnro/ui/grid';
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { GnroImportsConfig } from '../models/imports.model';
@@ -62,44 +62,43 @@ function getImportStatus(arr: GnroDataType[], importsConfig: GnroImportsConfig):
   return excellData;
 }
 
-export const gnroImportsFeature = createFeature({
-  name: 'gnroImports',
-  reducer: createReducer(
-    initialState,
-    on(importsActions.openWindow, (state, action) => {
-      return {
-        ...state,
-        stateId: action.stateId,
-      };
-    }),
-    on(importsActions.importsFileSuccess, (state, action) => {
-      const imports = action.importsResponse;
-      const data = getImportStatus(imports.importedExcelData.data, imports.importsConfig);
-      return {
-        ...state,
-        importedExcelData: {
-          data,
-          totalCounts: data.length,
-        },
-        columnsConfig: imports.columnsConfig,
-        importsConfig: imports.importsConfig,
-      };
-    }),
-    on(importsActions.resetRecords, importsActions.saveRecordsSuccess, importsActions.closeWindow, (state) => {
-      return {
-        ...state,
-        importedExcelData: { data: [], totalCounts: 0 },
-      };
-    }),
-    on(importsActions.deleteSelectedRecords, (state, action) => {
-      const importedExcelData = state.importedExcelData ? state.importedExcelData.data : [];
-      const selected = action.selected;
-      const excelData = importedExcelData.filter((item) => !selected.find((record) => isEqual(item, record)));
-      const data = getImportStatus(excelData, state.importsConfig);
-      return {
-        ...state,
-        importedExcelData: { data: data, totalCounts: data.length },
-      };
-    }),
-  ),
-});
+export const gnroImportsOnActions: GnroOnAction<ImportsState>[] = [
+  on(importsActions.openWindow, (state, action) => {
+    return {
+      ...state,
+      stateId: action.stateId,
+    };
+  }),
+  on(importsActions.importsFileSuccess, (state, action) => {
+    const imports = action.importsResponse;
+    const data = getImportStatus(imports.importedExcelData.data, imports.importsConfig);
+    return {
+      ...state,
+      importedExcelData: {
+        data,
+        totalCounts: data.length,
+      },
+      columnsConfig: imports.columnsConfig,
+      importsConfig: imports.importsConfig,
+    };
+  }),
+  on(importsActions.resetRecords, importsActions.saveRecordsSuccess, importsActions.closeWindow, (state) => {
+    return {
+      ...state,
+      importedExcelData: { data: [], totalCounts: 0 },
+    };
+  }),
+  on(importsActions.deleteSelectedRecords, (state, action) => {
+    const importedExcelData = state.importedExcelData ? state.importedExcelData.data : [];
+    const selected = action.selected;
+    const excelData = importedExcelData.filter((item) => !selected.find((record) => isEqual(item, record)));
+    const data = getImportStatus(excelData, state.importsConfig);
+    return {
+      ...state,
+      importedExcelData: { data: data, totalCounts: data.length },
+    };
+  }),
+];
+
+export const gnroImportsReducer = createReducer(initialState, ...gnroImportsOnActions);
+export const gnroImportsFeature = createFeature({ name: 'gnroImports', reducer: gnroImportsReducer });
