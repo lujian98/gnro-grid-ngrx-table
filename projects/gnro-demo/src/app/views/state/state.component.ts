@@ -28,7 +28,10 @@ export class AppStateComponent {
   items: GnroAccordion[] = [
     {
       name: 'State Demos',
-      items: [{ name: 'Data Store Extend Base Store', link: 'data-store' }],
+      items: [
+        { name: 'Data Store Extend Base Store', link: 'data-store' },
+        { name: 'Reducer Manager', link: 'reducer-manager' },
+      ],
     },
   ];
 }
