@@ -9,9 +9,8 @@ export const selectData = (featureName: string) =>
   createSelector(
     (state: AppBaseReducerManagerState) => {
       console.log(' aaaaa featureName=', featureName);
+      console.log(' state=', state);
       return state[featureName];
     },
-    (state: BaseReducerManagerState) => {
-      return state ? state.data : [];
-    },
+    (state: BaseReducerManagerState) => state.data,
   );

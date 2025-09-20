@@ -7,7 +7,6 @@ import { selectData } from './base-reducer-manager.selectors';
 @Injectable({ providedIn: 'root' })
 export class BaseReducerManagerFacade {
   private readonly store = inject(Store);
-
   featureName$ = signal<string>('');
 
   loadData(): void {
