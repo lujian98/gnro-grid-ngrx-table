@@ -8,4 +8,6 @@ import { BaseReducerManagerComponent, BaseReducerManagerStateModule } from './ba
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [BaseReducerManagerComponent, BaseReducerManagerStateModule],
 })
-export class AppReducerManagerComponent {}
+export class AppReducerManagerComponent {
+  featureName = 'testBaseReducerManager';
+}

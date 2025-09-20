@@ -1,5 +1,5 @@
-import { GnroOnAction, GnroDataType } from '@gnro/ui/core';
-import { createFeature, createReducer, on } from '@ngrx/store';
+import { GnroDataType, GnroOnAction } from '@gnro/ui/core';
+import { createReducer, on } from '@ngrx/store';
 import { baseReducerManagerActions } from './base-reducer-manager.actions';
 
 export interface BaseReducerManagerState {
@@ -20,7 +20,3 @@ export const baseReducerManagerOnActions: GnroOnAction<BaseReducerManagerState>[
 ];
 
 export const baseReducerManagerReducer = createReducer(initialState, ...baseReducerManagerOnActions);
-export const baseReducerManagerFeature = createFeature({
-  name: 'baseReducerManager',
-  reducer: baseReducerManagerReducer,
-});

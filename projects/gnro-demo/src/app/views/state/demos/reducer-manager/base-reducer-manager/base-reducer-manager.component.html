@@ -1,8 +1,6 @@
-<div (click)="reloadData()">Base Store Reload Data</div>
+<div (click)="reloadData()">Click To Reload Data</div>
 
 @if (data$()) {
-  <div>loaded data</div>
-
   @for (record of data$(); track $index; let index = $index) {
     <div>
       <span>{{ record["ID"] }} </span>

@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
+import { ReducerManager } from '@ngrx/store';
 import { BaseReducerManagerStateModule } from './+state/base-reducer-manager-state.module';
 import { BaseReducerManagerFacade } from './+state/base-reducer-manager.facade';
+import { baseReducerManagerReducer } from './+state/base-reducer-manager.reducer';
 
 @Component({
   selector: 'base-reducer-manager',
@@ -10,11 +12,18 @@ import { BaseReducerManagerFacade } from './+state/base-reducer-manager.facade';
   imports: [BaseReducerManagerStateModule],
 })
 export class BaseReducerManagerComponent {
+  private reducerManager = inject(ReducerManager);
   private readonly baseReducerManagerFacade = inject(BaseReducerManagerFacade);
 
   data$ = this.baseReducerManagerFacade.getData();
 
-  constructor() {
+  @Input()
+  set featureName(featureName: string) {
+    console.log(' featuore name =', featureName);
+
+    this.reducerManager.addReducer(featureName, baseReducerManagerReducer);
+    this.baseReducerManagerFacade.featureName$.set(featureName);
+    this.data$ = this.baseReducerManagerFacade.getData();
     this.baseReducerManagerFacade.loadData();
   }
 
