@@ -10,4 +10,5 @@ import { BaseReducerManagerComponent, BaseReducerManagerStateModule } from './ba
 })
 export class AppReducerManagerComponent {
   featureName = 'testBaseReducerManager';
+  featureName2 = 'testBaseReducerManager2';
 }

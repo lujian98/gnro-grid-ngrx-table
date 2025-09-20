@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { ReducerManager } from '@ngrx/store';
 import { BaseReducerManagerStateModule } from './+state/base-reducer-manager-state.module';
 import { BaseReducerManagerFacade } from './+state/base-reducer-manager.facade';
@@ -17,15 +17,17 @@ export class BaseReducerManagerComponent {
 
   data$ = this.baseReducerManagerFacade.getData();
 
-  @Input()
-  set featureName(featureName: string) {
-    console.log(' featuore name =', featureName);
+  featureName = input.required({
+    transform: (featureName: string) => {
+      console.log(' 22222featuore name =', featureName);
 
-    this.reducerManager.addReducer(featureName, baseReducerManagerReducer);
-    this.baseReducerManagerFacade.featureName$.set(featureName);
-    this.data$ = this.baseReducerManagerFacade.getData();
-    this.baseReducerManagerFacade.loadData();
-  }
+      this.reducerManager.addReducer(featureName, baseReducerManagerReducer);
+      this.baseReducerManagerFacade.featureName$.set(featureName);
+      this.data$ = this.baseReducerManagerFacade.getData();
+      this.baseReducerManagerFacade.loadData();
+      return featureName;
+    },
+  });
 
   reloadData(): void {
     this.baseReducerManagerFacade.reloadData();
