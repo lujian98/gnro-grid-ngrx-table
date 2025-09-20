@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { AppDataStoreComponent } from './demos/data/data-store.component';
+import { AppDataStoreComponent } from './demos/extends/data-store.component';
 import { AppStateComponent } from './state.component';
 
 export const AppStateRoutes: Routes = [
