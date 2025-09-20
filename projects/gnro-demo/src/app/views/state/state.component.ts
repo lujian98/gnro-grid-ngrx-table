@@ -10,9 +10,9 @@ import {
 } from '@gnro/ui/layout';
 
 @Component({
-  selector: 'app-window',
-  templateUrl: './window.component.html',
-  styleUrls: ['./window.component.scss'],
+  selector: 'app-state',
+  templateUrl: './state.component.html',
+  styleUrls: ['./state.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
@@ -24,14 +24,11 @@ import {
     GnroAccordionComponent,
   ],
 })
-export class AppWindowComponent {
+export class AppStateComponent {
   items: GnroAccordion[] = [
     {
-      name: 'Window & Dialog',
-      items: [
-        { name: 'Simple Window', link: 'simple-window' },
-        { name: 'Message', link: 'message' },
-      ],
+      name: 'State Demos',
+      items: [{ name: 'Data Store Extend Base Store', link: 'data-store' }],
     },
   ];
 }

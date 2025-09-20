@@ -49,6 +49,10 @@ export const routes: Routes = [
         loadChildren: () => import('./views/window/window.routes').then((m) => m.AppWindowRoutes),
       },
       {
+        path: 'state',
+        loadChildren: () => import('./views/state/state.routes').then((m) => m.AppStateRoutes),
+      },
+      {
         path: '**',
         redirectTo: 'dashboard',
       },
