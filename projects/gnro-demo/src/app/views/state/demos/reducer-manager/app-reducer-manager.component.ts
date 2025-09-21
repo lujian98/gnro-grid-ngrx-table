@@ -14,13 +14,11 @@ import {
 })
 export class AppReducerManagerComponent {
   featureName = 'testBaseReducerManager';
-
   config: BaseReducerManagerConfig = {
     pageSize: 20,
   };
 
   featureName2 = 'testBaseReducerManager2';
-
   config2: BaseReducerManagerConfig = {
     pageSize: 30,
   };

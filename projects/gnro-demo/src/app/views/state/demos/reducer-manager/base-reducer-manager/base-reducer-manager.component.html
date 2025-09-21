@@ -1,6 +1,9 @@
 <div (click)="reloadData()">Click To Reload Data</div>
+<div>Feature Name: {{ featureName() }}</div>
 
 @if (data$()) {
+  <span>Total Records: {{ data$().length }}</span>
+  <span></span>
   @for (record of data$(); track $index; let index = $index) {
     <div>
       <span>{{ record["ID"] }} </span>
