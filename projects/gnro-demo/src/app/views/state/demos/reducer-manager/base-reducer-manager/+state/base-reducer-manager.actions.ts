@@ -1,5 +1,5 @@
 import { GnroDataType } from '@gnro/ui/core';
-import { createActionGroup, emptyProps, props } from '@ngrx/store';
+import { createActionGroup, props } from '@ngrx/store';
 
 export const baseReducerManagerActions = createActionGroup({
   source: '[Base Reducer Manager]',

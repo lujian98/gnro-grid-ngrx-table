@@ -7,10 +7,6 @@ export interface AppBaseReducerManagerState {
 
 export const selectData = (featureName: string) =>
   createSelector(
-    (state: AppBaseReducerManagerState) => {
-      console.log(' aaaaa featureName=', featureName);
-      console.log(' state=', state);
-      return state[featureName];
-    },
+    (state: AppBaseReducerManagerState) => state[featureName],
     (state: BaseReducerManagerState) => state.data,
   );

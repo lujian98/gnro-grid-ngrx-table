@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, inject, input, Signal } from '@angular/core';
-import { ReducerManager } from '@ngrx/store';
+import { ChangeDetectionStrategy, Component, effect, inject, input, Signal } from '@angular/core';
 import { GnroDataType } from '@gnro/ui/core';
+import { ReducerManager } from '@ngrx/store';
 import { BaseReducerManagerStateModule } from './+state/base-reducer-manager-state.module';
 import { BaseReducerManagerFacade } from './+state/base-reducer-manager.facade';
 import { baseReducerManagerReducer } from './+state/base-reducer-manager.reducer';
@@ -13,18 +13,24 @@ import { baseReducerManagerReducer } from './+state/base-reducer-manager.reducer
   imports: [BaseReducerManagerStateModule],
 })
 export class BaseReducerManagerComponent {
-  private reducerManager = inject(ReducerManager);
+  private readonly reducerManager = inject(ReducerManager);
   private readonly baseReducerManagerFacade = inject(BaseReducerManagerFacade);
   data$!: Signal<GnroDataType[]>;
+  featureName = input.required<string>();
 
-  featureName = input.required({
-    transform: (featureName: string) => {
-      this.reducerManager.addReducer(featureName, baseReducerManagerReducer);
-      this.data$ = this.baseReducerManagerFacade.getData(featureName);
-      this.baseReducerManagerFacade.loadData(featureName);
-      return featureName;
-    },
-  });
+  constructor() {
+    effect(() => {
+      if (this.featureName()) {
+        this.initReducerManagerReducer();
+      }
+    });
+  }
+
+  private initReducerManagerReducer(): void {
+    this.reducerManager.addReducer(this.featureName(), baseReducerManagerReducer);
+    this.data$ = this.baseReducerManagerFacade.getData(this.featureName());
+    this.baseReducerManagerFacade.loadData(this.featureName());
+  }
 
   reloadData(): void {
     this.baseReducerManagerFacade.reloadData(this.featureName());
