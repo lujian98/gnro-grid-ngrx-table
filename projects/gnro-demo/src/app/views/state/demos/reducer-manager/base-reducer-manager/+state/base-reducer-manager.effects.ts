@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { concatMap, map } from 'rxjs';
+import { concatMap, map, debounceTime } from 'rxjs';
 import { BaseReducerManagerService } from '../services/base-reducer-manager.service';
 import { baseReducerManagerActions } from './base-reducer-manager.actions';
 import { selectConfig } from './base-reducer-manager.selectors';
@@ -19,7 +19,8 @@ export class BaseReducerManagerEffects {
         const config = this.store.selectSignal(selectConfig(action.featureName));
         return this.baseReducerManagerService.loadData(config()).pipe(
           map((res) => {
-            return baseReducerManagerActions.loadDataSuccess({ data: res });
+            const featureName = action.featureName;
+            return baseReducerManagerActions.loadDataSuccess({ featureName, data: res });
           }),
         );
       }),
@@ -33,7 +34,8 @@ export class BaseReducerManagerEffects {
         const config = this.store.selectSignal(selectConfig(action.featureName));
         return this.baseReducerManagerService.loadData(config()).pipe(
           map((res) => {
-            return baseReducerManagerActions.loadDataSuccess({ data: res });
+            const featureName = action.featureName;
+            return baseReducerManagerActions.loadDataSuccess({ featureName, data: res });
           }),
         );
       }),

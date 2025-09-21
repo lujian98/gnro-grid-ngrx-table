@@ -3,10 +3,16 @@ import { GnroDataType } from '@gnro/ui/core';
 import { Store } from '@ngrx/store';
 import { baseReducerManagerActions } from './base-reducer-manager.actions';
 import { selectData } from './base-reducer-manager.selectors';
+import { BaseReducerManagerConfig } from '../config.model';
 
 @Injectable({ providedIn: 'root' })
 export class BaseReducerManagerFacade {
   private readonly store = inject(Store);
+
+  loadConfig(featureName: string, config: BaseReducerManagerConfig): void {
+    this.store.dispatch(baseReducerManagerActions.loadConfig({ featureName, config }));
+    this.loadData(featureName);
+  }
 
   loadData(featureName: string): void {
     this.store.dispatch(baseReducerManagerActions.loadData({ featureName }));

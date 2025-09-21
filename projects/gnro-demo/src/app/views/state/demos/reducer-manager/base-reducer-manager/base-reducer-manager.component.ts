@@ -4,6 +4,7 @@ import { ReducerManager } from '@ngrx/store';
 import { BaseReducerManagerStateModule } from './+state/base-reducer-manager-state.module';
 import { BaseReducerManagerFacade } from './+state/base-reducer-manager.facade';
 import { baseReducerManagerReducer } from './+state/base-reducer-manager.reducer';
+import { BaseReducerManagerConfig } from './config.model';
 
 @Component({
   selector: 'base-reducer-manager',
@@ -17,6 +18,7 @@ export class BaseReducerManagerComponent {
   private readonly baseReducerManagerFacade = inject(BaseReducerManagerFacade);
   data$!: Signal<GnroDataType[]>;
   featureName = input.required<string>();
+  config = input.required<BaseReducerManagerConfig>();
 
   constructor() {
     effect(() => {
@@ -28,8 +30,8 @@ export class BaseReducerManagerComponent {
 
   private initReducerManagerReducer(): void {
     this.reducerManager.addReducer(this.featureName(), baseReducerManagerReducer);
+    this.baseReducerManagerFacade.loadConfig(this.featureName(), this.config());
     this.data$ = this.baseReducerManagerFacade.getData(this.featureName());
-    this.baseReducerManagerFacade.loadData(this.featureName());
   }
 
   reloadData(): void {

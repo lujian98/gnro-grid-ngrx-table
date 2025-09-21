@@ -1,4 +1,5 @@
 export * from './base-reducer-manager.component';
+export * from './config.model';
 export * from './services/base-reducer-manager.service';
 export * from './+state/base-reducer-manager-state.module';
 export * from './+state/base-reducer-manager.actions';

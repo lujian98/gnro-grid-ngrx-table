@@ -1,5 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { BaseReducerManagerComponent, BaseReducerManagerStateModule } from './base-reducer-manager';
+import {
+  BaseReducerManagerComponent,
+  BaseReducerManagerStateModule,
+  BaseReducerManagerConfig,
+} from './base-reducer-manager';
 
 @Component({
   selector: 'app-reducer-manager',
@@ -10,5 +14,14 @@ import { BaseReducerManagerComponent, BaseReducerManagerStateModule } from './ba
 })
 export class AppReducerManagerComponent {
   featureName = 'testBaseReducerManager';
+
+  config: BaseReducerManagerConfig = {
+    pageSize: 20,
+  };
+
   featureName2 = 'testBaseReducerManager2';
+
+  config2: BaseReducerManagerConfig = {
+    pageSize: 30,
+  };
 }
