@@ -1,5 +1,4 @@
 import { createSelector } from '@ngrx/store';
-import { createFeatureSelector } from '@ngrx/store';
 import { BaseReducerManagerState } from './base-reducer-manager.reducer';
 
 export interface FeatureReducerManagerState {
