@@ -1,12 +1,12 @@
 import { createSelector } from '@ngrx/store';
 import { BaseReducerManagerState } from './base-reducer-manager.reducer';
 
-export interface AppBaseReducerManagerState {
+export interface FeatureState {
   [key: string]: BaseReducerManagerState;
 }
 
 export const selectData = (featureName: string) =>
   createSelector(
-    (state: AppBaseReducerManagerState) => state[featureName],
+    (state: FeatureState) => state[featureName],
     (state: BaseReducerManagerState) => state.data,
   );
