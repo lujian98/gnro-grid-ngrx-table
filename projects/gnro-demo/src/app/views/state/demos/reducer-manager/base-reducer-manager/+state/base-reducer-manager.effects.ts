@@ -12,7 +12,7 @@ export class BaseReducerManagerEffects {
   loadData$ = createEffect(() =>
     this.actions$.pipe(
       ofType(baseReducerManagerActions.loadData),
-      concatMap(() => {
+      concatMap((action) => {
         return this.baseReducerManagerService.loadData().pipe(
           map((res) => {
             return baseReducerManagerActions.loadDataSuccess({ data: res });
@@ -25,7 +25,7 @@ export class BaseReducerManagerEffects {
   reloadData$ = createEffect(() =>
     this.actions$.pipe(
       ofType(baseReducerManagerActions.reloadData),
-      concatMap(() => {
+      concatMap((action) => {
         return this.baseReducerManagerService.loadData().pipe(
           map((res) => {
             return baseReducerManagerActions.loadDataSuccess({ data: res });

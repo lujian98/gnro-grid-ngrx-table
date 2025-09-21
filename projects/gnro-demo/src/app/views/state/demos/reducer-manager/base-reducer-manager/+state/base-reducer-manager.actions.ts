@@ -4,8 +4,8 @@ import { createActionGroup, emptyProps, props } from '@ngrx/store';
 export const baseReducerManagerActions = createActionGroup({
   source: '[Base Reducer Manager]',
   events: {
-    'Load Data': emptyProps(),
+    'Load Data': props<{ featureName: string }>(),
     'Load Data Success': props<{ data: GnroDataType[] }>(),
-    'Reload Data': emptyProps(),
+    'Reload Data': props<{ featureName: string }>(),
   },
 });
