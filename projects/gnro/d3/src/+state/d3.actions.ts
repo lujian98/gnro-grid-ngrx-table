@@ -6,7 +6,7 @@ export const d3Actions = createD3Actions();
 
 function createD3Actions<T>() {
   return createActionGroup({
-    source: '[D3]',
+    source: 'D3',
     events: {
       'Init Config': props<{ d3Id: string; d3Config: GnroD3Config }>(),
       'Load Config': props<{ d3Id: string; d3Config: GnroD3Config }>(),

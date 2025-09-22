@@ -5,7 +5,7 @@ export const dashboardActions = createDashboardActions();
 
 function createDashboardActions<T>() {
   return createActionGroup({
-    source: '[Dashboard]',
+    source: 'Dashboard',
     events: {
       'Init Config': props<{ dashboardId: string; dashboardConfig: GnroDashboardConfig }>(),
       'Load Remote Config': props<{ dashboardId: string; dashboardConfig: GnroDashboardConfig }>(),

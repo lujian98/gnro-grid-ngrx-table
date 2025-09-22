@@ -5,7 +5,7 @@ export const treeActions = createTreeActions();
 
 function createTreeActions<T>() {
   return createActionGroup({
-    source: '[Tree]',
+    source: 'Tree',
     events: {
       'Init Config': props<{ treeId: string; treeConfig: GnroTreeConfig }>(),
       'Get Data': props<{ treeId: string; treeConfig: GnroTreeConfig }>(),

@@ -3,7 +3,7 @@ import { createActionGroup, props } from '@ngrx/store';
 import { BaseReducerManagerConfig } from '../config.model';
 
 export const baseReducerManagerActions = createActionGroup({
-  source: '[Base Reducer Manager]',
+  source: 'Base Reducer Manager',
   events: {
     'Load Config': props<{ featureName: string; config: BaseReducerManagerConfig }>(),
     'Load Data': props<{ featureName: string }>(),

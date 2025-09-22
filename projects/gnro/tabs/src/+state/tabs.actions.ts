@@ -6,7 +6,7 @@ export const tabsActions = createTabsActions();
 
 function createTabsActions<T>() {
   return createActionGroup({
-    source: '[Tabs]',
+    source: 'Tabs',
     events: {
       'Init Config': props<{ tabsId: string; tabsConfig: GnroTabsConfig }>(),
       'Load Config': props<{ tabsId: string; tabsConfig: GnroTabsConfig }>(),

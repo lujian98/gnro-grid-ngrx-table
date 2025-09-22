@@ -15,7 +15,7 @@ export const gridActions = createGridActions();
 
 function createGridActions<T>() {
   return createActionGroup({
-    source: '[Grid]',
+    source: 'Grid',
     events: {
       'Init Config': props<{ gridId: string; gridConfig: GnroGridConfig; gridType: string }>(),
       'Load Config': props<{ gridId: string; gridConfig: GnroGridConfig }>(),

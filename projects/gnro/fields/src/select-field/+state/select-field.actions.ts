@@ -2,7 +2,7 @@ import { createActionGroup, props } from '@ngrx/store';
 import { GnroOptionType, GnroSelectFieldConfig } from '../models/select-field.model';
 
 export const selectFieldActions = createActionGroup({
-  source: '[Select Field]',
+  source: 'Select Field',
   events: {
     'Init Config': props<{ fieldId: string; fieldConfig: GnroSelectFieldConfig }>(),
     'Load Remote Config': props<{ fieldId: string; fieldConfig: GnroSelectFieldConfig }>(),

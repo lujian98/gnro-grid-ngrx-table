@@ -4,7 +4,7 @@ import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { GnroImportsResponse } from '../models/imports.model';
 
 export const importsActions = createActionGroup({
-  source: '[Imports]',
+  source: 'Imports',
   events: {
     'Open Window': props<{ stateId: string; urlKey: string }>(),
     'Close Window': emptyProps(),

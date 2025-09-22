@@ -4,7 +4,7 @@ import { createActionGroup, props } from '@ngrx/store';
 import { GnroFormConfig } from '../models/form.model';
 
 export const formActions = createActionGroup({
-  source: '[Form]',
+  source: 'Form',
   events: {
     'Init Config': props<{ formId: string; formConfig: GnroFormConfig }>(),
     'Load Config': props<{ formId: string; formConfig: GnroFormConfig }>(),

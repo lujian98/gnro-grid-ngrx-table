@@ -3,7 +3,7 @@ import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { appBaseStoreActions } from '../../base-store';
 
 const newActions = createActionGroup({
-  source: '[Base Store]', // source can be difference from [Base Store]
+  source: 'Base Store', // source can be difference from [Base Store]
   events: {
     'Refresh Data': emptyProps(),
     'Refresh Data Success': props<{ data: GnroDataType[] }>(),
