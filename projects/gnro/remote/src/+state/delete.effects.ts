@@ -47,6 +47,31 @@ export class GnroRemoteDeleteEffects {
     ),
   );
 
+  /*
+    entityDetailChangedReload$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(this.actions.entityDetailChangedReload),
+      exhaustMap(({ id }) => {
+        const dialogRef = this.dialogService.open(ChangedReloadDialogComponent, {
+          context: { id },
+          closeOnBackdropClick: false,
+        });
+        return forkJoin({
+          close: dialogRef.onClose,
+          id: of(id),
+        }).pipe(
+          map(({ close, id }) => {
+            if (close === undefined) {
+              return this.actions.entityDetailChangedReloadDialogClose();
+            }
+            return this.actions.entityDetailLoad({ id });
+          }),
+        )
+      })
+    )
+  );
+  */
+
   applyDeleteConfirmationAction$ = createEffect(() =>
     this.actions$.pipe(
       ofType(remoteDeleteActions.deleteSelected),
