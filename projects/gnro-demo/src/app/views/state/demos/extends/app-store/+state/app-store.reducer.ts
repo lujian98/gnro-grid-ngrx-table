@@ -12,18 +12,6 @@ export const initialAppState: AppStoreState = {
   total: 0,
 };
 
-/*
-export const appOnActions: GnroOnAction<AppStoreState>[] = [
-  on(appStoreActions.refreshDataSuccess, (state, { data }) => {
-    console.log(' data=', data);
-    return {
-      ...state,
-      data,
-      total: data.length,
-    };
-  }),
-];*/
-
 export const appOnActions = <AppStoreState>() =>
   [
     on(appStoreActions.refreshDataSuccess, (state, { data }) => {
