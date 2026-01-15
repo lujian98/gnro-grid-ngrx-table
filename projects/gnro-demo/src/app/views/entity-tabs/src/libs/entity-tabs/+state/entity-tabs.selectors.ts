@@ -35,6 +35,7 @@ export interface EntityTabsSelectors {
  * Factory function to create selectors for a specific feature.
  * Selectors are cached to prevent recreation.
  */
+
 export function createEntityTabsSelectorsForFeature(featureName: FEATURE_NAME | string): EntityTabsSelectors {
   // Return cached selectors if available
   const cached = entityTabsSelectorsByFeature.get(featureName);

@@ -1,16 +1,16 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { GnroTabConfig, GnroTabsComponent, GnroTabsConfig } from '@gnro/ui/tabs';
-import { AppStockChartComponent } from '../../../d3/demos/stock-charts/stock-chart.component';
-import { AppGridMultiRowSelectionComponent } from '../../../grid/remote-data/grid-multi-row-selection.component';
-import { AppGridRemoteVirtualScrollComponent } from '../../../grid/remote-data/grid-virtual-scroll.component';
 import { AppLocationEntityComponent } from './panels/location-entity.component';
 import { GnroButtonComponent } from '@gnro/ui/button';
+import { EntityTabsFacade } from '../libs/entity-tabs/+state/entity-tabs.facade';
+import { locationsData } from './locations.data';
 
 @Component({
   selector: 'app-location-tabs',
   templateUrl: './location-tabs.component.html',
   styleUrls: ['./location-tabs.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+
   imports: [GnroTabsComponent, AppLocationEntityComponent, GnroButtonComponent],
 })
 export class AppLocationTabsComponent {
@@ -19,12 +19,6 @@ export class AppLocationTabsComponent {
   };
 
   tabs: GnroTabConfig<unknown>[] = [
-    /*
-    {
-      name: 'Locations',
-      content: AppGridMultiRowSelectionComponent,
-      closeable: false,
-    },*/
     {
       name: 'Entity1',
       title: 'Entity01',
@@ -34,15 +28,28 @@ export class AppLocationTabsComponent {
   ];
 
   @ViewChild(GnroTabsComponent, { static: false }) tabsPanel!: GnroTabsComponent<unknown>;
-  private totalTabs = this.tabs.length;
+  private tabDataIndex = 0;
+
   newTab(): void {
-    const tabName = `Tab${this.totalTabs + 1}`;
+    const values = locationsData[this.tabDataIndex];
     const item = {
-      name: tabName,
+      id: values['id'],
+      name: values['nodeCode'],
+      title: values['nodeCode'],
       content: AppLocationEntityComponent,
+      context: {
+        tabId: values['id'],
+      },
       closeable: true,
     };
     this.tabsPanel.addTab(item);
-    this.totalTabs++;
+    this.tabDataIndex++;
   }
 }
+
+/*
+      context: {
+        form: this.form,
+        values: ['test1', 'test2', 'test3'],
+      },
+      */

@@ -1,0 +1,22 @@
+export const locationsData = [
+  {
+    id: 5,
+    fullCodePath: 'UNITED STATES',
+    nodeCode: 'UNITED STATES',
+    hierarchyLevel: 'Country',
+  },
+  {
+    id: 4,
+    fullCodePath: 'UNITED STATES > SAMPLE LOCATION',
+    nodeCode: 'SAMPLE LOCATION',
+    name: 'Sample Location',
+    hierarchyLevel: 'Building',
+    defaultSite: true,
+    area: 1000,
+    containsAssets: true,
+    country: 'United States',
+    enableVPC: true,
+    vpcAcPower: true,
+    ownerName: 'admin',
+  },
+];

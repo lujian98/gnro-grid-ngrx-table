@@ -19,6 +19,7 @@ import { GnroLayoutComponent, GnroLayoutHeaderComponent } from '@gnro/ui/layout'
   ],
 })
 export class AppLocationEntityComponent implements OnInit {
+  tabId: string = '';
   form: FormGroup = new FormGroup({
     vin: new FormControl('field A'),
   });
@@ -33,6 +34,7 @@ export class AppLocationEntityComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    console.log('tabId', this.tabId);
     const formvalues = {
       vin: '642b3edc',
     };
