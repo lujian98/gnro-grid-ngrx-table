@@ -26,6 +26,7 @@ export class AppLocationTabsComponent {
     },
     {
       name: 'Entity1',
+      title: 'Entity01',
       content: AppLocationEntityComponent,
       closeable: true,
     },
