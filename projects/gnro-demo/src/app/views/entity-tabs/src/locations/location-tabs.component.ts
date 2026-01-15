@@ -19,11 +19,12 @@ export class AppLocationTabsComponent {
   };
 
   tabs: GnroTabConfig<unknown>[] = [
+    /*
     {
       name: 'Locations',
       content: AppGridMultiRowSelectionComponent,
       closeable: false,
-    },
+    },*/
     {
       name: 'Entity1',
       title: 'Entity01',
