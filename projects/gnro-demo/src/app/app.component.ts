@@ -48,6 +48,7 @@ export class AppComponent implements OnInit {
     { name: 'Layout', link: 'layout' },
     { name: 'Window', link: 'window' },
     { name: 'State', link: 'state' },
+    { name: 'Entity Tabs', link: 'entity-tabs' },
   ];
 
   rangeValue = this.themeService.rangeMax;

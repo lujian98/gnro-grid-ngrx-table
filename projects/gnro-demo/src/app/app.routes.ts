@@ -53,6 +53,10 @@ export const routes: Routes = [
         loadChildren: () => import('./views/state/state.routes').then((m) => m.AppStateRoutes),
       },
       {
+        path: 'entity-tabs',
+        loadChildren: () => import('./views/entity-tabs/entity-tabs.routes').then((m) => m.AppEntityTabsRoutes),
+      },
+      {
         path: '**',
         redirectTo: 'dashboard',
       },
