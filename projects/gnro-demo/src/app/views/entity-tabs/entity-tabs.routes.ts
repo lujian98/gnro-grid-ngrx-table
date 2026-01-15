@@ -7,6 +7,13 @@ export const AppEntityTabsRoutes: Routes = [
     path: '',
     component: AppEntityTabsComponent,
     providers: [],
-    children: [{ path: 'location-tabs', component: AppLocationTabsComponent }],
+    children: [
+      { path: 'location-tabs', component: AppLocationTabsComponent },
+
+      {
+        path: '**',
+        redirectTo: 'location-tabs',
+      },
+    ],
   },
 ];
