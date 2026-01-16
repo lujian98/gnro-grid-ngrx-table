@@ -1,7 +1,7 @@
 export const locationsData = [
   {
     id: 5,
-    fullCodePath: 'UNITED STATES',
+    fullCodePath: 'UNITED STATES (Root)',
     nodeCode: 'UNITED STATES',
     hierarchyLevel: 'Country',
   },
@@ -21,7 +21,7 @@ export const locationsData = [
   },
   {
     id: 6,
-    fullCodePath: 'UNITED STATES > SAMPLE LOCATION',
+    fullCodePath: 'UNITED STATES > New LOCATION',
     nodeCode: 'new LOCATION',
     name: 'New Location',
     hierarchyLevel: 'Building',
