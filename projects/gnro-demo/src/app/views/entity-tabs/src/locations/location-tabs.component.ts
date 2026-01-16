@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { GnroButtonComponent } from '@gnro/ui/button';
 import { GnroTabsComponent, GnroTabsConfig } from '@gnro/ui/tabs';
 import { EntityTabsStateModule } from '../libs/entity-tabs/+state/entity-tabs-state.module';
@@ -17,7 +17,6 @@ import { AppLocationEntityComponent } from './panels/location-entity.component';
 })
 export class AppLocationTabsComponent {
   private entityTabsFacade = inject(EntityTabsFacade);
-  //private readonly activeTab = this.entityTabsFacade.getActiveTab();
   tabsConfig: Partial<GnroTabsConfig> = {
     enableContextMenu: true,
   };
@@ -54,8 +53,6 @@ export class AppLocationTabsComponent {
       this.entityTabsFacade.setActiveTab(tabs[index].id);
     }
   }
-
-  @ViewChild(GnroTabsComponent, { static: false }) tabsPanel!: GnroTabsComponent<unknown>;
 
   private tabDataIndex = 0;
 
