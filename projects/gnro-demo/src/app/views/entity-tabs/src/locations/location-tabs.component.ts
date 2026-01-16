@@ -66,6 +66,7 @@ export class AppLocationTabsComponent {
       originalValues: values,
       dirty: false,
       editing: false,
+      valid: true,
     };
 
     this.entityTabsFacade.addTab(tab);
