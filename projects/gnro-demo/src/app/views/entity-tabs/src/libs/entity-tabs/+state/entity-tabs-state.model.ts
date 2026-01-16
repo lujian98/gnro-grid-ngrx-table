@@ -22,10 +22,11 @@ export interface EntityTabsState extends EntityState<AppEntityTab> {
 /**
  * Entity adapter for normalized entity storage.
  * Uses 'id' as the unique identifier for each tab.
+ * sortComparer is set to false to maintain insertion order (new tabs appended at end).
  */
 export const entityTabsAdapter = createEntityAdapter<AppEntityTab>({
   selectId: (tab) => tab.id,
-  sortComparer: (a, b) => a.name.localeCompare(b.name),
+  sortComparer: false,
 });
 
 /**

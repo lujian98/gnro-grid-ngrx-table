@@ -40,7 +40,7 @@ export class AppLocationEntityComponent implements OnInit, OnDestroy {
 
   constructor() {
     effect(() => {
-      const tab = this.entityTabsFacade.getTabById(this.tabId);
+      const tab = this.entityTabsFacade.getActiveTab();
       this.form.patchValue(tab()!.values);
     });
   }
