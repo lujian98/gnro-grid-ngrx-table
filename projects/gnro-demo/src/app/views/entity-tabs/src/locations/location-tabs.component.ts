@@ -13,7 +13,7 @@ import { AppLocationEntityComponent } from './panels/location-entity.component';
   templateUrl: './location-tabs.component.html',
   styleUrls: ['./location-tabs.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [EntityTabsStateModule, GnroTabsComponent, AppLocationEntityComponent, GnroButtonComponent],
+  imports: [EntityTabsStateModule, GnroTabsComponent, GnroButtonComponent],
 })
 export class AppLocationTabsComponent {
   private entityTabsFacade = inject(EntityTabsFacade);

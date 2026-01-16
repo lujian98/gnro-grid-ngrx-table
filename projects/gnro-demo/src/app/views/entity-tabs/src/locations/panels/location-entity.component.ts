@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, DestroyRef, effect, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { GnroButtonComponent } from '@gnro/ui/button';
 import { GnroTextFieldComponent, GnroTextFieldConfig, defaultTextFieldConfig } from '@gnro/ui/fields';
-import { GnroLayoutComponent, GnroLayoutHeaderComponent } from '@gnro/ui/layout';
+import { GnroLayoutComponent } from '@gnro/ui/layout';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { EntityTabsFacade } from '../../libs/entity-tabs/+state/entity-tabs.facade';
 import { AppIdentityPanelComponent } from './identity-panel.component';
@@ -16,9 +15,7 @@ import { AppAddressPanelComponent } from './address-panel.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
-    GnroButtonComponent,
     GnroLayoutComponent,
-    GnroLayoutHeaderComponent,
     FormsModule,
     GnroTextFieldComponent,
     AppIdentityPanelComponent,
