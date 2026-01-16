@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { GnroTextFieldComponent, GnroTextFieldConfig, defaultTextFieldConfig } from '@gnro/ui/fields';
+import { GnroNumberFieldComponent, GnroNumberFieldConfig, defaultNumberFieldConfig } from '@gnro/ui/fields';
 
 import { GnroTabGroupComponent, GnroTabComponent } from '@gnro/ui/tab-group';
 
@@ -8,18 +8,34 @@ import { GnroTabGroupComponent, GnroTabComponent } from '@gnro/ui/tab-group';
   selector: 'app-location-subtabs',
   template: `
     <div>Location Subtabs</div>
-    <gnro-tab-group selectedIndex="1">
-      <gnro-tab label="Tab 1"> </gnro-tab>
+    <gnro-tab-group selectedIndex="0">
+      <gnro-tab label="Tab 1">
+        <gnro-number-field [fieldConfig]="fieldConfig" [form]="form"> </gnro-number-field>
+      </gnro-tab>
       <gnro-tab label="Tab 2"> </gnro-tab>
       <gnro-tab label="Tab 3"> </gnro-tab>
     </gnro-tab-group>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [GnroTabGroupComponent, GnroTabComponent, FormsModule, ReactiveFormsModule],
+  imports: [GnroTabGroupComponent, GnroTabComponent, GnroNumberFieldComponent, FormsModule, ReactiveFormsModule],
 })
 export class AppLocationSubtabsComponent implements OnInit {
   @Input({ required: true }) form!: FormGroup;
   @Input() values: Record<string, unknown> = {};
 
-  ngOnInit(): void {}
+  fieldConfig: GnroNumberFieldConfig = {
+    ...defaultNumberFieldConfig,
+    fieldName: 'area',
+    fieldLabel: 'Area',
+    labelWidth: 100,
+    clearValue: true,
+    editable: true,
+  };
+
+  ngOnInit(): void {
+    const fieldName = this.fieldConfig.fieldName!;
+    // Get initial value from passed values or empty string
+    const initialValue = this.values[fieldName] ?? null;
+    this.form.addControl(fieldName, new FormControl<number>({ value: initialValue as number, disabled: false }, []));
+  }
 }
