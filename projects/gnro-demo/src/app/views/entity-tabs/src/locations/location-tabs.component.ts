@@ -48,7 +48,10 @@ export class AppLocationTabsComponent implements OnInit, OnDestroy {
   }
 
   onSelectedIndexChange(index: number): void {
-    console.log('77777 index', index);
+    const tabs = this.tabs$();
+    if (tabs[index]) {
+      this.entityTabsFacade.setActiveTab(tabs[index].id);
+    }
   }
 
   @ViewChild(GnroTabsComponent, { static: false }) tabsPanel!: GnroTabsComponent<unknown>;

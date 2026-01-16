@@ -29,6 +29,9 @@ export class AppLocationEntityComponent implements OnInit, OnDestroy {
   });
   private readonly formValues = toSignal(this.form.valueChanges);
 
+  // Store the activeTab signal as a class property so it can be tracked properly
+  private readonly activeTab = this.entityTabsFacade.getActiveTab();
+
   fieldConfig: GnroTextFieldConfig = {
     ...defaultTextFieldConfig,
     fieldName: 'nodeCode',
@@ -40,8 +43,10 @@ export class AppLocationEntityComponent implements OnInit, OnDestroy {
 
   constructor() {
     effect(() => {
-      const tab = this.entityTabsFacade.getActiveTab();
-      this.form.patchValue(tab()!.values);
+      const tab = this.activeTab();
+      if (tab) {
+        this.form.patchValue(tab.values);
+      }
     });
   }
 
