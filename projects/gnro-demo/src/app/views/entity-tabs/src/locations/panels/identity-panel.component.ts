@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, input, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GnroTextFieldComponent, GnroTextFieldConfig, defaultTextFieldConfig } from '@gnro/ui/fields';
 
@@ -10,7 +9,8 @@ import { GnroTextFieldComponent, GnroTextFieldConfig, defaultTextFieldConfig } f
   imports: [GnroTextFieldComponent, FormsModule, ReactiveFormsModule],
 })
 export class AppIdentityPanelComponent implements OnInit {
-  form = input.required<FormGroup>();
+  @Input({ required: true }) form!: FormGroup;
+  @Input() values: Record<string, unknown> = {};
 
   fieldConfig: GnroTextFieldConfig = {
     ...defaultTextFieldConfig,
@@ -22,6 +22,9 @@ export class AppIdentityPanelComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.form().addControl(this.fieldConfig.fieldName!, new FormControl<string>({ value: '', disabled: false }, []));
+    const fieldName = this.fieldConfig.fieldName!;
+    // Get initial value from passed values or empty string
+    const initialValue = this.values[fieldName] ?? '';
+    this.form.addControl(fieldName, new FormControl<string>({ value: initialValue as string, disabled: false }, []));
   }
 }

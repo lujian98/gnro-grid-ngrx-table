@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, effect, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, effect, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GnroButtonComponent } from '@gnro/ui/button';
@@ -37,6 +37,9 @@ export class AppLocationEntityComponent {
 
   // Store the activeTab signal as a class property so it can be tracked properly
   private readonly activeTab = this.entityTabsFacade.getActiveTab();
+
+  // Expose values for child components
+  readonly tabValues = computed(() => (this.activeTab()?.values ?? {}) as Record<string, unknown>);
 
   fieldConfig: GnroTextFieldConfig = {
     ...defaultTextFieldConfig,
