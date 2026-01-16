@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GnroNumberFieldComponent, GnroNumberFieldConfig, defaultNumberFieldConfig } from '@gnro/ui/fields';
-
-import { GnroTabGroupComponent, GnroTabComponent } from '@gnro/ui/tab-group';
+import { GnroTabComponent, GnroTabGroupComponent } from '@gnro/ui/tab-group';
+import { AppSettingsPanelComponent } from './settings-panel.component';
 
 @Component({
   selector: 'app-location-subtabs',
@@ -17,7 +17,14 @@ import { GnroTabGroupComponent, GnroTabComponent } from '@gnro/ui/tab-group';
     </gnro-tab-group>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [GnroTabGroupComponent, GnroTabComponent, GnroNumberFieldComponent, FormsModule, ReactiveFormsModule],
+  imports: [
+    GnroTabGroupComponent,
+    GnroTabComponent,
+    GnroNumberFieldComponent,
+    AppSettingsPanelComponent,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
 })
 export class AppLocationSubtabsComponent implements OnInit {
   @Input({ required: true }) form!: FormGroup;

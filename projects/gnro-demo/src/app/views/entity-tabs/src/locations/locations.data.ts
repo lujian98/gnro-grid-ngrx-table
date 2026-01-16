@@ -4,6 +4,7 @@ export const locationsData = [
     fullCodePath: 'UNITED STATES (Root)',
     nodeCode: 'UNITED STATES',
     hierarchyLevel: 'Country',
+    country: 'England',
     area: 20000,
   },
   {
@@ -29,7 +30,7 @@ export const locationsData = [
     defaultSite: true,
     area: 2000,
     containsAssets: true,
-    country: 'United States',
+    country: 'Canada',
     enableVPC: true,
     vpcAcPower: true,
     ownerName: 'admin',
