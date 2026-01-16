@@ -12,7 +12,9 @@ import { AppSettingsPanelComponent } from './settings-panel.component';
       <gnro-tab label="Tab 1">
         <gnro-number-field [fieldConfig]="fieldConfig" [form]="form"> </gnro-number-field>
       </gnro-tab>
-      <gnro-tab label="Tab 2"> </gnro-tab>
+      <gnro-tab label="Tab 2">
+        <app-settings-panel [form]="form" [values]="values"></app-settings-panel>
+      </gnro-tab>
       <gnro-tab label="Tab 3"> </gnro-tab>
     </gnro-tab-group>
   `,
