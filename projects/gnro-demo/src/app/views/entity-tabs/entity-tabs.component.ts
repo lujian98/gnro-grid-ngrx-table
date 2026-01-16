@@ -20,7 +20,10 @@ export class AppEntityTabsComponent {
   items: GnroAccordion[] = [
     {
       name: 'Entity Tabs',
-      items: [{ name: 'Location Tabs', link: 'location-tabs' }],
+      items: [
+        { name: 'Location Tabs', link: 'location-tabs' },
+        { name: 'Simple Tabs', link: 'simple-tabs' },
+      ],
     },
   ];
 }
