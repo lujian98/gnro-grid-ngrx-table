@@ -3,22 +3,22 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { GnroTextFieldComponent, GnroTextFieldConfig, defaultTextFieldConfig } from '@gnro/ui/fields';
 
 @Component({
-  selector: 'app-identity-panel',
+  selector: 'app-address-panel',
   template: `
-    <div>Identity Panel</div>
+    <div>Address Panel</div>
     <gnro-text-field [fieldConfig]="fieldConfig" [form]="form"> </gnro-text-field>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [GnroTextFieldComponent, FormsModule, ReactiveFormsModule],
 })
-export class AppIdentityPanelComponent implements OnInit {
+export class AppAddressPanelComponent implements OnInit {
   @Input({ required: true }) form!: FormGroup;
   @Input() values: Record<string, unknown> = {};
 
   fieldConfig: GnroTextFieldConfig = {
     ...defaultTextFieldConfig,
-    fieldName: 'fullCodePath',
-    fieldLabel: 'Full Code Path',
+    fieldName: 'hierarchyLevel',
+    fieldLabel: 'Hierarchy Level',
     labelWidth: 100,
     clearValue: true,
     editable: true,
