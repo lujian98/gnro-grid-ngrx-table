@@ -7,6 +7,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { EntityTabsFacade } from '../../libs/entity-tabs/+state/entity-tabs.facade';
 import { AppIdentityPanelComponent } from './identity-panel.component';
 import { AppAddressPanelComponent } from './address-panel.component';
+import { AppLocationSubtabsComponent } from './location-subtabs.component';
 
 @Component({
   selector: 'app-location-entity',
@@ -20,6 +21,7 @@ import { AppAddressPanelComponent } from './address-panel.component';
     GnroTextFieldComponent,
     AppIdentityPanelComponent,
     AppAddressPanelComponent,
+    AppLocationSubtabsComponent,
   ],
 })
 export class AppLocationEntityComponent {
