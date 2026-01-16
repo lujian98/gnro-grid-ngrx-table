@@ -41,6 +41,11 @@ export class AppLocationTabsComponent {
 
   constructor() {
     this.entityTabsFacade.initializeFeature(FEATURE_NAME.LOCATIONS);
+    const activeTab = this.entityTabsFacade.getActiveTab();
+    this.tabsConfig = {
+      ...this.tabsConfig,
+      selectedTabIndex: activeTab() ? this.tabs$().findIndex((tab) => tab.id === activeTab()?.id) : 0,
+    };
   }
 
   onSelectedIndexChange(index: number): void {
