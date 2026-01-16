@@ -26,13 +26,14 @@ export class AppLocationTabsComponent implements OnInit, OnDestroy {
     return tabs().map((tab) => {
       return {
         id: tab.id,
-        name: tab.name,
+        name: tab.dirty ? `${tab.name} *` : tab.name,
         title: tab.title,
         content: AppLocationEntityComponent,
         context: {
           tabId: tab.id,
         },
         closeable: true,
+        dirty: tab.dirty,
       };
     });
   });

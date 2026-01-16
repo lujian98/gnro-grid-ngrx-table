@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, effect, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, effect, OnDestroy, DestroyRef } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { GnroTextFieldComponent, GnroTextFieldConfig, defaultTextFieldConfig } from '@gnro/ui/fields';
 import { GnroButtonComponent } from '@gnro/ui/button';
 import { GnroLayoutComponent, GnroLayoutHeaderComponent } from '@gnro/ui/layout';
@@ -22,12 +23,15 @@ import { EntityTabsFacade } from '../../libs/entity-tabs/+state/entity-tabs.faca
 })
 export class AppLocationEntityComponent implements OnInit, OnDestroy {
   private entityTabsFacade = inject(EntityTabsFacade);
+  private destroyRef = inject(DestroyRef);
 
   tabId: string = '';
   form: FormGroup = new FormGroup({
     nodeCode: new FormControl(''),
   });
-  private readonly formValues = toSignal(this.form.valueChanges);
+
+  // Flag to prevent syncing to store when loading from store
+  private isLoadingFromStore = false;
 
   // Store the activeTab signal as a class property so it can be tracked properly
   private readonly activeTab = this.entityTabsFacade.getActiveTab();
@@ -42,12 +46,33 @@ export class AppLocationEntityComponent implements OnInit, OnDestroy {
   };
 
   constructor() {
+    // Load values from store when active tab changes
     effect(() => {
       const tab = this.activeTab();
       if (tab) {
-        this.form.patchValue(tab.values);
+        this.isLoadingFromStore = true;
+        this.form.patchValue(tab.values, { emitEvent: false });
+        this.isLoadingFromStore = false;
       }
     });
+
+    // Sync form changes back to store
+    this.form.valueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe((values) => {
+        if (!this.isLoadingFromStore) {
+          const tab = this.activeTab();
+          if (tab) {
+            // Merge form values with existing tab values
+            const updatedValues = { ...tab.values, ...values };
+            this.entityTabsFacade.updateTabValues(tab.id, updatedValues);
+          }
+        }
+      });
   }
 
   ngOnInit(): void {
