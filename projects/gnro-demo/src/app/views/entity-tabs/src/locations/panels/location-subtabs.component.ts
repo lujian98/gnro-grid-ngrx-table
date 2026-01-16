@@ -3,6 +3,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { GnroNumberFieldComponent, GnroNumberFieldConfig, defaultNumberFieldConfig } from '@gnro/ui/fields';
 import { GnroTabComponent, GnroTabGroupComponent } from '@gnro/ui/tab-group';
 import { AppSettingsPanelComponent } from './settings-panel.component';
+import { AppDimensionsPanelComponent } from './dimensions-panel.component';
 
 @Component({
   selector: 'app-location-subtabs',
@@ -10,12 +11,15 @@ import { AppSettingsPanelComponent } from './settings-panel.component';
     <div>Location Subtabs</div>
     <gnro-tab-group selectedIndex="0">
       <gnro-tab label="Tab 1">
+        <div>Subtabs Panel</div>
         <gnro-number-field [fieldConfig]="fieldConfig" [form]="form"> </gnro-number-field>
       </gnro-tab>
       <gnro-tab label="Tab 2">
         <app-settings-panel [form]="form" [values]="values"></app-settings-panel>
       </gnro-tab>
-      <gnro-tab label="Tab 3"> </gnro-tab>
+      <gnro-tab label="Tab 3">
+        <app-dimensions-panel [form]="form" [values]="values"></app-dimensions-panel>
+      </gnro-tab>
     </gnro-tab-group>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,6 +28,7 @@ import { AppSettingsPanelComponent } from './settings-panel.component';
     GnroTabComponent,
     GnroNumberFieldComponent,
     AppSettingsPanelComponent,
+    AppDimensionsPanelComponent,
     FormsModule,
     ReactiveFormsModule,
   ],

@@ -6,6 +6,7 @@ export const locationsData = [
     hierarchyLevel: 'Country',
     country: 'England',
     area: 20000,
+    ownerName: 'root',
   },
   {
     id: 4,
@@ -33,6 +34,6 @@ export const locationsData = [
     country: 'Canada',
     enableVPC: true,
     vpcAcPower: true,
-    ownerName: 'admin',
+    ownerName: 'developer',
   },
 ];
