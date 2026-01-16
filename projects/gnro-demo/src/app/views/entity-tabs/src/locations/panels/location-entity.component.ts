@@ -50,6 +50,7 @@ export class AppLocationEntityComponent implements OnInit, OnDestroy {
     effect(() => {
       const tab = this.activeTab();
       if (tab) {
+        console.log('tab', tab);
         this.isLoadingFromStore = true;
         this.form.patchValue(tab.values, { emitEvent: false });
         this.isLoadingFromStore = false;
