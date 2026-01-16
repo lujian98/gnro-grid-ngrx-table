@@ -1,5 +1,5 @@
 import { CdkDragDrop, CdkDropList, DragDropModule } from '@angular/cdk/drag-drop';
-import { ChangeDetectionStrategy, Component, inject, input, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, OnDestroy, output } from '@angular/core';
 import { GnroIconModule } from '@gnro/ui/icon';
 import { uniqueId } from '@gnro/ui/core';
 import { GnroPosition } from '@gnro/ui/overlay';
@@ -64,12 +64,15 @@ export class GnroTabsComponent<T> implements OnDestroy {
     },
   });
 
+  selectedIndexChange = output<number>();
+
   constructor() {
     this.tabsFacade.initConfig(this.tabsId, defaultTabsConfig);
   }
 
   onSelectedIndexChange(index: number): void {
     this.tabsFacade.setSelectedIndex(this.tabsId, index);
+    this.selectedIndexChange.emit(index);
   }
 
   drop(event: CdkDragDrop<GnroTabConfig<T>>): void {

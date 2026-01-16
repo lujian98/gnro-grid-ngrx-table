@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, effect } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GnroTextFieldComponent, GnroTextFieldConfig, defaultTextFieldConfig } from '@gnro/ui/fields';
 import { GnroButtonComponent } from '@gnro/ui/button';
 import { GnroLayoutComponent, GnroLayoutHeaderComponent } from '@gnro/ui/layout';
+import { EntityTabsFacade } from '../../libs/entity-tabs/+state/entity-tabs.facade';
 
 @Component({
   selector: 'app-location-entity',
@@ -19,25 +20,30 @@ import { GnroLayoutComponent, GnroLayoutHeaderComponent } from '@gnro/ui/layout'
   ],
 })
 export class AppLocationEntityComponent implements OnInit {
+  private entityTabsFacade = inject(EntityTabsFacade);
   tabId: string = '';
   form: FormGroup = new FormGroup({
-    vin: new FormControl('field A'),
+    nodeCode: new FormControl(''),
   });
 
   fieldConfig: GnroTextFieldConfig = {
     ...defaultTextFieldConfig,
-    fieldName: 'vin',
-    fieldLabel: 'Vin',
+    fieldName: 'nodeCode',
+    fieldLabel: 'Name',
     labelWidth: 120,
     clearValue: true,
     editable: true,
   };
 
+  constructor() {
+    effect(() => {
+      const tab = this.entityTabsFacade.getActiveTab();
+      console.log('pppppptab', tab());
+      this.form.patchValue(tab()!.values);
+    });
+  }
+
   ngOnInit(): void {
     console.log('tabId', this.tabId);
-    const formvalues = {
-      vin: '642b3edc',
-    };
-    this.form.patchValue(formvalues);
   }
 }

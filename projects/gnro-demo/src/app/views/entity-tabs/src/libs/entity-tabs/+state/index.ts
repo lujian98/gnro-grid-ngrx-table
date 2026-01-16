@@ -25,3 +25,6 @@ export { EntityTabsEffects } from './entity-tabs.effects';
 
 // Facade
 export { EntityTabsFacade } from './entity-tabs.facade';
+
+// Module
+export { EntityTabsStateModule } from './entity-tabs-state.module';

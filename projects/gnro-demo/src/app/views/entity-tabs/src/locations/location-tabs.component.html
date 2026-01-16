@@ -1,2 +1,3 @@
 <button gnro-button (click)="newTab()">New tab</button>
-<gnro-tabs [tabsConfig]="tabsConfig" [tabs]="tabs"> </gnro-tabs>
+<gnro-tabs [tabsConfig]="tabsConfig" [tabs]="tabs$()" (selectedIndexChange)="onSelectedIndexChange($event)">
+</gnro-tabs>

@@ -19,4 +19,18 @@ export const locationsData = [
     vpcAcPower: true,
     ownerName: 'admin',
   },
+  {
+    id: 6,
+    fullCodePath: 'UNITED STATES > SAMPLE LOCATION',
+    nodeCode: 'new LOCATION',
+    name: 'New Location',
+    hierarchyLevel: 'Building',
+    defaultSite: true,
+    area: 1000,
+    containsAssets: true,
+    country: 'United States',
+    enableVPC: true,
+    vpcAcPower: true,
+    ownerName: 'admin',
+  },
 ];

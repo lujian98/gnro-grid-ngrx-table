@@ -61,11 +61,10 @@ export class EntityTabsFacade {
   /**
    * Get all tabs as a Signal.
    */
-  getTabs(): Signal<AppEntityTab[]> {
+  getTabs(featureName: FEATURE_NAME): Signal<AppEntityTab[]> {
+    this.initializeFeature(featureName);
     this.ensureInitialized();
-    return toSignal(this.store.select(this.selectors!.selectAllTabs), {
-      initialValue: [],
-    });
+    return this.store.selectSignal(this.selectors!.selectAllTabs);
   }
 
   /**
@@ -83,9 +82,7 @@ export class EntityTabsFacade {
    */
   getActiveTab(): Signal<AppEntityTab | null> {
     this.ensureInitialized();
-    return toSignal(this.store.select(this.selectors!.selectActiveTab), {
-      initialValue: null,
-    });
+    return this.store.selectSignal(this.selectors!.selectActiveTab);
   }
 
   /**
@@ -93,9 +90,8 @@ export class EntityTabsFacade {
    */
   getTabById(tabId: string): Signal<AppEntityTab | null> {
     this.ensureInitialized();
-    return toSignal(this.store.select(this.selectors!.selectTabById(tabId)), {
-      initialValue: null,
-    });
+    console.log('getTabById', tabId);
+    return this.store.selectSignal(this.selectors!.selectTabById(tabId));
   }
 
   /**
