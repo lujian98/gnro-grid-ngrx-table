@@ -40,24 +40,8 @@ export class AppLocationEntityComponent implements OnInit, OnDestroy {
 
   constructor() {
     effect(() => {
-      // const tab = this.entityTabsFacade.getActiveTab();
-
-      // console.log('tabId', this.tabId);
       const tab = this.entityTabsFacade.getTabById(this.tabId);
-      console.log('ttt', tab());
       this.form.patchValue(tab()!.values);
-    });
-
-    effect(() => {
-      const values = this.formValues();
-      const tab = this.entityTabsFacade.getActiveTab()()!;
-      console.log('values', values);
-      /*
-      this.entityTabsFacade.updateTab({
-        ...tab,
-        values,
-      });
-      */
     });
   }
 
@@ -65,18 +49,5 @@ export class AppLocationEntityComponent implements OnInit, OnDestroy {
     console.log('tabId', this.tabId);
   }
 
-  ngOnDestroy(): void {
-    const tab = this.entityTabsFacade.getActiveTab()()!;
-    const values = this.formValues();
-    console.log('88888 ngOnDestroy =', values);
-    const newtab = {
-      ...tab,
-      values: {
-        ...tab.values,
-        ...values,
-      },
-    };
-    console.log('88888 newtab =', newtab);
-    this.entityTabsFacade.updateTab(newtab);
-  }
+  ngOnDestroy(): void {}
 }
