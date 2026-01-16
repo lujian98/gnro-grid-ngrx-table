@@ -6,6 +6,7 @@ import { GnroTextFieldComponent, GnroTextFieldConfig, defaultTextFieldConfig } f
 import { GnroLayoutComponent, GnroLayoutHeaderComponent } from '@gnro/ui/layout';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { EntityTabsFacade } from '../../libs/entity-tabs/+state/entity-tabs.facade';
+import { AppIdentityPanelComponent } from './identity-panel.component';
 
 @Component({
   selector: 'app-location-entity',
@@ -19,6 +20,7 @@ import { EntityTabsFacade } from '../../libs/entity-tabs/+state/entity-tabs.faca
     GnroLayoutHeaderComponent,
     FormsModule,
     GnroTextFieldComponent,
+    AppIdentityPanelComponent,
   ],
 })
 export class AppLocationEntityComponent {
