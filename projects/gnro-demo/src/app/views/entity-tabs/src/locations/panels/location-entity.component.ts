@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, effect, OnDestroy, DestroyRef } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, DestroyRef, effect, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { GnroTextFieldComponent, GnroTextFieldConfig, defaultTextFieldConfig } from '@gnro/ui/fields';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GnroButtonComponent } from '@gnro/ui/button';
+import { GnroTextFieldComponent, GnroTextFieldConfig, defaultTextFieldConfig } from '@gnro/ui/fields';
 import { GnroLayoutComponent, GnroLayoutHeaderComponent } from '@gnro/ui/layout';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { EntityTabsFacade } from '../../libs/entity-tabs/+state/entity-tabs.facade';
 
 @Component({
@@ -21,7 +21,7 @@ import { EntityTabsFacade } from '../../libs/entity-tabs/+state/entity-tabs.faca
     GnroTextFieldComponent,
   ],
 })
-export class AppLocationEntityComponent implements OnInit, OnDestroy {
+export class AppLocationEntityComponent {
   private entityTabsFacade = inject(EntityTabsFacade);
   private destroyRef = inject(DestroyRef);
 
@@ -75,10 +75,4 @@ export class AppLocationEntityComponent implements OnInit, OnDestroy {
         }
       });
   }
-
-  ngOnInit(): void {
-    console.log('tabId', this.tabId);
-  }
-
-  ngOnDestroy(): void {}
 }

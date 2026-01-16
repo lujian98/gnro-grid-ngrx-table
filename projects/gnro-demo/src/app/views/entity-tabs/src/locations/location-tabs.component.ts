@@ -1,12 +1,12 @@
-import { ChangeDetectionStrategy, Component, ViewChild, inject, OnInit, computed, OnDestroy } from '@angular/core';
-import { GnroTabConfig, GnroTabsComponent, GnroTabsConfig } from '@gnro/ui/tabs';
-import { AppLocationEntityComponent } from './panels/location-entity.component';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { GnroButtonComponent } from '@gnro/ui/button';
-import { EntityTabsFacade } from '../libs/entity-tabs/+state/entity-tabs.facade';
-import { locationsData } from './locations.data';
+import { GnroTabsComponent, GnroTabsConfig } from '@gnro/ui/tabs';
 import { EntityTabsStateModule } from '../libs/entity-tabs/+state/entity-tabs-state.module';
-import { FEATURE_NAME } from '../libs/entity-tabs/models/feature-name.enum';
+import { EntityTabsFacade } from '../libs/entity-tabs/+state/entity-tabs.facade';
 import { AppEntityTab } from '../libs/entity-tabs/models/entity-tabs.model';
+import { FEATURE_NAME } from '../libs/entity-tabs/models/feature-name.enum';
+import { locationsData } from './locations.data';
+import { AppLocationEntityComponent } from './panels/location-entity.component';
 
 @Component({
   selector: 'app-location-tabs',
@@ -15,7 +15,7 @@ import { AppEntityTab } from '../libs/entity-tabs/models/entity-tabs.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [EntityTabsStateModule, GnroTabsComponent, AppLocationEntityComponent, GnroButtonComponent],
 })
-export class AppLocationTabsComponent implements OnInit, OnDestroy {
+export class AppLocationTabsComponent {
   private entityTabsFacade = inject(EntityTabsFacade);
   tabsConfig: Partial<GnroTabsConfig> = {
     enableContextMenu: true,
@@ -42,12 +42,6 @@ export class AppLocationTabsComponent implements OnInit, OnDestroy {
     this.entityTabsFacade.initializeFeature(FEATURE_NAME.LOCATIONS);
   }
 
-  ngOnInit(): void {}
-
-  ngOnDestroy(): void {
-    console.log('ngOnDestroy');
-  }
-
   onSelectedIndexChange(index: number): void {
     const tabs = this.tabs$();
     if (tabs[index]) {
@@ -55,7 +49,6 @@ export class AppLocationTabsComponent implements OnInit, OnDestroy {
     }
   }
 
-  @ViewChild(GnroTabsComponent, { static: false }) tabsPanel!: GnroTabsComponent<unknown>;
   private tabDataIndex = 0;
 
   newTab(): void {
