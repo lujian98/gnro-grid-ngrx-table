@@ -77,7 +77,7 @@ export class GnroGridEffects {
   getGridData$ = createEffect(() =>
     this.actions$.pipe(
       ofType(gridActions.getData),
-      debounceTime(10), // debounce with switchMap may lose data if two or more grid pull, but will cancel previous call
+      //debounceTime(10), // debounce with switchMap may lose data if two or more grid pull, but will cancel previous call
       switchMap((action) => {
         const gridId = action.gridId;
         const gridConfig = this.gridFacade.getConfig(gridId)();
@@ -91,7 +91,7 @@ export class GnroGridEffects {
   getConcatGridData$ = createEffect(() =>
     this.actions$.pipe(
       ofType(gridActions.getConcatData),
-      mergeMap((action) => {
+      switchMap((action) => {
         const gridId = action.gridId;
         const gridConfig = this.gridFacade.getConfig(gridId)();
         const columns = this.gridFacade.getColumnsConfig(gridId)();
@@ -151,7 +151,7 @@ export class GnroGridEffects {
   saveGridConfigs$ = createEffect(() =>
     this.actions$.pipe(
       ofType(gridActions.saveConfigs),
-      switchMap((action) => {
+      concatMap((action) => {
         const gridId = action.gridId;
         const gridConfig = this.gridFacade.getConfig(gridId)();
         const columnsConfig = this.gridFacade.getColumnsConfig(gridId)();
