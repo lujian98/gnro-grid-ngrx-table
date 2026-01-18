@@ -104,7 +104,6 @@ export class GnroGridService {
     const url = this.backendService.apiUrl;
     return this.http.get<GnroGridData<T>>(url, { params }).pipe(
       map((res) => {
-        console.log('getGridData res =', res);
         return res;
       }),
       catchError((error) =>
