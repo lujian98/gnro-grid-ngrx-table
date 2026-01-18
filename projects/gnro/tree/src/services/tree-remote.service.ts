@@ -13,7 +13,7 @@ export class GnroTreeRemoteService {
   private readonly backendService = inject(GnroBackendService);
 
   getTreeRemoteData<T>(treeConfig: GnroTreeConfig, columns: GnroColumnConfig[]): Observable<GnroTreeData[]> {
-    let params = this.backendService.getParams(treeConfig.urlKey, 'treeData');
+    let params = this.backendService.getParams(treeConfig.gridName, 'treeData');
     const offset = (treeConfig.page - 1) * treeConfig.pageSize;
     const limit = treeConfig.pageSize;
     params = params.append('offset', offset.toString());

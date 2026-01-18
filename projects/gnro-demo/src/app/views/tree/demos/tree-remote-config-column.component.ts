@@ -44,7 +44,7 @@ const NESTED_DATA: NestedFoodNode[] = [
 export class AppTreeRemoteConfigColumnComponent {
   treeConfig: GnroTreeConfig = {
     ...defaultTreeConfig,
-    urlKey: 'MET',
+    gridName: 'MET',
     remoteGridConfig: true,
   };
 

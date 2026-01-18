@@ -1,7 +1,6 @@
-import { GnroOnAction } from '@gnro/ui/core';
 import { getSelection, initSelection, setSelection } from '@gnro/ui/grid';
-import { createFeature, createReducer, on } from '@ngrx/store';
-import { TreeState, defaultTreeState } from '../models/tree-grid.model';
+import { Action, createReducer, on } from '@ngrx/store';
+import { GnroTreeState, defaultTreeState } from '../models/tree-grid.model';
 import {
   gnroAddNestedTreeNode,
   gnroExpandAllNodesInMemoryData,
@@ -12,140 +11,132 @@ import {
 } from '../utils/nested-tree';
 import { treeActions } from './tree.actions';
 
-const initialState = <T>(): TreeState<T> => ({});
+// Generate feature key based on gridName
+export function getTreeFeatureKey(gridName: string): string {
+  return `tree-${gridName}`;
+}
 
-export const gnroTreeOnActions: GnroOnAction<TreeState<unknown>>[] = [
-  on(treeActions.initConfig, (state, action) => {
-    const treeConfig = { ...action.treeConfig };
-    const key = action.treeId;
-    const newState = { ...state };
-    const defaultSelection = state[key] ? state[key].selection.selection : defaultTreeState().selection.selection;
-    const selection = initSelection(treeConfig, defaultSelection);
-    newState[key] = {
-      ...defaultTreeState(),
-      treeConfig,
-      treeSetting: {
-        // not used in the tree panel yet, just hold for the gridId
-        ...defaultTreeState().treeSetting,
-        gridId: action.treeId,
-      },
-      selection: getSelection(treeConfig, selection, []),
-    };
-    return { ...newState };
-  }),
+// Get initial state for a specific tree
+export function getInitialTreeState<T>(gridName: string): GnroTreeState<T> {
+  return {
+    ...defaultTreeState<T>(),
+    treeSetting: {
+      ...defaultTreeState<T>().treeSetting,
+      gridId: gridName,
+    },
+  };
+}
 
-  on(treeActions.getDataSuccess, (state, action) => {
-    const key = action.treeId;
-    const newState = { ...state };
-    if (state[key]) {
-      const oldState = state[key];
+// Cache for reducers by gridName
+const treeReducersByFeature = new Map<
+  string,
+  (state: GnroTreeState<unknown> | undefined, action: Action) => GnroTreeState<unknown>
+>();
+
+// Factory function to create per-gridName reducers
+export function createTreeReducerForFeature(gridName: string) {
+  const cached = treeReducersByFeature.get(gridName);
+  if (cached) {
+    return cached;
+  }
+
+  const initialState = getInitialTreeState<unknown>(gridName);
+
+  const treeReducer = createReducer(
+    initialState,
+    on(treeActions.initConfig, (state, action) => {
+      if (action.gridName !== gridName) return state;
+      const treeConfig = { ...action.treeConfig };
+      // Always start from fresh initial state
+      const freshState = getInitialTreeState<unknown>(gridName);
+      const selection = initSelection(treeConfig, freshState.selection.selection);
+      return {
+        ...freshState,
+        treeConfig,
+        treeSetting: {
+          ...freshState.treeSetting,
+          gridId: gridName,
+        },
+        selection: getSelection(treeConfig, selection, []),
+      };
+    }),
+
+    on(treeActions.getDataSuccess, (state, action) => {
+      if (action.gridName !== gridName) return state;
       const inMemoryData = gnroSetNestNodeId([...action.treeData]);
       const treeData = gnroFlattenTree([...inMemoryData], 0);
-      setSelection(oldState.treeConfig, oldState.selection.selection, treeData);
-      newState[key] = {
-        ...oldState,
+      setSelection(state.treeConfig, state.selection.selection, treeData);
+      return {
+        ...state,
         inMemoryData,
         treeData,
-        selection: getSelection(oldState.treeConfig, oldState.selection.selection, oldState.treeData),
+        selection: getSelection(state.treeConfig, state.selection.selection, state.treeData),
       };
-    }
-    return { ...newState };
-  }),
+    }),
 
-  on(treeActions.setInMemoryData, (state, action) => {
-    const key = action.treeId;
-    const newState = { ...state };
-    if (state[key]) {
-      newState[key] = {
-        ...state[key],
+    on(treeActions.setInMemoryData, (state, action) => {
+      if (action.gridName !== gridName) return state;
+      return {
+        ...state,
         inMemoryData: gnroSetNestNodeId([...action.treeData]),
       };
-    }
-    return { ...newState };
-  }),
+    }),
 
-  on(treeActions.getInMemoryDataSuccess, (state, action) => {
-    const key = action.treeId;
-    const newState = { ...state }; // treeData is faltten and filter
-    if (state[key]) {
-      const oldState = state[key];
-      setSelection(oldState.treeConfig, oldState.selection.selection, action.treeData);
-      newState[key] = {
-        ...oldState,
+    on(treeActions.getInMemoryDataSuccess, (state, action) => {
+      if (action.gridName !== gridName) return state;
+      setSelection(state.treeConfig, state.selection.selection, action.treeData);
+      return {
+        ...state,
         treeData: [...action.treeData],
-        selection: getSelection(oldState.treeConfig, oldState.selection.selection, action.treeData),
+        selection: getSelection(state.treeConfig, state.selection.selection, action.treeData),
       };
-    }
-    return { ...newState };
-  }),
+    }),
 
-  on(treeActions.nodeToggleInMemoryData, (state, action) => {
-    const key = action.treeId;
-    const newState = { ...state };
-    if (state[key]) {
-      const oldState = state[key];
-      newState[key] = {
-        ...oldState,
-        inMemoryData: gnroNodeToggleInMemoryData(oldState.inMemoryData, action.node),
+    on(treeActions.nodeToggleInMemoryData, (state, action) => {
+      if (action.gridName !== gridName) return state;
+      return {
+        ...state,
+        inMemoryData: gnroNodeToggleInMemoryData(state.inMemoryData, action.node),
       };
-    }
-    return { ...newState };
-  }),
+    }),
 
-  on(treeActions.dropNode, (state, action) => {
-    const key = action.treeId;
-    const newState = { ...state };
-    if (state[key]) {
-      const oldState = state[key];
-      const nodes = gnroRemoveNestedNode([...oldState.inMemoryData], action.node);
+    on(treeActions.dropNode, (state, action) => {
+      if (action.gridName !== gridName) return state;
+      const nodes = gnroRemoveNestedNode([...state.inMemoryData], action.node);
       const inMemoryData = gnroAddNestedTreeNode([...nodes], action.node, action.targetParent, action.targetIndex);
-      newState[key] = {
-        ...oldState,
+      return {
+        ...state,
         inMemoryData,
       };
-    }
-    return { ...newState };
-  }),
+    }),
 
-  on(treeActions.expandAllNodesInMemoryData, (state, action) => {
-    const key = action.treeId;
-    const newState = { ...state };
-    if (state[key]) {
-      const oldState = state[key];
-      setSelection(oldState.treeConfig, oldState.selection.selection, oldState.treeData);
-      newState[key] = {
-        ...oldState,
-        inMemoryData: gnroExpandAllNodesInMemoryData(oldState.inMemoryData, action.expanded),
-        selection: getSelection(oldState.treeConfig, oldState.selection.selection, oldState.treeData),
+    on(treeActions.expandAllNodesInMemoryData, (state, action) => {
+      if (action.gridName !== gridName) return state;
+      setSelection(state.treeConfig, state.selection.selection, state.treeData);
+      return {
+        ...state,
+        inMemoryData: gnroExpandAllNodesInMemoryData(state.inMemoryData, action.expanded),
+        selection: getSelection(state.treeConfig, state.selection.selection, state.treeData),
       };
-    }
-    return { ...newState };
-  }),
+    }),
 
-  on(treeActions.setSelectAllRows, (state, action) => {
-    const key = action.treeId;
-    const newState = { ...state };
-    if (state[key]) {
-      const oldState = state[key];
-      const selection = oldState.selection.selection;
+    on(treeActions.setSelectAllRows, (state, action) => {
+      if (action.gridName !== gridName) return state;
+      const selection = state.selection.selection;
       if (action.selectAll) {
-        oldState.treeData.forEach((record) => selection.select(record));
+        state.treeData.forEach((record) => selection.select(record));
       } else {
         selection.clear();
       }
-      newState[key] = {
-        ...oldState,
-        selection: getSelection(oldState.treeConfig, selection, oldState.treeData),
+      return {
+        ...state,
+        selection: getSelection(state.treeConfig, selection, state.treeData),
       };
-    }
-    return { ...newState };
-  }),
-  on(treeActions.setSelectRows, (state, action) => {
-    const key = action.treeId;
-    const newState = { ...state };
-    if (state[key]) {
-      const oldState = state[key];
-      const selection = oldState.selection.selection;
+    }),
+
+    on(treeActions.setSelectRows, (state, action) => {
+      if (action.gridName !== gridName) return state;
+      const selection = state.selection.selection;
       action.records.forEach((record) => {
         if (action.isSelected) {
           selection.select(record);
@@ -153,38 +144,33 @@ export const gnroTreeOnActions: GnroOnAction<TreeState<unknown>>[] = [
           selection.deselect(record);
         }
       });
-      newState[key] = {
-        ...oldState,
-        selection: getSelection(oldState.treeConfig, selection, oldState.treeData),
+      return {
+        ...state,
+        selection: getSelection(state.treeConfig, selection, state.treeData),
       };
-    }
-    return { ...newState };
-  }),
-  on(treeActions.setSelectRow, (state, action) => {
-    const key = action.treeId;
-    const newState = { ...state };
-    if (state[key]) {
-      const oldState = state[key];
-      const selection = oldState.selection.selection;
+    }),
+
+    on(treeActions.setSelectRow, (state, action) => {
+      if (action.gridName !== gridName) return state;
+      const selection = state.selection.selection;
       selection.clear();
       selection.select(action.record);
-      newState[key] = {
-        ...oldState,
-        selection: getSelection(oldState.treeConfig, selection, oldState.treeData),
+      return {
+        ...state,
+        selection: getSelection(state.treeConfig, selection, state.treeData),
       };
-    }
-    return { ...newState };
-  }),
+    }),
 
-  on(treeActions.removeStore, (state, action) => {
-    const key = action.treeId;
-    const newState = { ...state };
-    if (state[key]) {
-      delete newState[key];
-    }
-    return { ...newState };
-  }),
-];
+    on(treeActions.removeStore, (state, action) => {
+      if (action.gridName !== gridName) return state;
+      return getInitialTreeState<unknown>(gridName);
+    }),
+  );
 
-export const gnroTreeReducer = createReducer(initialState(), ...gnroTreeOnActions);
-export const gnroTreeFeature = createFeature({ name: 'gnroTree', reducer: gnroTreeReducer });
+  const reducerFn = (state: GnroTreeState<unknown> | undefined, action: Action): GnroTreeState<unknown> => {
+    return treeReducer(state, action);
+  };
+
+  treeReducersByFeature.set(gridName, reducerFn);
+  return reducerFn;
+}

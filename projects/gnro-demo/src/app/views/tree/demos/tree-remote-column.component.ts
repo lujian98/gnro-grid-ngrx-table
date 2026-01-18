@@ -44,7 +44,7 @@ const NESTED_DATA: NestedFoodNode[] = [
 export class AppTreeRemoteColumnComponent {
   treeConfig: GnroTreeConfig = {
     ...defaultTreeConfig,
-    urlKey: 'TST',
+    gridName: 'TST',
     remoteColumnsConfig: true,
   };
 

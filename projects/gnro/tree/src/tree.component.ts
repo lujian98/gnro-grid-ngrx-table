@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, inject, input, OnDestroy } from '@angular/core';
-import { GnroButtonConfg, GnroBUTTONS, GnroButtonType, uniqueId } from '@gnro/ui/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, OnDestroy } from '@angular/core';
+import { GnroButtonConfg, GnroBUTTONS, GnroButtonType } from '@gnro/ui/core';
 import { GnroColumnConfig, GnroGridFacade, GnroGridStateModule } from '@gnro/ui/grid';
 import { GnroIconModule } from '@gnro/ui/icon';
 import { GnroLayoutComponent, GnroLayoutHeaderComponent } from '@gnro/ui/layout';
@@ -27,12 +27,13 @@ import { defaultTreeConfig, defaultTreeSetting, GnroTreeConfig, GnroTreeNode } f
 export class GnroTreeComponent<T> implements OnDestroy {
   private readonly treeFacade = inject(GnroTreeFacade);
   private readonly gridFacade = inject(GnroGridFacade);
-  private treeId = `tree-${uniqueId()}`;
-  treeConfig$ = this.gridFacade.getConfig(this.treeId);
-  gridSetting$ = this.gridFacade.getSetting(this.treeId); // Only support gridSetting for now
-  columnsConfig$ = this.gridFacade.getColumnsConfig(this.treeId);
-  treeData$ = this.treeFacade.getSignalData(this.treeId);
-  rowSelection$ = this.treeFacade.getRowSelection(this.treeId);
+
+  // Computed signals based on gridName from treeConfig
+  treeConfig$ = computed(() => this.gridFacade.getConfig(this.treeConfig().gridName)());
+  gridSetting$ = computed(() => this.gridFacade.getSetting(this.treeConfig().gridName)());
+  columnsConfig$ = computed(() => this.gridFacade.getColumnsConfig(this.treeConfig().gridName)());
+  treeData$ = computed(() => this.treeFacade.getSignalData(this.treeConfig().gridName)());
+  rowSelection$ = computed(() => this.treeFacade.getRowSelection(this.treeConfig().gridName)());
 
   buttons: GnroButtonConfg[] = [
     GnroBUTTONS.Refresh,
@@ -44,14 +45,14 @@ export class GnroTreeComponent<T> implements OnDestroy {
   treeConfig = input(defaultTreeConfig, {
     transform: (value: Partial<GnroTreeConfig>) => {
       const treeConfig = { ...defaultTreeConfig, ...value };
-      this.initGridConfig(treeConfig);
+      this.initTreeConfig(treeConfig);
       return treeConfig;
     },
   });
   columnsConfig = input([], {
     transform: (columnsConfig: GnroColumnConfig[]) => {
       if (!this.treeConfig$().remoteColumnsConfig && columnsConfig.length > 0) {
-        const treeSetting = { ...defaultTreeSetting, gridId: this.treeId };
+        const treeSetting = { ...defaultTreeSetting, gridId: this.treeConfig().gridName };
         this.gridFacade.setColumnsConfig(this.treeConfig$(), treeSetting, columnsConfig);
       }
       return columnsConfig;
@@ -60,35 +61,34 @@ export class GnroTreeComponent<T> implements OnDestroy {
   treeData = input(undefined, {
     transform: (treeData: GnroTreeNode<T>[]) => {
       if (!this.treeConfig$().remoteGridData && treeData) {
-        this.treeFacade.setInMemoryData(this.treeId, this.treeConfig$(), treeData);
+        this.treeFacade.setInMemoryData(this.treeConfig().gridName, this.treeConfig$(), treeData);
       }
       return treeData;
     },
   });
 
   constructor() {
-    this.initGridConfig({ ...defaultTreeConfig });
+    this.initTreeConfig({ ...defaultTreeConfig });
   }
 
-  private initGridConfig(treeConfig: GnroTreeConfig): void {
-    this.gridFacade.initConfig(this.treeId, treeConfig, 'treeGrid');
-    this.treeFacade.initConfig(this.treeId, treeConfig);
+  private initTreeConfig(treeConfig: GnroTreeConfig): void {
+    this.gridFacade.initConfig(treeConfig.gridName, treeConfig, 'treeGrid');
+    this.treeFacade.initConfig(treeConfig.gridName, treeConfig);
   }
 
   buttonClick(button: GnroButtonConfg): void {
     switch (button.name) {
       case GnroButtonType.Refresh:
-        this.treeFacade.getData(this.treeId, this.treeConfig$());
+        this.treeFacade.getData(this.treeConfig().gridName, this.treeConfig$());
         break;
       case GnroButtonType.ClearAllFilters:
         this.gridFacade.setColumnFilters(this.treeConfig$(), this.gridSetting$(), []);
         break;
-
       case GnroButtonType.ExpandAll:
-        this.treeFacade.expandAllNodes(this.treeId, this.treeConfig$(), true);
+        this.treeFacade.expandAllNodes(this.treeConfig().gridName, this.treeConfig$(), true);
         break;
       case GnroButtonType.CollapseAll:
-        this.treeFacade.expandAllNodes(this.treeId, this.treeConfig$(), false);
+        this.treeFacade.expandAllNodes(this.treeConfig().gridName, this.treeConfig$(), false);
         break;
       default:
         break;
@@ -96,7 +96,7 @@ export class GnroTreeComponent<T> implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.gridFacade.clearStore(this.treeId);
-    this.treeFacade.clearStore(this.treeId);
+    this.gridFacade.clearStore(this.treeConfig().gridName);
+    this.treeFacade.clearStore(this.treeConfig().gridName);
   }
 }

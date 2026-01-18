@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { GnroGridFacade, gridActions } from '@gnro/ui/grid';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { concatMap, debounceTime, delay, filter, map, mergeMap, of, switchMap } from 'rxjs';
+import { concatMap, filter, map, of, switchMap } from 'rxjs';
 import { GnroTreeConfig } from '../models/tree-grid.model';
 import { GnroTreeinMemoryService } from '../services/tree-in-memory.service';
 import { GnroTreeRemoteService } from '../services/tree-remote.service';
@@ -10,24 +10,23 @@ import { GnroTreeFacade } from './tree.facade';
 
 @Injectable()
 export class GnroTreeEffects {
-  private actions$ = inject(Actions);
-  private gridFacade = inject(GnroGridFacade);
-  private treeFacade = inject(GnroTreeFacade);
-  private treeRemoteService = inject(GnroTreeRemoteService);
-  private treeinMemoryService = inject(GnroTreeinMemoryService);
+  private readonly actions$ = inject(Actions);
+  private readonly gridFacade = inject(GnroGridFacade);
+  private readonly treeFacade = inject(GnroTreeFacade);
+  private readonly treeRemoteService = inject(GnroTreeRemoteService);
+  private readonly treeinMemoryService = inject(GnroTreeinMemoryService);
 
   getTreeRemoteData$ = createEffect(() =>
     this.actions$.pipe(
       ofType(treeActions.getData),
-      debounceTime(10), // debounce with switchMap may lose data if two or more tree pull, but will cancel previous call
       switchMap((action) => {
-        const treeId = action.treeId;
-        const treeConfig = this.gridFacade.getConfig(treeId)();
-        const columns = this.gridFacade.getColumnsConfig(treeId)();
+        const gridName = action.gridName;
+        const treeConfig = this.gridFacade.getConfig(gridName)();
+        const columns = this.gridFacade.getColumnsConfig(gridName)();
         return this.treeRemoteService.getTreeRemoteData(treeConfig, columns).pipe(
           map((treeData) => {
-            this.gridFacade.setLoadTreeDataLoading(treeId, false);
-            return treeActions.getDataSuccess({ treeId, treeConfig, treeData });
+            this.gridFacade.setLoadTreeDataLoading(gridName, false);
+            return treeActions.getDataSuccess({ gridName, treeConfig, treeData });
           }),
         );
       }),
@@ -38,22 +37,22 @@ export class GnroTreeEffects {
     this.actions$.pipe(
       ofType(treeActions.getConcatTreeData),
       concatMap((action) => {
-        const treeId = action.treeId;
-        const treeConfig = this.gridFacade.getConfig(treeId)();
-        const columns = this.gridFacade.getColumnsConfig(treeId)();
-        const inMemoryData = this.treeFacade.getInMemoryData(treeId)();
+        const gridName = action.gridName;
+        const treeConfig = this.gridFacade.getConfig(gridName)();
+        const columns = this.gridFacade.getColumnsConfig(gridName)();
+        const inMemoryData = this.treeFacade.getInMemoryData(gridName)();
         if (treeConfig.remoteGridData) {
           return this.treeRemoteService.getTreeRemoteData(treeConfig, columns).pipe(
             map((treeData) => {
-              this.gridFacade.setLoadTreeDataLoading(treeId, false);
-              return treeActions.getDataSuccess({ treeId, treeConfig, treeData });
+              this.gridFacade.setLoadTreeDataLoading(gridName, false);
+              return treeActions.getDataSuccess({ gridName, treeConfig, treeData });
             }),
           );
         } else {
           return this.treeinMemoryService.getTreeData(treeConfig, columns, inMemoryData).pipe(
             map((treeData) => {
-              this.gridFacade.setLoadTreeDataLoading(treeId, false);
-              return treeActions.getInMemoryDataSuccess({ treeId, treeConfig, treeData });
+              this.gridFacade.setLoadTreeDataLoading(gridName, false);
+              return treeActions.getInMemoryDataSuccess({ gridName, treeConfig, treeData });
             }),
           );
         }
@@ -65,16 +64,15 @@ export class GnroTreeEffects {
   getTreeInMemoryData$ = createEffect(() =>
     this.actions$.pipe(
       ofType(treeActions.getInMemoryData),
-      debounceTime(10), // debounce with switchMap may lose data if two or more tree pull, but will cancel previous call
       switchMap((action) => {
-        const treeId = action.treeId;
-        const treeConfig = this.gridFacade.getConfig(treeId)();
-        const columns = this.gridFacade.getColumnsConfig(treeId)();
-        const inMemoryData = this.treeFacade.getInMemoryData(treeId)();
+        const gridName = action.gridName;
+        const treeConfig = this.gridFacade.getConfig(gridName)();
+        const columns = this.gridFacade.getColumnsConfig(gridName)();
+        const inMemoryData = this.treeFacade.getInMemoryData(gridName)();
         return this.treeinMemoryService.getTreeData(treeConfig, columns, inMemoryData).pipe(
           map((treeData) => {
-            this.gridFacade.setLoadTreeDataLoading(treeId, false);
-            return treeActions.getInMemoryDataSuccess({ treeId, treeConfig, treeData });
+            this.gridFacade.setLoadTreeDataLoading(gridName, false);
+            return treeActions.getInMemoryDataSuccess({ gridName, treeConfig, treeData });
           }),
         );
       }),
@@ -88,12 +86,12 @@ export class GnroTreeEffects {
         of({ gridId, gridConfig, isTreeGrid }).pipe(
           filter(({ isTreeGrid }) => isTreeGrid),
           map(({ gridId, gridConfig }) => {
-            const treeId = gridId;
+            const gridName = gridId;
             const treeConfig = gridConfig as GnroTreeConfig;
             if (gridConfig.remoteGridData && !treeConfig.remoteLoadAll) {
-              return treeActions.getData({ treeId, treeConfig });
+              return treeActions.getData({ gridName, treeConfig });
             } else {
-              return treeActions.getInMemoryData({ treeId, treeConfig });
+              return treeActions.getInMemoryData({ gridName, treeConfig });
             }
           }),
         ),
@@ -108,12 +106,12 @@ export class GnroTreeEffects {
         of({ gridId, gridConfig, isTreeGrid }).pipe(
           filter(({ isTreeGrid }) => isTreeGrid),
           map(({ gridId, gridConfig }) => {
-            const treeId = gridId;
+            const gridName = gridId;
             const treeConfig = gridConfig as GnroTreeConfig;
             if (treeConfig.remoteGridData && !treeConfig.remoteLoadAll) {
-              return treeActions.getData({ treeId, treeConfig });
+              return treeActions.getData({ gridName, treeConfig });
             } else {
-              return treeActions.getInMemoryData({ treeId, treeConfig });
+              return treeActions.getInMemoryData({ gridName, treeConfig });
             }
           }),
         ),
@@ -124,8 +122,7 @@ export class GnroTreeEffects {
   clearTreeDataStore$ = createEffect(() =>
     this.actions$.pipe(
       ofType(treeActions.clearStore),
-      delay(250), // wait 250 after destory the component to clear data store
-      mergeMap(({ treeId }) => of(treeId).pipe(map((treeId) => treeActions.removeStore({ treeId })))),
+      map(({ gridName }) => treeActions.removeStore({ gridName })),
     ),
   );
 }

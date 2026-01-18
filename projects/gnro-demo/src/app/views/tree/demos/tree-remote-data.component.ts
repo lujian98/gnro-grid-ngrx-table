@@ -13,7 +13,7 @@ import { GnroTreeComponent, defaultTreeConfig, GnroTreeConfig } from '@gnro/ui/t
 export class AppTreeRemoteDataComponent {
   treeConfig: GnroTreeConfig = {
     ...defaultTreeConfig,
-    urlKey: 'ECR',
+    gridName: 'ECR',
     remoteGridData: true,
     remoteLoadAll: true,
 
