@@ -1,310 +1,247 @@
+import { Action } from '@ngrx/store';
 import { GnroDataType, GnroObjectType, GnroOnAction } from '@gnro/ui/core';
 import { formWindowActions } from '@gnro/ui/form-window';
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { MIN_GRID_COLUMN_WIDTH, VIRTUAL_SCROLL_PAGE_SIZE } from '../models/constants';
 import { defaultState } from '../models/default-grid';
-import { GridState } from '../models/grid.model';
+import { GnroGridState, GridState } from '../models/grid.model';
 import { getFormFields } from '../utils/form-fields';
 import { getModifiedRecords } from '../utils/modified-records';
 import { GnroRowGroup } from '../utils/row-group/row-group';
 import { GnroRowGroups } from '../utils/row-group/row-groups';
+import { SelectionModel } from '@angular/cdk/collections';
 import { getSelection, initSelection, setSelection } from '../utils/row-selection';
 import { stickyEndMinWidth } from '../utils/viewport-width-ratio';
 import { gridActions } from './grid.actions';
 
-const initialState = <T>(): GridState<T> => ({});
+// Feature key generator for per-gridName feature slices
+export function getGridFeatureKey(gridName: string): string {
+  return `grid_${gridName}`;
+}
 
-export const gnroGridOnActions = (): GnroOnAction<GridState<unknown>>[] => [
-  on(gridActions.initConfig, (state, action) => {
-    const gridConfig = {
-      ...action.gridConfig,
-      //virtualScroll: action.gridConfig.virtualScroll || action.gridConfig.rowGroup,
-    };
-    const key = action.gridId;
-    const newState = { ...state };
-    newState[key] = {
-      ...defaultState(),
-      gridConfig: {
-        ...gridConfig,
-        pageSize: !gridConfig.virtualScroll ? gridConfig.pageSize : VIRTUAL_SCROLL_PAGE_SIZE,
-        columnSticky: gridConfig.horizontalScroll ? gridConfig.columnSticky : false,
-      },
-      gridSetting: {
-        ...defaultState().gridSetting,
-        gridId: action.gridId,
-        isTreeGrid: action.gridType === 'treeGrid',
-        viewportReady: !gridConfig.remoteGridConfig && !gridConfig.remoteColumnsConfig,
-      },
-    };
-    return { ...newState };
-  }),
-  on(gridActions.loadConfigSuccess, (state, action) => {
-    const gridConfig = {
-      ...action.gridConfig,
-      //virtualScroll: action.gridConfig.virtualScroll || action.gridConfig.rowGroup,
-    };
-    const key = action.gridId;
-    const newState = { ...state };
-    if (state[key]) {
-      newState[key] = {
-        ...state[key],
+// Initial state factory for per-gridName state
+export function getInitialGridState<T>(gridName: string): GnroGridState<T> {
+  return {
+    ...defaultState(),
+    gridConfig: {
+      ...defaultState().gridConfig,
+      gridName,
+    },
+    gridSetting: {
+      ...defaultState().gridSetting,
+      gridId: gridName,
+    },
+  };
+}
+
+// Cache for reducers by gridName
+const gridReducersByFeature = new Map<
+  string,
+  (state: GnroGridState<unknown> | undefined, action: Action) => GnroGridState<unknown>
+>();
+
+// Factory function to create per-gridName reducers
+export function createGridReducerForFeature(gridName: string) {
+  // Return cached reducer if available
+  const cached = gridReducersByFeature.get(gridName);
+  if (cached) {
+    return cached;
+  }
+
+  const initialState = getInitialGridState<unknown>(gridName);
+
+  const gridReducer = createReducer(
+    initialState,
+    on(gridActions.initConfig, (state, action) => {
+      if (action.gridId !== gridName) return state;
+      const gridConfig = { ...action.gridConfig };
+      return {
+        ...state,
         gridConfig: {
           ...gridConfig,
+          pageSize: !gridConfig.virtualScroll ? gridConfig.pageSize : VIRTUAL_SCROLL_PAGE_SIZE,
           columnSticky: gridConfig.horizontalScroll ? gridConfig.columnSticky : false,
         },
         gridSetting: {
-          ...state[key].gridSetting,
+          ...state.gridSetting,
+          gridId: action.gridId,
+          isTreeGrid: action.gridType === 'treeGrid',
+          viewportReady: !gridConfig.remoteGridConfig && !gridConfig.remoteColumnsConfig,
+        },
+      };
+    }),
+    on(gridActions.loadConfigSuccess, (state, action) => {
+      if (action.gridId !== gridName) return state;
+      const gridConfig = { ...action.gridConfig };
+      const pageSize = state.gridConfig.pageSize;
+      return {
+        ...state,
+        gridConfig: {
+          ...gridConfig,
+          columnSticky: gridConfig.horizontalScroll ? gridConfig.columnSticky : false,
+          pageSize:
+            gridConfig.virtualScroll && pageSize < VIRTUAL_SCROLL_PAGE_SIZE ? VIRTUAL_SCROLL_PAGE_SIZE : pageSize,
+        },
+        gridSetting: {
+          ...state.gridSetting,
           viewportReady: !action.gridConfig.remoteColumnsConfig,
         },
       };
-      const pageSize = newState[key].gridConfig.pageSize;
-      if (gridConfig.virtualScroll && pageSize < VIRTUAL_SCROLL_PAGE_SIZE) {
-        newState[key].gridConfig.pageSize = VIRTUAL_SCROLL_PAGE_SIZE;
-      }
-    }
-    return { ...newState };
-  }),
-  on(gridActions.loadColumnsConfigSuccess, (state, action) => {
-    const key = action.gridId;
-    const newState = { ...state };
-    if (state[key]) {
-      const gridConfig = state[key].gridConfig;
-      const gridSetting = state[key].gridSetting;
+    }),
+    on(gridActions.loadColumnsConfigSuccess, (state, action) => {
+      if (action.gridId !== gridName) return state;
+      const gridConfig = state.gridConfig;
+      const gridSetting = state.gridSetting;
       const allowHide = action.columnsConfig.filter((col) => col.allowHide === false).length;
-      const columns = action.columnsConfig.map((column, index) => {
-        return {
-          ...column,
-          allowHide: allowHide === 0 && index === 0 ? false : column.allowHide,
-          rendererType: column.rendererType || GnroObjectType.Text,
-          width: column.width || MIN_GRID_COLUMN_WIDTH,
-          sticky: gridSetting.isTreeGrid && column.name === 'name' ? true : column.sticky,
-        };
-      });
-
-      const columnsConfig = stickyEndMinWidth(columns, gridConfig, state[key].gridSetting);
-      const selection = initSelection(gridConfig, state[key].selection.selection);
+      const columns = action.columnsConfig.map((column, index) => ({
+        ...column,
+        allowHide: allowHide === 0 && index === 0 ? false : column.allowHide,
+        rendererType: column.rendererType || GnroObjectType.Text,
+        width: column.width || MIN_GRID_COLUMN_WIDTH,
+        sticky: gridSetting.isTreeGrid && column.name === 'name' ? true : column.sticky,
+      }));
+      const columnsConfig = stickyEndMinWidth(columns, gridConfig, gridSetting);
+      const selection = initSelection(gridConfig, state.selection.selection);
       const formFields = getFormFields(gridConfig, columnsConfig);
-      newState[key] = {
-        ...state[key],
+      return {
+        ...state,
         gridSetting: {
-          ...state[key].gridSetting,
+          ...gridSetting,
           viewportReady: true,
-          columnUpdating: true, //TODO not used remove??
+          columnUpdating: true,
         },
         columnsConfig,
-        selection: getSelection(gridConfig, selection, state[key].data),
+        selection: getSelection(gridConfig, selection, state.data),
         formWindowConfig: {
-          ...state[key].formWindowConfig,
+          ...state.formWindowConfig,
           formConfig: {
-            ...state[key].formWindowConfig.formConfig,
+            ...state.formWindowConfig.formConfig,
             urlKey: gridConfig.gridName,
           },
           formFields,
         },
       };
-    }
-    return { ...newState };
-  }),
-  on(gridActions.loadFormWindowConfigSuccess, (state, action) => {
-    const key = action.gridId;
-    const newState = { ...state };
-    if (state[key]) {
+    }),
+    on(gridActions.loadFormWindowConfigSuccess, (state, action) => {
+      if (action.gridId !== gridName) return state;
       const formFields = action.formWindowConfig.formFields || [];
-      const formWindowConfig = {
-        ...action.formWindowConfig,
-        formFields: formFields?.length === 0 ? state[key].formWindowConfig.formFields : formFields,
+      return {
+        ...state,
+        formWindowConfig: {
+          ...action.formWindowConfig,
+          formFields: formFields.length === 0 ? state.formWindowConfig.formFields : formFields,
+        },
       };
-      newState[key] = {
-        ...state[key],
-        formWindowConfig,
-      };
-    }
-    return { ...newState };
-  }),
-  on(gridActions.setViewportPageSize, (state, action) => {
-    const key = action.gridId;
-    const newState = { ...state };
-    if (state[key]) {
-      const gridConfig = state[key].gridConfig;
+    }),
+    on(gridActions.setViewportPageSize, (state, action) => {
+      if (action.gridId !== gridName) return state;
+      const gridConfig = state.gridConfig;
       const pageSize = gridConfig.virtualScroll || gridConfig.verticalScroll ? gridConfig.pageSize : action.pageSize;
       const gridSetting = {
-        ...state[key].gridSetting,
+        ...state.gridSetting,
         viewportWidth: action.viewportWidth,
         viewportSize: action.pageSize,
       };
-      const columnsConfig = stickyEndMinWidth(state[key].columnsConfig, gridConfig, gridSetting);
-      newState[key] = {
-        ...state[key],
-        columnsConfig,
-        gridConfig: {
-          ...gridConfig,
-          pageSize: pageSize,
-        },
+      return {
+        ...state,
+        columnsConfig: stickyEndMinWidth(state.columnsConfig, gridConfig, gridSetting),
+        gridConfig: { ...gridConfig, pageSize },
         gridSetting,
       };
-    }
-    return { ...newState };
-  }),
-  on(gridActions.setSortFields, (state, action) => {
-    const key = action.gridId;
-    const newState = { ...state };
-    if (state[key]) {
-      newState[key] = {
-        ...state[key],
-        gridConfig: {
-          ...state[key].gridConfig,
-          sortFields: action.sortFields,
-          page: 1,
-        },
+    }),
+    on(gridActions.setSortFields, (state, action) => {
+      if (action.gridId !== gridName) return state;
+      return {
+        ...state,
+        gridConfig: { ...state.gridConfig, sortFields: action.sortFields, page: 1 },
       };
-    }
-    return { ...newState };
-  }),
-  on(gridActions.setColumnFilters, (state, action) => {
-    const key = action.gridId;
-    const newState = { ...state };
-    if (state[key]) {
-      newState[key] = {
-        ...state[key],
-        gridConfig: {
-          ...state[key].gridConfig,
-          columnFilters: action.columnFilters,
-          page: 1,
-        },
-        gridSetting: {
-          ...state[key].gridSetting,
-          columnUpdating: false,
-        },
+    }),
+    on(gridActions.setColumnFilters, (state, action) => {
+      if (action.gridId !== gridName) return state;
+      return {
+        ...state,
+        gridConfig: { ...state.gridConfig, columnFilters: action.columnFilters, page: 1 },
+        gridSetting: { ...state.gridSetting, columnUpdating: false },
       };
-    }
-    return { ...newState };
-  }),
-  on(gridActions.setViewportPage, (state, action) => {
-    const key = action.gridId;
-    const newState = { ...state };
-    if (state[key]) {
-      newState[key] = {
-        ...state[key],
-        gridConfig: {
-          ...state[key].gridConfig,
-          page: action.page,
-        },
+    }),
+    on(gridActions.setViewportPage, (state, action) => {
+      if (action.gridId !== gridName) return state;
+      return {
+        ...state,
+        gridConfig: { ...state.gridConfig, page: action.page },
       };
-    }
-    return { ...newState };
-  }),
-  on(gridActions.setScrollIndex, (state, action) => {
-    const key = action.gridId;
-    const newState = { ...state };
-    if (state[key]) {
-      newState[key] = {
-        ...state[key],
-        gridSetting: {
-          ...state[key].gridSetting,
-          scrollIndex: action.scrollIndex,
-        },
+    }),
+    on(gridActions.setScrollIndex, (state, action) => {
+      if (action.gridId !== gridName) return state;
+      return {
+        ...state,
+        gridSetting: { ...state.gridSetting, scrollIndex: action.scrollIndex },
       };
-    }
-    return { ...newState };
-  }),
-  on(gridActions.setColumnsConfig, (state, action) => {
-    const key = action.gridId;
-    const newState = { ...state };
-    if (state[key]) {
-      const columns = state[key].columnsConfig.map((column) => {
-        if (column.name === action.columnsConfig.name) {
-          return { ...action.columnsConfig };
-        } else {
-          return column;
-        }
-      });
-      newState[key] = {
-        ...state[key],
-        columnsConfig: stickyEndMinWidth(columns, state[key].gridConfig, state[key].gridSetting),
+    }),
+    on(gridActions.setColumnsConfig, (state, action) => {
+      if (action.gridId !== gridName) return state;
+      const columns = state.columnsConfig.map((column) =>
+        column.name === action.columnsConfig.name ? { ...action.columnsConfig } : column,
+      );
+      return {
+        ...state,
+        columnsConfig: stickyEndMinWidth(columns, state.gridConfig, state.gridSetting),
       };
-    }
-    return { ...newState };
-  }),
-  on(gridActions.getData, gridActions.getConcatData, (state, action) => {
-    const key = action.gridId;
-    const newState = { ...state };
-    if (state[key]) {
-      newState[key] = {
-        ...state[key],
-        gridSetting: {
-          ...state[key].gridSetting,
-          loading: true,
-        },
+    }),
+    on(gridActions.getData, gridActions.getConcatData, (state, action) => {
+      if (action.gridId !== gridName) return state;
+      return {
+        ...state,
+        gridSetting: { ...state.gridSetting, loading: true },
       };
-    }
-    return { ...newState };
-  }),
-  on(gridActions.getDataSuccess, (state, action) => {
-    const key = action.gridId;
-    const newState = { ...state };
-    if (state[key]) {
-      const oldState = state[key];
-      const gridConfig = oldState.gridConfig;
-
-      let queryData = gridConfig.rowGroupField && oldState.rowGroups ? [...oldState.queryData] : [...oldState.data];
-      let data =
+    }),
+    on(gridActions.getDataSuccess, (state, action) => {
+      if (action.gridId !== gridName) return state;
+      const gridConfig = state.gridConfig;
+      let queryData: unknown[] = gridConfig.rowGroupField && state.rowGroups ? [...state.queryData] : [...state.data];
+      let data: unknown[] =
         gridConfig.virtualScroll && gridConfig.page > 1
           ? [...queryData, ...action.gridData.data]
           : [...action.gridData.data];
-
       let totalCounts = action.gridData.totalCounts;
-
-      if (gridConfig.rowGroupField && oldState.rowGroups) {
+      if (gridConfig.rowGroupField && state.rowGroups) {
         queryData = [...data];
-        data = oldState.rowGroups.getRowGroups(data);
+        data = state.rowGroups.getRowGroups(data as GnroDataType[]);
         const groups = [...data].filter((record) => record instanceof GnroRowGroup);
         totalCounts += groups.length;
       }
-
-      setSelection(gridConfig, oldState.selection.selection, data);
-      newState[key] = {
-        ...oldState,
+      setSelection(gridConfig, state.selection.selection as SelectionModel<unknown>, data);
+      return {
+        ...state,
         gridSetting: {
-          ...oldState.gridSetting,
+          ...state.gridSetting,
           loading: false,
-          totalCounts: totalCounts,
+          totalCounts,
           lastUpdateTime: new Date(),
           restEdit: false,
           recordModified: false,
           columnUpdating: false,
         },
-        totalCounts: totalCounts,
+        totalCounts,
         data,
         queryData,
         modified: [],
-        selection: getSelection(gridConfig, oldState.selection.selection, data),
+        selection: getSelection(gridConfig, state.selection.selection as SelectionModel<unknown>, data),
       };
-    }
-    return { ...newState };
-  }),
-  on(formWindowActions.saveSuccess, (state, action) => {
-    const key = action.stateId;
-    const newState = { ...state };
-    if (state[key]) {
-      const oldState = state[key];
-      newState[key] = {
-        ...oldState,
-        gridSetting: {
-          ...oldState.gridSetting,
-          recordModified: true,
-        },
+    }),
+    on(formWindowActions.saveSuccess, (state, action) => {
+      if (action.stateId !== gridName) return state;
+      return {
+        ...state,
+        gridSetting: { ...state.gridSetting, recordModified: true },
       };
-    }
-    return { ...newState };
-  }),
-  on(gridActions.setLoadTreeDataLoading, (state, action) => {
-    const key = action.gridId;
-    const newState = { ...state };
-    if (state[key]) {
-      newState[key] = {
-        ...state[key],
+    }),
+    on(gridActions.setLoadTreeDataLoading, (state, action) => {
+      if (action.gridId !== gridName) return state;
+      return {
+        ...state,
         gridSetting: {
-          ...state[key].gridSetting,
+          ...state.gridSetting,
           loading: action.loading,
           lastUpdateTime: new Date(),
           restEdit: false,
@@ -312,762 +249,149 @@ export const gnroGridOnActions = (): GnroOnAction<GridState<unknown>>[] => [
           columnUpdating: false,
         },
       };
-    }
-    return { ...newState };
-  }),
-  on(gridActions.setInMemoryData, (state, action) => {
-    const key = action.gridId;
-    const newState = { ...state };
-    if (state[key]) {
-      newState[key] = {
-        ...state[key],
-        gridSetting: {
-          ...state[key].gridSetting,
-          totalCounts: action.gridData.totalCounts,
-        },
+    }),
+    on(gridActions.setInMemoryData, (state, action) => {
+      if (action.gridId !== gridName) return state;
+      return {
+        ...state,
+        gridSetting: { ...state.gridSetting, totalCounts: action.gridData.totalCounts },
         totalCounts: action.gridData.totalCounts,
-        inMemoryData: action.gridData.data,
+        inMemoryData: action.gridData.data as unknown[],
       };
-    }
-    return { ...newState };
-  }),
-  on(gridActions.setSelectAllRows, (state, action) => {
-    const key = action.gridId;
-    const newState = { ...state };
-    if (state[key]) {
-      const oldState = state[key];
-      const selection = oldState.selection.selection;
+    }),
+    on(gridActions.setSelectAllRows, (state, action) => {
+      if (action.gridId !== gridName) return state;
+      const selection = state.selection.selection;
       if (action.selectAll) {
-        const selectedRecords = oldState.data.filter((item) => item && !(item instanceof GnroRowGroup));
+        const selectedRecords = state.data.filter((item) => item && !(item instanceof GnroRowGroup));
         selectedRecords.forEach((record) => selection.select(record));
       } else {
         selection.clear();
       }
-      newState[key] = {
-        ...oldState,
-        selection: getSelection(oldState.gridConfig, selection, oldState.data),
+      return {
+        ...state,
+        selection: getSelection(state.gridConfig, selection, state.data),
       };
-    }
-    return { ...newState };
-  }),
-  on(gridActions.setSelectRows, (state, action) => {
-    const key = action.gridId;
-    const newState = { ...state };
-    if (state[key]) {
-      const oldState = state[key];
-      const selection = oldState.selection.selection;
+    }),
+    on(gridActions.setSelectRows, (state, action) => {
+      if (action.gridId !== gridName) return state;
+      const selection = state.selection.selection as SelectionModel<unknown>;
       action.records.forEach((record) => {
         if (action.isSelected) {
-          selection.select(record);
+          selection.select(record as unknown);
         } else {
-          selection.deselect(record);
+          selection.deselect(record as unknown);
         }
       });
-      newState[key] = {
-        ...oldState,
-        selection: getSelection(oldState.gridConfig, selection, oldState.data),
+      return {
+        ...state,
+        selection: getSelection(state.gridConfig, selection, state.data),
       };
-    }
-    return { ...newState };
-  }),
-  on(gridActions.setSelectRow, (state, action) => {
-    const key = action.gridId;
-    const newState = { ...state };
-    if (state[key]) {
-      const oldState = state[key];
-      const selection = oldState.selection.selection;
+    }),
+    on(gridActions.setSelectRow, (state, action) => {
+      if (action.gridId !== gridName) return state;
+      const selection = state.selection.selection as SelectionModel<unknown>;
       selection.clear();
-      selection.select(action.record);
-      newState[key] = {
-        ...oldState,
-        selection: getSelection(oldState.gridConfig, selection, oldState.data),
+      selection.select(action.record as unknown);
+      return {
+        ...state,
+        selection: getSelection(state.gridConfig, selection, state.data),
       };
-    }
-    return { ...newState };
-  }),
-  on(gridActions.setGroupBy, (state, action) => {
-    const key = action.gridId;
-    const newState = { ...state };
-    if (state[key]) {
-      const oldState = state[key];
+    }),
+    on(gridActions.setGroupBy, (state, action) => {
+      if (action.gridId !== gridName) return state;
       const rowGroups = new GnroRowGroups();
       rowGroups.rowGroupFields = [action.rowGroupField];
-      newState[key] = {
-        ...oldState,
+      return {
+        ...state,
         rowGroups,
-        gridConfig: {
-          ...oldState.gridConfig,
-          rowGroupField: action.rowGroupField,
-        },
-        queryData: [...oldState.data],
+        gridConfig: { ...state.gridConfig, rowGroupField: action.rowGroupField },
+        queryData: [...state.data],
       };
-    }
-    return { ...newState };
-  }),
-  on(gridActions.setToggleRowGroup, (state, action) => {
-    const key = action.gridId;
-    const newState = { ...state };
-    if (state[key]) {
-      const oldState = state[key];
-      const queryData = [...oldState.queryData];
-      const data = oldState.rowGroups!.getRowGroups(queryData);
+    }),
+    on(gridActions.setToggleRowGroup, (state, action) => {
+      if (action.gridId !== gridName) return state;
+      const queryData = [...state.queryData];
+      const data = state.rowGroups!.getRowGroups(queryData);
       const groups = [...data].filter((record) => record instanceof GnroRowGroup);
       const totalCounts = queryData.length + groups.length;
-
-      newState[key] = {
-        ...oldState,
-        gridSetting: {
-          ...oldState.gridSetting,
-          totalCounts: totalCounts,
-        },
-        totalCounts: totalCounts,
+      return {
+        ...state,
+        gridSetting: { ...state.gridSetting, totalCounts },
+        totalCounts,
         data,
       };
-    }
-    return { ...newState };
-  }),
-  on(gridActions.setUnGroupBy, (state, action) => {
-    const key = action.gridId;
-    const newState = { ...state };
-    if (state[key]) {
-      const oldState = state[key];
-      const groups = [...oldState.data].filter((record) => record instanceof GnroRowGroup);
-      const data = [...oldState.queryData];
-      const total = oldState.totalCounts - groups.length;
-      newState[key] = {
-        ...oldState,
+    }),
+    on(gridActions.setUnGroupBy, (state, action) => {
+      if (action.gridId !== gridName) return state;
+      const groups = [...state.data].filter((record) => record instanceof GnroRowGroup);
+      const data = [...state.queryData];
+      const total = state.totalCounts - groups.length;
+      return {
+        ...state,
         rowGroups: undefined,
-        gridConfig: {
-          ...oldState.gridConfig,
-          rowGroupField: undefined,
-        },
-        gridSetting: {
-          ...oldState.gridSetting,
-          totalCounts: total,
-        },
+        gridConfig: { ...state.gridConfig, rowGroupField: undefined },
+        gridSetting: { ...state.gridSetting, totalCounts: total },
         totalCounts: total,
-        data: data,
+        data,
         queryData: [],
       };
-    }
-    return { ...newState };
-  }),
-  on(gridActions.setEditable, (state, action) => {
-    const key = action.gridId;
-    const newState = { ...state };
-    if (state[key]) {
-      const oldState = state[key];
-      newState[key] = {
-        ...oldState,
+    }),
+    on(gridActions.setEditable, (state, action) => {
+      if (action.gridId !== gridName) return state;
+      return {
+        ...state,
         gridSetting: {
-          ...oldState.gridSetting,
+          ...state.gridSetting,
           gridEditable: action.gridEditable,
           restEdit: false,
           recordModified: false,
         },
         modified: [],
       };
-    }
-    return { ...newState };
-  }),
-  on(gridActions.setResetEdit, (state, action) => {
-    const key = action.gridId;
-    const newState = { ...state };
-    if (state[key]) {
-      const oldState = state[key];
-      newState[key] = {
-        ...oldState,
-        gridSetting: {
-          ...oldState.gridSetting,
-          restEdit: action.restEdit,
-          recordModified: false,
-        },
+    }),
+    on(gridActions.setResetEdit, (state, action) => {
+      if (action.gridId !== gridName) return state;
+      return {
+        ...state,
+        gridSetting: { ...state.gridSetting, restEdit: action.restEdit, recordModified: false },
         modified: [],
       };
-    }
-    return { ...newState };
-  }),
-  on(gridActions.setRecordModified, (state, action) => {
-    const key = action.gridId;
-    const newState = { ...state };
-    if (state[key]) {
-      const oldState = state[key];
-      const modified = getModifiedRecords(oldState.modified as GnroDataType[], action.modified);
-      newState[key] = {
-        ...oldState,
-        gridSetting: {
-          ...oldState.gridSetting,
-          restEdit: false,
-          recordModified: modified.length > 0,
-        },
-        modified,
+    }),
+    on(gridActions.setRecordModified, (state, action) => {
+      if (action.gridId !== gridName) return state;
+      const modified = getModifiedRecords(state.modified as GnroDataType[], action.modified);
+      return {
+        ...state,
+        gridSetting: { ...state.gridSetting, restEdit: false, recordModified: modified.length > 0 },
+        modified: modified as unknown[],
       };
-    }
-    return { ...newState };
-  }),
-  on(gridActions.saveModifiedRecordsSuccess, (state, action) => {
-    const key = action.gridId;
-    const newState = { ...state };
-    if (state[key]) {
-      const oldState = state[key];
-      const recordKey = oldState.gridConfig.recordKey;
-      const data = [...oldState.data].map((item) => {
+    }),
+    on(gridActions.saveModifiedRecordsSuccess, (state, action) => {
+      if (action.gridId !== gridName) return state;
+      const recordKey = state.gridConfig.recordKey;
+      const data = [...state.data].map((item) => {
         const keyId = (item as GnroDataType)[recordKey];
         const find = (action.newRecords as GnroDataType[]).find((record) => record[recordKey] === keyId);
         return find ? find : item;
-      });
-      newState[key] = {
-        ...oldState,
-        gridSetting: {
-          ...oldState.gridSetting,
-          recordModified: false,
-        },
+      }) as unknown[];
+      return {
+        ...state,
+        gridSetting: { ...state.gridSetting, recordModified: false },
         data,
         modified: [],
       };
-    }
-    return { ...newState };
-  }),
-  on(gridActions.removeStore, (state, action) => {
-    const key = action.gridId;
-    const newState = { ...state };
-    if (state[key]) {
-      delete newState[key];
-    }
-    return { ...newState };
-  }),
-];
-
-export const gnroGridReducer = createReducer(initialState(), ...gnroGridOnActions());
-export const gnroGridFeature = createFeature({ name: 'gnroGrid', reducer: gnroGridReducer });
-
-/*
-
-export const gnroGridFeature2 = createFeature({
-  name: 'gnroGrid',
-  reducer: createReducer(
-    initialState(),
-    on(gridActions.initConfig, (state, action) => {
-      const gridConfig = {
-        ...action.gridConfig,
-        //virtualScroll: action.gridConfig.virtualScroll || action.gridConfig.rowGroup,
-      };
-      const key = action.gridId;
-      const newState = { ...state };
-      newState[key] = {
-        ...defaultState(),
-        gridConfig: {
-          ...gridConfig,
-          pageSize: !gridConfig.virtualScroll ? gridConfig.pageSize : VIRTUAL_SCROLL_PAGE_SIZE,
-          columnSticky: gridConfig.horizontalScroll ? gridConfig.columnSticky : false,
-        },
-        gridSetting: {
-          ...defaultState().gridSetting,
-          gridId: action.gridId,
-          isTreeGrid: action.gridType === 'treeGrid',
-          viewportReady: !gridConfig.remoteGridConfig && !gridConfig.remoteColumnsConfig,
-        },
-      };
-      return { ...newState };
-    }),
-    on(gridActions.loadConfigSuccess, (state, action) => {
-      const gridConfig = {
-        ...action.gridConfig,
-        //virtualScroll: action.gridConfig.virtualScroll || action.gridConfig.rowGroup,
-      };
-      const key = action.gridId;
-      const newState = { ...state };
-      if (state[key]) {
-        newState[key] = {
-          ...state[key],
-          gridConfig: {
-            ...gridConfig,
-            columnSticky: gridConfig.horizontalScroll ? gridConfig.columnSticky : false,
-          },
-          gridSetting: {
-            ...state[key].gridSetting,
-            viewportReady: !action.gridConfig.remoteColumnsConfig,
-          },
-        };
-        const pageSize = newState[key].gridConfig.pageSize;
-        if (gridConfig.virtualScroll && pageSize < VIRTUAL_SCROLL_PAGE_SIZE) {
-          newState[key].gridConfig.pageSize = VIRTUAL_SCROLL_PAGE_SIZE;
-        }
-      }
-      return { ...newState };
-    }),
-    on(gridActions.loadColumnsConfigSuccess, (state, action) => {
-      const key = action.gridId;
-      const newState = { ...state };
-      if (state[key]) {
-        const gridConfig = state[key].gridConfig;
-        const gridSetting = state[key].gridSetting;
-        const allowHide = action.columnsConfig.filter((col) => col.allowHide === false).length;
-        const columns = action.columnsConfig.map((column, index) => {
-          return {
-            ...column,
-            allowHide: allowHide === 0 && index === 0 ? false : column.allowHide,
-            rendererType: column.rendererType || GnroObjectType.Text,
-            width: column.width || MIN_GRID_COLUMN_WIDTH,
-            sticky: gridSetting.isTreeGrid && column.name === 'name' ? true : column.sticky,
-          };
-        });
-
-        const columnsConfig = stickyEndMinWidth(columns, gridConfig, state[key].gridSetting);
-        const selection = initSelection(gridConfig, state[key].selection.selection);
-        const formFields = getFormFields(gridConfig, columnsConfig);
-        newState[key] = {
-          ...state[key],
-          gridSetting: {
-            ...state[key].gridSetting,
-            viewportReady: true,
-            columnUpdating: true, //TODO not used remove??
-          },
-          columnsConfig,
-          selection: getSelection(gridConfig, selection, state[key].data),
-          formWindowConfig: {
-            ...state[key].formWindowConfig,
-            formConfig: {
-              ...state[key].formWindowConfig.formConfig,
-              urlKey: gridConfig.gridName,
-            },
-            formFields,
-          },
-        };
-      }
-      return { ...newState };
-    }),
-    on(gridActions.loadFormWindowConfigSuccess, (state, action) => {
-      const key = action.gridId;
-      const newState = { ...state };
-      if (state[key]) {
-        const formFields = action.formWindowConfig.formFields || [];
-        const formWindowConfig = {
-          ...action.formWindowConfig,
-          formFields: formFields?.length === 0 ? state[key].formWindowConfig.formFields : formFields,
-        };
-        newState[key] = {
-          ...state[key],
-          formWindowConfig,
-        };
-      }
-      return { ...newState };
-    }),
-    on(gridActions.setViewportPageSize, (state, action) => {
-      const key = action.gridId;
-      const newState = { ...state };
-      if (state[key]) {
-        const gridConfig = state[key].gridConfig;
-        const pageSize = gridConfig.virtualScroll || gridConfig.verticalScroll ? gridConfig.pageSize : action.pageSize;
-        const gridSetting = {
-          ...state[key].gridSetting,
-          viewportWidth: action.viewportWidth,
-          viewportSize: action.pageSize,
-        };
-        const columnsConfig = stickyEndMinWidth(state[key].columnsConfig, gridConfig, gridSetting);
-        newState[key] = {
-          ...state[key],
-          columnsConfig,
-          gridConfig: {
-            ...gridConfig,
-            pageSize: pageSize,
-          },
-          gridSetting,
-        };
-      }
-      return { ...newState };
-    }),
-    on(gridActions.setSortFields, (state, action) => {
-      const key = action.gridId;
-      const newState = { ...state };
-      if (state[key]) {
-        newState[key] = {
-          ...state[key],
-          gridConfig: {
-            ...state[key].gridConfig,
-            sortFields: action.sortFields,
-            page: 1,
-          },
-        };
-      }
-      return { ...newState };
-    }),
-    on(gridActions.setColumnFilters, (state, action) => {
-      const key = action.gridId;
-      const newState = { ...state };
-      if (state[key]) {
-        newState[key] = {
-          ...state[key],
-          gridConfig: {
-            ...state[key].gridConfig,
-            columnFilters: action.columnFilters,
-            page: 1,
-          },
-          gridSetting: {
-            ...state[key].gridSetting,
-            columnUpdating: false,
-          },
-        };
-      }
-      return { ...newState };
-    }),
-    on(gridActions.setViewportPage, (state, action) => {
-      const key = action.gridId;
-      const newState = { ...state };
-      if (state[key]) {
-        newState[key] = {
-          ...state[key],
-          gridConfig: {
-            ...state[key].gridConfig,
-            page: action.page,
-          },
-        };
-      }
-      return { ...newState };
-    }),
-    on(gridActions.setScrollIndex, (state, action) => {
-      const key = action.gridId;
-      const newState = { ...state };
-      if (state[key]) {
-        newState[key] = {
-          ...state[key],
-          gridSetting: {
-            ...state[key].gridSetting,
-            scrollIndex: action.scrollIndex,
-          },
-        };
-      }
-      return { ...newState };
-    }),
-    on(gridActions.setColumnsConfig, (state, action) => {
-      const key = action.gridId;
-      const newState = { ...state };
-      if (state[key]) {
-        const columns = state[key].columnsConfig.map((column) => {
-          if (column.name === action.columnsConfig.name) {
-            return { ...action.columnsConfig };
-          } else {
-            return column;
-          }
-        });
-        newState[key] = {
-          ...state[key],
-          columnsConfig: stickyEndMinWidth(columns, state[key].gridConfig, state[key].gridSetting),
-        };
-      }
-      return { ...newState };
-    }),
-    on(gridActions.getData, gridActions.getConcatData, (state, action) => {
-      const key = action.gridId;
-      const newState = { ...state };
-      if (state[key]) {
-        newState[key] = {
-          ...state[key],
-          gridSetting: {
-            ...state[key].gridSetting,
-            loading: true,
-          },
-        };
-      }
-      return { ...newState };
-    }),
-    on(gridActions.getDataSuccess, (state, action) => {
-      const key = action.gridId;
-      const newState = { ...state };
-      if (state[key]) {
-        const oldState = state[key];
-        const gridConfig = oldState.gridConfig;
-
-        let queryData = gridConfig.rowGroupField && oldState.rowGroups ? [...oldState.queryData] : [...oldState.data];
-        let data =
-          gridConfig.virtualScroll && gridConfig.page > 1
-            ? [...queryData, ...action.gridData.data]
-            : [...action.gridData.data];
-
-        let totalCounts = action.gridData.totalCounts;
-
-        if (gridConfig.rowGroupField && oldState.rowGroups) {
-          queryData = [...data];
-          data = oldState.rowGroups.getRowGroups(data);
-          const groups = [...data].filter((record) => record instanceof GnroRowGroup);
-          totalCounts += groups.length;
-        }
-
-        setSelection(gridConfig, oldState.selection.selection, data);
-        newState[key] = {
-          ...oldState,
-          gridSetting: {
-            ...oldState.gridSetting,
-            loading: false,
-            totalCounts: totalCounts,
-            lastUpdateTime: new Date(),
-            restEdit: false,
-            recordModified: false,
-            columnUpdating: false,
-          },
-          totalCounts: totalCounts,
-          data,
-          queryData,
-          modified: [],
-          selection: getSelection(gridConfig, oldState.selection.selection, data),
-        };
-      }
-      return { ...newState };
-    }),
-    on(formWindowActions.saveSuccess, (state, action) => {
-      const key = action.stateId;
-      const newState = { ...state };
-      if (state[key]) {
-        const oldState = state[key];
-        newState[key] = {
-          ...oldState,
-          gridSetting: {
-            ...oldState.gridSetting,
-            recordModified: true,
-          },
-        };
-      }
-      return { ...newState };
-    }),
-    on(gridActions.setLoadTreeDataLoading, (state, action) => {
-      const key = action.gridId;
-      const newState = { ...state };
-      if (state[key]) {
-        newState[key] = {
-          ...state[key],
-          gridSetting: {
-            ...state[key].gridSetting,
-            loading: action.loading,
-            lastUpdateTime: new Date(),
-            restEdit: false,
-            recordModified: false,
-            columnUpdating: false,
-          },
-        };
-      }
-      return { ...newState };
-    }),
-    on(gridActions.setInMemoryData, (state, action) => {
-      const key = action.gridId;
-      const newState = { ...state };
-      if (state[key]) {
-        newState[key] = {
-          ...state[key],
-          gridSetting: {
-            ...state[key].gridSetting,
-            totalCounts: action.gridData.totalCounts,
-          },
-          totalCounts: action.gridData.totalCounts,
-          inMemoryData: action.gridData.data,
-        };
-      }
-      return { ...newState };
-    }),
-    on(gridActions.setSelectAllRows, (state, action) => {
-      const key = action.gridId;
-      const newState = { ...state };
-      if (state[key]) {
-        const oldState = state[key];
-        const selection = oldState.selection.selection;
-        if (action.selectAll) {
-          const selectedRecords = oldState.data.filter((item) => item && !(item instanceof GnroRowGroup));
-          selectedRecords.forEach((record) => selection.select(record));
-        } else {
-          selection.clear();
-        }
-        newState[key] = {
-          ...oldState,
-          selection: getSelection(oldState.gridConfig, selection, oldState.data),
-        };
-      }
-      return { ...newState };
-    }),
-    on(gridActions.setSelectRows, (state, action) => {
-      const key = action.gridId;
-      const newState = { ...state };
-      if (state[key]) {
-        const oldState = state[key];
-        const selection = oldState.selection.selection;
-        action.records.forEach((record) => {
-          if (action.isSelected) {
-            selection.select(record);
-          } else {
-            selection.deselect(record);
-          }
-        });
-        newState[key] = {
-          ...oldState,
-          selection: getSelection(oldState.gridConfig, selection, oldState.data),
-        };
-      }
-      return { ...newState };
-    }),
-    on(gridActions.setSelectRow, (state, action) => {
-      const key = action.gridId;
-      const newState = { ...state };
-      if (state[key]) {
-        const oldState = state[key];
-        const selection = oldState.selection.selection;
-        selection.clear();
-        selection.select(action.record);
-        newState[key] = {
-          ...oldState,
-          selection: getSelection(oldState.gridConfig, selection, oldState.data),
-        };
-      }
-      return { ...newState };
-    }),
-    on(gridActions.setGroupBy, (state, action) => {
-      const key = action.gridId;
-      const newState = { ...state };
-      if (state[key]) {
-        const oldState = state[key];
-        const rowGroups = new GnroRowGroups();
-        rowGroups.rowGroupFields = [action.rowGroupField];
-        newState[key] = {
-          ...oldState,
-          rowGroups,
-          gridConfig: {
-            ...oldState.gridConfig,
-            rowGroupField: action.rowGroupField,
-          },
-          queryData: [...oldState.data],
-        };
-      }
-      return { ...newState };
-    }),
-    on(gridActions.setToggleRowGroup, (state, action) => {
-      const key = action.gridId;
-      const newState = { ...state };
-      if (state[key]) {
-        const oldState = state[key];
-        const queryData = [...oldState.queryData];
-        const data = oldState.rowGroups!.getRowGroups(queryData);
-        const groups = [...data].filter((record) => record instanceof GnroRowGroup);
-        const totalCounts = queryData.length + groups.length;
-
-        newState[key] = {
-          ...oldState,
-          gridSetting: {
-            ...oldState.gridSetting,
-            totalCounts: totalCounts,
-          },
-          totalCounts: totalCounts,
-          data,
-        };
-      }
-      return { ...newState };
-    }),
-    on(gridActions.setUnGroupBy, (state, action) => {
-      const key = action.gridId;
-      const newState = { ...state };
-      if (state[key]) {
-        const oldState = state[key];
-        const groups = [...oldState.data].filter((record) => record instanceof GnroRowGroup);
-        const data = [...oldState.queryData];
-        const total = oldState.totalCounts - groups.length;
-        newState[key] = {
-          ...oldState,
-          rowGroups: undefined,
-          gridConfig: {
-            ...oldState.gridConfig,
-            rowGroupField: undefined,
-          },
-          gridSetting: {
-            ...oldState.gridSetting,
-            totalCounts: total,
-          },
-          totalCounts: total,
-          data: data,
-          queryData: [],
-        };
-      }
-      return { ...newState };
-    }),
-    on(gridActions.setEditable, (state, action) => {
-      const key = action.gridId;
-      const newState = { ...state };
-      if (state[key]) {
-        const oldState = state[key];
-        newState[key] = {
-          ...oldState,
-          gridSetting: {
-            ...oldState.gridSetting,
-            gridEditable: action.gridEditable,
-            restEdit: false,
-            recordModified: false,
-          },
-          modified: [],
-        };
-      }
-      return { ...newState };
-    }),
-    on(gridActions.setResetEdit, (state, action) => {
-      const key = action.gridId;
-      const newState = { ...state };
-      if (state[key]) {
-        const oldState = state[key];
-        newState[key] = {
-          ...oldState,
-          gridSetting: {
-            ...oldState.gridSetting,
-            restEdit: action.restEdit,
-            recordModified: false,
-          },
-          modified: [],
-        };
-      }
-      return { ...newState };
-    }),
-    on(gridActions.setRecordModified, (state, action) => {
-      const key = action.gridId;
-      const newState = { ...state };
-      if (state[key]) {
-        const oldState = state[key];
-        const modified = getModifiedRecords(oldState.modified as GnroDataType[], action.modified);
-        newState[key] = {
-          ...oldState,
-          gridSetting: {
-            ...oldState.gridSetting,
-            restEdit: false,
-            recordModified: modified.length > 0,
-          },
-          modified,
-        };
-      }
-      return { ...newState };
-    }),
-    on(gridActions.saveModifiedRecordsSuccess, (state, action) => {
-      const key = action.gridId;
-      const newState = { ...state };
-      if (state[key]) {
-        const oldState = state[key];
-        const recordKey = oldState.gridConfig.recordKey;
-        const data = [...oldState.data].map((item) => {
-          const keyId = (item as GnroDataType)[recordKey];
-          const find = (action.newRecords as GnroDataType[]).find((record) => record[recordKey] === keyId);
-          return find ? find : item;
-        });
-        newState[key] = {
-          ...oldState,
-          gridSetting: {
-            ...oldState.gridSetting,
-            recordModified: false,
-          },
-          data,
-          modified: [],
-        };
-      }
-      return { ...newState };
     }),
     on(gridActions.removeStore, (state, action) => {
-      const key = action.gridId;
-      const newState = { ...state };
-      if (state[key]) {
-        delete newState[key];
-      }
-      return { ...newState };
+      if (action.gridId !== gridName) return state;
+      return getInitialGridState<unknown>(gridName);
     }),
-  ),
-});
-*/
+  );
+
+  const reducerFn = (state: GnroGridState<unknown> | undefined, action: Action): GnroGridState<unknown> => {
+    return gridReducer(state, action);
+  };
+
+  gridReducersByFeature.set(gridName, reducerFn);
+  return reducerFn;
+}

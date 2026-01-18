@@ -1,54 +1,81 @@
-import { createSelector } from '@ngrx/store';
+import { createFeatureSelector, createSelector, MemoizedSelector } from '@ngrx/store';
 import { defaultState } from '../models/default-grid';
-import { GridState } from '../models/grid.model';
+import {
+  GnroColumnConfig,
+  GnroGridConfig,
+  GnroGridRowSelections,
+  GnroGridSetting,
+  GnroGridState,
+} from '../models/grid.model';
+import { GnroFormWindowConfig } from '@gnro/ui/form-window';
+import { GnroRowGroups } from '../utils/row-group/row-groups';
+import { getGridFeatureKey } from './grid.reducer';
 
-export interface AppGridState<T> {
-  gnroGrid: GridState<T>;
+// Selector types for the factory
+export interface GridSelectors {
+  selectGridConfig: MemoizedSelector<object, GnroGridConfig>;
+  selectGridSetting: MemoizedSelector<object, GnroGridSetting>;
+  selectColumnsConfig: MemoizedSelector<object, GnroColumnConfig[]>;
+  selectGridData: MemoizedSelector<object, unknown[]>;
+  selectGridModifiedRecords: MemoizedSelector<object, unknown[]>;
+  selectRowSelection: MemoizedSelector<object, GnroGridRowSelections<unknown> | undefined>;
+  selectRowGroups: MemoizedSelector<object, GnroRowGroups | boolean>;
+  selectGridInMemoryData: MemoizedSelector<object, unknown[]>;
+  selectFormWindowConfig: MemoizedSelector<object, GnroFormWindowConfig | undefined>;
 }
 
-export const featureSelector = <T>(state: AppGridState<T>) => state.gnroGrid;
+// Cache for selectors by gridName
+const gridSelectorsByFeature = new Map<string, GridSelectors>();
 
-export const selectGridConfig = (gridId: string) =>
-  createSelector(featureSelector, (state) => {
-    return state && state[gridId] ? state[gridId].gridConfig : defaultState().gridConfig;
-  });
+// Factory function to create per-gridName selectors with memoization
+export function createGridSelectorsForFeature(gridName: string): GridSelectors {
+  // Return cached selectors if available
+  const cached = gridSelectorsByFeature.get(gridName);
+  if (cached) {
+    return cached;
+  }
 
-export const selectGridSetting = (gridId: string) =>
-  createSelector(featureSelector, (state) => {
-    return state && state[gridId] ? state[gridId].gridSetting : defaultState().gridSetting;
-  });
+  const featureKey = getGridFeatureKey(gridName);
+  const selectGridFeatureState = createFeatureSelector<GnroGridState<unknown>>(featureKey);
 
-export const selectColumnsConfig = (gridId: string) =>
-  createSelector(featureSelector, (state) => {
-    return state && state[gridId] ? state[gridId].columnsConfig : [];
-  });
+  const selectGridConfig = createSelector(selectGridFeatureState, (state) =>
+    state ? state.gridConfig : defaultState().gridConfig,
+  );
 
-export const selectGridData = (gridId: string) =>
-  createSelector(featureSelector, (state) => {
-    return state && state[gridId] ? state[gridId].data : [];
-  });
+  const selectGridSetting = createSelector(selectGridFeatureState, (state) =>
+    state ? state.gridSetting : defaultState().gridSetting,
+  );
 
-export const selectGridModifiedRecords = (gridId: string) =>
-  createSelector(featureSelector, (state) => {
-    return state && state[gridId] ? state[gridId].modified : [];
-  });
+  const selectColumnsConfig = createSelector(selectGridFeatureState, (state) => (state ? state.columnsConfig : []));
 
-export const selectRowSelection = (gridId: string) =>
-  createSelector(featureSelector, (state) => {
-    return state && state[gridId] ? state[gridId].selection : undefined;
-  });
+  const selectGridData = createSelector(selectGridFeatureState, (state) => (state ? state.data : []));
 
-export const selectRowGroups = (gridId: string) =>
-  createSelector(featureSelector, (state) => {
-    return state && state[gridId]?.rowGroups ? state[gridId].rowGroups : true;
-  });
+  const selectGridModifiedRecords = createSelector(selectGridFeatureState, (state) => (state ? state.modified : []));
 
-export const selectGridInMemoryData = (gridId: string) =>
-  createSelector(featureSelector, (state) => {
-    return state && state[gridId] ? state[gridId].inMemoryData : [];
-  });
+  const selectRowSelection = createSelector(selectGridFeatureState, (state) => (state ? state.selection : undefined));
 
-export const selectFormWindowConfig = (gridId: string) =>
-  createSelector(featureSelector, (state) => {
-    return state && state[gridId] ? state[gridId].formWindowConfig : undefined;
-  });
+  const selectRowGroups = createSelector(selectGridFeatureState, (state): GnroRowGroups | boolean =>
+    state?.rowGroups ? state.rowGroups : true,
+  );
+
+  const selectGridInMemoryData = createSelector(selectGridFeatureState, (state) => (state ? state.inMemoryData : []));
+
+  const selectFormWindowConfig = createSelector(selectGridFeatureState, (state) =>
+    state ? state.formWindowConfig : undefined,
+  );
+
+  const selectors: GridSelectors = {
+    selectGridConfig,
+    selectGridSetting,
+    selectColumnsConfig,
+    selectGridData,
+    selectGridModifiedRecords,
+    selectRowSelection,
+    selectRowGroups,
+    selectGridInMemoryData,
+    selectFormWindowConfig,
+  };
+
+  gridSelectorsByFeature.set(gridName, selectors);
+  return selectors;
+}

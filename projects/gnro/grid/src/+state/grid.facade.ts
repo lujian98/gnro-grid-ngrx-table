@@ -3,6 +3,7 @@ import { GnroBackendService, GnroButtonConfg, GnroDataType } from '@gnro/ui/core
 import { GnroFormWindowConfig, formWindowActions } from '@gnro/ui/form-window';
 import { remoteButtonActions, remoteDeleteActions, remoteExportsActions } from '@gnro/ui/remote';
 import { Store } from '@ngrx/store';
+import { GnroGridFeatureService } from './grid-state.module';
 import {
   GnroCellEdit,
   GnroColumnConfig,
@@ -19,24 +20,18 @@ import { GnroRowGroup } from '../utils/row-group/row-group';
 import { GnroRowGroups } from '../utils/row-group/row-groups';
 import { sortHttpParams } from '../utils/sort-http-params';
 import { gridActions } from './grid.actions';
-import {
-  selectColumnsConfig,
-  selectFormWindowConfig,
-  selectGridConfig,
-  selectGridData,
-  selectGridInMemoryData,
-  selectGridModifiedRecords,
-  selectGridSetting,
-  selectRowGroups,
-  selectRowSelection,
-} from './grid.selectors';
+import { createGridSelectorsForFeature } from './grid.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class GnroGridFacade {
   private readonly store = inject(Store);
   private readonly backendService = inject(GnroBackendService);
+  private readonly gridFeatureService = inject(GnroGridFeatureService);
 
   initConfig(gridId: string, gridConfig: GnroGridConfig, gridType: string): void {
+    // Dynamically register the feature for this gridName
+    this.gridFeatureService.registerFeature(gridId);
+
     this.store.dispatch(gridActions.initConfig({ gridId, gridConfig, gridType }));
     if (gridConfig.remoteGridConfig) {
       this.store.dispatch(gridActions.loadConfig({ gridId, gridConfig }));
@@ -231,39 +226,48 @@ export class GnroGridFacade {
   }
 
   getConfig(gridId: string): Signal<GnroGridConfig> {
-    return this.store.selectSignal(selectGridConfig(gridId));
+    const selectors = createGridSelectorsForFeature(gridId);
+    return this.store.selectSignal(selectors.selectGridConfig);
   }
 
   getSetting(gridId: string): Signal<GnroGridSetting> {
-    return this.store.selectSignal(selectGridSetting(gridId));
+    const selectors = createGridSelectorsForFeature(gridId);
+    return this.store.selectSignal(selectors.selectGridSetting);
   }
 
   getColumnsConfig(gridId: string): Signal<GnroColumnConfig[]> {
-    return this.store.selectSignal(selectColumnsConfig(gridId));
+    const selectors = createGridSelectorsForFeature(gridId);
+    return this.store.selectSignal(selectors.selectColumnsConfig);
   }
 
   getFormWindowConfig(gridId: string): Signal<GnroFormWindowConfig | undefined> {
-    return this.store.selectSignal(selectFormWindowConfig(gridId));
+    const selectors = createGridSelectorsForFeature(gridId);
+    return this.store.selectSignal(selectors.selectFormWindowConfig);
   }
 
   getModifiedRecords<T>(gridId: string): Signal<T[]> {
-    return this.store.selectSignal(selectGridModifiedRecords(gridId)) as Signal<T[]>;
+    const selectors = createGridSelectorsForFeature(gridId);
+    return this.store.selectSignal(selectors.selectGridModifiedRecords) as Signal<T[]>;
   }
 
   getSignalData<T>(gridId: string): Signal<T[]> {
-    return this.store.selectSignal(selectGridData(gridId)) as Signal<T[]>;
+    const selectors = createGridSelectorsForFeature(gridId);
+    return this.store.selectSignal(selectors.selectGridData) as Signal<T[]>;
   }
 
   getRowSelection<T>(gridId: string): Signal<GnroGridRowSelections<T> | undefined> {
-    return this.store.selectSignal(selectRowSelection(gridId)) as Signal<GnroGridRowSelections<T> | undefined>;
+    const selectors = createGridSelectorsForFeature(gridId);
+    return this.store.selectSignal(selectors.selectRowSelection) as Signal<GnroGridRowSelections<T> | undefined>;
   }
 
   getInMemoryData<T>(gridId: string): Signal<T[]> {
-    return this.store.selectSignal(selectGridInMemoryData(gridId)) as Signal<T[]>;
+    const selectors = createGridSelectorsForFeature(gridId);
+    return this.store.selectSignal(selectors.selectGridInMemoryData) as Signal<T[]>;
   }
 
   getRowGroups(gridId: string): Signal<GnroRowGroups | boolean> {
-    return this.store.selectSignal(selectRowGroups(gridId));
+    const selectors = createGridSelectorsForFeature(gridId);
+    return this.store.selectSignal(selectors.selectRowGroups);
   }
 
   openButtonClick(gridId: string): void {
