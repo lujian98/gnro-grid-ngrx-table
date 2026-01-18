@@ -55,15 +55,18 @@ export function createGridReducerForFeature(gridName: string) {
     on(gridActions.initConfig, (state, action) => {
       if (action.gridId !== gridName) return state;
       const gridConfig = { ...action.gridConfig };
+      // Always start from fresh initial state to avoid stale data from previous component instance
+      const freshState = getInitialGridState<unknown>(gridName);
       return {
-        ...state,
+        ...freshState,
         gridConfig: {
+          ...freshState.gridConfig,
           ...gridConfig,
           pageSize: !gridConfig.virtualScroll ? gridConfig.pageSize : VIRTUAL_SCROLL_PAGE_SIZE,
           columnSticky: gridConfig.horizontalScroll ? gridConfig.columnSticky : false,
         },
         gridSetting: {
-          ...state.gridSetting,
+          ...freshState.gridSetting,
           gridId: action.gridId,
           isTreeGrid: action.gridType === 'treeGrid',
           viewportReady: !gridConfig.remoteGridConfig && !gridConfig.remoteColumnsConfig,
