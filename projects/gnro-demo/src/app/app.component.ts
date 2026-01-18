@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
   buttons: GnroButtonConfg[] = [
     { name: 'Dashboard', link: 'dashboard' },
     { name: 'Grid', link: 'grid' },
-    { name: 'Tree', link: 'tree' },
+    // { name: 'Tree', link: 'tree' },
     { name: 'Form', link: 'form' },
     { name: 'Select', link: 'select' },
     { name: 'Menu', link: 'menu' },

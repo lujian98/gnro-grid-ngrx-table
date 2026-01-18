@@ -12,10 +12,12 @@ export const routes: Routes = [
         path: 'grid',
         loadChildren: () => import('./views/grid/grid.routes').then((m) => m.AppGridRoutes),
       },
+      /*
       {
         path: 'tree',
         loadChildren: () => import('./views/tree/tree.routes').then((m) => m.AppTreeGridRoutes),
       },
+      */
       {
         path: 'form',
         loadChildren: () => import('./views/form/form.routes').then((m) => m.AppFormRoutes),
