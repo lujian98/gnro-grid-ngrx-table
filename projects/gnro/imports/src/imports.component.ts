@@ -49,7 +49,7 @@ export class GnroImportsComponent {
   private readonly gridFacade = inject(GnroGridFacade);
   private readonly importsFacade = inject(GnroImportsFacade);
   urlKey!: string;
-  gridId$ = signal<string>('');
+  gridName$ = signal<string>('');
 
   windowConfig = {
     ...defaultWindowConfig,
@@ -96,11 +96,11 @@ export class GnroImportsComponent {
     }
     return true;
   });
-  deleteDisabled = computed(() => !(this.gridFacade.getRowSelection(this.gridId$())()?.selected! > 0));
+  deleteDisabled = computed(() => !(this.gridFacade.getRowSelection(this.gridName$())()?.selected! > 0));
   resetDisabled = computed(() => !(this.gridData()?.totalCounts! > 0));
 
-  gnroGridId(gridId: string): void {
-    this.gridId$.set(gridId);
+  gnroGridName(gridName: string): void {
+    this.gridName$.set(gridName);
   }
 
   dropped(files: GnroFileDropEntry[]): void {
@@ -120,9 +120,9 @@ export class GnroImportsComponent {
   }
 
   delete(): void {
-    const selected = this.gridFacade.getRowSelection(this.gridId$())()?.selection.selected! as GnroDataType[];
+    const selected = this.gridFacade.getRowSelection(this.gridName$())()?.selection.selected! as GnroDataType[];
     this.importsFacade.deleteSelectedRecords(selected);
-    this.gridFacade.setSelectAllRows(this.gridId$(), false);
+    this.gridFacade.setSelectAllRows(this.gridName$(), false);
   }
 
   reset(): void {
