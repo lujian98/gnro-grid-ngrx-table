@@ -3,7 +3,7 @@ import { formWindowActions } from '@gnro/ui/form-window';
 import { remoteDeleteActions } from '@gnro/ui/remote';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { concatMap, debounceTime, delay, map, mergeMap, of, switchMap } from 'rxjs';
+import { concatMap, debounceTime, map, mergeMap, switchMap } from 'rxjs';
 import { GnroColumnConfig, GnroGridConfig } from '../models/grid.model';
 import { GnroGridinMemoryService } from '../services/grid-in-memory.service';
 import { GnroGridService } from '../services/grid.service';
@@ -173,10 +173,8 @@ export class GnroGridEffects {
         const columnsConfig = this.gridFacade.getColumnsConfig(gridId)();
         return this.gridService
           .saveGridConfigs(gridConfig, columnsConfig)
-          .pipe(map(() => gridActions.getData({ gridId: action.gridId })));
+          .pipe(map(() => gridActions.removeStore({ gridId })));
       }),
-      delay(250), // wait 250 after destory the component to clear data store
-      mergeMap(({ gridId }) => of(gridId).pipe(map((gridId) => gridActions.removeStore({ gridId })))),
     ),
   );
 }

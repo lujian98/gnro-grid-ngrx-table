@@ -44,6 +44,7 @@ export class GnroGridComponent<T> implements OnInit, OnDestroy {
   gridConfig = input(defaultGridConfig, {
     transform: (value: Partial<GnroGridConfig>) => {
       const config = { ...defaultGridConfig, ...value };
+      console.log('gridConfig =', config);
       this.initGridConfig(config);
       return config;
     },
