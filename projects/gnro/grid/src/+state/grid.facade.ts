@@ -287,7 +287,7 @@ export class GnroGridFacade {
     const data = this.getRowSelection(gridId)()?.selection.selected as GnroDataType[];
     if (data && data.length > 0) {
       const gridConfig = this.getConfig(gridId)();
-      const keyName = gridConfig.urlKey;
+      const keyName = gridConfig.gridName;
       const recordKey = gridConfig.recordKey;
       const selected = data.map((item) => ({ [recordKey]: item[recordKey as keyof typeof item] }));
       this.store.dispatch(remoteDeleteActions.openConfirmationWindow({ stateId: gridId, keyName, selected }));
@@ -298,7 +298,7 @@ export class GnroGridFacade {
     this.store.dispatch(gridActions.saveConfigs({ gridId }));
     const gridConfig = this.getConfig(gridId)();
     const columns = this.getColumnsConfig(gridId)();
-    let params = this.backendService.getParams(gridConfig.urlKey, 'exports');
+    let params = this.backendService.getParams(gridConfig.gridName, 'exports');
     params = filterHttpParams(gridConfig.columnFilters, columns, params);
     params = sortHttpParams(gridConfig.sortFields, params);
     this.store.dispatch(remoteExportsActions.open({ params }));

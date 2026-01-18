@@ -12,7 +12,7 @@ import { GnroGridConfig, GnroGridComponent, defaultGridConfig } from '@gnro/ui/g
 export class AppGridTest2Component {
   gridConfig: GnroGridConfig = {
     ...defaultGridConfig,
-    urlKey: 'DCR',
+    gridName: 'DCR',
     remoteGridConfig: true,
   };
 }

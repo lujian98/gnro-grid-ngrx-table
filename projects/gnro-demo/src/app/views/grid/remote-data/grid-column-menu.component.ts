@@ -12,7 +12,7 @@ import { GnroColumnConfig, GnroGridConfig, GnroGridComponent, defaultGridConfig 
 export class AppGridColumnMenuComponent {
   gridConfig: GnroGridConfig = {
     ...defaultGridConfig,
-    urlKey: 'DCR',
+    gridName: 'DCR',
     columnMenu: true,
     columnSort: true,
     remoteGridData: true,

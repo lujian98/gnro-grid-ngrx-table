@@ -12,7 +12,7 @@ import { GnroColumnConfig, GnroGridConfig, GnroGridComponent, defaultGridConfig 
 export class AppGridVerticalScrollComponent {
   gridConfig: GnroGridConfig = {
     ...defaultGridConfig,
-    urlKey: 'DCR',
+    gridName: 'DCR',
     verticalScroll: true,
     pageSize: 50,
     columnMenu: true,

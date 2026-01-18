@@ -17,7 +17,7 @@ export function getFormFields(gridConfig: GnroGridConfig, columnsConfig: GnroCol
     if (fieldType === GnroObjectType.Select) {
       return {
         ...field,
-        urlKey: gridConfig.urlKey,
+        urlKey: gridConfig.gridName,
       };
     }
     return field;

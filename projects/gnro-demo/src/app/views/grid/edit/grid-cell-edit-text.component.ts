@@ -34,7 +34,7 @@ export class AppGridCellEditTextComponent {
 
   gridConfig: GnroGridConfig = {
     ...defaultGridConfig,
-    urlKey: 'DCR',
+    gridName: 'DCR',
     //horizontalScroll: true,
     columnSticky: true,
     columnSort: true,
@@ -187,7 +187,7 @@ export class AppGridCellEditTextComponent {
       this.gridFacade.getData(gridSetting.gridId, gridSetting);
     } else if (buttonClick.button.name === GnroButtonType.Import) {
       const gridSetting = buttonClick.gridSetting;
-      this.importsFacade.imports(gridSetting.gridId, this.gridConfig.urlKey);
+      this.importsFacade.imports(gridSetting.gridId, this.gridConfig.gridName);
     }
   }
 }

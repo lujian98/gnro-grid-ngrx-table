@@ -59,7 +59,7 @@ export class GnroImportsComponent {
   };
 
   gridConfig: Partial<GnroGridConfig> = {
-    urlKey: 'Imports',
+    gridName: 'Imports',
     verticalScroll: true,
     hideFooterPage: true,
     pageSize: 100000,

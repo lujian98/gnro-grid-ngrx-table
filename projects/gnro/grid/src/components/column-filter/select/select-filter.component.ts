@@ -24,7 +24,7 @@ export class GnroSelectFilterComponent extends GnroFieldFilterComponent {
       ...this.baseFieldConfig,
       fieldName: this.column.name,
       clearValue: true,
-      urlKey: this.gridConfig.urlKey,
+      urlKey: this.gridConfig.gridName,
       remoteOptions: true,
       editable: true,
       placeholder: `GNRO.UI.GRID.FILTER`,

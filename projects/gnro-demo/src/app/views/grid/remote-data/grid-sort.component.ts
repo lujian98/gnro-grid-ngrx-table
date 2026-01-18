@@ -12,7 +12,7 @@ import { GnroColumnConfig, GnroGridConfig, GnroGridComponent, defaultGridConfig 
 export class AppGridSortComponent {
   gridConfig: GnroGridConfig = {
     ...defaultGridConfig,
-    urlKey: 'DCR',
+    gridName: 'DCR',
     columnSort: true,
     sortFields: [
       {

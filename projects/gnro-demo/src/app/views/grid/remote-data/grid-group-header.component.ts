@@ -13,7 +13,7 @@ import { GnroColumnConfig, GnroGridConfig, GnroGridComponent, defaultGridConfig,
 export class AppGridGroupHeaderComponent {
   gridConfig: GnroGridConfig = {
     ...defaultGridConfig,
-    urlKey: 'DCR',
+    gridName: 'DCR',
     horizontalScroll: true,
     columnSticky: true,
     rowSelection: true,

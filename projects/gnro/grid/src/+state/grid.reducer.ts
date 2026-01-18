@@ -97,7 +97,7 @@ export const gnroGridOnActions = (): GnroOnAction<GridState<unknown>>[] => [
           ...state[key].formWindowConfig,
           formConfig: {
             ...state[key].formWindowConfig.formConfig,
-            urlKey: gridConfig.urlKey,
+            urlKey: gridConfig.gridName,
           },
           formFields,
         },
@@ -629,7 +629,7 @@ export const gnroGridFeature2 = createFeature({
             ...state[key].formWindowConfig,
             formConfig: {
               ...state[key].formWindowConfig.formConfig,
-              urlKey: gridConfig.urlKey,
+              urlKey: gridConfig.gridName,
             },
             formFields,
           },

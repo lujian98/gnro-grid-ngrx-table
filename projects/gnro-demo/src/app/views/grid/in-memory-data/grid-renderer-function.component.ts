@@ -14,7 +14,7 @@ import { CARSDATA3 } from '../../../data/cars-large';
 export class AppGridRendererFunctionComponent {
   gridConfig: Partial<GnroGridConfig> = {
     ...defaultGridConfig,
-    urlKey: 'DCR',
+    gridName: 'DCR',
     rowHeight: 60,
     columnSort: true,
     columnFilter: true,

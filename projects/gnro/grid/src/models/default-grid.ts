@@ -2,7 +2,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { GnroGridConfig, GnroGridState, GnroGridSetting } from './grid.model';
 
 export const defaultGridConfig: GnroGridConfig = {
-  urlKey: 'grid', // Only for remote grid config and data
+  gridName: 'grid', // Grid identifier, also used for remote grid config and data
   columnSort: false,
   columnFilter: false,
   columnResize: false,

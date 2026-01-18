@@ -39,7 +39,7 @@ export class AppGridCellTextComponent extends GnroGridCellRendererComponent<stri
 export class AppGridRendererComponent {
   gridConfig: Partial<GnroGridConfig> = {
     ...defaultGridConfig,
-    urlKey: 'DCR',
+    gridName: 'DCR',
     rowHeight: 60,
     columnSort: true,
     columnFilter: true,

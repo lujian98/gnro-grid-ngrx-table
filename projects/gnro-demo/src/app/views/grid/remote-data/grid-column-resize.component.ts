@@ -12,7 +12,7 @@ import { GnroColumnConfig, GnroGridConfig, GnroGridComponent, defaultGridConfig 
 export class AppGridColumnResizeComponent {
   gridConfig: GnroGridConfig = {
     ...defaultGridConfig,
-    urlKey: 'DCR',
+    gridName: 'DCR',
     columnResize: true,
     remoteGridData: true,
   };

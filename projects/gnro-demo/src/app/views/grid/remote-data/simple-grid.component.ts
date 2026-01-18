@@ -11,7 +11,7 @@ import { GnroColumnConfig, GnroGridConfig, GnroGridComponent, defaultGridConfig 
 })
 export class AppSimpleGridComponent {
   gridConfig: Partial<GnroGridConfig> = {
-    urlKey: 'DCR',
+    gridName: 'DCR',
     remoteGridData: true,
   };
 
