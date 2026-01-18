@@ -47,12 +47,17 @@ export function createTreeReducerForFeature(gridName: string) {
     on(treeActions.initConfig, (state, action) => {
       if (action.gridName !== gridName) return state;
       const treeConfig = { ...action.treeConfig };
+      // Set urlKey to gridName if urlKey is empty
+      const urlKey = treeConfig.urlKey || treeConfig.gridName;
       // Always start from fresh initial state
       const freshState = getInitialTreeState<unknown>(gridName);
       const selection = initSelection(treeConfig, freshState.selection.selection);
       return {
         ...freshState,
-        treeConfig,
+        treeConfig: {
+          ...treeConfig,
+          urlKey,
+        },
         treeSetting: {
           ...freshState.treeSetting,
           gridId: gridName,

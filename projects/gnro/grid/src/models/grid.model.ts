@@ -46,6 +46,7 @@ export interface ColumnMenuClick {
 
 export interface GnroGridConfig {
   gridName: string; // Grid identifier, also used for remote grid config and data
+  urlKey: string;
   columnSort: boolean;
   columnFilter: boolean;
   columnResize: boolean;

@@ -12,7 +12,8 @@ import { GnroColumnConfig, GnroGridConfig, GnroGridComponent, defaultGridConfig 
 export class AppGridMultiRowSelectionComponent {
   gridConfig: GnroGridConfig = {
     ...defaultGridConfig,
-    gridName: 'DCR',
+    gridName: 'DCRMS',
+    urlKey: 'DCR',
     rowSelection: true,
     columnMenu: true,
     columnSort: true,

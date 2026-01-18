@@ -91,7 +91,7 @@ export class GnroGridEffects {
   getConcatGridData$ = createEffect(() =>
     this.actions$.pipe(
       ofType(gridActions.getConcatData),
-      switchMap((action) => {
+      mergeMap((action) => {
         const gridId = action.gridId;
         const gridConfig = this.gridFacade.getConfig(gridId)();
         const columns = this.gridFacade.getColumnsConfig(gridId)();

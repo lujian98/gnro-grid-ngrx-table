@@ -57,11 +57,14 @@ export function createGridReducerForFeature(gridName: string) {
       const gridConfig = { ...action.gridConfig };
       // Always start from fresh initial state to avoid stale data from previous component instance
       const freshState = getInitialGridState<unknown>(gridName);
+      // Set urlKey to gridName if urlKey is empty
+      const urlKey = gridConfig.urlKey || gridConfig.gridName;
       return {
         ...freshState,
         gridConfig: {
           ...freshState.gridConfig,
           ...gridConfig,
+          urlKey,
           pageSize: !gridConfig.virtualScroll ? gridConfig.pageSize : VIRTUAL_SCROLL_PAGE_SIZE,
           columnSticky: gridConfig.horizontalScroll ? gridConfig.columnSticky : false,
         },

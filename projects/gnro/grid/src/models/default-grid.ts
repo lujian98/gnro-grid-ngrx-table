@@ -3,6 +3,7 @@ import { GnroGridConfig, GnroGridState, GnroGridSetting } from './grid.model';
 
 export const defaultGridConfig: GnroGridConfig = {
   gridName: 'grid', // Grid identifier, also used for remote grid config and data
+  urlKey: '',
   columnSort: false,
   columnFilter: false,
   columnResize: false,

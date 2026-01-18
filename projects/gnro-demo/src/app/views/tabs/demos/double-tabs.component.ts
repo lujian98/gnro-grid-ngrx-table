@@ -74,11 +74,11 @@ export class AppDoubleTabsComponent {
   tabs2: any[] = [
     {
       name: 'one',
-      content: AppGridMultiRowSelectionComponent,
+      content: AppGridGroupHeaderComponent,
     },
     {
       name: 'two',
-      content: AppGridGroupHeaderComponent,
+      content: 'test2',
     },
     {
       name: 'three',
