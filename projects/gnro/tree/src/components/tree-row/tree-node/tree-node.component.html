@@ -1,0 +1,13 @@
+<div class="tree-node">
+  @if (!node().leaf) {
+    @if (node().expanded) {
+      <gnro-icon config="caret-down"></gnro-icon>
+    } @else {
+      <gnro-icon config="caret-right"></gnro-icon>
+    }
+  }
+  @if (node().icon) {
+    <gnro-icon class="tree-node-icon" [config]="node().icon!"></gnro-icon>
+  }
+  <div class="tree-node-text">{{ data }}</div>
+</div>

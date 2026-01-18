@@ -1,0 +1,32 @@
+:host {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  height: 100%;
+  //height: -webkit-fill-available;
+
+  cdk-virtual-scroll-viewport {
+    display: flex;
+    flex: 1;
+    min-height: 50px;
+
+    ::ng-deep .cdk-virtual-scroll-content-wrapper {
+      contain: unset;
+    }
+  }
+}
+
+.gnro-tree-drop-inside {
+  background-color: orange;
+  opacity: 0.4;
+}
+
+.gnro-tree-drop-before {
+  border-top: 5px solid #00f;
+  margin-top: 5px;
+}
+
+.gnro-tree-drop-after {
+  border-bottom: 5px solid red;
+  margin-bottom: 5px;
+}

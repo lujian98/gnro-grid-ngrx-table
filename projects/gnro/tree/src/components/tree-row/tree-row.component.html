@@ -1,0 +1,46 @@
+@if (treeConfig().rowSelection) {
+  <gnro-grid-cell
+    class="gnro-tree-cell-row-select"
+    [gridConfig]="treeConfig()"
+    [selected]="selected()"
+    [rowIndex]="rowIndex()"
+    [colIndex]="-1"
+    [columns]="columns()"
+    [columnWidths]="columnWidths()"
+  >
+    <gnro-row-select [selected]="selected()"> </gnro-row-select>
+  </gnro-grid-cell>
+}
+
+@if (treeColumn && !treeColumn.hidden) {
+  <gnro-grid-cell
+    [style.padding-left]="nodePadding + 'px'"
+    [gridConfig]="treeConfig()"
+    [selected]="selected()"
+    [rowIndex]="rowIndex()"
+    [colIndex]="0"
+    [column]="treeColumn"
+    [columns]="columns()"
+    [columnWidths]="columnWidths()"
+  >
+    <gnro-tree-node [gridSetting]="gridSetting()" [treeConfig]="treeConfig()" [node]="record()" [column]="treeColumn">
+    </gnro-tree-node>
+  </gnro-grid-cell>
+}
+
+@for (column of columns(); track $index; let index = $index) {
+  @if (!column.hidden && column.name !== "name") {
+    <gnro-grid-cell
+      [gridConfig]="treeConfig()"
+      [selected]="selected()"
+      [rowIndex]="rowIndex()"
+      [colIndex]="index"
+      [column]="column"
+      [columns]="columns()"
+      [columnWidths]="columnWidths()"
+    >
+      <gnro-grid-cell-view [gridConfig]="treeConfig()" [rowIndex]="rowIndex()" [record]="record()" [column]="column">
+      </gnro-grid-cell-view>
+    </gnro-grid-cell>
+  }
+}
