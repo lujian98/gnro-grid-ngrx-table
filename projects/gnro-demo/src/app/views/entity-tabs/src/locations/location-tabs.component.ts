@@ -18,7 +18,9 @@ import { AppLocationEntityComponent } from './panels/location-entity.component';
 export class AppLocationTabsComponent {
   private entityTabsFacade = inject(EntityTabsFacade);
   tabsConfig: Partial<GnroTabsConfig> = {
-    enableContextMenu: true,
+    enableContextMenu: false,
+    tabReorder: false,
+    closeable: false,
   };
 
   tabs$ = computed(() => {
