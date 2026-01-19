@@ -1,30 +1,59 @@
-import { createSelector } from '@ngrx/store';
-import { TabsState, defaultTabsState } from '../models/tabs.model';
+import { createFeatureSelector, createSelector, MemoizedSelector } from '@ngrx/store';
+import {
+  GnroTabConfig,
+  GnroTabOption,
+  GnroTabsConfig,
+  GnroTabsSetting,
+  GnroTabsState,
+  defaultTabsState,
+} from '../models/tabs.model';
+import { getTabsFeatureKey } from './tabs.reducer';
 
-export interface AppTabsState<T> {
-  gnroTabs: TabsState<T>;
+// Interface for all tabs selectors
+export interface TabsSelectors {
+  selectTabsFeatureState: MemoizedSelector<object, GnroTabsState<unknown>>;
+  selectTabsConfig: MemoizedSelector<object, GnroTabsConfig>;
+  selectTabsSetting: MemoizedSelector<object, GnroTabsSetting>;
+  selectTabsTabs: MemoizedSelector<object, GnroTabConfig<unknown>[]>;
+  selectTabsOptions: MemoizedSelector<object, GnroTabOption<unknown>[]>;
 }
 
-export const featureSelector = <T>(state: AppTabsState<T>) => state.gnroTabs;
+// Cache for selectors by tabsName
+const tabsSelectorsByFeature = new Map<string, TabsSelectors>();
 
-export const selectTabsSetting = (tabsId: string) =>
-  createSelector(featureSelector, (state) => {
-    const tabsSetting = state && state[tabsId] ? state[tabsId].tabsSetting : undefined;
-    return tabsSetting && tabsSetting.viewportReady ? tabsSetting : defaultTabsState().tabsSetting;
-  });
+// Factory function to create per-tabsName selectors
+export function createTabsSelectorsForFeature(tabsName: string): TabsSelectors {
+  // Return cached selectors if available
+  const cached = tabsSelectorsByFeature.get(tabsName);
+  if (cached) {
+    return cached;
+  }
 
-export const selectTabsConfig = (tabsId: string) =>
-  createSelector(featureSelector, (state) => {
-    const tabsConfig = state && state[tabsId] ? state[tabsId].tabsConfig : undefined;
-    return tabsConfig && state[tabsId].tabsSetting.viewportReady ? tabsConfig : defaultTabsState().tabsConfig;
-  });
+  const featureKey = getTabsFeatureKey(tabsName);
 
-export const selectTabsTabs = (tabsId: string) =>
-  createSelector(featureSelector, (state) => {
-    return state && state[tabsId] ? state[tabsId].tabs : [];
-  });
+  // Feature state selector
+  const selectTabsFeatureState = createFeatureSelector<GnroTabsState<unknown>>(featureKey);
 
-export const selectTabsOptions = (tabsId: string) =>
-  createSelector(featureSelector, (state) => {
-    return state && state[tabsId] ? state[tabsId].options : [];
-  });
+  const selectTabsConfig = createSelector(selectTabsFeatureState, (state) =>
+    state ? state.tabsConfig : defaultTabsState().tabsConfig,
+  );
+
+  const selectTabsSetting = createSelector(selectTabsFeatureState, (state) =>
+    state ? state.tabsSetting : defaultTabsState().tabsSetting,
+  );
+
+  const selectTabsTabs = createSelector(selectTabsFeatureState, (state) => (state ? state.tabs : []));
+
+  const selectTabsOptions = createSelector(selectTabsFeatureState, (state) => (state ? state.options : []));
+
+  const selectors: TabsSelectors = {
+    selectTabsFeatureState,
+    selectTabsConfig,
+    selectTabsSetting,
+    selectTabsTabs,
+    selectTabsOptions,
+  };
+
+  tabsSelectorsByFeature.set(tabsName, selectors);
+  return selectors;
+}

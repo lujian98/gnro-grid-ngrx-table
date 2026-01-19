@@ -26,6 +26,7 @@ export class AppDoubleTabsComponent {
   };
 
   tabsConfig2: Partial<GnroTabsConfig> = {
+    tabsName: 'tabs2',
     enableContextMenu: true,
     alignTabs: 'center',
   };

@@ -2,69 +2,76 @@ import { inject, Injectable, Signal } from '@angular/core';
 import { GnroMenuConfig } from '@gnro/ui/menu';
 import { Store } from '@ngrx/store';
 import { GnroTabConfig, GnroTabOption, GnroTabsConfig, GnroTabsSetting } from '../models/tabs.model';
+import { GnroTabsFeatureService } from './tabs-state.module';
 import { tabsActions } from './tabs.actions';
-import { selectTabsConfig, selectTabsOptions, selectTabsSetting, selectTabsTabs } from './tabs.selectors';
+import { createTabsSelectorsForFeature } from './tabs.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class GnroTabsFacade {
-  private store = inject(Store);
+  private readonly store = inject(Store);
+  private readonly tabsFeatureService = inject(GnroTabsFeatureService);
 
-  initConfig(tabsId: string, tabsConfig: GnroTabsConfig): void {
-    this.store.dispatch(tabsActions.initConfig({ tabsId, tabsConfig }));
+  initConfig(tabsName: string, tabsConfig: GnroTabsConfig): void {
+    this.tabsFeatureService.registerFeature(tabsName);
+    this.store.dispatch(tabsActions.initConfig({ tabsName, tabsConfig }));
     if (tabsConfig.remoteConfig) {
-      this.store.dispatch(tabsActions.loadConfig({ tabsId, tabsConfig }));
+      this.store.dispatch(tabsActions.loadConfig({ tabsName, tabsConfig }));
     }
   }
 
-  setConfig(tabsId: string, tabsConfig: GnroTabsConfig): void {
-    this.store.dispatch(tabsActions.loadConfigSuccess({ tabsId, tabsConfig }));
+  setConfig(tabsName: string, tabsConfig: GnroTabsConfig): void {
+    this.store.dispatch(tabsActions.loadConfigSuccess({ tabsName, tabsConfig }));
   }
 
-  setTabs<T>(tabsId: string, tabs: GnroTabConfig<T>[]): void {
-    this.store.dispatch(tabsActions.loadTabsSuccess({ tabsId, tabs }));
+  setTabs<T>(tabsName: string, tabs: GnroTabConfig<T>[]): void {
+    this.store.dispatch(tabsActions.loadTabsSuccess({ tabsName, tabs }));
   }
 
-  setOptions<T>(tabsId: string, options: GnroTabOption<T>[]): void {
-    this.store.dispatch(tabsActions.loadOptions({ tabsId, options }));
+  setOptions<T>(tabsName: string, options: GnroTabOption<T>[]): void {
+    this.store.dispatch(tabsActions.loadOptions({ tabsName, options }));
   }
 
-  setSelectedIndex(tabsId: string, index: number): void {
-    this.store.dispatch(tabsActions.setSelectedIndex({ tabsId, index }));
+  setSelectedIndex(tabsName: string, index: number): void {
+    this.store.dispatch(tabsActions.setSelectedIndex({ tabsName, index }));
   }
 
-  addTab<T>(tabsId: string, tab: GnroTabConfig<T>): void {
-    this.store.dispatch(tabsActions.addTab({ tabsId, tab }));
+  addTab<T>(tabsName: string, tab: GnroTabConfig<T>): void {
+    this.store.dispatch(tabsActions.addTab({ tabsName, tab }));
   }
 
-  dragDropTab(tabsId: string, previousIndex: number, currentIndex: number): void {
-    this.store.dispatch(tabsActions.dragDropTab({ tabsId, previousIndex, currentIndex }));
+  dragDropTab(tabsName: string, previousIndex: number, currentIndex: number): void {
+    this.store.dispatch(tabsActions.dragDropTab({ tabsName, previousIndex, currentIndex }));
   }
 
-  contextMenuClicked<T>(tabsId: string, menuItem: GnroMenuConfig, tab: GnroTabConfig<T>, index: number): void {
-    this.store.dispatch(tabsActions.contextMenuClicked({ tabsId, menuItem, tab, index }));
+  contextMenuClicked<T>(tabsName: string, menuItem: GnroMenuConfig, tab: GnroTabConfig<T>, index: number): void {
+    this.store.dispatch(tabsActions.contextMenuClicked({ tabsName, menuItem, tab, index }));
   }
 
-  closeTab<T>(tabsId: string, tab: GnroTabConfig<T>): void {
-    this.store.dispatch(tabsActions.closeTab({ tabsId, tab }));
+  closeTab<T>(tabsName: string, tab: GnroTabConfig<T>): void {
+    this.store.dispatch(tabsActions.closeTab({ tabsName, tab }));
   }
 
-  clearStore(tabsId: string): void {
-    this.store.dispatch(tabsActions.clearStore({ tabsId }));
+  clearStore(tabsName: string): void {
+    this.store.dispatch(tabsActions.clearStore({ tabsName }));
   }
 
-  getSetting(tabsId: string): Signal<GnroTabsSetting> {
-    return this.store.selectSignal(selectTabsSetting(tabsId));
+  getSetting(tabsName: string): Signal<GnroTabsSetting> {
+    const selectors = createTabsSelectorsForFeature(tabsName);
+    return this.store.selectSignal(selectors.selectTabsSetting);
   }
 
-  getConfig(tabsId: string): Signal<GnroTabsConfig> {
-    return this.store.selectSignal(selectTabsConfig(tabsId));
+  getConfig(tabsName: string): Signal<GnroTabsConfig> {
+    const selectors = createTabsSelectorsForFeature(tabsName);
+    return this.store.selectSignal(selectors.selectTabsConfig);
   }
 
-  getTabs<T>(tabsId: string): Signal<GnroTabConfig<T>[]> {
-    return this.store.selectSignal(selectTabsTabs(tabsId)) as Signal<GnroTabConfig<T>[]>;
+  getTabs<T>(tabsName: string): Signal<GnroTabConfig<T>[]> {
+    const selectors = createTabsSelectorsForFeature(tabsName);
+    return this.store.selectSignal(selectors.selectTabsTabs) as Signal<GnroTabConfig<T>[]>;
   }
 
-  getOptions<T>(tabsId: string): Signal<GnroTabConfig<T>[]> {
-    return this.store.selectSignal(selectTabsOptions(tabsId)) as Signal<GnroTabConfig<T>[]>;
+  getOptions<T>(tabsName: string): Signal<GnroTabConfig<T>[]> {
+    const selectors = createTabsSelectorsForFeature(tabsName);
+    return this.store.selectSignal(selectors.selectTabsOptions) as Signal<GnroTabConfig<T>[]>;
   }
 }
