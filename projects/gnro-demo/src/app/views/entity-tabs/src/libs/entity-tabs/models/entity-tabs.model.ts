@@ -7,4 +7,5 @@ export interface AppEntityTab {
   dirty: boolean; // true if the tab form is dirty
   editing: boolean; // true if the tab form is being edited
   valid: boolean; // true if the tab form is valid
+  subtabIndex: number; // index of the subtab
 }

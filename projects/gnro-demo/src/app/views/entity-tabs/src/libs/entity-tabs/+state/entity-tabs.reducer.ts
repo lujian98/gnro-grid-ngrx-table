@@ -62,7 +62,6 @@ export function createEntityTabsReducerForFeature(featureName: FEATURE_NAME | st
     // Add Tab
     on(entityTabsActions.addTab, (state, action) => {
       if (action.featureName !== state.featureName) return state;
-      console.log(' add state=', state);
       return {
         ...state,
         isLoading: true,

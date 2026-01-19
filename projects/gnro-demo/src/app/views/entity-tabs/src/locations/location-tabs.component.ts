@@ -50,6 +50,7 @@ export class AppLocationTabsComponent {
       dirty: false,
       editing: false,
       valid: true,
+      subtabIndex: 0,
     };
     this.entityTabsFacade.addTab(tab);
     this.selectedIndex++;
