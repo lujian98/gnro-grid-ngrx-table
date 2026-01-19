@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, DestroyRef, effect, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, effect, inject, input } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GnroTextFieldComponent, GnroTextFieldConfig, defaultTextFieldConfig } from '@gnro/ui/fields';
@@ -28,7 +28,8 @@ export class AppLocationEntityComponent {
   private entityTabsFacade = inject(EntityTabsFacade);
   private destroyRef = inject(DestroyRef);
 
-  tabId: string = '';
+  tabId = input.required<string>();
+
   form: FormGroup = new FormGroup({
     nodeCode: new FormControl(''),
   });
@@ -56,7 +57,6 @@ export class AppLocationEntityComponent {
     effect(() => {
       const tab = this.activeTab();
       if (tab) {
-        console.log('tab', tab);
         this.isLoadingFromStore = true;
         this.form.patchValue(tab.values, { emitEvent: false });
         this.isLoadingFromStore = false;

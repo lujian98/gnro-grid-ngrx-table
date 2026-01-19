@@ -1,3 +1,8 @@
 <button gnro-button (click)="newTab()">Add tab</button>
-<gnro-tabs [tabsConfig]="tabsConfig" [tabs]="tabs$()" (selectedIndexChange)="onSelectedIndexChange($event)">
-</gnro-tabs>
+<gnro-tab-group [selectedIndex]="selectedIndex" (selectedIndexChange)="onSelectedIndexChange($event)">
+  @for (tab of tabs$(); track $index; let index = $index) {
+    <gnro-tab label="{{ tab.title }}">
+      <app-location-entity [tabId]="tab.id"></app-location-entity>
+    </gnro-tab>
+  }
+</gnro-tab-group>
