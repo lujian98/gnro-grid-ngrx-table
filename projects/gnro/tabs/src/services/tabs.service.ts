@@ -13,7 +13,7 @@ export class GnroTabsService {
   private readonly backendService = inject(GnroBackendService);
 
   getRemoteTabsConfig(tabsConfig: GnroTabsConfig): Observable<GnroTabsConfig> {
-    const params = this.backendService.getParams(tabsConfig.urlKey, 'tabsConfig', tabsConfig.name);
+    const params = this.backendService.getParams(tabsConfig.urlKey, 'tabsConfig', tabsConfig.tabsName);
     const url = this.backendService.apiUrl;
     return this.http.get<GnroTabsConfigResponse>(url, { params }).pipe(
       map((config) => {

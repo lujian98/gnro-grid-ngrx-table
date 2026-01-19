@@ -35,7 +35,7 @@ import {
 })
 export class GnroTabsComponent<T> implements OnDestroy {
   private readonly tabsFacade = inject(GnroTabsFacade);
-  private readonly tabsId = `tab-${uniqueId()}`;
+  private readonly tabsId = `tabs-${uniqueId()}`;
   tabsConfig$ = this.tabsFacade.getConfig(this.tabsId);
   tabsSetting$ = this.tabsFacade.getSetting(this.tabsId);
   tabsTabs$ = this.tabsFacade.getTabs(this.tabsId);

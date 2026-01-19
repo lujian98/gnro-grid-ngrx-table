@@ -22,7 +22,7 @@ export interface GnroTabsConfig extends GnroTabGroupConfig {
   closeable: boolean;
   enableContextMenu: boolean;
   selectedTabIndex: number;
-  name: string;
+  tabsName: string;
   urlKey: string; // Only for remote tab config and options
   remoteConfig: boolean; // remote config requires remote options
   //remoteOptions: boolean; // options list cannot be remote due the GnroPortalContent mapping!!
@@ -39,7 +39,7 @@ export const defaultTabsConfig: GnroTabsConfig = {
   enableContextMenu: false,
   selectedTabIndex: 0,
   alignTabs: 'start',
-  name: 'tabs',
+  tabsName: 'tabs',
   urlKey: 'tabs',
   remoteConfig: false,
   remoteTabs: false,
