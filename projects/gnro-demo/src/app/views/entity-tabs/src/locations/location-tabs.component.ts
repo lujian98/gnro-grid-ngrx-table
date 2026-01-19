@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { GnroButtonComponent } from '@gnro/ui/button';
 import { GnroTabComponent, GnroTabGroupComponent } from '@gnro/ui/tab-group';
-import { GnroTabsComponent } from '@gnro/ui/tabs';
 import { EntityTabsStateModule } from '../libs/entity-tabs/+state/entity-tabs-state.module';
 import { EntityTabsFacade } from '../libs/entity-tabs/+state/entity-tabs.facade';
 import { AppEntityTab } from '../libs/entity-tabs/models/entity-tabs.model';
