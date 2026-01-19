@@ -262,6 +262,12 @@ export function createEntityTabsReducerForFeature(featureName: FEATURE_NAME | st
       return entityTabsAdapter.updateOne({ id: action.tabId, changes: { editing: action.isEditing } }, state);
     }),
 
+    // Set Subtab Index
+    on(entityTabsActions.setSubtabIndex, (state, action) => {
+      if (action.featureName !== state.featureName) return state;
+      return entityTabsAdapter.updateOne({ id: action.tabId, changes: { subtabIndex: action.subtabIndex } }, state);
+    }),
+
     // Update Tab Values
     on(entityTabsActions.updateTabValues, (state, action) => {
       if (action.featureName !== state.featureName) return state;

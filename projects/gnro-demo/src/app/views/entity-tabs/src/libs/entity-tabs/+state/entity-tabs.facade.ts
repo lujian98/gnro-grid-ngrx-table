@@ -275,6 +275,19 @@ export class EntityTabsFacade {
   }
 
   /**
+   * Set a tab's subtab index.
+   */
+  setSubtabIndex(tabId: string, subtabIndex: number): void {
+    this.store.dispatch(
+      entityTabsActions.setSubtabIndex({
+        featureName: this.getFeatureName(),
+        tabId,
+        subtabIndex,
+      }),
+    );
+  }
+
+  /**
    * Update a tab's values.
    */
   updateTabValues(tabId: string, values: object): void {

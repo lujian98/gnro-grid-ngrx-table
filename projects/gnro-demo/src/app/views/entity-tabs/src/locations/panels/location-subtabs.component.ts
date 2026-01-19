@@ -60,8 +60,7 @@ export class AppLocationSubtabsComponent implements OnInit {
   onSelectedIndexChange(index: number): void {
     const tab = this.activeTab$();
     if (tab) {
-      const updatedValues = { ...tab.values, subtabIndex: index };
-      this.entityTabsFacade.updateTabValues(tab.id, updatedValues);
+      this.entityTabsFacade.setSubtabIndex(tab.id, index);
     }
   }
 }
