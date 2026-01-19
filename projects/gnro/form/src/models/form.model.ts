@@ -3,6 +3,7 @@ import { GnroButtonConfg, GnroDataType } from '@gnro/ui/core';
 import { GnroFormField } from '@gnro/ui/fields';
 
 export interface GnroFormConfig {
+  formName: string;
   urlKey: string; // Only for remote config
   title?: string;
   remoteFormConfig: boolean;

@@ -14,6 +14,7 @@ import { STATES } from '../../../data/states';
 })
 export class AppPasswordPageDemoComponent {
   formConfig = {
+    formName: 'formPassword',
     labelWidth: 150,
     autoFitHeight: false,
     validators: [confirmationValidator('userPassword', 'userPasswordConfirmation')],
@@ -55,11 +56,23 @@ export class AppPasswordPageDemoComponent {
   };
 
   formConfig1 = {
+    formName: 'formPassword1',
     labelWidth: 100,
     autoFitHeight: false,
   };
 
   formConfig2 = {
+    formName: 'formPassword2',
+    labelWidth: 100,
+  };
+
+  formConfig3 = {
+    formName: 'formPassword3',
+    labelWidth: 100,
+  };
+
+  formConfig4 = {
+    formName: 'formPassword4',
     labelWidth: 100,
   };
 

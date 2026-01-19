@@ -15,6 +15,7 @@ import { STATES } from '../../../data/states';
 export class AppFromPageDemoComponent {
   formConfig = {
     title: 'Edit User',
+    formName: 'editUser',
     labelWidth: 100,
   };
 
@@ -175,6 +176,7 @@ export class AppFromPageDemoComponent {
   };
 
   formConfig3 = {
+    formName: 'editUser3',
     labelWidth: 100,
   };
 

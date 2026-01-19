@@ -13,17 +13,26 @@ import { GnroFormField, GnroFieldsetConfig } from '@gnro/ui/fields';
 export class AppSimpleFromDemoComponent {
   formConfig = {
     ...defaultFormConfig,
+    formName: 'form1',
+    labelWidth: 100,
+  };
+
+  formConfig2 = {
+    ...defaultFormConfig,
+    formName: 'form2',
     labelWidth: 100,
   };
 
   remoteFormFields = {
     ...defaultFormConfig,
+    formName: 'formr',
     urlKey: 'DCR',
     remoteFieldsConfig: true,
   };
 
   remoteFormFieldsAndValues = {
     ...defaultFormConfig,
+    formName: 'formrv',
     urlKey: 'DCR2',
     remoteFieldsConfig: true,
     remoteFormData: true,
@@ -31,6 +40,7 @@ export class AppSimpleFromDemoComponent {
 
   allRemotes = {
     ...defaultFormConfig,
+    formName: 'formar',
     urlKey: 'DCR3',
     remoteFormConfig: true,
   };

@@ -6,21 +6,21 @@ import { GnroFormConfig } from '../models/form.model';
 export const formActions = createActionGroup({
   source: 'Form',
   events: {
-    'Init Config': props<{ formId: string; formConfig: GnroFormConfig }>(),
-    'Load Config': props<{ formId: string; formConfig: GnroFormConfig }>(),
-    'Load Config Success': props<{ formId: string; formConfig: GnroFormConfig }>(),
-    'Load Fields Config': props<{ formId: string; formConfig: GnroFormConfig }>(),
+    'Init Config': props<{ formName: string; formConfig: GnroFormConfig }>(),
+    'Load Config': props<{ formName: string; formConfig: GnroFormConfig }>(),
+    'Load Config Success': props<{ formName: string; formConfig: GnroFormConfig }>(),
+    'Load Fields Config': props<{ formName: string; formConfig: GnroFormConfig }>(),
     'Load Fields Config Success': props<{
-      formId: string;
+      formName: string;
       formConfig: GnroFormConfig;
       formFields: GnroFormField[];
     }>(),
-    'Set Editable': props<{ formId: string; button: GnroButtonConfg }>(),
-    'Get Data': props<{ formId: string; formConfig: GnroFormConfig }>(),
-    'Get Data Success': props<{ formId: string; formConfig: GnroFormConfig; formData: GnroDataType }>(),
-    'Save Data': props<{ formId: string; formConfig: GnroFormConfig; formData: GnroDataType }>(),
-    'Save Data Success': props<{ formId: string; formConfig: GnroFormConfig; formData: GnroDataType }>(),
-    'Clear Store': props<{ formId: string }>(),
-    'Remove Store': props<{ formId: string }>(),
+    'Set Editable': props<{ formName: string; button: GnroButtonConfg }>(),
+    'Get Data': props<{ formName: string; formConfig: GnroFormConfig }>(),
+    'Get Data Success': props<{ formName: string; formConfig: GnroFormConfig; formData: GnroDataType }>(),
+    'Save Data': props<{ formName: string; formConfig: GnroFormConfig; formData: GnroDataType }>(),
+    'Save Data Success': props<{ formName: string; formConfig: GnroFormConfig; formData: GnroDataType }>(),
+    'Clear Store': props<{ formName: string }>(),
+    'Remove Store': props<{ formName: string }>(),
   },
 });

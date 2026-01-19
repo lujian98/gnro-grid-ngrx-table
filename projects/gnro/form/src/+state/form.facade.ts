@@ -3,46 +3,49 @@ import { Store } from '@ngrx/store';
 import { GnroButtonConfg, GnroDataType } from '@gnro/ui/core';
 import { GnroFormConfig, GnroFormSetting } from '../models/form.model';
 import { GnroFormField } from '@gnro/ui/fields';
+import { GnroFormFeatureService } from './form-state.module';
 import { formActions } from './form.actions';
-import { selectFormConfig, selectFormFieldsConfig, selectFormData, selectFormSetting } from './form.selectors';
+import { createFormSelectorsForFeature } from './form.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class GnroFormFacade {
   private readonly store = inject(Store);
+  private readonly formFeatureService = inject(GnroFormFeatureService);
 
-  initConfig(formId: string, formConfig: GnroFormConfig): void {
-    this.store.dispatch(formActions.initConfig({ formId, formConfig }));
+  initConfig(formName: string, formConfig: GnroFormConfig): void {
+    this.formFeatureService.registerFeature(formName);
+    this.store.dispatch(formActions.initConfig({ formName, formConfig }));
 
     if (formConfig.remoteFormConfig) {
-      this.store.dispatch(formActions.loadConfig({ formId, formConfig }));
+      this.store.dispatch(formActions.loadConfig({ formName, formConfig }));
     } else if (formConfig.remoteFieldsConfig) {
-      this.store.dispatch(formActions.loadFieldsConfig({ formId, formConfig }));
+      this.store.dispatch(formActions.loadFieldsConfig({ formName, formConfig }));
     }
   }
 
-  setFieldsConfig(formId: string, formConfig: GnroFormConfig, formFields: GnroFormField[]): void {
-    this.store.dispatch(formActions.loadFieldsConfigSuccess({ formId, formConfig, formFields }));
+  setFieldsConfig(formName: string, formConfig: GnroFormConfig, formFields: GnroFormField[]): void {
+    this.store.dispatch(formActions.loadFieldsConfigSuccess({ formName, formConfig, formFields }));
     if (formConfig.remoteFormData) {
-      this.store.dispatch(formActions.getData({ formId, formConfig }));
+      this.store.dispatch(formActions.getData({ formName, formConfig }));
     }
   }
 
-  setData(formId: string, formConfig: GnroFormConfig, formData: GnroDataType): void {
-    this.store.dispatch(formActions.getDataSuccess({ formId, formConfig, formData }));
+  setData(formName: string, formConfig: GnroFormConfig, formData: GnroDataType): void {
+    this.store.dispatch(formActions.getDataSuccess({ formName, formConfig, formData }));
   }
 
-  setEditable(formId: string, button: GnroButtonConfg): void {
-    this.store.dispatch(formActions.setEditable({ formId, button }));
+  setEditable(formName: string, button: GnroButtonConfg): void {
+    this.store.dispatch(formActions.setEditable({ formName, button }));
   }
 
-  getData(formId: string, formConfig: GnroFormConfig): void {
+  getData(formName: string, formConfig: GnroFormConfig): void {
     if (formConfig.remoteFormData) {
-      this.store.dispatch(formActions.getData({ formId, formConfig }));
+      this.store.dispatch(formActions.getData({ formName, formConfig }));
     }
   }
 
-  saveData(formId: string, formConfig: GnroFormConfig, formData: GnroDataType): void {
-    this.store.dispatch(formActions.saveData({ formId, formConfig, formData }));
+  saveData(formName: string, formConfig: GnroFormConfig, formData: GnroDataType): void {
+    this.store.dispatch(formActions.saveData({ formName, formConfig, formData }));
   }
 
   /*
@@ -52,23 +55,27 @@ export class GnroFormFacade {
     }
   }*/
 
-  clearStore(formId: string): void {
-    this.store.dispatch(formActions.clearStore({ formId }));
+  clearStore(formName: string): void {
+    this.store.dispatch(formActions.clearStore({ formName }));
   }
 
-  getConfig(formId: string): Signal<GnroFormConfig> {
-    return this.store.selectSignal(selectFormConfig(formId));
+  getConfig(formName: string): Signal<GnroFormConfig> {
+    const selectors = createFormSelectorsForFeature(formName);
+    return this.store.selectSignal(selectors.selectFormConfig);
   }
 
-  getSetting(fieldId: string): Signal<GnroFormSetting> {
-    return this.store.selectSignal(selectFormSetting(fieldId));
+  getSetting(formName: string): Signal<GnroFormSetting> {
+    const selectors = createFormSelectorsForFeature(formName);
+    return this.store.selectSignal(selectors.selectFormSetting);
   }
 
-  getFieldsConfig(formId: string): Signal<GnroFormField[]> {
-    return this.store.selectSignal(selectFormFieldsConfig(formId));
+  getFieldsConfig(formName: string): Signal<GnroFormField[]> {
+    const selectors = createFormSelectorsForFeature(formName);
+    return this.store.selectSignal(selectors.selectFormFieldsConfig);
   }
 
-  getSignalData(formId: string): Signal<GnroDataType | undefined> {
-    return this.store.selectSignal(selectFormData(formId));
+  getSignalData(formName: string): Signal<GnroDataType | undefined> {
+    const selectors = createFormSelectorsForFeature(formName);
+    return this.store.selectSignal(selectors.selectFormData);
   }
 }
