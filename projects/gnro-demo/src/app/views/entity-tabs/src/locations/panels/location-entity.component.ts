@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, DestroyRef, effect, inject, input } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { GnroTextFieldComponent, GnroTextFieldConfig, defaultTextFieldConfig } from '@gnro/ui/fields';
+import { GnroTextFieldComponent, defaultTextFieldConfig } from '@gnro/ui/fields';
 import { GnroLayoutComponent } from '@gnro/ui/layout';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { EntityTabsFacade } from '../../libs/entity-tabs/+state/entity-tabs.facade';

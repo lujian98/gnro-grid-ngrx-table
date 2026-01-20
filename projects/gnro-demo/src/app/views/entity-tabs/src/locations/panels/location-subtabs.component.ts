@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, computed, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { GnroNumberFieldComponent, GnroNumberFieldConfig, defaultNumberFieldConfig } from '@gnro/ui/fields';
+import { GnroNumberFieldComponent, defaultNumberFieldConfig } from '@gnro/ui/fields';
 import { GnroTabComponent, GnroTabGroupComponent } from '@gnro/ui/tab-group';
 import { AppSettingsPanelComponent } from './settings-panel.component';
 import { AppDimensionsPanelComponent } from './dimensions-panel.component';

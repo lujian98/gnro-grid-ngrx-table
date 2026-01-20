@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, computed, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { GnroTextFieldComponent, GnroTextFieldConfig, defaultTextFieldConfig } from '@gnro/ui/fields';
+import { GnroTextFieldComponent, defaultTextFieldConfig } from '@gnro/ui/fields';
 import { EntityTabsFacade } from '../../libs/entity-tabs/+state/entity-tabs.facade';
 @Component({
   selector: 'app-address-panel',
