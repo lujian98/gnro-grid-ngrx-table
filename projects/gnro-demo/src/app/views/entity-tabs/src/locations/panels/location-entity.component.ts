@@ -92,8 +92,11 @@ export class AppLocationEntityComponent {
     Object.keys(formfields).forEach((key) => {
       const field = formfields[key];
       if (updatedValues[key] === originalValues[key] && field.dirty) {
-        field.markAsPristine();
         field.reset(originalValues[key]);
+        field.markAsPristine();
+      } else if (updatedValues[key] !== originalValues[key] && !field.dirty) {
+        field.reset(updatedValues[key]);
+        field.markAsDirty();
       }
     });
   }
