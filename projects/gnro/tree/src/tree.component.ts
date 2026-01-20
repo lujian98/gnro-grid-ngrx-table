@@ -71,7 +71,8 @@ export class GnroTreeComponent<T> implements OnDestroy {
     this.initTreeConfig({ ...defaultTreeConfig });
   }
 
-  private initTreeConfig(treeConfig: GnroTreeConfig): void {
+  private initTreeConfig(config: GnroTreeConfig): void {
+    const treeConfig = { ...config, urlKey: config.urlKey ? config.urlKey : config.gridName };
     this.gridFacade.initConfig(treeConfig.gridName, treeConfig, 'treeGrid');
     this.treeFacade.initConfig(treeConfig.gridName, treeConfig);
   }

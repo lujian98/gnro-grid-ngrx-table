@@ -43,6 +43,7 @@ export class GnroGridComponent<T> implements OnInit, OnDestroy {
   buttons = input<GnroButtonConfg[]>([GnroBUTTONS.Refresh, GnroBUTTONS.ClearAllFilters]);
   gridConfig = input(defaultGridConfig, {
     transform: (value: Partial<GnroGridConfig>) => {
+      console.log('gridConfig value', value);
       const config = { ...defaultGridConfig, ...value };
       this.initGridConfig(config);
       return config;
@@ -98,7 +99,8 @@ export class GnroGridComponent<T> implements OnInit, OnDestroy {
   }
 
   private initGridConfig(config: GnroGridConfig): void {
-    this.gridFacade.initConfig(config.gridName, config, 'grid');
+    const gridConfig = { ...config, urlKey: config.urlKey ? config.urlKey : config.gridName };
+    this.gridFacade.initConfig(config.gridName, gridConfig, 'grid');
     this.gnroGridName.emit(config.gridName);
   }
 
