@@ -61,6 +61,10 @@ export class AppLocationEntityComponent {
       if (tab) {
         this.isLoadingFromStore = true;
         this.form.patchValue(tab.values, { emitEvent: false });
+        this.checkFormFieldChanges(
+          tab.values as Record<string, unknown>,
+          tab.originalValues as Record<string, unknown>,
+        );
         this.isLoadingFromStore = false;
       }
     });
@@ -80,8 +84,20 @@ export class AppLocationEntityComponent {
             const updatedValues = { ...tab.values, ...values };
             this.entityTabsFacade.updateTabValues(tab.id, updatedValues);
             this.entityTabsFacade.setTabInvalid(tab.id, this.form.invalid);
+            this.checkFormFieldChanges(updatedValues, tab.originalValues as Record<string, unknown>);
           }
         }
       });
+  }
+
+  private checkFormFieldChanges(updatedValues: Record<string, unknown>, originalValues: Record<string, unknown>) {
+    const formfields = this.form.controls;
+    Object.keys(formfields).forEach((key) => {
+      const field = formfields[key];
+      if (updatedValues[key] === originalValues[key] && field.dirty) {
+        field.markAsPristine();
+        field.reset(originalValues[key]);
+      }
+    });
   }
 }
