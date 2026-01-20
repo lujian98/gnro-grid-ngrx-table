@@ -55,4 +55,14 @@ export class AppLocationTabsComponent {
     this.entityTabsFacade.addTab(tab);
     this.selectedIndex++;
   }
+
+  Edit(): void {
+    const activeTab = this.entityTabsFacade.getActiveTab();
+    this.entityTabsFacade.setTabEditing(activeTab()?.id!, true);
+  }
+
+  View(): void {
+    const activeTab = this.entityTabsFacade.getActiveTab();
+    this.entityTabsFacade.setTabEditing(activeTab()?.id!, false);
+  }
 }

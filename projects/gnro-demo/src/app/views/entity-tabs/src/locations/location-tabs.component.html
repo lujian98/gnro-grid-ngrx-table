@@ -1,4 +1,8 @@
-<button gnro-button (click)="newTab()">Add tab</button>
+<div>
+  <button gnro-button (click)="newTab()">Add tab</button>
+  <button gnro-button (click)="Edit()">Edit</button>
+  <button gnro-button (click)="View()">View</button>
+</div>
 <gnro-tab-group [selectedIndex]="selectedIndex" (selectedIndexChange)="onSelectedIndexChange($event)">
   @for (tab of tabs$(); track $index; let index = $index) {
     <gnro-tab label="{{ tab.title }}">
