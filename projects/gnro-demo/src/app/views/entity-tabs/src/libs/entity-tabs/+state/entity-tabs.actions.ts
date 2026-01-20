@@ -49,6 +49,7 @@ export const entityTabsActions = createActionGroup({
     // Tab State Management
     'Mark Tab Dirty': props<{ featureName: FEATURE_NAME | string; tabId: string; isDirty: boolean }>(),
     'Set Tab Editing': props<{ featureName: FEATURE_NAME | string; tabId: string; isEditing: boolean }>(),
+    'Set Tab Invalid': props<{ featureName: FEATURE_NAME | string; tabId: string; isInvalid: boolean }>(),
     'Set Subtab Index': props<{ featureName: FEATURE_NAME | string; tabId: string; subtabIndex: number }>(),
     'Update Tab Values': props<{ featureName: FEATURE_NAME | string; tabId: string; values: object }>(),
     'Revert Tab Changes': props<{ featureName: FEATURE_NAME | string; tabId: string }>(),

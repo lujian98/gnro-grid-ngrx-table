@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, DestroyRef, effect, inject, input } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { GnroTextFieldComponent, defaultTextFieldConfig } from '@gnro/ui/fields';
 import { GnroLayoutComponent } from '@gnro/ui/layout';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -31,7 +31,7 @@ export class AppLocationEntityComponent {
   tabId = input.required<string>();
 
   form: FormGroup = new FormGroup({
-    nodeCode: new FormControl(''),
+    nodeCode: new FormControl('', Validators.required),
   });
 
   // Flag to prevent syncing to store when loading from store
@@ -79,6 +79,10 @@ export class AppLocationEntityComponent {
             // Merge form values with existing tab values
             const updatedValues = { ...tab.values, ...values };
             this.entityTabsFacade.updateTabValues(tab.id, updatedValues);
+            const invalid = this.form.invalid;
+            console.log('tab=', tab);
+            console.log('invalid=', invalid);
+            this.entityTabsFacade.setTabInvalid(tab.id, invalid);
           }
         }
       });

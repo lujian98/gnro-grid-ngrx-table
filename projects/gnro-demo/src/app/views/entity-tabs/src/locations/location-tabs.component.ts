@@ -48,7 +48,7 @@ export class AppLocationTabsComponent {
       originalValues: values,
       dirty: false,
       editing: this.selectedIndex === 1,
-      valid: true,
+      invalid: true,
       subtabIndex: 0,
     };
     this.entityTabsFacade.addTab(tab);

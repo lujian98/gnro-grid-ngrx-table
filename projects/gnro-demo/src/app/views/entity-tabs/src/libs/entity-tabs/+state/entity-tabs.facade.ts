@@ -287,6 +287,16 @@ export class EntityTabsFacade {
     );
   }
 
+  setTabInvalid(tabId: string, isInvalid: boolean): void {
+    this.store.dispatch(
+      entityTabsActions.setTabInvalid({
+        featureName: this.getFeatureName(),
+        tabId,
+        isInvalid,
+      }),
+    );
+  }
+
   /**
    * Update a tab's values.
    */
