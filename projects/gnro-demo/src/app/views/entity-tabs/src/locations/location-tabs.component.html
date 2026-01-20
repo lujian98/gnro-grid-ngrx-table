@@ -1,11 +1,13 @@
 <div>
   <button gnro-button (click)="newTab()">Add tab</button>
   @if (activeTab()?.editing === false) {
-    <button gnro-button (click)="Edit()">Edit</button>
+    <button gnro-button (click)="edit()">Edit</button>
   }
   @if (activeTab()?.editing === true) {
-    <button gnro-button (click)="View()">View</button>
+    <button gnro-button (click)="view()">View</button>
   }
+  <button gnro-button [disabled]="activeTab()?.dirty !== true" (click)="reset()">Reset</button>
+  <button gnro-button [disabled]="activeTab()?.dirty !== true" (click)="save()">Save</button>
 </div>
 <gnro-tab-group [selectedIndex]="selectedIndex" (selectedIndexChange)="onSelectedIndexChange($event)">
   @for (tab of tabs$(); track $index; let index = $index) {

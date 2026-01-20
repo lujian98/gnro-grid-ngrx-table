@@ -56,13 +56,17 @@ export class AppLocationTabsComponent {
     this.selectedIndex++;
   }
 
-  Edit(): void {
-    const activeTab = this.entityTabsFacade.getActiveTab();
-    this.entityTabsFacade.setTabEditing(activeTab()?.id!, true);
+  edit(): void {
+    this.entityTabsFacade.setTabEditing(this.activeTab()?.id!, true);
   }
 
-  View(): void {
-    const activeTab = this.entityTabsFacade.getActiveTab();
-    this.entityTabsFacade.setTabEditing(activeTab()?.id!, false);
+  view(): void {
+    this.entityTabsFacade.setTabEditing(this.activeTab()?.id!, false);
   }
+
+  reset(): void {
+    this.entityTabsFacade.setTabEditing(this.activeTab()?.id!, true);
+  }
+
+  save(): void {}
 }

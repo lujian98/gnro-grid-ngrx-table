@@ -259,7 +259,19 @@ export function createEntityTabsReducerForFeature(featureName: FEATURE_NAME | st
     // Set Tab Editing
     on(entityTabsActions.setTabEditing, (state, action) => {
       if (action.featureName !== state.featureName) return state;
-      return entityTabsAdapter.updateOne({ id: action.tabId, changes: { editing: action.isEditing } }, state);
+      const tab = state.entities[action.tabId];
+      if (!tab) return state;
+      return entityTabsAdapter.updateOne(
+        {
+          id: action.tabId,
+          changes: {
+            values: tab.originalValues,
+            editing: action.isEditing,
+            dirty: false,
+          },
+        },
+        state,
+      );
     }),
 
     // Set Subtab Index
