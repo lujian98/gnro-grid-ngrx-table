@@ -43,7 +43,6 @@ export class AppLocationTabsComponent {
     const values = locationsData[this.selectedIndex];
     const tab: AppEntityTab = {
       id: values['id'].toString(),
-      name: values['nodeCode'] as string,
       title: values['nodeCode'] as string,
       values: values,
       originalValues: values,
