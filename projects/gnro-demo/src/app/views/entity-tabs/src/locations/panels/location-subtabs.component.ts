@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, computed, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GnroNumberFieldComponent, GnroNumberFieldConfig, defaultNumberFieldConfig } from '@gnro/ui/fields';
 import { GnroTabComponent, GnroTabGroupComponent } from '@gnro/ui/tab-group';
@@ -13,7 +13,7 @@ import { EntityTabsFacade } from '../../libs/entity-tabs/+state/entity-tabs.faca
     <gnro-tab-group [selectedIndex]="activeTab$()!.subtabIndex!" (selectedIndexChange)="onSelectedIndexChange($event)">
       <gnro-tab label="Tab 1">
         <div>Subtabs Panel</div>
-        <gnro-number-field [fieldConfig]="fieldConfig" [form]="form"> </gnro-number-field>
+        <gnro-number-field [fieldConfig]="fieldConfig()" [form]="form"> </gnro-number-field>
       </gnro-tab>
       <gnro-tab label="Tab 2">
         <app-settings-panel [form]="form" [values]="values"></app-settings-panel>
@@ -39,19 +39,21 @@ export class AppLocationSubtabsComponent implements OnInit {
   @Input({ required: true }) form!: FormGroup;
   @Input() values: Record<string, unknown> = {};
 
-  fieldConfig: GnroNumberFieldConfig = {
-    ...defaultNumberFieldConfig,
-    fieldName: 'area',
-    fieldLabel: 'Area',
-    labelWidth: 100,
-    clearValue: true,
-    editable: true,
-  };
+  fieldConfig = computed(() => {
+    return {
+      ...defaultNumberFieldConfig,
+      fieldName: 'area',
+      fieldLabel: 'Area',
+      labelWidth: 100,
+      clearValue: true,
+      editable: this.activeTab$()?.editing ?? false,
+    };
+  });
 
   activeTab$ = this.entityTabsFacade.getActiveTab();
 
   ngOnInit(): void {
-    const fieldName = this.fieldConfig.fieldName!;
+    const fieldName = this.fieldConfig().fieldName!;
     // Get initial value from passed values or empty string
     const initialValue = this.values[fieldName] ?? null;
     this.form.addControl(fieldName, new FormControl<number>({ value: initialValue as number, disabled: false }, []));

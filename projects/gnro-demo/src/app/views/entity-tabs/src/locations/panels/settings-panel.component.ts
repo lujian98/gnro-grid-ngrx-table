@@ -1,31 +1,36 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, computed, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GnroTextFieldComponent, GnroTextFieldConfig, defaultTextFieldConfig } from '@gnro/ui/fields';
+import { EntityTabsFacade } from '../../libs/entity-tabs/+state/entity-tabs.facade';
 
 @Component({
   selector: 'app-settings-panel',
   template: `
     <div>Settings Panel</div>
-    <gnro-text-field [fieldConfig]="fieldConfig" [form]="form"> </gnro-text-field>
+    <gnro-text-field [fieldConfig]="fieldConfig()" [form]="form"> </gnro-text-field>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [GnroTextFieldComponent, FormsModule, ReactiveFormsModule],
 })
 export class AppSettingsPanelComponent implements OnInit {
+  private entityTabsFacade = inject(EntityTabsFacade);
+  private readonly activeTab = this.entityTabsFacade.getActiveTab();
   @Input({ required: true }) form!: FormGroup;
   @Input() values: Record<string, unknown> = {};
 
-  fieldConfig: GnroTextFieldConfig = {
-    ...defaultTextFieldConfig,
-    fieldName: 'country',
-    fieldLabel: 'Country',
-    labelWidth: 100,
-    clearValue: true,
-    editable: true,
-  };
+  fieldConfig = computed(() => {
+    return {
+      ...defaultTextFieldConfig,
+      fieldName: 'country',
+      fieldLabel: 'Country',
+      labelWidth: 100,
+      clearValue: true,
+      editable: this.activeTab()?.editing ?? false,
+    };
+  });
 
   ngOnInit(): void {
-    const fieldName = this.fieldConfig.fieldName!;
+    const fieldName = this.fieldConfig().fieldName!;
     // Get initial value from passed values or empty string
     const initialValue = this.values[fieldName] ?? '';
     this.form.addControl(fieldName, new FormControl<string>({ value: initialValue as string, disabled: false }, []));
