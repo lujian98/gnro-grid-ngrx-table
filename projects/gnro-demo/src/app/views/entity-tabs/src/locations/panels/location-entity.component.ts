@@ -79,10 +79,7 @@ export class AppLocationEntityComponent {
             // Merge form values with existing tab values
             const updatedValues = { ...tab.values, ...values };
             this.entityTabsFacade.updateTabValues(tab.id, updatedValues);
-            const invalid = this.form.invalid;
-            console.log('tab=', tab);
-            console.log('invalid=', invalid);
-            this.entityTabsFacade.setTabInvalid(tab.id, invalid);
+            this.entityTabsFacade.setTabInvalid(tab.id, this.form.invalid);
           }
         }
       });
