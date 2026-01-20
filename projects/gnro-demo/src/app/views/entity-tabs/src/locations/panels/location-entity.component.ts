@@ -43,14 +43,16 @@ export class AppLocationEntityComponent {
   // Expose values for child components
   readonly tabValues = computed(() => (this.activeTab()?.values ?? {}) as Record<string, unknown>);
 
-  fieldConfig: GnroTextFieldConfig = {
-    ...defaultTextFieldConfig,
-    fieldName: 'nodeCode',
-    fieldLabel: 'Name',
-    labelWidth: 100,
-    clearValue: true,
-    editable: true,
-  };
+  fieldConfig = computed(() => {
+    return {
+      ...defaultTextFieldConfig,
+      fieldName: 'nodeCode',
+      fieldLabel: 'Name',
+      labelWidth: 100,
+      clearValue: true,
+      editable: this.activeTab()?.editing ?? false,
+    };
+  });
 
   constructor() {
     // Load values from store when active tab changes
