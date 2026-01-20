@@ -25,6 +25,7 @@ export class AppLocationTabsComponent {
   private entityTabsFacade = inject(EntityTabsFacade);
   selectedIndex: number = 0;
   tabs$ = this.entityTabsFacade.getTabs(FEATURE_NAME.LOCATIONS);
+  readonly activeTab = this.entityTabsFacade.getActiveTab();
 
   constructor() {
     this.entityTabsFacade.initializeFeature(FEATURE_NAME.LOCATIONS);
@@ -48,7 +49,7 @@ export class AppLocationTabsComponent {
       values: values,
       originalValues: values,
       dirty: false,
-      editing: false,
+      editing: this.selectedIndex === 1,
       valid: true,
       subtabIndex: 0,
     };
