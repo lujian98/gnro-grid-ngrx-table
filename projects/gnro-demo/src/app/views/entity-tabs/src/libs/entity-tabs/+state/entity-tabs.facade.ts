@@ -300,7 +300,7 @@ export class EntityTabsFacade {
   /**
    * Update a tab's values.
    */
-  updateTabValues(tabId: string, values: object): void {
+  updateTabValues(tabId: string, values: Record<string, unknown>): void {
     this.store.dispatch(
       entityTabsActions.updateTabValues({
         featureName: this.getFeatureName(),

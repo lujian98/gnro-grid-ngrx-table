@@ -51,7 +51,11 @@ export const entityTabsActions = createActionGroup({
     'Set Tab Editing': props<{ featureName: FEATURE_NAME | string; tabId: string; isEditing: boolean }>(),
     'Set Tab Invalid': props<{ featureName: FEATURE_NAME | string; tabId: string; isInvalid: boolean }>(),
     'Set Subtab Index': props<{ featureName: FEATURE_NAME | string; tabId: string; subtabIndex: number }>(),
-    'Update Tab Values': props<{ featureName: FEATURE_NAME | string; tabId: string; values: object }>(),
+    'Update Tab Values': props<{
+      featureName: FEATURE_NAME | string;
+      tabId: string;
+      values: Record<string, unknown>;
+    }>(),
     'Revert Tab Changes': props<{ featureName: FEATURE_NAME | string; tabId: string }>(),
 
     // Error Handling

@@ -41,7 +41,7 @@ export class AppLocationEntityComponent {
   private readonly activeTab = this.entityTabsFacade.getActiveTab();
 
   // Expose values for child components
-  readonly tabValues = computed(() => (this.activeTab()?.values ?? {}) as Record<string, unknown>);
+  readonly tabValues = computed(() => this.activeTab()?.values ?? {});
 
   fieldConfig = computed(() => {
     return {
@@ -61,10 +61,7 @@ export class AppLocationEntityComponent {
       if (tab) {
         this.isLoadingFromStore = true;
         this.form.patchValue(tab.values, { emitEvent: false });
-        this.checkFormFieldChanges(
-          tab.values as Record<string, unknown>,
-          tab.originalValues as Record<string, unknown>,
-        );
+        this.checkFormFieldChanges(tab.values, tab.originalValues);
         this.isLoadingFromStore = false;
       }
     });
@@ -84,7 +81,7 @@ export class AppLocationEntityComponent {
             const updatedValues = { ...tab.values, ...values };
             this.entityTabsFacade.updateTabValues(tab.id, updatedValues);
             this.entityTabsFacade.setTabInvalid(tab.id, this.form.invalid);
-            this.checkFormFieldChanges(updatedValues, tab.originalValues as Record<string, unknown>);
+            this.checkFormFieldChanges(updatedValues, tab.originalValues);
           }
         }
       });
