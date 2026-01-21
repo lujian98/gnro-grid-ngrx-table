@@ -1,5 +1,15 @@
 :host {
   display: flex;
   flex-direction: column;
-  width: 475px;
+  width: 100%;
+
+  div {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .panel {
+    width: 350px;
+    padding: 20px;
+  }
 }
