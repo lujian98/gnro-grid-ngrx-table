@@ -21,7 +21,8 @@ interface AppEntityTab {
   originalValues: object; // Original values for dirty comparison
   dirty: boolean;       // True if form has unsaved changes
   editing: boolean;     // True if form is being edited
-  valid: boolean;       // True if form is valid
+  invalid: boolean; // true if the tab form is invalid
+  subtabIndex: number; // index of the subtab
 }
 ```
 
