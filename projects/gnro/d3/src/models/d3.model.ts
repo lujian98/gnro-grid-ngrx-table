@@ -1,6 +1,7 @@
 import { GnroD3ChartConfig, GnroD3Options } from './options.model';
 
 export interface GnroD3Config {
+  d3ChartName: string;
   urlKey: string; // Only for remote config // options!: GnroD3Options
   chartName: string; // require if remote or use default
   options?: GnroD3Options;
@@ -42,6 +43,7 @@ export interface GnroD3State<T> {
 }
 
 export const defaultD3Config: GnroD3Config = {
+  d3ChartName: 'd3ChartName',
   urlKey: 'd3config', // Only for remote config
   chartName: 'chartName',
   options: undefined,

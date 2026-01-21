@@ -1,6 +1,7 @@
 import { GnroPortalContent } from '@gnro/ui/portal';
 
 export interface GnroDashboardConfig {
+  dashboardName: string;
   gridGap: number;
   gridWidth: number;
   gridHeight: number;
@@ -12,6 +13,7 @@ export interface GnroDashboardConfig {
 }
 
 export const defaultDashboardConfig: GnroDashboardConfig = {
+  dashboardName: 'dashboardName',
   gridGap: 2,
   gridWidth: 100,
   gridHeight: 100,
