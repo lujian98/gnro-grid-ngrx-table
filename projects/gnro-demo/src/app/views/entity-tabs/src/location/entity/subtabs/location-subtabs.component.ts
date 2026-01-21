@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component, Input, OnInit, computed, inject } f
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GnroNumberFieldComponent, defaultNumberFieldConfig } from '@gnro/ui/fields';
 import { GnroTabComponent, GnroTabGroupComponent } from '@gnro/ui/tab-group';
-import { AppSettingsPanelComponent } from './settings-panel.component';
-import { AppDimensionsPanelComponent } from './dimensions-panel.component';
-import { EntityTabsFacade } from '../../libs/entity-tabs/+state/entity-tabs.facade';
+import { AppSettingsPanelComponent } from './subpanels/settings-panel.component';
+import { AppDimensionsPanelComponent } from './subpanels/dimensions-panel.component';
+import { EntityTabsFacade } from '../../../libs/entity-tabs/+state/entity-tabs.facade';
 
 @Component({
   selector: 'app-location-subtabs',

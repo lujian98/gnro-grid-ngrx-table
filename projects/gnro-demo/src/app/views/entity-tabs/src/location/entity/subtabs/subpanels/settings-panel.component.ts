@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, computed, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GnroTextFieldComponent, defaultTextFieldConfig } from '@gnro/ui/fields';
-import { EntityTabsFacade } from '../../libs/entity-tabs/+state/entity-tabs.facade';
+import { EntityTabsFacade } from '../../../../libs/entity-tabs/+state/entity-tabs.facade';
 
 @Component({
-  selector: 'app-dimensions-panel',
+  selector: 'app-settings-panel',
   template: `
-    <div>Dimensions Panel</div>
+    <div>Settings Panel</div>
     <gnro-text-field [fieldConfig]="fieldConfig()" [form]="form"> </gnro-text-field>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [GnroTextFieldComponent, FormsModule, ReactiveFormsModule],
 })
-export class AppDimensionsPanelComponent implements OnInit {
+export class AppSettingsPanelComponent implements OnInit {
   private entityTabsFacade = inject(EntityTabsFacade);
   private readonly activeTab = this.entityTabsFacade.getActiveTab();
   @Input({ required: true }) form!: FormGroup;
@@ -21,8 +21,8 @@ export class AppDimensionsPanelComponent implements OnInit {
   fieldConfig = computed(() => {
     return {
       ...defaultTextFieldConfig,
-      fieldName: 'ownerName',
-      fieldLabel: 'Owner Name',
+      fieldName: 'country',
+      fieldLabel: 'Country',
       labelWidth: 100,
       clearValue: true,
       editable: this.activeTab()?.editing ?? false,

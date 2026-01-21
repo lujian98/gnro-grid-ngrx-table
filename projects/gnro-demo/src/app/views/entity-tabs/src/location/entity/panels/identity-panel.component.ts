@@ -1,17 +1,18 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, computed, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GnroTextFieldComponent, defaultTextFieldConfig } from '@gnro/ui/fields';
-import { EntityTabsFacade } from '../../libs/entity-tabs/+state/entity-tabs.facade';
+import { EntityTabsFacade } from '../../../libs/entity-tabs/+state/entity-tabs.facade';
+
 @Component({
-  selector: 'app-address-panel',
+  selector: 'app-identity-panel',
   template: `
-    <div>Address Panel</div>
+    <div>Identity Panel</div>
     <gnro-text-field [fieldConfig]="fieldConfig()" [form]="form"> </gnro-text-field>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [GnroTextFieldComponent, FormsModule, ReactiveFormsModule],
 })
-export class AppAddressPanelComponent implements OnInit {
+export class AppIdentityPanelComponent implements OnInit {
   private entityTabsFacade = inject(EntityTabsFacade);
   private readonly activeTab = this.entityTabsFacade.getActiveTab();
   @Input({ required: true }) form!: FormGroup;
@@ -20,8 +21,8 @@ export class AppAddressPanelComponent implements OnInit {
   fieldConfig = computed(() => {
     return {
       ...defaultTextFieldConfig,
-      fieldName: 'hierarchyLevel',
-      fieldLabel: 'Hierarchy Level',
+      fieldName: 'fullCodePath',
+      fieldLabel: 'Full Code Path',
       labelWidth: 100,
       clearValue: true,
       editable: this.activeTab()?.editing ?? false,
