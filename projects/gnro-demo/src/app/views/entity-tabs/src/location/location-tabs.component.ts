@@ -6,7 +6,7 @@ import { EntityTabsFacade } from '../libs/entity-tabs/+state/entity-tabs.facade'
 import { AppEntityTab } from '../libs/entity-tabs/models/entity-tabs.model';
 import { FEATURE_NAME } from '../libs/entity-tabs/models/feature-name.enum';
 import { locationsData } from './locations.data';
-import { AppLocationEntityComponent } from './panels/location-entity.component';
+import { AppLocationEntityComponent } from './entity/location-entity.component';
 
 @Component({
   selector: 'app-location-tabs',
