@@ -16,11 +16,11 @@ export class GnroDashboardEffects {
   getRemoteDashboardConfig$ = createEffect(() =>
     this.actions$.pipe(
       ofType(dashboardActions.loadRemoteDashboardConfig),
-      concatMap(({ dashboardId, dashboardConfig }) => {
+      concatMap(({ dashboardName, dashboardConfig }) => {
         return this.dashboardService.getRemoteDashboardConfig(dashboardConfig).pipe(
           map((dashboardConfig) => {
-            this.store.dispatch(dashboardActions.loadDashboardConfigSuccess({ dashboardId, dashboardConfig }));
-            return dashboardActions.loadDashboardOptions({ dashboardId, dashboardConfig });
+            this.store.dispatch(dashboardActions.loadDashboardConfigSuccess({ dashboardName, dashboardConfig }));
+            return dashboardActions.loadDashboardOptions({ dashboardName, dashboardConfig });
           }),
         );
       }),
@@ -30,10 +30,10 @@ export class GnroDashboardEffects {
   loadDashboardOptions$ = createEffect(() =>
     this.actions$.pipe(
       ofType(dashboardActions.loadDashboardOptions),
-      concatMap(({ dashboardId, dashboardConfig }) => {
+      concatMap(({ dashboardName, dashboardConfig }) => {
         return this.dashboardService.getDashboardOptions(dashboardConfig).pipe(
           map((options) => {
-            return dashboardActions.loadDashboardOptionsSuccess({ dashboardId, options });
+            return dashboardActions.loadDashboardOptionsSuccess({ dashboardName, options });
           }),
         );
       }),
@@ -45,8 +45,8 @@ export class GnroDashboardEffects {
     this.actions$.pipe(
       ofType(dashboardActions.clearStore),
       delay(250), // wait 250 after destory the component to clear data store
-      mergeMap(({ dashboardId }) =>
-        of(dashboardId).pipe(map((dashboardId) => dashboardActions.removeStore({ dashboardId }))),
+      mergeMap(({ dashboardName }) =>
+        of(dashboardName).pipe(map((dashboardName) => dashboardActions.removeStore({ dashboardName }))),
       ),
     ),
   );

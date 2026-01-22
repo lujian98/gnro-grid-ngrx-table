@@ -1,113 +1,122 @@
-import { GnroOnAction } from '@gnro/ui/core';
-import { createFeature, createReducer, on } from '@ngrx/store';
-import { DashboardState, defaultDashboardState } from '../models/dashboard.model';
+import { Action, createReducer, on } from '@ngrx/store';
+import { defaultDashboardState, GnroDashboardState } from '../models/dashboard.model';
 import { viewportConfig, viewportSetting } from '../utils/viewport-setting';
 import { dashboardActions } from './dashboard.actions';
 
-const initialState = <T>(): DashboardState<T> => ({});
+// Feature key generator for per-dashboardName feature slices
+export function getDashboardFeatureKey(dashboardName: string): string {
+  return `dashboard_${dashboardName}`;
+}
 
-export const gnroDashboardOnActions: GnroOnAction<DashboardState<unknown>>[] = [
-  on(dashboardActions.initConfig, (state, action) => {
-    const dashboardConfig = { ...action.dashboardConfig };
-    const key = action.dashboardId;
-    const newState = { ...state };
-    const setting = {
-      ...defaultDashboardState().dashboardSetting,
-      dashboardId: action.dashboardId,
-      viewportReady: !dashboardConfig.remoteConfig,
-    };
-    newState[key] = {
-      ...defaultDashboardState(),
-      dashboardConfig,
-      dashboardSetting: viewportSetting(dashboardConfig, setting),
-    };
-    return { ...newState };
-  }),
-  on(dashboardActions.loadConfigSuccess, (state, action) => {
-    const dashboardConfig = { ...action.dashboardConfig };
-    const key = action.dashboardId;
-    const newState = { ...state };
-    if (state[key]) {
+// Initial state factory for per-dashboardName state
+export function getInitialDashboardState<T>(dashboardName: string): GnroDashboardState<T> {
+  return {
+    ...defaultDashboardState(),
+    dashboardConfig: {
+      ...defaultDashboardState().dashboardConfig,
+      dashboardName,
+    },
+  };
+}
+
+// Cache for reducers by dashboardName
+const dashboardReducersByFeature = new Map<
+  string,
+  (state: GnroDashboardState<unknown> | undefined, action: Action) => GnroDashboardState<unknown>
+>();
+
+// Factory function to create per-dashboardName reducers
+export function createDashboardReducerForFeature(dashboardName: string) {
+  // Return cached reducer if available
+  const cached = dashboardReducersByFeature.get(dashboardName);
+  if (cached) {
+    return cached;
+  }
+
+  const initialState = getInitialDashboardState<unknown>(dashboardName);
+
+  const dashboardReducer = createReducer(
+    initialState,
+    on(dashboardActions.initConfig, (state, action) => {
+      if (action.dashboardName !== dashboardName) return state;
+      const dashboardConfig = { ...action.dashboardConfig };
+      // Always start from fresh initial state to avoid stale data
+      const freshState = getInitialDashboardState<unknown>(dashboardName);
       const setting = {
-        ...state[key].dashboardSetting,
-        viewportReady: true,
+        ...freshState.dashboardSetting,
+        viewportReady: !dashboardConfig.remoteConfig,
       };
-      newState[key] = {
-        ...state[key],
+      return {
+        ...freshState,
         dashboardConfig,
         dashboardSetting: viewportSetting(dashboardConfig, setting),
       };
-    }
-    return { ...newState };
-  }),
-  on(dashboardActions.loadOptions, (state, action) => {
-    const key = action.dashboardId;
-    const newState = { ...state };
-    if (state[key]) {
-      newState[key] = {
-        ...state[key],
-        dashboardSetting: {
-          ...state[key].dashboardSetting,
-          viewportReady: true,
-        },
-        options: [...action.options],
+    }),
+    on(dashboardActions.loadConfigSuccess, (state, action) => {
+      if (action.dashboardName !== dashboardName) return state;
+      const dashboardConfig = { ...action.dashboardConfig };
+      const setting = {
+        ...state.dashboardSetting,
+        viewportReady: true,
       };
-    }
-    return { ...newState };
-  }),
-  on(dashboardActions.loadTilesSuccess, (state, action) => {
-    const key = action.dashboardId;
-    const newState = { ...state };
-    if (state[key]) {
-      newState[key] = {
-        ...state[key],
-        dashboardSetting: {
-          ...state[key].dashboardSetting,
-          viewportReady: true,
-        },
-        tiles: [...action.tiles],
-      };
-    }
-    return { ...newState };
-  }),
-  on(dashboardActions.setGridViewport, (state, action) => {
-    const key = action.dashboardId;
-    const newState = { ...state };
-    if (state[key]) {
-      const oldState = state[key];
-      const dashboardConfig = viewportConfig(oldState.dashboardConfig, action.width, action.height);
-      newState[key] = {
-        ...state[key],
+      return {
+        ...state,
         dashboardConfig,
-        dashboardSetting: viewportSetting(dashboardConfig, state[key].dashboardSetting),
+        dashboardSetting: viewportSetting(dashboardConfig, setting),
       };
-    }
-    return { ...newState };
-  }),
-  on(dashboardActions.loadGridMapAndTiles, (state, action) => {
-    const key = action.dashboardId;
-    const newState = { ...state };
-    if (state[key]) {
-      newState[key] = {
-        ...state[key],
+    }),
+    on(dashboardActions.loadOptions, (state, action) => {
+      if (action.dashboardName !== dashboardName) return state;
+      return {
+        ...state,
         dashboardSetting: {
-          ...state[key].dashboardSetting,
+          ...state.dashboardSetting,
+          viewportReady: true,
+        },
+        options: [...action.options] as GnroDashboardState<unknown>['options'],
+      };
+    }),
+    on(dashboardActions.loadTilesSuccess, (state, action) => {
+      if (action.dashboardName !== dashboardName) return state;
+      return {
+        ...state,
+        dashboardSetting: {
+          ...state.dashboardSetting,
+          viewportReady: true,
+        },
+        tiles: [...action.tiles] as GnroDashboardState<unknown>['tiles'],
+      };
+    }),
+    on(dashboardActions.setGridViewport, (state, action) => {
+      if (action.dashboardName !== dashboardName) return state;
+      const dashboardConfig = viewportConfig(state.dashboardConfig, action.width, action.height);
+      return {
+        ...state,
+        dashboardConfig,
+        dashboardSetting: viewportSetting(dashboardConfig, state.dashboardSetting),
+      };
+    }),
+    on(dashboardActions.loadGridMapAndTiles, (state, action) => {
+      if (action.dashboardName !== dashboardName) return state;
+      return {
+        ...state,
+        dashboardSetting: {
+          ...state.dashboardSetting,
           gridMap: action.gridMap,
         },
-        tiles: action.tiles,
+        tiles: action.tiles as GnroDashboardState<unknown>['tiles'],
       };
-    }
-    return { ...newState };
-  }),
-  on(dashboardActions.removeStore, (state, action) => {
-    const key = action.dashboardId;
-    const newState = { ...state };
-    if (state[key]) {
-      delete newState[key];
-    }
-    return { ...newState };
-  }),
-];
+    }),
+    on(dashboardActions.removeStore, (state, action) => {
+      if (action.dashboardName !== dashboardName) return state;
+      return getInitialDashboardState<unknown>(dashboardName);
+    }),
+  );
 
-export const gnroDashboardReducer = createReducer(initialState(), ...gnroDashboardOnActions);
-export const gnroDashboardFeature = createFeature({ name: 'gnroDashboard', reducer: gnroDashboardReducer });
+  const reducerFn = (state: GnroDashboardState<unknown> | undefined, action: Action): GnroDashboardState<unknown> => {
+    return dashboardReducer(state, action);
+  };
+
+  dashboardReducersByFeature.set(dashboardName, reducerFn);
+  return reducerFn;
+}

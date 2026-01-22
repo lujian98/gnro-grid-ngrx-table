@@ -3,13 +3,14 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  computed,
   ElementRef,
   HostListener,
   inject,
   input,
   OnDestroy,
 } from '@angular/core';
-import { GnroButtonConfg, GnroBUTTONS, uniqueId } from '@gnro/ui/core';
+import { GnroButtonConfg, GnroBUTTONS } from '@gnro/ui/core';
 import { GnroLayoutComponent, GnroLayoutHeaderComponent } from '@gnro/ui/layout';
 import { GnroDashboardStateModule } from './+state/dashboard-state.module';
 import { GnroDashboardFacade } from './+state/dashboard.facade';
@@ -38,22 +39,18 @@ import {
 export class GnroDashboardComponent<T> implements AfterViewInit, OnDestroy {
   private readonly elementRef = inject(ElementRef);
   private readonly dashboardFacade = inject(GnroDashboardFacade);
-  private readonly dashboardId = `dashbard-${uniqueId()}`;
-  config$ = this.dashboardFacade.getDashboardConfig(this.dashboardId);
-  setting$ = this.dashboardFacade.getSetting(this.dashboardId);
-  tiles$ = this.dashboardFacade.getTiles(this.dashboardId);
   buttons: GnroButtonConfg[] = [GnroBUTTONS.Add, GnroBUTTONS.Remove];
 
-  config = input.required({
+  config = input(defaultDashboardConfig, {
     transform: (value: Partial<GnroDashboardConfig>) => {
       const config = { ...defaultDashboardConfig, ...value };
-      this.dashboardFacade.setConfig(this.dashboardId, config);
+      this.initDashboardConfig(config);
       return config;
     },
   });
   options = input([], {
     transform: (options: GnroTileOption<T>[]) => {
-      this.dashboardFacade.setOptions(this.dashboardId, options);
+      this.dashboardFacade.setOptions(this.config().dashboardName, options);
       return options;
     },
   });
@@ -61,14 +58,18 @@ export class GnroDashboardComponent<T> implements AfterViewInit, OnDestroy {
     transform: (items: GnroTile<T>[]) => {
       const tiles = items.map((tile) => ({ ...defaultTileConfig, ...tile }));
       if (!this.config().remoteTiles) {
-        this.dashboardFacade.setTiles(this.dashboardId, tiles);
+        this.dashboardFacade.setTiles(this.config().dashboardName, tiles);
       }
       return tiles;
     },
   });
 
-  constructor() {
-    this.dashboardFacade.initConfig(this.dashboardId, defaultDashboardConfig);
+  config$ = computed(() => this.dashboardFacade.getDashboardConfig(this.config().dashboardName)());
+  setting$ = computed(() => this.dashboardFacade.getSetting(this.config().dashboardName)());
+  tiles$ = computed(() => this.dashboardFacade.getTiles(this.config().dashboardName)());
+
+  private initDashboardConfig(config: GnroDashboardConfig): void {
+    this.dashboardFacade.initConfig(config.dashboardName, config);
   }
 
   ngAfterViewInit(): void {
@@ -83,12 +84,12 @@ export class GnroDashboardComponent<T> implements AfterViewInit, OnDestroy {
     if (node) {
       const width = node.clientWidth - 0; // - padding left/right,
       const height = node.clientHeight - 30;
-      this.dashboardFacade.setGridViewport(this.dashboardId, width, height);
+      this.dashboardFacade.setGridViewport(this.config().dashboardName, width, height);
     }
   }
 
   ngOnDestroy(): void {
-    this.dashboardFacade.clearStore(this.dashboardId);
+    this.dashboardFacade.clearStore(this.config().dashboardName);
   }
 
   @HostListener('window:resize', ['$event'])

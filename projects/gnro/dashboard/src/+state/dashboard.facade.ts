@@ -2,52 +2,59 @@ import { Injectable, inject, Signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { GnroDashboardConfig, GnroDashboardSetting, GnroTile, GnroTileOption } from '../models/dashboard.model';
 import { dashboardActions } from './dashboard.actions';
-import { selectDashboardConfig, selectDashboardSetting, selectDashboardTiles } from './dashboard.selectors';
+import { createDashboardSelectorsForFeature } from './dashboard.selectors';
+import { GnroDashboardFeatureService } from './dashboard-state.module';
 
 @Injectable({ providedIn: 'root' })
 export class GnroDashboardFacade {
   private readonly store = inject(Store);
+  private readonly dashboardFeatureService = inject(GnroDashboardFeatureService);
 
-  initConfig(dashboardId: string, dashboardConfig: GnroDashboardConfig): void {
-    this.store.dispatch(dashboardActions.initConfig({ dashboardId, dashboardConfig }));
+  initConfig(dashboardName: string, dashboardConfig: GnroDashboardConfig): void {
+    // Register feature dynamically before dispatching actions
+    this.dashboardFeatureService.registerFeature(dashboardName);
+    this.store.dispatch(dashboardActions.initConfig({ dashboardName, dashboardConfig }));
     if (dashboardConfig.remoteConfig) {
-      this.store.dispatch(dashboardActions.loadRemoteConfig({ dashboardId, dashboardConfig }));
+      this.store.dispatch(dashboardActions.loadRemoteConfig({ dashboardName, dashboardConfig }));
     }
   }
 
-  setConfig(dashboardId: string, dashboardConfig: GnroDashboardConfig): void {
-    this.store.dispatch(dashboardActions.loadConfigSuccess({ dashboardId, dashboardConfig }));
+  setConfig(dashboardName: string, dashboardConfig: GnroDashboardConfig): void {
+    this.store.dispatch(dashboardActions.loadConfigSuccess({ dashboardName, dashboardConfig }));
   }
 
-  setOptions<T>(dashboardId: string, options: GnroTileOption<T>[]): void {
-    this.store.dispatch(dashboardActions.loadOptions({ dashboardId, options }));
+  setOptions<T>(dashboardName: string, options: GnroTileOption<T>[]): void {
+    this.store.dispatch(dashboardActions.loadOptions({ dashboardName, options }));
   }
 
-  setTiles<T>(dashboardId: string, tiles: GnroTile<T>[]): void {
-    this.store.dispatch(dashboardActions.loadTilesSuccess({ dashboardId, tiles }));
+  setTiles<T>(dashboardName: string, tiles: GnroTile<T>[]): void {
+    this.store.dispatch(dashboardActions.loadTilesSuccess({ dashboardName, tiles }));
   }
 
-  loadGridMapTiles<T>(dashboardId: string, gridMap: number[][], tiles: GnroTile<T>[]): void {
-    this.store.dispatch(dashboardActions.loadGridMapAndTiles({ dashboardId, gridMap, tiles }));
+  loadGridMapTiles<T>(dashboardName: string, gridMap: number[][], tiles: GnroTile<T>[]): void {
+    this.store.dispatch(dashboardActions.loadGridMapAndTiles({ dashboardName, gridMap, tiles }));
   }
 
-  setGridViewport(dashboardId: string, width: number, height: number): void {
-    this.store.dispatch(dashboardActions.setGridViewport({ dashboardId, width, height }));
+  setGridViewport(dashboardName: string, width: number, height: number): void {
+    this.store.dispatch(dashboardActions.setGridViewport({ dashboardName, width, height }));
   }
 
-  clearStore(dashboardId: string): void {
-    this.store.dispatch(dashboardActions.clearStore({ dashboardId }));
+  clearStore(dashboardName: string): void {
+    this.store.dispatch(dashboardActions.clearStore({ dashboardName }));
   }
 
-  getSetting(dashboardId: string): Signal<GnroDashboardSetting> {
-    return this.store.selectSignal(selectDashboardSetting(dashboardId));
+  getSetting(dashboardName: string): Signal<GnroDashboardSetting> {
+    const selectors = createDashboardSelectorsForFeature(dashboardName);
+    return this.store.selectSignal(selectors.selectDashboardSetting);
   }
 
-  getDashboardConfig(dashboardId: string): Signal<GnroDashboardConfig> {
-    return this.store.selectSignal(selectDashboardConfig(dashboardId));
+  getDashboardConfig(dashboardName: string): Signal<GnroDashboardConfig> {
+    const selectors = createDashboardSelectorsForFeature(dashboardName);
+    return this.store.selectSignal(selectors.selectDashboardConfig);
   }
 
-  getTiles<T>(dashboardId: string): Signal<GnroTile<T>[]> {
-    return this.store.selectSignal(selectDashboardTiles(dashboardId)) as Signal<GnroTile<T>[]>;
+  getTiles<T>(dashboardName: string): Signal<GnroTile<T>[]> {
+    const selectors = createDashboardSelectorsForFeature(dashboardName);
+    return this.store.selectSignal(selectors.selectDashboardTiles) as Signal<GnroTile<T>[]>;
   }
 }

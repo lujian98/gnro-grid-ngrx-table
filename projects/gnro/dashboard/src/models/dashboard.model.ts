@@ -26,8 +26,7 @@ export const defaultDashboardConfig: GnroDashboardConfig = {
 
 export interface GnroDashboardSetting {
   // for internal setting
-  dashboardId: string;
-  viewportReady: boolean; //not used
+  viewportReady: boolean;
   gridTemplateColumns: string;
   gridTemplateRows: string;
   gridMap: number[][];
@@ -69,7 +68,6 @@ export interface GnroDashboardState<T> {
 }
 
 export const defaultDashboardSetting: GnroDashboardSetting = {
-  dashboardId: '191cf2bb6b5',
   viewportReady: false,
   gridTemplateColumns: '',
   gridTemplateRows: '',
