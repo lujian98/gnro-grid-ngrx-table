@@ -22,22 +22,8 @@ export interface GnroD3DataResponse<T> {
   d3Data: T[];
 }
 
-// for internal grid setting
-export interface GnroD3Setting {
-  d3Id: string; // auto generated unique id
-}
-
-export const defaultD3Setting: GnroD3Setting = {
-  d3Id: '191cf2bb6b5', // auto generated unique id
-};
-
-export interface D3State<T> {
-  [key: string]: GnroD3State<T>;
-}
-
 export interface GnroD3State<T> {
   d3Config: GnroD3Config;
-  d3Setting: GnroD3Setting;
   chartConfigs: GnroD3ChartConfig[];
   data: T[] | undefined;
 }
@@ -55,7 +41,6 @@ export const defaultD3Config: GnroD3Config = {
 export function defaultD3State<T>(): GnroD3State<T> {
   return {
     d3Config: defaultD3Config,
-    d3Setting: defaultD3Setting,
     chartConfigs: [],
     data: undefined,
   };

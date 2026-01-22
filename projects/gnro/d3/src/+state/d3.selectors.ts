@@ -1,28 +1,45 @@
-import { createSelector } from '@ngrx/store';
-import { D3State, defaultD3State } from '../models/d3.model';
+import { createFeatureSelector, createSelector, MemoizedSelector } from '@ngrx/store';
+import { defaultD3State, GnroD3Config, GnroD3State } from '../models/d3.model';
+import { GnroD3ChartConfig } from '../models/options.model';
+import { getD3FeatureKey } from './d3.reducer';
 
-export interface AppD3State<T> {
-  gnroD3: D3State<T>;
+// Selector types for the factory
+export interface D3Selectors {
+  selectD3Config: MemoizedSelector<object, GnroD3Config>;
+  selectD3ChartConfigs: MemoizedSelector<object, GnroD3ChartConfig[]>;
+  selectD3Data: MemoizedSelector<object, unknown[] | undefined>;
 }
 
-export const featureSelector = <T>(state: AppD3State<T>) => state.gnroD3;
+// Cache for selectors by d3ChartName
+const d3SelectorsByFeature = new Map<string, D3Selectors>();
 
-export const selectD3Setting = (d3Id: string) =>
-  createSelector(featureSelector, (state) => {
-    return state && state[d3Id] ? state[d3Id].d3Setting : defaultD3State().d3Setting;
-  });
+// Factory function to create per-d3ChartName selectors with memoization
+export function createD3SelectorsForFeature(d3ChartName: string): D3Selectors {
+  // Return cached selectors if available
+  const cached = d3SelectorsByFeature.get(d3ChartName);
+  if (cached) {
+    return cached;
+  }
 
-export const selectD3Config = (d3Id: string) =>
-  createSelector(featureSelector, (state) => {
-    return state && state[d3Id] ? state[d3Id].d3Config : defaultD3State().d3Config;
-  });
+  const featureKey = getD3FeatureKey(d3ChartName);
+  const selectD3FeatureState = createFeatureSelector<GnroD3State<unknown>>(featureKey);
 
-export const selectD3ChartConfigs = (d3Id: string) =>
-  createSelector(featureSelector, (state) => {
-    return state && state[d3Id] && state[d3Id].chartConfigs.length > 0 ? state[d3Id].chartConfigs : [];
-  });
+  const selectD3Config = createSelector(selectD3FeatureState, (state) =>
+    state ? state.d3Config : defaultD3State().d3Config,
+  );
 
-export const selectD3Data = (d3Id: string) =>
-  createSelector(featureSelector, (state) => {
-    return state && state[d3Id] ? state[d3Id].data : [];
-  });
+  const selectD3ChartConfigs = createSelector(selectD3FeatureState, (state) =>
+    state && state.chartConfigs.length > 0 ? state.chartConfigs : [],
+  );
+
+  const selectD3Data = createSelector(selectD3FeatureState, (state) => (state ? state.data : []));
+
+  const selectors: D3Selectors = {
+    selectD3Config,
+    selectD3ChartConfigs,
+    selectD3Data,
+  };
+
+  d3SelectorsByFeature.set(d3ChartName, selectors);
+  return selectors;
+}

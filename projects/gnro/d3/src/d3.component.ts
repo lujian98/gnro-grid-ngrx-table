@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, OnDestroy, inject, input } from '@angular/core';
 import { GnroD3StateModule } from './+state/d3-state.module';
-import { uniqueId } from '@gnro/ui/core';
 import { GnroD3Facade } from './+state/d3.facade';
 import { GnroD3ViewComponent } from './components/d3-view.component';
 import { GnroD3ChartConfig } from './models';
@@ -15,16 +14,11 @@ import { GnroD3Config, defaultD3Config } from './models/d3.model';
 })
 export class GnroD3Component<T> implements OnDestroy {
   private readonly d3Facade = inject(GnroD3Facade);
-  private d3Id = `d3-${uniqueId()}`;
-  d3Config$ = this.d3Facade.getConfig(this.d3Id);
-  d3Setting$ = this.d3Facade.getSetting(this.d3Id);
-  chartConfigs$ = this.d3Facade.getChartConfigs(this.d3Id);
-  data$ = this.d3Facade.getData(this.d3Id);
 
   d3Config = input(defaultD3Config, {
     transform: (value: Partial<GnroD3Config>) => {
       const config = { ...defaultD3Config, ...value };
-      this.initChartConfigs(config);
+      this.initD3Config(config);
       return config;
     },
   });
@@ -32,29 +26,30 @@ export class GnroD3Component<T> implements OnDestroy {
   chartConfigs = input([], {
     transform: (chartConfigs: GnroD3ChartConfig[]) => {
       if (!this.d3Config().remoteChartConfigs && chartConfigs.length > 0) {
-        this.d3Facade.setChartConfigs(this.d3Id, this.d3Config(), [...chartConfigs]);
+        this.d3Facade.setChartConfigs(this.d3Config().d3ChartName, this.d3Config(), [...chartConfigs]);
       }
       return chartConfigs;
     },
   });
+
   data = input([], {
     transform: (data: T[]) => {
       if (!this.d3Config().remoteD3Data && data) {
-        this.d3Facade.setData(this.d3Id, this.d3Config(), data);
+        this.d3Facade.setData(this.d3Config().d3ChartName, this.d3Config(), data);
       }
       return data;
     },
   });
 
-  constructor() {
-    this.initChartConfigs(defaultD3Config);
-  }
+  d3Config$ = computed(() => this.d3Facade.getConfig(this.d3Config().d3ChartName)());
+  chartConfigs$ = computed(() => this.d3Facade.getChartConfigs(this.d3Config().d3ChartName)());
+  data$ = computed(() => this.d3Facade.getData(this.d3Config().d3ChartName)());
 
-  private initChartConfigs(d3Config: GnroD3Config): void {
-    this.d3Facade.initConfig(this.d3Id, d3Config);
+  private initD3Config(config: GnroD3Config): void {
+    this.d3Facade.initConfig(config.d3ChartName, config);
   }
 
   ngOnDestroy(): void {
-    this.d3Facade.clearStore(this.d3Id);
+    this.d3Facade.clearStore(this.d3Config().d3ChartName);
   }
 }

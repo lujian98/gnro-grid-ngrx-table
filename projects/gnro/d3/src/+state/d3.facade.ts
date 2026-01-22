@@ -1,52 +1,55 @@
 import { Injectable, inject, Signal } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { GnroD3Config, GnroD3Setting } from '../models/d3.model';
+import { GnroD3Config } from '../models/d3.model';
 import { GnroD3ChartConfig } from '../models/options.model';
 import { d3Actions } from './d3.actions';
-import { selectD3Config, selectD3ChartConfigs, selectD3Data, selectD3Setting } from './d3.selectors';
+import { createD3SelectorsForFeature } from './d3.selectors';
+import { GnroD3FeatureService } from './d3-state.module';
 
 @Injectable({ providedIn: 'root' })
 export class GnroD3Facade {
   private readonly store = inject(Store);
+  private readonly d3FeatureService = inject(GnroD3FeatureService);
 
-  initConfig(d3Id: string, d3Config: GnroD3Config): void {
-    this.store.dispatch(d3Actions.initConfig({ d3Id, d3Config }));
+  initConfig(d3ChartName: string, d3Config: GnroD3Config): void {
+    // Register feature dynamically before dispatching actions
+    this.d3FeatureService.registerFeature(d3ChartName);
+    this.store.dispatch(d3Actions.initConfig({ d3ChartName, d3Config }));
 
     if (d3Config.remoteD3Config) {
-      this.store.dispatch(d3Actions.loadConfig({ d3Id, d3Config }));
+      this.store.dispatch(d3Actions.loadConfig({ d3ChartName, d3Config }));
     } else if (d3Config.remoteChartConfigs) {
-      this.store.dispatch(d3Actions.loadChartConfigs({ d3Id, d3Config }));
+      this.store.dispatch(d3Actions.loadChartConfigs({ d3ChartName, d3Config }));
     }
   }
 
-  setChartConfigs(d3Id: string, d3Config: GnroD3Config, chartConfigs: GnroD3ChartConfig[]): void {
-    this.store.dispatch(d3Actions.loadChartConfigsSuccess({ d3Id, d3Config, chartConfigs }));
+  setChartConfigs(d3ChartName: string, d3Config: GnroD3Config, chartConfigs: GnroD3ChartConfig[]): void {
+    this.store.dispatch(d3Actions.loadChartConfigsSuccess({ d3ChartName, d3Config, chartConfigs }));
     if (d3Config.remoteD3Data) {
-      this.store.dispatch(d3Actions.getData({ d3Id, d3Config }));
+      this.store.dispatch(d3Actions.getData({ d3ChartName, d3Config }));
     }
   }
 
-  setData<T>(d3Id: string, d3Config: GnroD3Config, data: T[]): void {
-    this.store.dispatch(d3Actions.getDataSuccess({ d3Id, d3Config, data }));
+  setData<T>(d3ChartName: string, d3Config: GnroD3Config, data: T[]): void {
+    this.store.dispatch(d3Actions.getDataSuccess({ d3ChartName, d3Config, data }));
   }
 
-  clearStore(d3Id: string): void {
-    this.store.dispatch(d3Actions.clearStore({ d3Id }));
+  clearStore(d3ChartName: string): void {
+    this.store.dispatch(d3Actions.clearStore({ d3ChartName }));
   }
 
-  getConfig(d3Id: string): Signal<GnroD3Config> {
-    return this.store.selectSignal(selectD3Config(d3Id));
+  getConfig(d3ChartName: string): Signal<GnroD3Config> {
+    const selectors = createD3SelectorsForFeature(d3ChartName);
+    return this.store.selectSignal(selectors.selectD3Config);
   }
 
-  getSetting(d3Id: string): Signal<GnroD3Setting> {
-    return this.store.selectSignal(selectD3Setting(d3Id));
+  getChartConfigs(d3ChartName: string): Signal<GnroD3ChartConfig[]> {
+    const selectors = createD3SelectorsForFeature(d3ChartName);
+    return this.store.selectSignal(selectors.selectD3ChartConfigs);
   }
 
-  getChartConfigs(d3Id: string): Signal<GnroD3ChartConfig[]> {
-    return this.store.selectSignal(selectD3ChartConfigs(d3Id));
-  }
-
-  getData<T>(d3Id: string): Signal<T[]> {
-    return this.store.selectSignal(selectD3Data(d3Id)) as Signal<T[]>;
+  getData<T>(d3ChartName: string): Signal<T[]> {
+    const selectors = createD3SelectorsForFeature(d3ChartName);
+    return this.store.selectSignal(selectors.selectD3Data) as Signal<T[]>;
   }
 }

@@ -1,17 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { GnroD3ChartConfig, GnroD3Options, GnroD3Component } from '@gnro/ui/d3';
+import { GnroD3ChartConfig, GnroD3Options, GnroD3Component, GnroD3Config, defaultD3Config } from '@gnro/ui/d3';
 import * as d3TimeFormat from 'd3-time-format';
 
 @Component({
   selector: 'app-stock-chart',
   styles: [':host { width: 100%; height: 100%; display: flex; flex-direction: column;}'],
-  template: ` <gnro-d3 [chartConfigs]="chartConfigs" [data]="stockData"></gnro-d3> `,
+  template: ` <gnro-d3 [d3Config]="d3Config" [chartConfigs]="chartConfigs" [data]="stockData"></gnro-d3> `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, GnroD3Component],
 })
 export class AppStockChartComponent implements OnInit {
   stockData: any[] = [];
+  d3Config: GnroD3Config = defaultD3Config;
   chartConfigs: GnroD3ChartConfig[] = [
     {
       chartType: 'lineChart',

@@ -11,8 +11,8 @@ import { GnroD3ChartConfig, GnroD3Options, GnroD3Component, defaultD3Config } fr
       <gnro-d3 [d3Config]="d3Config2" [chartConfigs]="chartConfigs2" [data]="data"></gnro-d3>
     </div>
     <div style="height: 100%; display: flex; margin-top: 20px;">
-      <gnro-d3 [chartConfigs]="chartConfigs3" [data]="data"></gnro-d3>
-      <gnro-d3 [chartConfigs]="chartConfigs4" [data]="data"></gnro-d3>
+      <gnro-d3 [d3Config]="d3Config3" [chartConfigs]="chartConfigs3" [data]="data"></gnro-d3>
+      <gnro-d3 [d3Config]="d3Config4" [chartConfigs]="chartConfigs4" [data]="data"></gnro-d3>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -26,6 +26,7 @@ export class AppLineChartDemoComponent implements OnInit {
 
   d3Config1 = {
     //...defaultD3Config,
+    d3ChartName: 'line-chart-1',
     options: this.options,
   };
 
@@ -35,6 +36,7 @@ export class AppLineChartDemoComponent implements OnInit {
 
   d3Config2 = {
     //...defaultD3Config,
+    d3ChartName: 'line-chart-2',
     options: this.options2,
   };
 
@@ -100,6 +102,10 @@ export class AppLineChartDemoComponent implements OnInit {
     },
   ];
 
+  d3Config3 = {
+    d3ChartName: 'line-chart-3',
+  };
+
   chartConfigs3: GnroD3ChartConfig[] = [
     {
       chartType: 'lineChart',
@@ -130,6 +136,9 @@ export class AppLineChartDemoComponent implements OnInit {
       chartType: 'areaChart',
     },
   ];
+  d3Config4 = {
+    d3ChartName: 'line-chart-4',
+  };
 
   chartConfigs4: GnroD3ChartConfig[] = [
     {
