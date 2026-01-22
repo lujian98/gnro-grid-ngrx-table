@@ -1,20 +1,30 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { GnroD3ChartConfig, GnroD3Options, GnroD3Component } from '@gnro/ui/d3';
+import { GnroD3ChartConfig, GnroD3Options, GnroD3Component, defaultD3Config } from '@gnro/ui/d3';
 
 @Component({
   selector: 'app-radial-gauge-demo',
   styles: [':host { width: 100%; height: 100%; display: flex; flex-direction: column;}'],
   template: `
     <div style="height: 100%; display: flex;">
-      <gnro-d3 [chartConfigs]="chartConfigs" [data]="data"></gnro-d3>
-      <gnro-d3 [chartConfigs]="chartConfigs2" [data]="data2"></gnro-d3>
+      <gnro-d3 [d3Config]="d3config" [chartConfigs]="chartConfigs" [data]="data"></gnro-d3>
+      <gnro-d3 [d3Config]="d3config2" [chartConfigs]="chartConfigs2" [data]="data2"></gnro-d3>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, GnroD3Component],
 })
 export class AppRadialGaugeDemoComponent implements OnInit {
+  d3config = {
+    ...defaultD3Config,
+    chartName: 'radial-gauge',
+  };
+
+  d3config2 = {
+    ...defaultD3Config,
+    chartName: 'radial-gauge-2',
+  };
+
   chartConfigs: GnroD3ChartConfig[] = [
     {
       chartType: 'radialGauge',

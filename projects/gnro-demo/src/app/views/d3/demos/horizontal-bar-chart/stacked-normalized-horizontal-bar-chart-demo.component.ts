@@ -7,11 +7,15 @@ import { POPULATION } from '../../data/population2';
 @Component({
   selector: 'app-stacked-horizontal-bar-chart-demo',
   styles: [':host {width: 100%; height: 100%; display: flex;}'],
-  template: ` <gnro-d3 [chartConfigs]="chartConfigs" [data]="data"></gnro-d3> `,
+  template: ` <gnro-d3 [d3Config]="d3config" [chartConfigs]="chartConfigs" [data]="data"></gnro-d3> `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, GnroD3Component],
 })
 export class AppStackedNormalizedHorizontalBarDemoComponent implements OnInit {
+  d3config = {
+    ...defaultD3Config,
+    chartName: 'stacked-normalized-horizontal-bar-chart',
+  };
   chartConfigs: GnroD3ChartConfig[] = [
     {
       chartType: 'stackedNormalizedHorizontalBarChart',

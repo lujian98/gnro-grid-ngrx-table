@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { GnroD3ChartConfig, GnroD3Options, GnroD3Component } from '@gnro/ui/d3';
+import { GnroD3ChartConfig, GnroD3Options, GnroD3Component, defaultD3Config } from '@gnro/ui/d3';
 import * as d3Scale from 'd3-scale';
 import * as d3Interpolate from 'd3-interpolate';
 
@@ -9,12 +9,12 @@ import * as d3Interpolate from 'd3-interpolate';
   styles: [':host { width: 100%; height: 100%; display: flex; flex-direction: column;}'],
   template: `
     <div style="height: 100%; display: flex;">
-      <gnro-d3 [chartConfigs]="chartConfigs" [data]="data"></gnro-d3>
-      <gnro-d3 [chartConfigs]="chartConfigs2" [data]="data2"></gnro-d3>
+      <gnro-d3 [d3Config]="d3config" [chartConfigs]="chartConfigs" [data]="data"></gnro-d3>
+      <gnro-d3 [d3Config]="d3config2" [chartConfigs]="chartConfigs2" [data]="data2"></gnro-d3>
     </div>
     <div style="height: 100%; display: flex; margin-top: 20px;">
-      <gnro-d3 [chartConfigs]="chartConfigs4" [data]="data4"></gnro-d3>
-      <gnro-d3 [chartConfigs]="chartConfigs3" [data]="data3"></gnro-d3>
+      <gnro-d3 [d3Config]="d3config4" [chartConfigs]="chartConfigs4" [data]="data4"></gnro-d3>
+      <gnro-d3 [d3Config]="d3config3" [chartConfigs]="chartConfigs3" [data]="data3"></gnro-d3>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,6 +23,18 @@ import * as d3Interpolate from 'd3-interpolate';
 export class AppRadialGaugeDemo2Component implements OnInit {
   colorRange: any = ['green', 'orange'];
   interpolate: any = d3Interpolate.interpolateRgb;
+  d3config = {
+    ...defaultD3Config,
+    chartName: 'radial-gauge',
+  };
+
+  d3config2 = {
+    ...defaultD3Config,
+    chartName: 'radial-gauge-2',
+  };
+  d3config3 = { ...defaultD3Config, chartName: 'radial-gauge-3' };
+  d3config4 = { ...defaultD3Config, chartName: 'radial-gauge-4' };
+
   chartConfigs: GnroD3ChartConfig[] = [
     {
       chartType: 'radialGauge',

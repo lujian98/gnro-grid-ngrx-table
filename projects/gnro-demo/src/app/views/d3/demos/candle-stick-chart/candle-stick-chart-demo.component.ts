@@ -1,19 +1,29 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { GnroD3ChartConfig, GnroD3Options, GnroD3Component } from '@gnro/ui/d3';
+import { GnroD3ChartConfig, GnroD3Options, GnroD3Component, defaultD3Config } from '@gnro/ui/d3';
 import * as d3TimeFormat from 'd3-time-format';
 
 @Component({
   selector: 'app-candle-stick-chart-demo',
   styles: [':host { width: 100%; height: 100%; display: flex; flex-direction: column;}'],
   template: `
-    <gnro-d3 [chartConfigs]="chartConfigs" [data]="data"></gnro-d3>
-    <gnro-d3 [chartConfigs]="chartConfigs2" [data]="data"></gnro-d3>
+    <gnro-d3 [d3Config]="d3config" [chartConfigs]="chartConfigs" [data]="data"></gnro-d3>
+    <gnro-d3 [d3Config]="d3config2" [chartConfigs]="chartConfigs2" [data]="data"></gnro-d3>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, GnroD3Component],
 })
 export class AppCandleStickChartDemoComponent implements OnInit {
+  d3config = {
+    ...defaultD3Config,
+    chartName: 'candle-stick-chart',
+  };
+
+  d3config2 = {
+    ...defaultD3Config,
+    chartName: 'candle-stick-chart-2',
+  };
+
   chartConfigs: GnroD3ChartConfig[] = [
     {
       chartType: 'candleStickBarChart',

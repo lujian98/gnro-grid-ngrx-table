@@ -1,19 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { GnroD3ChartConfig, GnroD3Component } from '@gnro/ui/d3';
+import { GnroD3ChartConfig, GnroD3Component, defaultD3Config, GnroD3Config } from '@gnro/ui/d3';
 import * as d3TimeFormat from 'd3-time-format';
 
 @Component({
   selector: 'app-stacked-area-chart-demo',
   styles: [':host { width: 100%; height: 100%; display: flex; flex-direction: column;}'],
   template: `
-    <gnro-d3 [chartConfigs]="chartConfigs" [data]="data"></gnro-d3>
-    <gnro-d3 [chartConfigs]="chartConfigs2" [data]="data"></gnro-d3>
+    <gnro-d3 [d3Config]="d3Config1" [chartConfigs]="chartConfigs" [data]="data"></gnro-d3>
+    <gnro-d3 [d3Config]="d3Config2" [chartConfigs]="chartConfigs2" [data]="data"></gnro-d3>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, GnroD3Component],
 })
 export class AppStackedAreaChartDemoComponent implements OnInit {
+  d3Config1: GnroD3Config = { ...defaultD3Config, d3ChartName: 'stacked-area-chart-1' };
+  d3Config2: GnroD3Config = { ...defaultD3Config, d3ChartName: 'stacked-area-chart-2' };
   chartConfigs: GnroD3ChartConfig[] = [
     {
       chartType: 'stackedAreaChart',

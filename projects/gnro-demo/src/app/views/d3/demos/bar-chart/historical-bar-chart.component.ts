@@ -10,7 +10,7 @@ import * as d3TimeFormat from 'd3-time-format';
   styles: [':host {width: 100%; height: 100%; display: flex; flex-direction: column;}'],
   template: `
     <gnro-d3 [d3Config]="d3Config" [chartConfigs]="chartConfigs" [data]="data"></gnro-d3>
-    <gnro-d3 [chartConfigs]="chartConfigs2" [data]="data2"></gnro-d3>
+    <gnro-d3 [d3Config]="d3Config2" [chartConfigs]="chartConfigs2" [data]="data2"></gnro-d3>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, GnroD3Component],
@@ -21,6 +21,7 @@ export class AppHistoricalBarChartComponent implements OnInit {
   };
   d3Config = {
     ...defaultD3Config,
+    chartName: 'historical-bar-chart',
     options: { ...this.options },
   };
   chartConfigs: GnroD3ChartConfig[] = [
@@ -41,6 +42,11 @@ export class AppHistoricalBarChartComponent implements OnInit {
     },
   ];
 
+  d3Config2 = {
+    ...defaultD3Config,
+    chartName: 'historical-bar-chart-2',
+    options: { ...this.options },
+  };
   chartConfigs2: GnroD3ChartConfig[] = [
     {
       chartType: 'barChart',

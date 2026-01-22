@@ -22,6 +22,7 @@ export class AppBulletChartDemoComponent implements OnInit {
 
   d3Config = {
     ...defaultD3Config,
+    chartName: 'bullet-chart',
     options: { ...this.options },
   };
 
@@ -45,6 +46,7 @@ export class AppBulletChartDemoComponent implements OnInit {
 
   d3Config2 = {
     ...defaultD3Config,
+    chartName: 'bullet-chart-2',
     options: { ...this.options2 },
   };
 
@@ -70,6 +72,7 @@ export class AppBulletChartDemoComponent implements OnInit {
   };
   d3Config3 = {
     ...defaultD3Config,
+    chartName: 'bullet-chart-3',
     options: { ...this.options3 },
   };
 

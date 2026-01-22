@@ -8,7 +8,7 @@ import { SAMPLE_DATA, SAMPLE_DATA1 } from '../../data';
   styles: [':host {width: 100%; height: 100%; display: flex; flex-direction: column;}'],
   template: `
     <gnro-d3 [d3Config]="d3Config" [chartConfigs]="chartConfigs" [data]="data"></gnro-d3>
-    <gnro-d3 [chartConfigs]="chartConfigs2" [data]="data"></gnro-d3>
+    <gnro-d3 [d3Config]="d3Config2" [chartConfigs]="chartConfigs2" [data]="data"></gnro-d3>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, GnroD3Component],
@@ -21,6 +21,12 @@ export class AppStackedBarChartDemoComponent implements OnInit {
   };
   d3Config = {
     ...defaultD3Config,
+    chartName: 'stacked-bar-chart',
+    options: { ...this.options },
+  };
+  d3Config2 = {
+    ...defaultD3Config,
+    chartName: 'stacked-bar-chart-2',
     options: { ...this.options },
   };
 

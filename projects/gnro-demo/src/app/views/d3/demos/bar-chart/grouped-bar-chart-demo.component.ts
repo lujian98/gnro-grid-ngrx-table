@@ -7,7 +7,7 @@ import { GnroD3ChartConfig, GnroD3Options, GnroD3Component, defaultD3Config } fr
   styles: [':host {width: 100%; height: 100%; display: flex; flex-direction: column;}'],
   template: `
     <gnro-d3 [d3Config]="d3Config" [chartConfigs]="chartConfigs" [data]="data"></gnro-d3>
-    <gnro-d3 [chartConfigs]="chartConfigs2" [data]="data2"></gnro-d3>
+    <gnro-d3 [d3Config]="d3Config2" [chartConfigs]="chartConfigs2" [data]="data2"></gnro-d3>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, GnroD3Component],
@@ -19,6 +19,7 @@ export class AppGroupedBarChartDemoComponent implements OnInit {
 
   d3Config = {
     ...defaultD3Config,
+    d3ChartName: 'grouped-bar-chart',
     options: { ...this.options },
   };
 
@@ -98,7 +99,7 @@ export class AppGroupedBarChartDemoComponent implements OnInit {
       colors: ['#98abc5', '#8a89a6', '#7b6888', '#6b486b', '#a05d56', '#d0743c', '#ff8c00'],
     },
   ];
-
+  d3Config2 = { ...defaultD3Config, d3ChartName: 'grouped-bar-chart-2' };
   chartConfigs2: GnroD3ChartConfig[] = [
     {
       chartType: 'groupedBarChart',

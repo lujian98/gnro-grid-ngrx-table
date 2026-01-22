@@ -6,13 +6,22 @@ import { GnroD3ChartConfig, GnroD3Options, GnroD3Component, defaultD3Config } fr
   selector: 'app-stacked-horizontal-bar-chart-demo',
   styles: [':host {width: 100%; height: 100%; display: flex;}'],
   template: `
-    <gnro-d3 [chartConfigs]="chartConfigs" [data]="data"></gnro-d3>
-    <gnro-d3 [chartConfigs]="chartConfigs2" [data]="data"></gnro-d3>
+    <gnro-d3 [d3Config]="d3config" [chartConfigs]="chartConfigs" [data]="data"></gnro-d3>
+    <gnro-d3 [d3Config]="d3config2" [chartConfigs]="chartConfigs2" [data]="data"></gnro-d3>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, GnroD3Component],
 })
 export class AppStackedHorizontalBarDemoComponent implements OnInit {
+  d3config = {
+    ...defaultD3Config,
+    chartName: 'stacked-horizontal-bar-chart',
+  };
+
+  d3config2 = {
+    ...defaultD3Config,
+    chartName: 'stacked-horizontal-bar-chart-2',
+  };
   chartConfigs: GnroD3ChartConfig[] = [
     {
       chartType: 'stackedHorizontalBarChart',

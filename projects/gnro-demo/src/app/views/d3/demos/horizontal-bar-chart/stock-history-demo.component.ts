@@ -23,6 +23,7 @@ export class AppStockHistoryDemoComponent<T> implements OnInit {
   };
   d3Config = {
     ...defaultD3Config,
+    chartName: 'stock-history',
     options: { ...this.options },
   };
 

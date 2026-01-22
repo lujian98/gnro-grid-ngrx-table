@@ -26,6 +26,7 @@ export class AppVerticalBulletChartDemoComponent implements OnInit {
   };
   d3Config = {
     ...defaultD3Config,
+    chartName: 'vertical-bullet-chart',
     //options: { ...this.options },
   };
 
@@ -49,6 +50,7 @@ export class AppVerticalBulletChartDemoComponent implements OnInit {
   };
   d3Config2 = {
     ...defaultD3Config,
+    chartName: 'vertical-bullet-chart-2',
     options: { ...this.options2 },
   };
 
@@ -77,6 +79,7 @@ export class AppVerticalBulletChartDemoComponent implements OnInit {
   };
   d3Config3 = {
     ...defaultD3Config,
+    chartName: 'vertical-bullet-chart-3',
     options: { ...this.options3 },
   };
 
