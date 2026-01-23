@@ -227,7 +227,7 @@ export class GnroSelectFieldComponent<T, G> implements OnDestroy, ControlValueAc
         return '';
       }
     } else {
-      if (this.fieldSetting$()!.singleListOption) {
+      if (this.fieldSetting$()?.singleListOption) {
         return value as string;
       } else {
         return value ? (value as { [key: string]: string })[this.fieldConfig$().optionLabel] : '';
