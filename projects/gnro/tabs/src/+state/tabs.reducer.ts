@@ -21,7 +21,6 @@ export function getInitialTabsState<T>(tabsName: string): GnroTabsState<T> {
     },
     tabsSetting: {
       ...defaultTabsState().tabsSetting,
-      tabsId: tabsName,
     },
   };
 }
@@ -59,7 +58,6 @@ export function createTabsReducerForFeature(tabsName: string) {
         },
         tabsSetting: {
           ...freshState.tabsSetting,
-          tabsId: tabsName,
           viewportReady: !tabsConfig.remoteConfig,
         },
       };

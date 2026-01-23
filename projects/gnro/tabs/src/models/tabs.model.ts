@@ -47,7 +47,6 @@ export const defaultTabsConfig: GnroTabsConfig = {
 
 export interface GnroTabsSetting {
   // for internal setting
-  tabsId: string;
   viewportReady: boolean; //not used
 }
 
@@ -63,7 +62,6 @@ export interface GnroTabsState<T> {
 }
 
 export const defaultTabsSetting: GnroTabsSetting = {
-  tabsId: '191cf2bb6b5',
   viewportReady: false,
 };
 
