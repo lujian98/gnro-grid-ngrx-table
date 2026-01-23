@@ -47,15 +47,16 @@ export class GnroGridViewComponent<T> implements AfterViewInit {
   columnHeaderPosition = 0;
   columnWidths: GnroColumnWidth[] = [];
 
+  gridConfig = input.required<GnroGridConfig>();
   gridSetting = input.required({
     transform: (gridSetting: GnroGridSetting) => {
       if (!this.rowGroups$) {
-        this.rowGroups$ = this.gridFacade.getRowGroups(gridSetting.gridId);
+        this.rowGroups$ = this.gridFacade.getRowGroups(this.gridConfig().gridName);
       }
       return gridSetting;
     },
   });
-  gridConfig = input.required<GnroGridConfig>();
+
   rowSelection = input.required<GnroGridRowSelections<T>>();
   columns = input.required<GnroColumnConfig[]>();
   gridData = input.required({
@@ -114,9 +115,9 @@ export class GnroGridViewComponent<T> implements AfterViewInit {
       const pageSize = this.gridConfig().pageSize;
       const displayTotal = (nextPage - 1) * pageSize;
       if (displayTotal - index < pageSize - 10 && displayTotal < this.gridSetting().totalCounts) {
-        this.gridFacade.getPageData(this.gridSetting().gridId, nextPage);
+        this.gridFacade.getPageData(this.gridConfig().gridName, nextPage);
       } else {
-        this.gridFacade.setGridScrollIndex(this.gridSetting().gridId, this.scrollIndex);
+        this.gridFacade.setGridScrollIndex(this.gridConfig().gridName, this.scrollIndex);
       }
     }
   }
@@ -128,7 +129,7 @@ export class GnroGridViewComponent<T> implements AfterViewInit {
       const displayTotal = (nextPage - 1) * pageSize;
       const actualDisplay = displayTotal - rowGroups.totalHiddenCounts;
       if (actualDisplay - this.scrollIndex < pageSize - 10 && displayTotal < this.gridSetting().totalCounts) {
-        this.gridFacade.getPageData(this.gridSetting().gridId, nextPage);
+        this.gridFacade.getPageData(this.gridConfig().gridName, nextPage);
       }
     }
   }
@@ -190,9 +191,9 @@ export class GnroGridViewComponent<T> implements AfterViewInit {
           }
         } else {
           if (selected) {
-            this.gridFacade.setSelectAllRows(this.gridSetting().gridId, false);
+            this.gridFacade.setSelectAllRows(this.gridConfig().gridName, false);
           } else {
-            this.gridFacade.setSelectRow(this.gridSetting().gridId, record);
+            this.gridFacade.setSelectRow(this.gridConfig().gridName, record);
           }
         }
       } else {
@@ -212,7 +213,7 @@ export class GnroGridViewComponent<T> implements AfterViewInit {
 
   private selectRecord(record: T[], isSelected: boolean): void {
     const selected = this.getSelectedTotal(record, isSelected);
-    this.gridFacade.setSelectRows(this.gridSetting().gridId, record, isSelected, selected);
+    this.gridFacade.setSelectRows(this.gridConfig().gridName, record, isSelected, selected);
   }
 
   private getSelectedTotal(record: T[], isSelected: boolean): number {
@@ -231,7 +232,7 @@ export class GnroGridViewComponent<T> implements AfterViewInit {
 
   rowDblClick(record: T): void {
     if (this.gridConfig().hasDetailView) {
-      this.gridFacade.rowDblClick(this.gridSetting().gridId, record);
+      this.gridFacade.rowDblClick(this.gridConfig().gridName, record);
     }
   }
 

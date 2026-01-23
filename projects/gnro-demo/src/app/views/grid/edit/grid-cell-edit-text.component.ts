@@ -184,10 +184,10 @@ export class AppGridCellEditTextComponent {
   buttonClick(buttonClick: GnroButtonClick): void {
     if (buttonClick.button.name === 'Reload') {
       const gridSetting = buttonClick.gridSetting;
-      this.gridFacade.getData(gridSetting.gridId, gridSetting);
+      this.gridFacade.getData(this.gridConfig.gridName, gridSetting);
     } else if (buttonClick.button.name === GnroButtonType.Import) {
       const gridSetting = buttonClick.gridSetting;
-      this.importsFacade.imports(gridSetting.gridId, this.gridConfig.gridName);
+      this.importsFacade.imports(this.gridConfig.gridName, this.gridConfig.gridName);
     }
   }
 }

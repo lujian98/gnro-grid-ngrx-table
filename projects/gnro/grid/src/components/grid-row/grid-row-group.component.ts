@@ -41,7 +41,7 @@ export class GnroGridRowGroupComponent<T> {
 
   toggleRowGroup(): void {
     this.rowGroup.expanded = !this.rowGroup.expanded;
-    this.gridFacade.setToggleRowGroup(this.gridSetting().gridId, this.rowGroup);
+    this.gridFacade.setToggleRowGroup(this.gridConfig().gridName, this.rowGroup);
     this.onToggleRowGroup.emit(this.rowGroup);
   }
 

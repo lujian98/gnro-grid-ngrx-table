@@ -49,7 +49,7 @@ export class GnroGridFacade {
   }
 
   setColumnsConfig(gridConfig: GnroGridConfig, gridSetting: GnroGridSetting, columnsConfig: GnroColumnConfig[]): void {
-    const gridId = gridSetting.gridId;
+    const gridId = gridConfig.gridName;
     const isTreeGrid = gridSetting.isTreeGrid;
     this.store.dispatch(gridActions.loadColumnsConfigSuccess({ gridId, gridConfig, isTreeGrid, columnsConfig }));
   }
@@ -61,7 +61,7 @@ export class GnroGridFacade {
     viewportWidth: number,
     loadData: boolean,
   ): void {
-    const gridId = gridSetting.gridId;
+    const gridId = gridConfig.gridName;
     this.store.dispatch(gridActions.setViewportPageSize({ gridId, gridConfig, pageSize, viewportWidth }));
     if (gridSetting.viewportReady && loadData && !gridSetting.isTreeGrid) {
       this.getData(gridId, gridSetting);
@@ -75,7 +75,7 @@ export class GnroGridFacade {
     viewportWidth: number,
     loadData: boolean,
   ): void {
-    const gridId = gridSetting.gridId;
+    const gridId = gridConfig.gridName;
     this.store.dispatch(gridActions.setViewportPageSize({ gridId, gridConfig, pageSize, viewportWidth }));
     if (gridSetting.viewportReady && loadData && !gridSetting.isTreeGrid) {
       this.store.dispatch(gridActions.getConcatData({ gridId }));
@@ -83,7 +83,7 @@ export class GnroGridFacade {
   }
 
   setSortFields(gridConfig: GnroGridConfig, gridSetting: GnroGridSetting, sortFields: GnroSortField[]): void {
-    const gridId = gridSetting.gridId;
+    const gridId = gridConfig.gridName;
     const isTreeGrid = gridSetting.isTreeGrid;
     sortFields = this.checkGroupSortField(gridConfig, sortFields);
     this.store.dispatch(gridActions.setSortFields({ gridId, gridConfig, isTreeGrid, sortFields }));
@@ -91,7 +91,7 @@ export class GnroGridFacade {
   }
 
   setColumnFilters(gridConfig: GnroGridConfig, gridSetting: GnroGridSetting, columnFilters: GnroColumnFilter[]): void {
-    const gridId = gridSetting.gridId;
+    const gridId = gridConfig.gridName;
     const isTreeGrid = gridSetting.isTreeGrid;
     this.store.dispatch(gridActions.setColumnFilters({ gridId, gridConfig, isTreeGrid, columnFilters }));
     //if (!gridSetting.columnUpdating) {
@@ -350,7 +350,8 @@ export class GnroGridFacade {
 
   runTask(setting: GnroGridSetting): void {
     console.log(' runTask=', setting);
-    this.store.dispatch(gridActions.getConcatData({ gridId: setting.gridId }));
+    //TODO
+    //this.store.dispatch(gridActions.getConcatData({ gridId: setting.gridId }));
   }
 
   buttonRemoteClick(gridId: string, button: GnroButtonConfg): void {

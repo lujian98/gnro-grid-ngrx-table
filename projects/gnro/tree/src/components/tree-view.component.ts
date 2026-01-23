@@ -101,9 +101,9 @@ export class GnroTreeViewComponent<T> implements AfterViewInit {
     this.gridFacade.setViewportPageSize(this.treeConfig(), this.gridSetting(), pageSize, clientWidth, loadData);
     if (loadData) {
       if (!event || typeof event === 'string') {
-        this.treeFacade.viewportReadyLoadData(this.gridSetting().gridId, this.treeConfig(), this.gridSetting());
+        this.treeFacade.viewportReadyLoadData(this.treeConfig().gridName, this.treeConfig(), this.gridSetting());
       } else {
-        this.treeFacade.windowResizeLoadData(this.gridSetting().gridId, this.treeConfig(), this.gridSetting());
+        this.treeFacade.windowResizeLoadData(this.treeConfig().gridName, this.treeConfig(), this.gridSetting());
       }
     }
   }
@@ -245,7 +245,7 @@ export class GnroTreeViewComponent<T> implements AfterViewInit {
   drop(event: CdkDragDrop<string[]>): void {
     if (this.dropInfo && this.dragNode) {
       this.treeFacade.dropNode(
-        this.gridSetting().gridId,
+        this.treeConfig().gridName,
         this.treeConfig(),
         this.dragNode,
         this.dropInfo.targetParent!,
@@ -256,7 +256,7 @@ export class GnroTreeViewComponent<T> implements AfterViewInit {
   }
 
   onRowSelectAll(allSelected: boolean): void {
-    this.treeFacade.setSelectAllRows(this.gridSetting().gridId, !allSelected);
+    this.treeFacade.setSelectAllRows(this.treeConfig().gridName, !allSelected);
   }
 
   rowClick(event: MouseEvent, rowIndex: number, record: GnroTreeNode<T>): void {
@@ -277,9 +277,9 @@ export class GnroTreeViewComponent<T> implements AfterViewInit {
           }
         } else {
           if (selected) {
-            this.treeFacade.setSelectAllRows(this.gridSetting().gridId, false);
+            this.treeFacade.setSelectAllRows(this.treeConfig().gridName, false);
           } else {
-            this.treeFacade.setSelectRow(this.gridSetting().gridId, record);
+            this.treeFacade.setSelectRow(this.treeConfig().gridName, record);
           }
         }
       } else {
@@ -299,7 +299,7 @@ export class GnroTreeViewComponent<T> implements AfterViewInit {
 
   private selectRecord(record: GnroTreeNode<T>[], isSelected: boolean): void {
     const selected = this.getSelectedTotal(record, isSelected);
-    this.treeFacade.setSelectRows(this.gridSetting().gridId, record, isSelected, selected);
+    this.treeFacade.setSelectRows(this.treeConfig().gridName, record, isSelected, selected);
   }
 
   private getSelectedTotal(record: GnroTreeNode<T>[], isSelected: boolean): number {

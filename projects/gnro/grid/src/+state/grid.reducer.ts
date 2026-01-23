@@ -29,7 +29,6 @@ export function getInitialGridState<T>(gridName: string): GnroGridState<T> {
     },
     gridSetting: {
       ...defaultState().gridSetting,
-      gridId: gridName,
     },
   };
 }
@@ -70,7 +69,6 @@ export function createGridReducerForFeature(gridName: string) {
         },
         gridSetting: {
           ...freshState.gridSetting,
-          gridId: action.gridId,
           isTreeGrid: action.gridType === 'treeGrid',
           viewportReady: !gridConfig.remoteGridConfig && !gridConfig.remoteColumnsConfig,
         },

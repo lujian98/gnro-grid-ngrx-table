@@ -82,7 +82,7 @@ export class GnroGridHeaderComponent<T> {
 
   onToggleSelectAll(allSelected: boolean): void {
     this.rowSelectAll.emit(allSelected);
-    this.gridFacade.setSelectAllRows(this.gridSetting().gridId, !allSelected);
+    this.gridFacade.setSelectAllRows(this.gridConfig().gridName, !allSelected);
   }
 
   onColumnMenuClick(menuClick: ColumnMenuClick): void {
@@ -91,7 +91,7 @@ export class GnroGridHeaderComponent<T> {
       values[column.name] = !column.hidden;
     });
     const popoverContext = {
-      gridId: this.gridSetting().gridId,
+      gridId: this.gridConfig().gridName,
       column: menuClick.column,
       columns: this.columns(),
       values: values,

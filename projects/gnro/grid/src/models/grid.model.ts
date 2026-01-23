@@ -87,7 +87,6 @@ export interface GridState<T> {
 
 export interface GnroGridSetting {
   // for internal grid setting
-  gridId: string;
   isTreeGrid: boolean;
   loading: boolean;
   columnUpdating: boolean; // prevent filter fetch data when column changes not sure still needed?

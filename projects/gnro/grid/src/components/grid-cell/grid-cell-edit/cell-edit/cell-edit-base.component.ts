@@ -108,6 +108,6 @@ export class GnroCellEditBaseComponent<T> {
       changed: changed,
     };
     // TODO debounce change
-    this.gridFacade.setRecordModified(this.gridSetting.gridId, modified);
+    this.gridFacade.setRecordModified(this.gridConfig.gridName, modified);
   }
 }

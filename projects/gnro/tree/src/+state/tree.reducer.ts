@@ -22,7 +22,6 @@ export function getInitialTreeState<T>(gridName: string): GnroTreeState<T> {
     ...defaultTreeState<T>(),
     treeSetting: {
       ...defaultTreeState<T>().treeSetting,
-      gridId: gridName,
     },
   };
 }
@@ -60,7 +59,6 @@ export function createTreeReducerForFeature(gridName: string) {
         },
         treeSetting: {
           ...freshState.treeSetting,
-          gridId: gridName,
         },
         selection: getSelection(treeConfig, selection, []),
       };
