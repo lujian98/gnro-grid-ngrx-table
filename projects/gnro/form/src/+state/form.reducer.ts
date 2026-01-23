@@ -20,7 +20,6 @@ export function getInitialFormState(formName: string): GnroFormState {
     },
     formSetting: {
       ...defaultFormState.formSetting,
-      formId: formName,
     },
   };
 }
@@ -103,7 +102,6 @@ export function createFormReducerForFeature(formName: string) {
         },
         formSetting: {
           ...freshState.formSetting,
-          formId: formName,
         },
       };
     }),

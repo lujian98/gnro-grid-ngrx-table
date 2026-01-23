@@ -21,7 +21,6 @@ export const defaultFormConfig: GnroFormConfig = {
 };
 
 export const defaultFormSetting: GnroFormSetting = {
-  formId: '191cf2bb6b5', // auto generated unique id
   editing: false,
 };
 

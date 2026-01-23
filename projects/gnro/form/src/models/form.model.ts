@@ -30,7 +30,6 @@ export interface GnroFormRecordResponse {
 
 export interface GnroFormSetting {
   // for internal setting
-  formId: string; // auto generated unique id
   editing: boolean;
 }
 

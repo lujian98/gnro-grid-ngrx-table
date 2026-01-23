@@ -83,7 +83,7 @@ export class GnroFormViewComponent implements OnInit {
         //this.form.reset();
       }
       if (this.formConfig().editing) {
-        this.formFacade.setEditable(this.formSetting().formId, GnroBUTTONS.Edit);
+        this.formFacade.setEditable(this.formConfig().formName, GnroBUTTONS.Edit);
       }
       return values;
     },
@@ -218,7 +218,7 @@ export class GnroFormViewComponent implements OnInit {
   }
 
   buttonClick(button: GnroButtonConfg): void {
-    this.formFacade.setEditable(this.formSetting().formId, button);
+    this.formFacade.setEditable(this.formConfig().formName, button);
     switch (button.name) {
       case GnroButtonType.Edit:
         this.editForm(button);
@@ -251,7 +251,7 @@ export class GnroFormViewComponent implements OnInit {
   }
 
   private refreshForm(): void {
-    this.formFacade.getData(this.formSetting().formId, this.formConfig());
+    this.formFacade.getData(this.formConfig().formName, this.formConfig());
   }
 
   private resetForm(): void {
@@ -265,7 +265,7 @@ export class GnroFormViewComponent implements OnInit {
 
   private saveForm(): void {
     if (this.form.valid) {
-      this.formFacade.saveData(this.formSetting().formId, this.formConfig(), this.form.getRawValue());
+      this.formFacade.saveData(this.formConfig().formName, this.formConfig(), this.form.getRawValue());
     }
   }
 }
