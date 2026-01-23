@@ -50,10 +50,6 @@ export interface GnroTabsSetting {
   viewportReady: boolean; //not used
 }
 
-export interface TabsState<T> {
-  [key: string]: GnroTabsState<T>;
-}
-
 export interface GnroTabsState<T> {
   tabsConfig: GnroTabsConfig;
   tabsSetting: GnroTabsSetting;
