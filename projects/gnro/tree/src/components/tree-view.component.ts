@@ -319,7 +319,7 @@ export class GnroTreeViewComponent<T> implements AfterViewInit {
   /*
   rowDblClick(record: GnroTreeNode<T>): void {
     if (this.treeConfig().hasDetailView) {
-      this.gridFacade.rowDblClick(this.gridSetting().gridId, record);
+      this.gridFacade.rowDblClick(this.treeConfig().gridName, record);
     }
   }*/
 

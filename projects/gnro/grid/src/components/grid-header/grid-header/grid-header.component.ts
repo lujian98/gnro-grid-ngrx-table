@@ -91,7 +91,7 @@ export class GnroGridHeaderComponent<T> {
       values[column.name] = !column.hidden;
     });
     const popoverContext = {
-      gridId: this.gridConfig().gridName,
+      gridName: this.gridConfig().gridName,
       column: menuClick.column,
       columns: this.columns(),
       values: values,

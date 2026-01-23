@@ -4,7 +4,7 @@ import { interval, takeWhile } from 'rxjs';
 
 export interface GnroTaskService {
   getSetting(stateId: string): Signal<GnroTaskSetting>;
-  runTask(setting: GnroTaskSetting): void;
+  runTask(taskName: string): void;
 }
 
 export interface GnroTaskConfig {
@@ -52,7 +52,7 @@ export class GnroTasksService {
     if (setting) {
       const dt = Math.ceil((new Date().getTime() - setting.lastUpdateTime.getTime()) / 1000) + 2.5;
       if (dt > task.config.refreshRate) {
-        task.service?.runTask(setting);
+        task.service?.runTask(task.key);
       }
     }
   }

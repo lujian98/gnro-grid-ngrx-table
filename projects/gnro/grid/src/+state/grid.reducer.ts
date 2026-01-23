@@ -52,7 +52,7 @@ export function createGridReducerForFeature(gridName: string) {
   const gridReducer = createReducer(
     initialState,
     on(gridActions.initConfig, (state, action) => {
-      if (action.gridId !== gridName) return state;
+      if (action.gridName !== gridName) return state;
       const gridConfig = { ...action.gridConfig };
       // Always start from fresh initial state to avoid stale data from previous component instance
       const freshState = getInitialGridState<unknown>(gridName);
@@ -75,7 +75,7 @@ export function createGridReducerForFeature(gridName: string) {
       };
     }),
     on(gridActions.loadConfigSuccess, (state, action) => {
-      if (action.gridId !== gridName) return state;
+      if (action.gridName !== gridName) return state;
       const gridConfig = { ...action.gridConfig };
       const pageSize = state.gridConfig.pageSize;
       return {
@@ -93,7 +93,7 @@ export function createGridReducerForFeature(gridName: string) {
       };
     }),
     on(gridActions.loadColumnsConfigSuccess, (state, action) => {
-      if (action.gridId !== gridName) return state;
+      if (action.gridName !== gridName) return state;
       const gridConfig = state.gridConfig;
       const gridSetting = state.gridSetting;
       const allowHide = action.columnsConfig.filter((col) => col.allowHide === false).length;
@@ -127,7 +127,7 @@ export function createGridReducerForFeature(gridName: string) {
       };
     }),
     on(gridActions.loadFormWindowConfigSuccess, (state, action) => {
-      if (action.gridId !== gridName) return state;
+      if (action.gridName !== gridName) return state;
       const formFields = action.formWindowConfig.formFields || [];
       return {
         ...state,
@@ -138,7 +138,7 @@ export function createGridReducerForFeature(gridName: string) {
       };
     }),
     on(gridActions.setViewportPageSize, (state, action) => {
-      if (action.gridId !== gridName) return state;
+      if (action.gridName !== gridName) return state;
       const gridConfig = state.gridConfig;
       const pageSize = gridConfig.virtualScroll || gridConfig.verticalScroll ? gridConfig.pageSize : action.pageSize;
       const gridSetting = {
@@ -154,14 +154,14 @@ export function createGridReducerForFeature(gridName: string) {
       };
     }),
     on(gridActions.setSortFields, (state, action) => {
-      if (action.gridId !== gridName) return state;
+      if (action.gridName !== gridName) return state;
       return {
         ...state,
         gridConfig: { ...state.gridConfig, sortFields: action.sortFields, page: 1 },
       };
     }),
     on(gridActions.setColumnFilters, (state, action) => {
-      if (action.gridId !== gridName) return state;
+      if (action.gridName !== gridName) return state;
       return {
         ...state,
         gridConfig: { ...state.gridConfig, columnFilters: action.columnFilters, page: 1 },
@@ -169,21 +169,21 @@ export function createGridReducerForFeature(gridName: string) {
       };
     }),
     on(gridActions.setViewportPage, (state, action) => {
-      if (action.gridId !== gridName) return state;
+      if (action.gridName !== gridName) return state;
       return {
         ...state,
         gridConfig: { ...state.gridConfig, page: action.page },
       };
     }),
     on(gridActions.setScrollIndex, (state, action) => {
-      if (action.gridId !== gridName) return state;
+      if (action.gridName !== gridName) return state;
       return {
         ...state,
         gridSetting: { ...state.gridSetting, scrollIndex: action.scrollIndex },
       };
     }),
     on(gridActions.setColumnsConfig, (state, action) => {
-      if (action.gridId !== gridName) return state;
+      if (action.gridName !== gridName) return state;
       const columns = state.columnsConfig.map((column) =>
         column.name === action.columnsConfig.name ? { ...action.columnsConfig } : column,
       );
@@ -193,14 +193,14 @@ export function createGridReducerForFeature(gridName: string) {
       };
     }),
     on(gridActions.getData, gridActions.getConcatData, (state, action) => {
-      if (action.gridId !== gridName) return state;
+      if (action.gridName !== gridName) return state;
       return {
         ...state,
         gridSetting: { ...state.gridSetting, loading: true },
       };
     }),
     on(gridActions.getDataSuccess, (state, action) => {
-      if (action.gridId !== gridName) return state;
+      if (action.gridName !== gridName) return state;
       const gridConfig = state.gridConfig;
       let queryData: unknown[] = gridConfig.rowGroupField && state.rowGroups ? [...state.queryData] : [...state.data];
       let data: unknown[] =
@@ -241,7 +241,7 @@ export function createGridReducerForFeature(gridName: string) {
       };
     }),
     on(gridActions.setLoadTreeDataLoading, (state, action) => {
-      if (action.gridId !== gridName) return state;
+      if (action.gridName !== gridName) return state;
       return {
         ...state,
         gridSetting: {
@@ -255,7 +255,7 @@ export function createGridReducerForFeature(gridName: string) {
       };
     }),
     on(gridActions.setInMemoryData, (state, action) => {
-      if (action.gridId !== gridName) return state;
+      if (action.gridName !== gridName) return state;
       return {
         ...state,
         gridSetting: { ...state.gridSetting, totalCounts: action.gridData.totalCounts },
@@ -264,7 +264,7 @@ export function createGridReducerForFeature(gridName: string) {
       };
     }),
     on(gridActions.setSelectAllRows, (state, action) => {
-      if (action.gridId !== gridName) return state;
+      if (action.gridName !== gridName) return state;
       const selection = state.selection.selection;
       if (action.selectAll) {
         const selectedRecords = state.data.filter((item) => item && !(item instanceof GnroRowGroup));
@@ -278,7 +278,7 @@ export function createGridReducerForFeature(gridName: string) {
       };
     }),
     on(gridActions.setSelectRows, (state, action) => {
-      if (action.gridId !== gridName) return state;
+      if (action.gridName !== gridName) return state;
       const selection = state.selection.selection as SelectionModel<unknown>;
       action.records.forEach((record) => {
         if (action.isSelected) {
@@ -293,7 +293,7 @@ export function createGridReducerForFeature(gridName: string) {
       };
     }),
     on(gridActions.setSelectRow, (state, action) => {
-      if (action.gridId !== gridName) return state;
+      if (action.gridName !== gridName) return state;
       const selection = state.selection.selection as SelectionModel<unknown>;
       selection.clear();
       selection.select(action.record as unknown);
@@ -303,7 +303,7 @@ export function createGridReducerForFeature(gridName: string) {
       };
     }),
     on(gridActions.setGroupBy, (state, action) => {
-      if (action.gridId !== gridName) return state;
+      if (action.gridName !== gridName) return state;
       const rowGroups = new GnroRowGroups();
       rowGroups.rowGroupFields = [action.rowGroupField];
       return {
@@ -314,7 +314,7 @@ export function createGridReducerForFeature(gridName: string) {
       };
     }),
     on(gridActions.setToggleRowGroup, (state, action) => {
-      if (action.gridId !== gridName) return state;
+      if (action.gridName !== gridName) return state;
       const queryData = [...state.queryData];
       const data = state.rowGroups!.getRowGroups(queryData);
       const groups = [...data].filter((record) => record instanceof GnroRowGroup);
@@ -327,7 +327,7 @@ export function createGridReducerForFeature(gridName: string) {
       };
     }),
     on(gridActions.setUnGroupBy, (state, action) => {
-      if (action.gridId !== gridName) return state;
+      if (action.gridName !== gridName) return state;
       const groups = [...state.data].filter((record) => record instanceof GnroRowGroup);
       const data = [...state.queryData];
       const total = state.totalCounts - groups.length;
@@ -342,7 +342,7 @@ export function createGridReducerForFeature(gridName: string) {
       };
     }),
     on(gridActions.setEditable, (state, action) => {
-      if (action.gridId !== gridName) return state;
+      if (action.gridName !== gridName) return state;
       return {
         ...state,
         gridSetting: {
@@ -355,7 +355,7 @@ export function createGridReducerForFeature(gridName: string) {
       };
     }),
     on(gridActions.setResetEdit, (state, action) => {
-      if (action.gridId !== gridName) return state;
+      if (action.gridName !== gridName) return state;
       return {
         ...state,
         gridSetting: { ...state.gridSetting, restEdit: action.restEdit, recordModified: false },
@@ -363,7 +363,7 @@ export function createGridReducerForFeature(gridName: string) {
       };
     }),
     on(gridActions.setRecordModified, (state, action) => {
-      if (action.gridId !== gridName) return state;
+      if (action.gridName !== gridName) return state;
       const modified = getModifiedRecords(state.modified as GnroDataType[], action.modified);
       return {
         ...state,
@@ -372,7 +372,7 @@ export function createGridReducerForFeature(gridName: string) {
       };
     }),
     on(gridActions.saveModifiedRecordsSuccess, (state, action) => {
-      if (action.gridId !== gridName) return state;
+      if (action.gridName !== gridName) return state;
       const recordKey = state.gridConfig.recordKey;
       const data = [...state.data].map((item) => {
         const keyId = (item as GnroDataType)[recordKey];
@@ -387,7 +387,7 @@ export function createGridReducerForFeature(gridName: string) {
       };
     }),
     on(gridActions.removeStore, (state, action) => {
-      if (action.gridId !== gridName) return state;
+      if (action.gridName !== gridName) return state;
       return getInitialGridState<unknown>(gridName);
     }),
   );

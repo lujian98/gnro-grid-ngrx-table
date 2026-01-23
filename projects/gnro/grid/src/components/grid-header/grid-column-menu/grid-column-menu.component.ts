@@ -14,26 +14,26 @@ import { groupColumnMove } from '../../../utils/group-column-move';
 })
 export class GnroGridColumnMenuComponent {
   private readonly gridFacade = inject(GnroGridFacade);
-  private _gridId!: string;
+  private _gridName!: string;
   level = 0;
   gridConfig$!: Signal<GnroGridConfig>;
   gridSetting$!: Signal<GnroGridSetting>;
   columns$!: Signal<GnroColumnConfig[]>;
 
-  set gridId(val: string) {
-    this._gridId = val;
+  set gridName(val: string) {
+    this._gridName = val;
     if (!this.gridConfig$) {
-      this.gridConfig$ = this.gridFacade.getConfig(this.gridId);
+      this.gridConfig$ = this.gridFacade.getConfig(this.gridName);
     }
     if (!this.gridSetting$) {
-      this.gridSetting$ = this.gridFacade.getSetting(this.gridId);
+      this.gridSetting$ = this.gridFacade.getSetting(this.gridName);
     }
     if (!this.columns$) {
-      this.columns$ = this.gridFacade.getColumnsConfig(this.gridId);
+      this.columns$ = this.gridFacade.getColumnsConfig(this.gridName);
     }
   }
-  get gridId(): string {
-    return this._gridId;
+  get gridName(): string {
+    return this._gridName;
   }
   column!: GnroColumnConfig;
   column$ = computed(() => this.columns$().find((col) => col.name === this.column.name));
@@ -136,9 +136,9 @@ export class GnroGridColumnMenuComponent {
       this.columnSort(item.name);
     } else if (item.name === 'groupBy') {
       const rowGroupField: GnroRowGroupField = { field: this.column.name, dir: 'asc' };
-      this.gridFacade.setGroupBy(this.gridId, this.gridConfig$(), rowGroupField);
+      this.gridFacade.setGroupBy(this.gridName, this.gridConfig$(), rowGroupField);
     } else if (item.name === 'unGroupBy') {
-      this.gridFacade.setUnGroupBy(this.gridId, this.gridConfig$());
+      this.gridFacade.setUnGroupBy(this.gridName, this.gridConfig$());
     } else if (item.name === 'sticky') {
       this.columnSticky(true, false);
     } else if (item.name === 'stickyEnd') {
@@ -179,7 +179,7 @@ export class GnroGridColumnMenuComponent {
     })!;
     if (column) {
       const col: GnroColumnConfig = { ...column, hidden: !values[column.name] };
-      this.gridFacade.setColumnConfig(this.gridId, col);
+      this.gridFacade.setColumnConfig(this.gridName, col);
     }
   }
 

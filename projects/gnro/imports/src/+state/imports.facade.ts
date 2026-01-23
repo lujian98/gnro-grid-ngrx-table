@@ -13,8 +13,8 @@ export class GnroImportsFacade {
   getSelectImportedExcelData$ = this.store.selectSignal(selectImportedExcelData);
   getSelectColumnsConfig$ = this.store.selectSignal(selectColumnsConfig);
 
-  imports(gridId: string, urlKey: string): void {
-    this.store.dispatch(importsActions.openWindow({ stateId: gridId, urlKey }));
+  imports(gridName: string, urlKey: string): void {
+    this.store.dispatch(importsActions.openWindow({ stateId: gridName, urlKey }));
   }
 
   importsFile(importsFileConfig: GnroFileUploadConfig, file: GnroUploadFile): void {

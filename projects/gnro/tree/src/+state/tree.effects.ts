@@ -82,11 +82,11 @@ export class GnroTreeEffects {
   setGridColumnFilters$ = createEffect(() =>
     this.actions$.pipe(
       ofType(gridActions.setColumnFilters, gridActions.loadColumnsConfigSuccess), // gridActions
-      switchMap(({ gridId, gridConfig, isTreeGrid }) =>
-        of({ gridId, gridConfig, isTreeGrid }).pipe(
+      switchMap(({ gridName, gridConfig, isTreeGrid }) =>
+        of({ gridName, gridConfig, isTreeGrid }).pipe(
           filter(({ isTreeGrid }) => isTreeGrid),
-          map(({ gridId, gridConfig }) => {
-            const gridName = gridId;
+          map(({ gridName, gridConfig }) => {
+            // const gridName = gridName;
             const treeConfig = gridConfig as GnroTreeConfig;
             if (gridConfig.remoteGridData && !treeConfig.remoteLoadAll) {
               return treeActions.getData({ gridName, treeConfig });
@@ -102,11 +102,10 @@ export class GnroTreeEffects {
   setGridSortFields$ = createEffect(() =>
     this.actions$.pipe(
       ofType(gridActions.setSortFields), // gridActions
-      switchMap(({ gridId, gridConfig, isTreeGrid }) =>
-        of({ gridId, gridConfig, isTreeGrid }).pipe(
+      switchMap(({ gridName, gridConfig, isTreeGrid }) =>
+        of({ gridName, gridConfig, isTreeGrid }).pipe(
           filter(({ isTreeGrid }) => isTreeGrid),
-          map(({ gridId, gridConfig }) => {
-            const gridName = gridId;
+          map(({ gridName, gridConfig }) => {
             const treeConfig = gridConfig as GnroTreeConfig;
             if (treeConfig.remoteGridData && !treeConfig.remoteLoadAll) {
               return treeActions.getData({ gridName, treeConfig });

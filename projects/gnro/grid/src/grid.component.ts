@@ -52,7 +52,7 @@ export class GnroGridComponent<T> implements OnInit, OnDestroy {
   columnsConfig = input([], {
     transform: (columnsConfig: GnroColumnConfig[]) => {
       if (!this.gridConfig$().remoteColumnsConfig && columnsConfig.length > 0) {
-        const gridSetting = { ...defaultGridSetting, gridId: this.gridConfig().gridName };
+        const gridSetting = { ...defaultGridSetting, gridName: this.gridConfig().gridName };
         this.gridFacade.setColumnsConfig(this.gridConfig$(), gridSetting, columnsConfig);
       }
       return columnsConfig;
@@ -143,9 +143,9 @@ export class GnroGridComponent<T> implements OnInit, OnDestroy {
         this.gridFacade.refresh(this.gridConfig().gridName);
         /*
         if (this.gridConfig$().virtualScroll) {
-          this.gridFacade.getGridPageData(this.gridId, 1);
+          this.gridFacade.getGridPageData(this.gridName, 1);
         } else {
-          this.gridFacade.getGridData(this.gridId, this.gridSetting$());
+          this.gridFacade.getGridData(this.gridName, this.gridSetting$());
         }
           */
         break;

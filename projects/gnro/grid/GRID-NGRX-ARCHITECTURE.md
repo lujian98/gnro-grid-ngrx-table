@@ -39,7 +39,7 @@ The grid uses a **multi-feature isolated state architecture** where each grid in
                              │
                     ┌────────┴────────┐
                     │  Shared Actions │
-                    │  (with gridId)  │
+                    │  (with gridName)  │
                     └────────┬────────┘
                              │
                     ┌────────┴────────┐
@@ -100,12 +100,12 @@ export function createGridReducerForFeature(gridName: string) {
   const gridReducer = createReducer(
     initialState,
     on(gridActions.initConfig, (state, action) => {
-      if (action.gridId !== gridName) return state; // Filter by gridName
+      if (action.gridName !== gridName) return state; // Filter by gridName
       // Always start from fresh state
       const freshState = getInitialGridState<unknown>(gridName);
       return { ...freshState, /* new config */ };
     }),
-    // ... other action handlers with same gridId filtering
+    // ... other action handlers with same gridName filtering
   );
 
   return (state, action) => gridReducer(state, action);
@@ -173,16 +173,16 @@ export class GnroGridFeatureService {
 
 ### 6. Shared Actions (`grid.actions.ts`)
 
-All actions include `gridId` to identify the target grid:
+All actions include `gridName` to identify the target grid:
 
 ```typescript
 export const gridActions = createActionGroup({
   source: 'Grid',
   events: {
-    'Init Config': props<{ gridId: string; gridConfig: GnroGridConfig; gridType: string }>(),
-    'Get Data': props<{ gridId: string }>(),
-    'Get Data Success': props<{ gridId: string; gridData: GnroGridData<T> }>(),
-    'Set Select Row': props<{ gridId: string; record: T }>(),
+    'Init Config': props<{ gridName: string; gridConfig: GnroGridConfig; gridType: string }>(),
+    'Get Data': props<{ gridName: string }>(),
+    'Get Data Success': props<{ gridName: string; gridData: GnroGridData<T> }>(),
+    'Set Select Row': props<{ gridName: string; record: T }>(),
     // ... other actions
   },
 });
@@ -190,7 +190,7 @@ export const gridActions = createActionGroup({
 
 ### 7. Shared Effects (`grid.effects.ts`)
 
-Effects handle all grids using the `gridId` from actions:
+Effects handle all grids using the `gridName` from actions:
 
 ```typescript
 @Injectable()
@@ -199,10 +199,10 @@ export class GnroGridEffects {
     this.actions$.pipe(
       ofType(gridActions.getData),
       switchMap((action) => {
-        const gridId = action.gridId;
-        const gridConfig = this.gridFacade.getConfig(gridId)();
+        const gridName = action.gridName;
+        const gridConfig = this.gridFacade.getConfig(gridName)();
         return this.gridService.getGridData(gridConfig, columns).pipe(
-          map((gridData) => gridActions.getDataSuccess({ gridId, gridData })),
+          map((gridData) => gridActions.getDataSuccess({ gridName, gridData })),
         );
       }),
     ),
@@ -219,19 +219,19 @@ Provides a reactive API for components:
 export class GnroGridFacade {
   private readonly gridFeatureService = inject(GnroGridFeatureService);
 
-  initConfig(gridId: string, gridConfig: GnroGridConfig, gridType: string): void {
-    this.gridFeatureService.registerFeature(gridId);
-    this.store.dispatch(gridActions.initConfig({ gridId, gridConfig, gridType }));
+  initConfig(gridName: string, gridConfig: GnroGridConfig, gridType: string): void {
+    this.gridFeatureService.registerFeature(gridName);
+    this.store.dispatch(gridActions.initConfig({ gridName, gridConfig, gridType }));
     // Trigger config/data loading based on configuration
   }
 
-  getConfig(gridId: string): Signal<GnroGridConfig> {
-    const selectors = createGridSelectorsForFeature(gridId);
+  getConfig(gridName: string): Signal<GnroGridConfig> {
+    const selectors = createGridSelectorsForFeature(gridName);
     return this.store.selectSignal(selectors.selectGridConfig);
   }
 
-  getSignalData<T>(gridId: string): Signal<T[]> {
-    const selectors = createGridSelectorsForFeature(gridId);
+  getSignalData<T>(gridName: string): Signal<T[]> {
+    const selectors = createGridSelectorsForFeature(gridName);
     return this.store.selectSignal(selectors.selectGridData);
   }
 
@@ -353,7 +353,7 @@ clearGridDataStore$ = createEffect(() =>
     ofType(gridActions.clearStore),
     concatMap((action) => {
       return this.gridService.saveGridConfigs(...).pipe(
-        map(() => gridActions.removeStore({ gridId })) // Immediate, no delay
+        map(() => gridActions.removeStore({ gridName })) // Immediate, no delay
       );
     }),
   ),
@@ -361,10 +361,10 @@ clearGridDataStore$ = createEffect(() =>
 ```
 
 ### 3. Action Filtering in Reducers
-Each reducer filters actions by `gridId` to ensure only the correct grid's state is modified:
+Each reducer filters actions by `gridName` to ensure only the correct grid's state is modified:
 ```typescript
 on(gridActions.getData, (state, action) => {
-  if (action.gridId !== gridName) return state;
+  if (action.gridName !== gridName) return state;
   // Handle action...
 });
 ```
@@ -380,7 +380,7 @@ if (cached) return cached;
 
 ```
 projects/gnro/grid/src/+state/
-├── grid.actions.ts       # Shared actions with gridId
+├── grid.actions.ts       # Shared actions with gridName
 ├── grid.reducer.ts       # Reducer factory + initial state
 ├── grid.selectors.ts     # Selector factory with caching
 ├── grid.effects.ts       # Shared effects
