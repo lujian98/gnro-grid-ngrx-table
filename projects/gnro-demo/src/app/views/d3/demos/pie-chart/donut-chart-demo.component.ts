@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { GnroD3ChartConfig, GnroD3Component } from '@gnro/ui/d3';
+import { GnroD3ChartConfig, GnroD3Component, GnroD3Config, defaultD3Config } from '@gnro/ui/d3';
 import * as d3Format from 'd3-format';
 
 @Component({
@@ -8,14 +8,22 @@ import * as d3Format from 'd3-format';
   styles: [':host { width: 1000px; height: 100%; display: flex; flex-direction: column;}'],
   template: `
     <div style="height: 100%; display: flex;">
-      <gnro-d3 style="width: 600px;" [chartConfigs]="chartConfigs" [data]="data"></gnro-d3>
-      <gnro-d3 style="width: 600px;" [chartConfigs]="chartConfigs2" [data]="data2"></gnro-d3>
+      <gnro-d3 style="width: 600px;" [d3Config]="d3config" [chartConfigs]="chartConfigs" [data]="data"></gnro-d3>
+      <gnro-d3 style="width: 600px;" [d3Config]="d3config2" [chartConfigs]="chartConfigs2" [data]="data2"></gnro-d3>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, GnroD3Component],
 })
 export class AppDonutChartDemoComponent implements OnInit {
+  d3config = {
+    ...defaultD3Config,
+    chartName: 'donut-chart',
+  };
+  d3config2 = {
+    ...defaultD3Config,
+    chartName: 'donut-chart-2',
+  };
   chartConfigs: GnroD3ChartConfig[] = [
     {
       chartType: 'pieChart',
