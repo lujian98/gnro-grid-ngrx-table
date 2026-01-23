@@ -30,7 +30,7 @@ import {
   GnroAutocompleteContentDirective,
   GnroAutocompleteDirective,
 } from '@gnro/ui/autocomplete';
-import { isEqual, uniqueId } from '@gnro/ui/core';
+import { isEqual } from '@gnro/ui/core';
 import {
   GnroFieldWidthDirective,
   GnroFormFieldComponent,
@@ -90,13 +90,8 @@ export class GnroSelectFieldComponent<T, G> implements OnDestroy, ControlValueAc
   onChanged: Function = () => {};
   onTouched: Function = () => {};
   private selectFieldFacade = inject(GnroSelectFieldFacade);
-  private fieldId = `select-${uniqueId()}`;
-  private firstTimeLoad = true;
   private prevSelected: string[] | object[] = [];
   setSelected: boolean = false;
-  fieldConfig$ = this.selectFieldFacade.getFieldConfig(this.fieldId);
-  fieldSetting$ = this.selectFieldFacade.getSetting(this.fieldId);
-  selectOptions$ = this.selectFieldFacade.getOptions(this.fieldId);
 
   form = input(new FormGroup({}), { transform: (form: FormGroup) => form });
   showFieldEditIndicator = input<boolean>(true);
@@ -104,20 +99,22 @@ export class GnroSelectFieldComponent<T, G> implements OnDestroy, ControlValueAc
   fieldConfig = input.required({
     transform: (config: Partial<GnroSelectFieldConfig>) => {
       const fieldConfig = { ...defaultSelectFieldConfig, ...config };
-      if (this.firstTimeLoad) {
-        this.selectFieldFacade.initConfig(this.fieldId, fieldConfig);
-        this.firstTimeLoad = false;
-      }
+      this.selectFieldFacade.initConfig(fieldConfig.fieldName, fieldConfig);
       if (fieldConfig.options) {
-        this.selectFieldFacade.setOptions(this.fieldId, fieldConfig.options);
+        this.selectFieldFacade.setOptions(fieldConfig.fieldName, fieldConfig.options);
       }
       return fieldConfig;
     },
   });
+
+  fieldConfig$ = computed(() => this.selectFieldFacade.getFieldConfig(this.fieldConfig().fieldName)());
+  fieldSetting$ = computed(() => this.selectFieldFacade.getSetting(this.fieldConfig().fieldName)());
+  selectOptions$ = computed(() => this.selectFieldFacade.getOptions(this.fieldConfig().fieldName)());
+
   //WARNING local set option only, only add field config if no initial input fieldconfig
   options = input([], {
     transform: (options: GnroOptionType[]) => {
-      this.selectFieldFacade.setOptions(this.fieldId, options);
+      this.selectFieldFacade.setOptions(this.fieldConfig().fieldName, options);
       return options;
     },
   });
@@ -135,7 +132,7 @@ export class GnroSelectFieldComponent<T, G> implements OnDestroy, ControlValueAc
   requireReload = input(false, {
     transform: (requireReload: boolean) => {
       if (requireReload && this.fieldConfig().remoteOptions) {
-        this.selectFieldFacade.reloadOptions(this.fieldId);
+        this.selectFieldFacade.reloadOptions(this.fieldConfig().fieldName);
       }
       return requireReload;
     },
@@ -194,7 +191,7 @@ export class GnroSelectFieldComponent<T, G> implements OnDestroy, ControlValueAc
     this.autocompleteComponent.setSelectionOption(
       option as GnroOptionComponent<{ [key: string]: T } | { [key: string]: T }[]>,
     );
-    this.clickedOption = uniqueId(16);
+    this.clickedOption = crypto.randomUUID();
   }
   onAutocompleteClose(close: boolean): void {
     this.autocompleteClose = close;
@@ -337,6 +334,6 @@ export class GnroSelectFieldComponent<T, G> implements OnDestroy, ControlValueAc
   }
 
   ngOnDestroy(): void {
-    this.selectFieldFacade.clearStore(this.fieldId);
+    this.selectFieldFacade.clearStore(this.fieldConfig().fieldName);
   }
 }

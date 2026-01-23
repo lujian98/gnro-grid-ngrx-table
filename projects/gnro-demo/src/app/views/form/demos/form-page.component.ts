@@ -301,12 +301,12 @@ export class AppFromPageDemoComponent {
 
   values3 = {
     enabled: true,
-    userName: 'user 77 2222',
+    userName: 'user 77 111',
     loginName: 'test login88',
     email: 'test@email.com',
     password: '',
     age: 18,
-    state: STATES[32],
+    state: STATES[31],
     createdate: new Date(new Date().setHours(0, 0, 0, 0)),
     notes: 'This is a notes. ',
     group88: 'A',

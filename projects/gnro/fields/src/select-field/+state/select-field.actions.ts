@@ -4,12 +4,12 @@ import { GnroOptionType, GnroSelectFieldConfig } from '../models/select-field.mo
 export const selectFieldActions = createActionGroup({
   source: 'Select Field',
   events: {
-    'Init Config': props<{ fieldId: string; fieldConfig: GnroSelectFieldConfig }>(),
-    'Load Remote Config': props<{ fieldId: string; fieldConfig: GnroSelectFieldConfig }>(),
-    'Load Config Success': props<{ fieldId: string; fieldConfig: GnroSelectFieldConfig }>(),
-    'Load Options': props<{ fieldId: string; fieldConfig: GnroSelectFieldConfig }>(),
-    'Load Options Success': props<{ fieldId: string; options: GnroOptionType[] }>(),
-    'Clear Store': props<{ fieldId: string }>(),
-    'Remove Store': props<{ fieldId: string }>(),
+    'Init Config': props<{ fieldName: string; fieldConfig: GnroSelectFieldConfig }>(),
+    'Load Remote Config': props<{ fieldName: string; fieldConfig: GnroSelectFieldConfig }>(),
+    'Load Config Success': props<{ fieldName: string; fieldConfig: GnroSelectFieldConfig }>(),
+    'Load Options': props<{ fieldName: string; fieldConfig: GnroSelectFieldConfig }>(),
+    'Load Options Success': props<{ fieldName: string; options: GnroOptionType[] }>(),
+    'Clear Store': props<{ fieldName: string }>(),
+    'Remove Store': props<{ fieldName: string }>(),
   },
 });

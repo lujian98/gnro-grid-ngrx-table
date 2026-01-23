@@ -2,45 +2,53 @@ import { inject, Injectable, Signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { GnroOptionType, GnroSelectFieldConfig, GnroSelectFieldSetting } from '../models/select-field.model';
 import { selectFieldActions } from './select-field.actions';
-import { selectFieldConfig, selectFieldSetting, selectOptions } from './select-field.selectors';
+import { createSelectFieldSelectorsForFeature } from './select-field.selectors';
+import { GnroSelectFieldFeatureService } from './select-field-state.module';
 
 @Injectable({ providedIn: 'root' })
 export class GnroSelectFieldFacade {
   private readonly store = inject(Store);
+  private readonly selectFieldFeatureService = inject(GnroSelectFieldFeatureService);
 
-  initConfig(fieldId: string, fieldConfig: GnroSelectFieldConfig): void {
-    this.store.dispatch(selectFieldActions.initConfig({ fieldId, fieldConfig }));
+  initConfig(fieldName: string, fieldConfig: GnroSelectFieldConfig): void {
+    // Register feature dynamically before dispatching actions
+    this.selectFieldFeatureService.registerFeature(fieldName);
+    this.store.dispatch(selectFieldActions.initConfig({ fieldName, fieldConfig }));
+
     if (fieldConfig.remoteConfig) {
-      this.store.dispatch(selectFieldActions.loadRemoteConfig({ fieldId, fieldConfig }));
+      this.store.dispatch(selectFieldActions.loadRemoteConfig({ fieldName, fieldConfig }));
     }
 
     if (fieldConfig.remoteOptions && !fieldConfig.remoteConfig) {
-      this.store.dispatch(selectFieldActions.loadOptions({ fieldId, fieldConfig }));
+      this.store.dispatch(selectFieldActions.loadOptions({ fieldName, fieldConfig }));
     }
   }
 
-  setOptions(fieldId: string, options: GnroOptionType[]): void {
-    this.store.dispatch(selectFieldActions.loadOptionsSuccess({ fieldId, options }));
+  setOptions(fieldName: string, options: GnroOptionType[]): void {
+    this.store.dispatch(selectFieldActions.loadOptionsSuccess({ fieldName, options }));
   }
 
-  reloadOptions(fieldId: string): void {
-    const fieldConfig = this.getFieldConfig(fieldId)();
-    this.store.dispatch(selectFieldActions.loadOptions({ fieldId, fieldConfig }));
+  reloadOptions(fieldName: string): void {
+    const fieldConfig = this.getFieldConfig(fieldName)();
+    this.store.dispatch(selectFieldActions.loadOptions({ fieldName, fieldConfig }));
   }
 
-  clearStore(fieldId: string): void {
-    this.store.dispatch(selectFieldActions.clearStore({ fieldId }));
+  clearStore(fieldName: string): void {
+    this.store.dispatch(selectFieldActions.clearStore({ fieldName }));
   }
 
-  getFieldConfig(fieldId: string): Signal<GnroSelectFieldConfig> {
-    return this.store.selectSignal(selectFieldConfig(fieldId));
+  getFieldConfig(fieldName: string): Signal<GnroSelectFieldConfig> {
+    const selectors = createSelectFieldSelectorsForFeature(fieldName);
+    return this.store.selectSignal(selectors.selectFieldConfig);
   }
 
-  getOptions(fieldId: string): Signal<GnroOptionType[]> {
-    return this.store.selectSignal(selectOptions(fieldId));
+  getOptions(fieldName: string): Signal<GnroOptionType[]> {
+    const selectors = createSelectFieldSelectorsForFeature(fieldName);
+    return this.store.selectSignal(selectors.selectOptions);
   }
 
-  getSetting(fieldId: string): Signal<GnroSelectFieldSetting | undefined> {
-    return this.store.selectSignal(selectFieldSetting(fieldId));
+  getSetting(fieldName: string): Signal<GnroSelectFieldSetting | undefined> {
+    const selectors = createSelectFieldSelectorsForFeature(fieldName);
+    return this.store.selectSignal(selectors.selectFieldSetting);
   }
 }

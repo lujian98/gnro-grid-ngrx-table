@@ -22,7 +22,6 @@ export interface GnroSelectFieldConfig extends GnroBaseField {
 
 export interface GnroSelectFieldSetting {
   // for internal setting
-  fieldId: string;
   viewportReady: boolean;
   singleListOption: boolean;
 }

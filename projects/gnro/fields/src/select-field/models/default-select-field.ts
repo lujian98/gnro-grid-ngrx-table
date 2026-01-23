@@ -22,7 +22,6 @@ export const defaultSelectFieldConfig: GnroSelectFieldConfig = {
 };
 
 export const defaultSelectFieldSetting: GnroSelectFieldSetting = {
-  fieldId: '191cf2bb6b5',
   viewportReady: false,
   singleListOption: false,
 };

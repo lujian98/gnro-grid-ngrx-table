@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { concatMap, delay, map, mergeMap, of } from 'rxjs';
+import { concatMap, map, mergeMap, of } from 'rxjs';
 import { GnroSelectFieldService } from '../services/select-field.service';
 import { selectFieldActions } from './select-field.actions';
 
@@ -14,11 +14,11 @@ export class GnroSelectFieldEffects {
   getRemoteFieldConfig$ = createEffect(() =>
     this.actions$.pipe(
       ofType(selectFieldActions.loadRemoteConfig),
-      concatMap(({ fieldId, fieldConfig }) => {
+      concatMap(({ fieldName, fieldConfig }) => {
         return this.selectfieldService.getRemoteConfig(fieldConfig).pipe(
           map((fieldConfig) => {
-            this.store.dispatch(selectFieldActions.loadConfigSuccess({ fieldId, fieldConfig }));
-            return selectFieldActions.loadOptions({ fieldId, fieldConfig });
+            this.store.dispatch(selectFieldActions.loadConfigSuccess({ fieldName, fieldConfig }));
+            return selectFieldActions.loadOptions({ fieldName, fieldConfig });
           }),
         );
       }),
@@ -28,10 +28,10 @@ export class GnroSelectFieldEffects {
   loadSelectFieldOptions$ = createEffect(() =>
     this.actions$.pipe(
       ofType(selectFieldActions.loadOptions),
-      concatMap(({ fieldId, fieldConfig }) => {
+      concatMap(({ fieldName, fieldConfig }) => {
         return this.selectfieldService.getOptions(fieldConfig).pipe(
           map((options) => {
-            return selectFieldActions.loadOptionsSuccess({ fieldId, options });
+            return selectFieldActions.loadOptionsSuccess({ fieldName, options });
           }),
         );
       }),
@@ -41,8 +41,9 @@ export class GnroSelectFieldEffects {
   clearSelectFieldStore$ = createEffect(() =>
     this.actions$.pipe(
       ofType(selectFieldActions.clearStore),
-      delay(250), // wait 250 after destory the component to clear data store
-      mergeMap(({ fieldId }) => of(fieldId).pipe(map((fieldId) => selectFieldActions.removeStore({ fieldId })))),
+      mergeMap(({ fieldName }) =>
+        of(fieldName).pipe(map((fieldName) => selectFieldActions.removeStore({ fieldName }))),
+      ),
     ),
   );
 }
