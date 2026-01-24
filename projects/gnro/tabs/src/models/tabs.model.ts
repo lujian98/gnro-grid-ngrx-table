@@ -3,7 +3,7 @@ import { GnroTabGroupConfig } from '@gnro/ui/tab-group';
 
 export interface GnroTabConfig<T> {
   name: string;
-  title?: string;
+  title: string;
   content?: GnroPortalContent<T>;
   context?: {};
   closeable?: boolean;
@@ -13,7 +13,7 @@ export interface GnroTabConfig<T> {
 
 export interface GnroTabOption<T> {
   name: string;
-  title?: string;
+  title: string;
   content: GnroPortalContent<T>;
 }
 

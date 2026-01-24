@@ -30,6 +30,7 @@ export class AppSimpleTabsComponent {
   tabs: GnroTabConfig<unknown>[] = [
     {
       name: 'one',
+      title: 'One',
       content: AppGridMultiRowSelectionComponent,
       closeable: true,
     },
@@ -42,29 +43,34 @@ export class AppSimpleTabsComponent {
     },
     {
       name: 'three',
+      title: 'Three',
       content: AppGridRemoteVirtualScrollComponent,
       closeable: true,
     },
     {
       name: 'four',
+      title: 'Four',
       content: PortalDemoComponent,
       context: this.portalData,
       closeable: true,
     },
     {
       name: 'five',
+      title: 'Five',
       content: PortalDemo2Component,
       context: this.portalData2,
       closeable: false,
     },
     {
       name: 'six',
+      title: 'Six',
       content: 'test6',
       closeable: true,
       disabled: true,
     },
     {
       name: 'seven',
+      title: 'Seven',
       content: 'test7',
       closeable: true,
     },
@@ -75,6 +81,7 @@ export class AppSimpleTabsComponent {
       const j = 8 + index;
       return {
         name: `Tab ${j}`,
+        title: `Tab ${j}`,
         closeable: true,
         content: `Tab ${j}`,
       };

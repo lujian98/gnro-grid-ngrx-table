@@ -76,11 +76,13 @@ export class AppTabFormComponent implements OnInit {
     },
     {
       name: 'six',
+      title: 'Six',
       content: 'test 6',
       closeable: true,
     },
     {
       name: 'seven',
+      title: 'Seven',
       content: 'test 7',
       closeable: true,
     },

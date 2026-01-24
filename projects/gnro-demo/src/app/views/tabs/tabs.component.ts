@@ -57,8 +57,8 @@ export class AppTabsComponent {
       title: 'Portal Demo 2',
     },
     { name: 'portal-demo3', portalName: 'portal-demo', context: this.portalData2, title: 'Portal Demo 3' },
-    { name: 'six' },
-    { name: 'seven' },
+    { name: 'six', title: 'Six' },
+    { name: 'seven', title: 'Seven' },
   ];
 
   items: GnroAccordion[] = [
@@ -85,18 +85,22 @@ export class AppTabsComponent {
   options: GnroTabOption<unknown>[] = [
     {
       name: 'grid-multi-row-selection',
+      title: 'Grid Multi Row Selection',
       content: AppGridMultiRowSelectionComponent,
     },
     {
       name: 'stock-chart',
+      title: 'Stock Chart',
       content: AppStockChartComponent,
     },
     {
       name: 'grid-virtual-scroll',
+      title: 'Grid Virtual Scroll',
       content: AppGridRemoteVirtualScrollComponent,
     },
     {
       name: 'portal-demo',
+      title: 'Portal Demo',
       content: PortalDemoComponent,
     },
     /*
@@ -106,10 +110,12 @@ export class AppTabsComponent {
     },*/
     {
       name: 'six',
+      title: 'Six',
       content: 'test6',
     },
     {
       name: 'seven',
+      title: 'Seven',
       content: 'test7',
     },
   ];
@@ -127,11 +133,11 @@ export class AppTabsComponent {
     } else {
       this.useRouterLink = false;
       if (this.tabsPanel) {
-        this.tabsPanel.addTab(item);
+        this.tabsPanel.addTab(item as GnroTabConfig<unknown>);
       } else {
         timer(10)
           .pipe(take(1))
-          .subscribe(() => this.tabsPanel.addTab(item));
+          .subscribe(() => this.tabsPanel.addTab(item as GnroTabConfig<unknown>));
       }
     }
   }
