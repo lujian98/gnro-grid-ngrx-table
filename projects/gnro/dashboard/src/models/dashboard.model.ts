@@ -38,7 +38,7 @@ export interface DashboardState<T> {
 
 export interface GnroTile<T> {
   name: string;
-  title?: string;
+  title: string;
   rowStart?: number;
   colStart?: number;
   rowHeight?: number;

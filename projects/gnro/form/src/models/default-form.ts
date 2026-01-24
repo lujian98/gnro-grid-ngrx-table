@@ -11,6 +11,7 @@ export const buttons: GnroButtonConfg[] = [
 
 export const defaultFormConfig: GnroFormConfig = {
   formName: 'form',
+  title: 'Default Form',
   urlKey: 'formfields', // Only for remote config
   remoteFormConfig: false,
   remoteFieldsConfig: false,

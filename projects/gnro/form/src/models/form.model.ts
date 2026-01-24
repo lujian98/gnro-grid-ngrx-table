@@ -5,7 +5,7 @@ import { GnroFormField } from '@gnro/ui/fields';
 export interface GnroFormConfig {
   formName: string;
   urlKey: string; // Only for remote config
-  title?: string;
+  title: string;
   remoteFormConfig: boolean;
   remoteFieldsConfig: boolean;
   remoteFormData: boolean;

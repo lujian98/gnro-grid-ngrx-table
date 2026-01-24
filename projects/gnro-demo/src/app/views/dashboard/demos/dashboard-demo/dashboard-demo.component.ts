@@ -64,6 +64,7 @@ export class AppDashboardDemoComponent implements OnInit {
       },
       {
         name: 'Card 2',
+        title: 'Card 2',
         rowStart: 1,
         rowHeight: 2,
         colStart: 1,
@@ -73,6 +74,7 @@ export class AppDashboardDemoComponent implements OnInit {
       },
       {
         name: 'Card 3',
+        title: 'Card 3',
         rowStart: 1,
         rowHeight: 1,
         colStart: 3,
@@ -82,6 +84,7 @@ export class AppDashboardDemoComponent implements OnInit {
       },
       {
         name: 'Card 4',
+        title: 'Card 4',
         rowStart: 2,
         rowHeight: 1,
         colStart: 3,
@@ -91,6 +94,7 @@ export class AppDashboardDemoComponent implements OnInit {
       },
       {
         name: 'Card 5',
+        title: 'Card 5',
         rowStart: 1,
         rowHeight: 3,
         colStart: 4,
