@@ -12,8 +12,8 @@ import { AppLocationEntityComponent } from './entity/location-entity.component';
   imports: [EntityTabsStateModule, EntityTabsComponent],
 })
 export class AppLocationTabsComponent {
-  private entityTabsFacade = inject(EntityTabsFacade);
-  locationEntityComponent = AppLocationEntityComponent;
+  private readonly entityTabsFacade = inject(EntityTabsFacade);
+  readonly locationEntityComponent = AppLocationEntityComponent;
 
   constructor() {
     this.entityTabsFacade.initializeFeature(FEATURE_NAME.LOCATIONS);

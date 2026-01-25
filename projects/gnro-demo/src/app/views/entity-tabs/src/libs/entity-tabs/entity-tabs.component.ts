@@ -14,10 +14,10 @@ import { AppEntityTab } from './models/entity-tabs.model';
   imports: [NgComponentOutlet, GnroButtonComponent, GnroTabGroupComponent, GnroTabComponent],
 })
 export class EntityTabsComponent {
-  private entityTabsFacade = inject(EntityTabsFacade);
-  selectedIndex: number = 0;
-  tabs$ = this.entityTabsFacade.getTabs();
+  private readonly entityTabsFacade = inject(EntityTabsFacade);
+  readonly tabs$ = this.entityTabsFacade.getTabs();
   readonly activeTab = this.entityTabsFacade.getActiveTab();
+  selectedIndex: number = 0;
 
   entity = input.required<Type<unknown>>();
 
@@ -34,18 +34,20 @@ export class EntityTabsComponent {
 
   addTab(): void {
     const values = entityMockData[this.selectedIndex];
-    const tab: AppEntityTab = {
-      id: values['id'].toString(),
-      title: values['nodeCode'] as string,
-      values: values,
-      originalValues: values,
-      dirty: false,
-      editing: this.selectedIndex === 1,
-      invalid: true,
-      subtabIndex: 0,
-    };
-    this.entityTabsFacade.addTab(tab);
-    this.selectedIndex++;
+    if (values) {
+      const tab: AppEntityTab = {
+        id: values['id'].toString(),
+        title: values['nodeCode'] as string,
+        values: values,
+        originalValues: values,
+        dirty: false,
+        editing: this.selectedIndex === 1,
+        invalid: true,
+        subtabIndex: 0,
+      };
+      this.entityTabsFacade.addTab(tab);
+      this.selectedIndex++;
+    }
   }
 
   edit(): void {
