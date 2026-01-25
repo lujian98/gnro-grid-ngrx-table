@@ -13,13 +13,13 @@ import { AppEntityTab } from './models/entity-tabs.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgComponentOutlet, GnroButtonComponent, GnroTabGroupComponent, GnroTabComponent],
 })
-export class EntityTabsComponent {
+export class EntityTabsComponent<T> {
   private readonly entityTabsFacade = inject(EntityTabsFacade);
   readonly tabs$ = this.entityTabsFacade.getTabs();
   readonly activeTab = this.entityTabsFacade.getActiveTab();
   selectedIndex: number = 0;
 
-  entity = input.required<Type<unknown>>();
+  entity = input.required<Type<T>>();
 
   constructor() {
     this.selectedIndex = this.activeTab() ? this.tabs$().findIndex((tab) => tab.id === this.activeTab()?.id) : 0;
