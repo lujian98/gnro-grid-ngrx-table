@@ -61,8 +61,7 @@ export class EntityTabsFacade {
   /**
    * Get all tabs as a Signal.
    */
-  getTabs(featureName: FEATURE_NAME): Signal<AppEntityTab[]> {
-    this.initializeFeature(featureName);
+  getTabs(): Signal<AppEntityTab[]> {
     this.ensureInitialized();
     return this.store.selectSignal(this.selectors!.selectAllTabs);
   }

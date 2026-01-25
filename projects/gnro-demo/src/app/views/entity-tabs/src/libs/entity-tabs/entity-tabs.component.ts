@@ -2,23 +2,21 @@ import { NgComponentOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, input, Type } from '@angular/core';
 import { GnroButtonComponent } from '@gnro/ui/button';
 import { GnroTabComponent, GnroTabGroupComponent } from '@gnro/ui/tab-group';
-import { EntityTabsStateModule } from './+state/entity-tabs-state.module';
 import { EntityTabsFacade } from './+state/entity-tabs.facade';
 import { entityMockData } from './entity-mock.data';
 import { AppEntityTab } from './models/entity-tabs.model';
-import { FEATURE_NAME } from './models/feature-name.enum';
 
 @Component({
   selector: 'lib-entity-tabs',
   templateUrl: './entity-tabs.component.html',
   styleUrls: ['./entity-tabs.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgComponentOutlet, EntityTabsStateModule, GnroButtonComponent, GnroTabGroupComponent, GnroTabComponent],
+  imports: [NgComponentOutlet, GnroButtonComponent, GnroTabGroupComponent, GnroTabComponent],
 })
 export class EntityTabsComponent {
   private entityTabsFacade = inject(EntityTabsFacade);
   selectedIndex: number = 0;
-  tabs$ = this.entityTabsFacade.getTabs(FEATURE_NAME.LOCATIONS);
+  tabs$ = this.entityTabsFacade.getTabs();
   readonly activeTab = this.entityTabsFacade.getActiveTab();
 
   entity = input.required<Type<unknown>>();
