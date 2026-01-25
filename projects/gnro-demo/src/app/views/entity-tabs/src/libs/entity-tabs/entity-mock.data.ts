@@ -1,4 +1,4 @@
-export const locationsData = [
+export const entityMockData = [
   {
     id: 5,
     fullCodePath: 'UNITED STATES (Root)',

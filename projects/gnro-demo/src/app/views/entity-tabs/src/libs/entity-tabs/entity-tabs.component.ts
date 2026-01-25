@@ -1,25 +1,19 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { NgComponentOutlet } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject, input, Type } from '@angular/core';
 import { GnroButtonComponent } from '@gnro/ui/button';
 import { GnroTabComponent, GnroTabGroupComponent } from '@gnro/ui/tab-group';
 import { EntityTabsStateModule } from './+state/entity-tabs-state.module';
 import { EntityTabsFacade } from './+state/entity-tabs.facade';
+import { entityMockData } from './entity-mock.data';
 import { AppEntityTab } from './models/entity-tabs.model';
 import { FEATURE_NAME } from './models/feature-name.enum';
-//import { locationsData } from './locations.data';
-//import { AppLocationEntityComponent } from './entity/location-entity.component';
 
 @Component({
   selector: 'lib-entity-tabs',
-  templateUrl: './lib-entity-tabs.component.html',
-  styleUrls: ['./lib-entity-tabs.component.scss'],
+  templateUrl: './entity-tabs.component.html',
+  styleUrls: ['./entity-tabs.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    EntityTabsStateModule,
-    //AppLocationEntityComponent,
-    GnroButtonComponent,
-    GnroTabGroupComponent,
-    GnroTabComponent,
-  ],
+  imports: [NgComponentOutlet, EntityTabsStateModule, GnroButtonComponent, GnroTabGroupComponent, GnroTabComponent],
 })
 export class EntityTabsComponent {
   private entityTabsFacade = inject(EntityTabsFacade);
@@ -27,8 +21,9 @@ export class EntityTabsComponent {
   tabs$ = this.entityTabsFacade.getTabs(FEATURE_NAME.LOCATIONS);
   readonly activeTab = this.entityTabsFacade.getActiveTab();
 
+  entity = input.required<Type<unknown>>();
+
   constructor() {
-    this.entityTabsFacade.initializeFeature(FEATURE_NAME.LOCATIONS);
     this.selectedIndex = this.activeTab() ? this.tabs$().findIndex((tab) => tab.id === this.activeTab()?.id) : 0;
   }
 
@@ -39,9 +34,8 @@ export class EntityTabsComponent {
     }
   }
 
-  /*
   addTab(): void {
-    const values = locationsData[this.selectedIndex];
+    const values = entityMockData[this.selectedIndex];
     const tab: AppEntityTab = {
       id: values['id'].toString(),
       title: values['nodeCode'] as string,
@@ -54,7 +48,7 @@ export class EntityTabsComponent {
     };
     this.entityTabsFacade.addTab(tab);
     this.selectedIndex++;
-  }*/
+  }
 
   edit(): void {
     this.entityTabsFacade.setTabEditing(this.activeTab()?.id!, true);
