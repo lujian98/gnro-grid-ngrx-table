@@ -1,0 +1,5 @@
+<div>List url</div>
+@for (url of urllinks; track $index; let i = $index) {
+  <a href="{{ url }}" target="_blank">Url: {{ i }}</a>
+}
+<div></div>

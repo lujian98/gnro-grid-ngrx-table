@@ -36,6 +36,7 @@ export class AppFormComponent {
         { name: 'File Drop', link: 'file-drop' },
         { name: 'File Drop Upload', link: 'file-drop-upload' },
         { name: 'File Select Upload', link: 'file-select-upload' },
+        { name: 'Url Content Save File', link: 'url-content-save-file' },
       ],
     },
   ];

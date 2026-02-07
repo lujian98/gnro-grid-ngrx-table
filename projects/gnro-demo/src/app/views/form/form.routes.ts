@@ -6,7 +6,7 @@ import { AppPasswordPageDemoComponent } from './demos/password-page.component';
 import { AppFileDropDemoComponent } from './demos/file-drop.component';
 import { AppFileDropUploadComponent } from './demos/file-drop-upload.component';
 import { AppFileSelectUploadComponent } from './demos/file-select-upload.component';
-
+import { AppUrlContentSaveFileComponent } from './url-content-save-file/url-content-save-file.component';
 import { AppFormComponent } from './form.component';
 
 export const AppFormRoutes: Routes = [
@@ -22,6 +22,7 @@ export const AppFormRoutes: Routes = [
       { path: 'file-drop', component: AppFileDropDemoComponent },
       { path: 'file-drop-upload', component: AppFileDropUploadComponent },
       { path: 'file-select-upload', component: AppFileSelectUploadComponent },
+      { path: 'url-content-save-file', component: AppUrlContentSaveFileComponent },
       {
         path: '**',
         redirectTo: 'form-page',
