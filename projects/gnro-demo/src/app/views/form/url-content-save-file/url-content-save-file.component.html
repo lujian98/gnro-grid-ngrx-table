@@ -1,5 +1,28 @@
-<div>List url</div>
-@for (url of urllinks; track $index; let i = $index) {
-  <a href="{{ url }}" target="_blank">Url: {{ i }}</a>
-}
-<div></div>
+<div class="url-content-container">
+  <h2>URL Content Downloader</h2>
+
+  <div class="url-list">
+    <h3>List of URLs</h3>
+    @for (url of urllinks; track $index; let i = $index) {
+      <div class="url-item">
+        <a [href]="url" target="_blank" class="url-link">URL {{ i + 1 }}</a>
+        <div class="status">
+          @if (downloadingUrls().has(url)) {
+            <span class="badge downloading">Downloading...</span>
+          } @else if (errorUrls().has(url)) {
+            <span class="badge error" [title]="errorUrls().get(url)">✗ Error</span>
+          } @else if (downloadedUrls().has(url)) {
+            <span class="badge success">✓ Downloaded</span>
+          }
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="summary">
+    <p>Total URLs: {{ urllinks.length }}</p>
+    <p>Downloaded: {{ downloadedUrls().size }}</p>
+    <p>Downloading: {{ downloadingUrls().size }}</p>
+    <p>Errors: {{ errorUrls().size }}</p>
+  </div>
+</div>
